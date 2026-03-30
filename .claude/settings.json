@@ -1,0 +1,11 @@
+{
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true
+  },
+  "mcpServers": {                                                                                              
+    "playwright": {                                                                                            
+    "command": "npx",                                                                                        
+    "args": ["@playwright/mcp@latest"]                                                                       
+    }                                                                                                       
+  }          
+}
