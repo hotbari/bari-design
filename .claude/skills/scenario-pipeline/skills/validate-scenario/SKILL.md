@@ -1,7 +1,6 @@
 ---
 name: validate-scenario
 description: "시나리오 도메인 3단계 검증 (Ubiquitous Language, Example Mapping, Pre-mortem). 파일명 지정 시 단일 도메인, 미지정 시 MANIFEST.md에서 [ ]인 도메인 전체 검증."
-user-invocable: true
 ---
 
 # Validate Scenario
