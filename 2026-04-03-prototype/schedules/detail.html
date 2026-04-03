@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 편성표 상세</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6">
+        <a href="list.html" class="text-sm text-gray-500 hover:text-gray-700">← 편성 목록</a>
+        <div class="flex items-center gap-3 mt-2">
+          <h1 class="text-2xl font-bold text-gray-900">4월 강남 편성</h1>
+          <span class="badge badge-green">적용중</span>
+          <span class="badge badge-red">동기화 미완료</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-6">
+        <div class="col-span-2 space-y-6">
+          <!-- 기본 정보 -->
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h3 class="text-sm font-semibold mb-4">편성표 정보</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-xs text-gray-500 mb-1">편성표명</p>
+                <p class="text-sm font-medium">4월 강남 편성</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">대상 매체</p>
+                <p class="text-sm font-medium">강남역 1번출구</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">기간</p>
+                <p class="text-sm font-medium">2026-04-01 ~ 2026-04-30</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">우선순위</p>
+                <p class="text-sm font-medium">1 (최우선)</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">플레이어 동기화</p>
+                <p class="text-sm font-medium text-red-600">미완료 — 매체 오프라인</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">재생목록 버전</p>
+                <p class="text-sm font-medium">v13 (플레이어: v12)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 재생목록 (구좌 테이블) -->
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-semibold">재생목록: 갤럭시 S26 재생목록</h3>
+              <span class="text-xs text-gray-400">순서 기반 루프 재생</span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th class="w-12">#</th>
+                  <th>소재명</th>
+                  <th>유형</th>
+                  <th>재생시간</th>
+                  <th>구좌 상태</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-gray-400">1</td>
+                  <td>
+                    <a href="../materials/detail.html" class="font-medium text-blue-600 hover:underline">갤럭시 S26 런칭 15s</a>
+                  </td>
+                  <td>동영상</td>
+                  <td>15초</td>
+                  <td><span class="badge badge-green">정상</span></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="text-gray-400">2</td>
+                  <td>
+                    <a href="../materials/detail.html" class="font-medium text-blue-600 hover:underline">갤럭시 S26 기능소개 30s</a>
+                  </td>
+                  <td>동영상</td>
+                  <td>30초</td>
+                  <td><span class="badge badge-green">정상</span></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="text-gray-400">3</td>
+                  <td class="text-gray-400 line-through">삭제된 소재</td>
+                  <td class="text-gray-400">—</td>
+                  <td class="text-gray-400">—</td>
+                  <td><span class="badge badge-red">삭제됨</span></td>
+                  <td class="text-xs text-gray-400">재생 시 건너뜀</td>
+                </tr>
+                <tr>
+                  <td class="text-gray-400">4</td>
+                  <td>
+                    <a href="../materials/detail.html" class="font-medium text-blue-600 hover:underline">현대백화점 세일 배너</a>
+                  </td>
+                  <td>이미지</td>
+                  <td>10초</td>
+                  <td><span class="badge badge-purple">교체중</span></td>
+                  <td class="text-xs text-gray-500">새 소재 검수중</td>
+                </tr>
+                <tr class="bg-blue-50">
+                  <td class="text-gray-400">5</td>
+                  <td class="font-medium text-blue-800">네이버 Ad Server 구좌</td>
+                  <td>실시간</td>
+                  <td>15초</td>
+                  <td><span class="badge badge-blue">네이버 연동</span></td>
+                  <td class="text-xs text-blue-600">실시간 광고 결정</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="text-xs text-gray-400 mt-3">총 재생 시간: 약 70초/루프 (삭제 구좌 제외)</p>
+          </div>
+
+          <!-- 충돌 감지 -->
+          <div class="bg-white rounded-xl border border-yellow-200 p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <h3 class="text-sm font-semibold">편성 충돌 감지</h3>
+              <span class="badge badge-yellow">1건</span>
+            </div>
+            <div class="bg-yellow-50 rounded-lg p-4">
+              <p class="text-sm text-yellow-800 font-medium">5월 프로모션 편성</p>
+              <p class="text-xs text-yellow-600 mt-1">동일 매체(강남역 1번출구) · 기간 겹침(05-01~05-31) · 우선순위 2</p>
+              <div class="mt-3">
+                <a href="conflict.html" class="text-sm text-blue-600 hover:underline">충돌 해소하기 →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 사이드 패널 -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h3 class="text-sm font-semibold mb-4">액션</h3>
+            <div class="space-y-2">
+              <button class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 text-left">편성표 수정</button>
+              <button onclick="showModal('end-modal')" class="w-full px-4 py-2 text-sm text-red-600 border border-red-300 rounded-lg hover:bg-red-50 text-left">수동 종료</button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h3 class="text-sm font-semibold mb-4">동기화 이력</h3>
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">v12 전송</span>
+                <span class="text-green-600">성공</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">v13 전송</span>
+                <span class="text-red-600">실패 (오프라인)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">다음 재시도</span>
+                <span class="text-gray-700">15분 후</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 수동 종료 모달 -->
+  <div id="end-modal" class="modal-overlay hidden" onclick="hideModal('end-modal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">편성표 수동 종료</h3>
+      <p class="text-sm text-gray-600 mb-4">이 편성표를 종료하시겠습니까? 종료 후에는 되돌릴 수 없습니다.</p>
+      <div class="flex justify-end gap-2">
+        <button onclick="hideModal('end-modal')" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg">취소</button>
+        <a href="list.html" class="px-4 py-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700">종료</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

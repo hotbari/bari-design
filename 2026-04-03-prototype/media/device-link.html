@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 디바이스 연동</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6">
+        <a href="list.html" class="text-sm text-gray-500 hover:text-gray-700">← 매체 목록</a>
+        <h1 class="text-2xl font-bold text-gray-900 mt-2">디바이스 연동</h1>
+        <p class="text-sm text-gray-500 mt-1">매체: 홍대입구역 광장</p>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200 p-8 max-w-2xl">
+        <div class="mb-8">
+          <h3 class="text-sm font-semibold mb-4">1. 디바이스 ID 입력</h3>
+          <p class="text-sm text-gray-500 mb-3">현장 플레이어 화면에 표시된 디바이스 ID를 입력하세요.</p>
+          <div class="flex gap-3">
+            <input type="text" class="form-input flex-1" placeholder="DVC-XXXXXXXX-XXXX" id="device-id-input">
+            <button onclick="document.getElementById('step2').classList.remove('hidden');document.getElementById('connect-result').classList.remove('hidden')" class="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700">연결 확인</button>
+          </div>
+        </div>
+
+        <!-- 연결 결과 -->
+        <div id="connect-result" class="hidden mb-8">
+          <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+            <p class="text-sm text-green-800 font-medium">✓ 플레이어 연결 확인됨</p>
+            <p class="text-xs text-green-600 mt-1">플레이어 버전: v2.4.1 | IP: 192.168.1.42</p>
+          </div>
+
+          <div id="step2">
+            <h3 class="text-sm font-semibold mb-4">2. 화면 위치 조정</h3>
+            <div class="bg-gray-100 rounded-lg p-8 text-center mb-4">
+              <div class="bg-gray-800 rounded-lg w-80 h-48 mx-auto flex items-center justify-center text-white text-sm">
+                실시간 미리보기 영역
+              </div>
+            </div>
+            <div class="flex items-center justify-center gap-4 mb-6">
+              <div class="flex gap-1">
+                <button class="px-3 py-2 text-sm border rounded hover:bg-gray-50">←</button>
+                <button class="px-3 py-2 text-sm border rounded hover:bg-gray-50">↑</button>
+                <button class="px-3 py-2 text-sm border rounded hover:bg-gray-50">↓</button>
+                <button class="px-3 py-2 text-sm border rounded hover:bg-gray-50">→</button>
+              </div>
+              <button class="px-3 py-2 text-sm border rounded hover:bg-gray-50">위치/크기 잠금</button>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-6 border-t border-gray-200">
+              <a href="list.html" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">취소</a>
+              <a href="detail.html" class="px-6 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700">연동 완료</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

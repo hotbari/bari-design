@@ -1,11 +1,29 @@
 {
-  "enabledPlugins": {
-    "superpowers@claude-plugins-official": true
+  "extraKnownMarketplaces": {
+    "bari-local": {
+      "source": {
+        "source": "directory",
+        "path": ".claude/plugins/bari"
+      }
+    }
   },
-  "mcpServers": {                                                                                              
-    "playwright": {                                                                                            
-    "command": "npx",                                                                                        
-    "args": ["@playwright/mcp@latest"]                                                                       
-    }                                                                                                       
-  }          
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash scripts/uncheck-manifest.sh"
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 소재 관리</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">소재 관리</h1>
+        <a href="upload.html" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">+ 소재 업로드</a>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200">
+        <div class="p-4 border-b border-gray-100 flex items-center gap-3">
+          <input type="text" placeholder="소재명 검색..." class="form-input w-64">
+          <select class="form-input w-auto">
+            <option>전체 상태</option>
+            <option>검수중</option>
+            <option>검수완료</option>
+            <option>검수실패</option>
+            <option>수동검수대기</option>
+          </select>
+          <select class="form-input w-auto">
+            <option>전체 유형</option>
+            <option>이미지</option>
+            <option>동영상</option>
+          </select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>소재명</th>
+              <th>광고주</th>
+              <th>유형</th>
+              <th>재생시간</th>
+              <th>해상도</th>
+              <th>검수 상태</th>
+              <th>등록일</th>
+              <th>사용 편성</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">봄맞이 프로모션 30s</a></td>
+              <td>삼성전자</td>
+              <td>동영상</td>
+              <td>30초</td>
+              <td>1920×1080</td>
+              <td><span class="badge badge-yellow">수동검수대기</span></td>
+              <td>2026-04-01</td>
+              <td>0건</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700">미리보기</button>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">갤럭시 S26 런칭 15s</a></td>
+              <td>삼성전자</td>
+              <td>동영상</td>
+              <td>15초</td>
+              <td>1920×1080</td>
+              <td><span class="badge badge-green">검수완료</span></td>
+              <td>2026-03-28</td>
+              <td>3건</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">미리보기</button>
+                <button class="text-sm text-blue-600 hover:text-blue-800">교체</button>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">현대백화점 세일 배너</a></td>
+              <td>현대백화점</td>
+              <td>이미지</td>
+              <td>10초</td>
+              <td>1920×1080</td>
+              <td><span class="badge badge-green">검수완료</span></td>
+              <td>2026-03-25</td>
+              <td>5건</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">미리보기</button>
+                <button class="text-sm text-blue-600 hover:text-blue-800">교체</button>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">CU 할인 이벤트 20s</a></td>
+              <td>BGF리테일</td>
+              <td>동영상</td>
+              <td>20초</td>
+              <td>1080×1920</td>
+              <td><span class="badge badge-red">검수실패</span></td>
+              <td>2026-04-02</td>
+              <td>0건</td>
+              <td class="text-right">
+                <button class="text-sm text-blue-600 hover:text-blue-800">재업로드</button>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">스타벅스 신메뉴 배너</a></td>
+              <td>스타벅스코리아</td>
+              <td>이미지</td>
+              <td>8초</td>
+              <td>1920×1080</td>
+              <td><span class="badge badge-blue">검수중</span></td>
+              <td>2026-04-03</td>
+              <td>0건</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700">미리보기</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="p-4 border-t border-gray-100 text-sm text-gray-500 text-center">총 234개 소재</div>
+      </div>
+    </main>
+  </div>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

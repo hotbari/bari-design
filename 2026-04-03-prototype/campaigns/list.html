@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 캠페인 관리</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">캠페인 관리</h1>
+        <a href="new-step1.html" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">+ 캠페인 등록</a>
+      </div>
+
+      <!-- 상태 필터 탭 -->
+      <div class="tab-group mb-4" id="campaign-filter">
+        <div class="tab-item active" data-tab="all" onclick="switchTab('campaign-filter','all')">전체 (47)</div>
+        <div class="tab-item" data-tab="draft" onclick="switchTab('campaign-filter','draft')">초안 (12)</div>
+        <div class="tab-item" data-tab="running" onclick="switchTab('campaign-filter','running')">집행중 (28)</div>
+        <div class="tab-item" data-tab="complete" onclick="switchTab('campaign-filter','complete')">완료 (5)</div>
+        <div class="tab-item" data-tab="cancelled" onclick="switchTab('campaign-filter','cancelled')">취소 (2)</div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200">
+        <div class="p-4 border-b border-gray-100 flex items-center gap-3">
+          <input type="text" placeholder="캠페인명 검색..." class="form-input w-64">
+          <select class="form-input w-auto">
+            <option>전체 유형</option>
+            <option>직접 광고</option>
+            <option>하우스 광고</option>
+            <option>필러</option>
+            <option>네이버</option>
+          </select>
+          <select class="form-input w-auto">
+            <option>전체 광고주</option>
+            <option>삼성전자</option>
+            <option>현대백화점</option>
+            <option>BGF리테일</option>
+          </select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>캠페인명</th>
+              <th>광고주</th>
+              <th>유형</th>
+              <th>상태</th>
+              <th>기간</th>
+              <th>매체 수</th>
+              <th>과금</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">갤럭시 S26 런칭 캠페인</a></td>
+              <td>삼성전자</td>
+              <td>직접 광고</td>
+              <td><span class="badge badge-green">집행중</span></td>
+              <td class="text-sm">2026-03-15 ~ 2026-04-30</td>
+              <td>24</td>
+              <td>고정가 50,000,000원</td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700">상세</a>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">봄 세일 프로모션</a></td>
+              <td>현대백화점</td>
+              <td>직접 광고</td>
+              <td><span class="badge badge-green">집행중</span></td>
+              <td class="text-sm">2026-04-01 ~ 2026-04-15</td>
+              <td>18</td>
+              <td>단가제 1,200원/회</td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700">상세</a>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">여름 신메뉴 광고</a></td>
+              <td>스타벅스코리아</td>
+              <td>직접 광고</td>
+              <td><span class="badge badge-blue">초안</span></td>
+              <td class="text-sm">2026-05-01 ~ 2026-06-30</td>
+              <td>12</td>
+              <td>고정가 30,000,000원</td>
+              <td class="text-right">
+                <a href="new-step1.html" class="text-sm text-blue-600 hover:text-blue-800">편집</a>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">자사 홍보 하우스</a></td>
+              <td>—</td>
+              <td>하우스 광고</td>
+              <td><span class="badge badge-green">집행중</span></td>
+              <td class="text-sm">2026-01-01 ~ 2026-12-31</td>
+              <td>142</td>
+              <td>없음</td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700">상세</a>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">1분기 편의점 캠페인</a></td>
+              <td>BGF리테일</td>
+              <td>직접 광고</td>
+              <td><span class="badge badge-gray">완료</span></td>
+              <td class="text-sm">2026-01-15 ~ 2026-03-31</td>
+              <td>8</td>
+              <td>고정가 15,000,000원</td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700">상세</a>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">네이버 프로그래매틱</a></td>
+              <td>—</td>
+              <td>네이버</td>
+              <td><span class="badge badge-red">취소</span></td>
+              <td class="text-sm">2026-02-01 ~ 2026-03-15</td>
+              <td>5</td>
+              <td>단가제</td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700">상세</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="p-4 border-t border-gray-100 text-sm text-gray-500 text-center">총 47개 캠페인</div>
+      </div>
+    </main>
+  </div>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

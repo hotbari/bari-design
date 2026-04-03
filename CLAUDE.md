@@ -43,13 +43,16 @@
 
 ## Scenario Workflow
 - 시나리오 문서는 `docs/scenarios/` 에 도메인별로 작성
-- 도메인 시나리오 1개 작성 완료 시 아래 3단계 검증을 순서대로 실행:
-  1. **Ubiquitous Language 점검** — 동의어/모호한 용어/미정의 용어 탐지. 발견 사항은 §6(미결 사항)에 기록
-  2. **Example Mapping** — 각 UC의 규칙마다 구체적 예시(input→output) 생성. 엣지 케이스 발견 시 §4에 "이런 경우에는" 추가 또는 §6에 기록
-  3. **Pre-mortem** — "이 도메인이 운영 중 실패한다면 원인은?" 질문. 빠진 요구사항 발견 시 UC 추가 또는 §6에 기록
-- 3단계 검증 통과 후 `docs/scenarios/MANIFEST.md` 해당 항목을 `[x]` 체크 + 파일명 기입
-- MANIFEST.md의 모든 항목이 `[x]`가 되면 반드시 `/spec-dialectic docs/scenarios/` 실행하여 교차 검증
-- 교차 검증 후 다음 단계를 사용자에게 확인:
-  - 기획 보강이 필요하면 → `@bari-skills/research` 로 심화 조사 후 시나리오 보완
-  - 구현 준비가 되었으면 → `writing-plans` 로 구현 계획 수립
+- 검증은 `/validate-all` 로 전체 파이프라인 실행 (단위 검증 → 교차 검증 → 다음 단계 안내)
+- 개별 도메인만 검증: `/validate-all <파일명>`
+- 개별 스킬도 단독 사용 가능: `/validate-scenario`, `/spec-dialectic`
+- 시나리오 파일 수정 시 MANIFEST.md의 해당 도메인 `[x]`는 hook이 자동으로 `[ ]`로 해제 (재검증 필요)
 - 사용자 확인 없이 writing-plans에 직접 진입 금지
+
+## Research Outputs
+- 리서치 산출물은 `docs/research/` 하위에 저장
+- 페르소나: `docs/research/personas/{product}_{role}_{name}.md`
+- 공감지도: `docs/research/empathy-maps/{product}_{persona_name}.md`
+- 여정지도: `docs/research/journey-maps/{product}_{persona_name}.md`
+- 페르소나 생성 시 반드시 파일로 저장. 인라인 출력만으로 끝내지 않는다
+- `/interview` 실행 시 `docs/research/personas/` 에서 기존 페르소나 자동 검색

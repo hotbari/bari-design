@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 대시보드</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6 flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">대시보드</h1>
+          <p class="text-sm text-gray-500 mt-1">시스템 현황을 한눈에 확인합니다</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <select class="form-input w-auto text-sm">
+            <option>최근 7일</option>
+            <option>최근 30일</option>
+            <option>최근 90일</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 상태 요약 카드 -->
+      <div class="grid grid-cols-4 gap-4 mb-8">
+        <div class="stat-card">
+          <h3>전체 매체</h3>
+          <div class="value">142</div>
+          <div class="flex items-center gap-3 mt-2 text-xs">
+            <span class="text-green-600">● 온라인 128</span>
+            <span class="text-red-500">● 오프라인 8</span>
+            <span class="text-gray-400">● 비활성 6</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <h3>캠페인</h3>
+          <div class="value">47</div>
+          <div class="flex items-center gap-3 mt-2 text-xs">
+            <span class="text-blue-600">초안 12</span>
+            <span class="text-green-600">집행중 28</span>
+            <span class="text-gray-400">완료 5</span>
+            <span class="text-red-500">취소 2</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <h3>편성표</h3>
+          <div class="value">63</div>
+          <div class="flex items-center gap-3 mt-2 text-xs">
+            <span class="text-blue-600">예약 15</span>
+            <span class="text-green-600">적용중 38</span>
+            <span class="text-yellow-600">일시정지 3</span>
+            <span class="text-gray-400">종료 7</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <h3>소재</h3>
+          <div class="value">234</div>
+          <div class="flex items-center gap-3 mt-2 text-xs">
+            <span class="text-green-600">검수완료 198</span>
+            <span class="text-yellow-600">검수중 21</span>
+            <span class="text-red-500">실패 15</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6">
+        <!-- 최근 알림 -->
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+          <h2 class="text-sm font-semibold text-gray-900 mb-4">최근 알림</h2>
+          <div class="space-y-3">
+            <div class="flex items-start gap-3 p-3 bg-red-50 rounded-lg">
+              <span class="w-2 h-2 mt-1.5 rounded-full bg-red-500 flex-shrink-0"></span>
+              <div>
+                <p class="text-sm text-gray-900">매체 '강남역 1번출구' 오프라인 감지</p>
+                <p class="text-xs text-gray-500 mt-0.5">5분 전 · 매체 상태</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg">
+              <span class="w-2 h-2 mt-1.5 rounded-full bg-yellow-500 flex-shrink-0"></span>
+              <div>
+                <p class="text-sm text-gray-900">소재 '봄맞이 프로모션 30s' 수동검수 대기</p>
+                <p class="text-xs text-gray-500 mt-0.5">12분 전 · 소재 검수</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-3 rounded-lg">
+              <span class="w-2 h-2 mt-1.5 rounded-full bg-green-500 flex-shrink-0"></span>
+              <div>
+                <p class="text-sm text-gray-900">편성표 '4월 프로모션' 적용 시작</p>
+                <p class="text-xs text-gray-500 mt-0.5">1시간 전 · 편성</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-3 rounded-lg">
+              <span class="w-2 h-2 mt-1.5 rounded-full bg-blue-500 flex-shrink-0"></span>
+              <div>
+                <p class="text-sm text-gray-900">리포트 '3월 매체 운영현황' 생성 완료</p>
+                <p class="text-xs text-gray-500 mt-0.5">2시간 전 · 리포트</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 p-3 rounded-lg">
+              <span class="w-2 h-2 mt-1.5 rounded-full bg-green-500 flex-shrink-0"></span>
+              <div>
+                <p class="text-sm text-gray-900">사용자 '김영희' 가입 완료</p>
+                <p class="text-xs text-gray-500 mt-0.5">3시간 전 · 사용자</p>
+              </div>
+            </div>
+          </div>
+          <a href="notifications/center.html" class="block text-center text-sm text-blue-600 mt-4 hover:underline">전체 알림 보기 →</a>
+        </div>
+
+        <!-- 매체 이상 감지 -->
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+          <h2 class="text-sm font-semibold text-gray-900 mb-4">매체 이상 감지</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>매체명</th>
+                <th>상태</th>
+                <th>이슈</th>
+                <th>마지막 연결</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-medium">강남역 1번출구</td>
+                <td><span class="badge badge-red">오프라인</span></td>
+                <td class="text-sm text-red-600">연결 끊김</td>
+                <td class="text-sm text-gray-500">5분 전</td>
+              </tr>
+              <tr>
+                <td class="font-medium">삼성역 B2</td>
+                <td><span class="badge badge-yellow">이상</span></td>
+                <td class="text-sm text-yellow-600">GPU 온도 높음</td>
+                <td class="text-sm text-gray-500">현재 연결</td>
+              </tr>
+              <tr>
+                <td class="font-medium">역삼역 3번출구</td>
+                <td><span class="badge badge-red">오프라인</span></td>
+                <td class="text-sm text-red-600">연결 끊김</td>
+                <td class="text-sm text-gray-500">23분 전</td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="media/list.html" class="block text-center text-sm text-blue-600 mt-4 hover:underline">전체 매체 보기 →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="shared/layout.js"></script>
+</body>
+</html>

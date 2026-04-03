@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 사용자 관리</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">사용자 관리</h1>
+        <a href="invite.html" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">+ 사용자 초대</a>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200">
+        <div class="p-4 border-b border-gray-100 flex items-center gap-3">
+          <input type="text" placeholder="이메일 또는 이름 검색..." class="form-input w-64">
+          <select class="form-input w-auto">
+            <option>전체 역할</option>
+            <option>어드민</option>
+            <option>매체사</option>
+            <option>운영대행사</option>
+            <option>영업대행사</option>
+          </select>
+          <select class="form-input w-auto">
+            <option>전체 상태</option>
+            <option>활성</option>
+            <option>비활성</option>
+            <option>초대발송됨</option>
+          </select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>이메일</th>
+              <th>이름</th>
+              <th>역할</th>
+              <th>소속 매체사</th>
+              <th>상태</th>
+              <th>마지막 활동</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="font-medium">admin@doohcms.com</td>
+              <td>관리자</td>
+              <td><span class="badge role-badge-admin">어드민</span></td>
+              <td>—</td>
+              <td><span class="badge badge-green">활성</span></td>
+              <td class="text-sm text-gray-500">방금 전</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="font-medium">kim@cna.co.kr</td>
+              <td>김대표</td>
+              <td><span class="badge role-badge-media">매체사</span></td>
+              <td>씨앤에이미디어</td>
+              <td><span class="badge badge-green">활성</span></td>
+              <td class="text-sm text-gray-500">1시간 전</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">권한 변경</button>
+                <button class="text-sm text-yellow-600 hover:text-yellow-800">비활성화</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-medium">lee@cna.co.kr</td>
+              <td>이운영</td>
+              <td><span class="badge role-badge-ops">운영대행사</span></td>
+              <td>씨앤에이미디어</td>
+              <td><span class="badge badge-green">활성</span></td>
+              <td class="text-sm text-gray-500">3시간 전</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">권한 변경</button>
+                <button class="text-sm text-yellow-600 hover:text-yellow-800">비활성화</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-medium">kim.yh@agency.com</td>
+              <td>김영희</td>
+              <td><span class="badge role-badge-sales">영업대행사</span></td>
+              <td>씨앤에이미디어</td>
+              <td><span class="badge badge-green">활성</span></td>
+              <td class="text-sm text-gray-500">어제</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">권한 변경</button>
+                <button class="text-sm text-yellow-600 hover:text-yellow-800">비활성화</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-medium">park@agency.com</td>
+              <td>—</td>
+              <td><span class="badge role-badge-ops">운영대행사</span></td>
+              <td>디오에스미디어</td>
+              <td><span class="badge badge-blue">초대발송됨</span></td>
+              <td class="text-sm text-gray-400">—</td>
+              <td class="text-right">
+                <button class="text-sm text-blue-600 hover:text-blue-800">초대 재발송</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-medium text-gray-400">choi@old.com</td>
+              <td class="text-gray-400">최퇴사</td>
+              <td><span class="badge badge-gray">매체사</span></td>
+              <td class="text-gray-400">한국옥외광고</td>
+              <td><span class="badge badge-gray">비활성</span></td>
+              <td class="text-sm text-gray-400">30일 전</td>
+              <td class="text-right">
+                <button class="text-sm text-green-600 hover:text-green-800">활성화</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="p-4 border-t border-gray-100 text-sm text-gray-500 text-center">총 25명</div>
+      </div>
+    </main>
+  </div>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

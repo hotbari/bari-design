@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 편성 관리</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">편성 관리</h1>
+        <a href="new.html" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">+ 편성표 생성</a>
+      </div>
+
+      <!-- 상태 필터 탭 -->
+      <div class="tab-group mb-4" id="schedule-filter">
+        <div class="tab-item active" data-tab="all" onclick="switchTab('schedule-filter','all')">전체 (63)</div>
+        <div class="tab-item" data-tab="reserved" onclick="switchTab('schedule-filter','reserved')">예약됨 (15)</div>
+        <div class="tab-item" data-tab="active" onclick="switchTab('schedule-filter','active')">적용중 (38)</div>
+        <div class="tab-item" data-tab="paused" onclick="switchTab('schedule-filter','paused')">일시정지 (3)</div>
+        <div class="tab-item" data-tab="ended" onclick="switchTab('schedule-filter','ended')">종료 (7)</div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200">
+        <div class="p-4 border-b border-gray-100 flex items-center gap-3">
+          <input type="text" placeholder="편성표명 검색..." class="form-input w-64">
+          <select class="form-input w-auto">
+            <option>전체 매체</option>
+            <option>강남역 1번출구</option>
+            <option>삼성역 B2</option>
+            <option>코엑스 GF 기둥</option>
+          </select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>편성표명</th>
+              <th>재생목록</th>
+              <th>대상 매체</th>
+              <th>기간</th>
+              <th>상태</th>
+              <th>우선순위</th>
+              <th>동기화</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">4월 강남 편성</a></td>
+              <td>갤럭시 S26 재생목록</td>
+              <td>강남역 1번출구</td>
+              <td class="text-sm">04-01 ~ 04-30</td>
+              <td><span class="badge badge-green">적용중</span></td>
+              <td>1 (최우선)</td>
+              <td><span class="badge badge-red">미완료</span></td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700">상세</a>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">4월 삼성역 편성</a></td>
+              <td>갤럭시 S26 재생목록</td>
+              <td>삼성역 B2</td>
+              <td class="text-sm">04-01 ~ 04-30</td>
+              <td><span class="badge badge-green">적용중</span></td>
+              <td>1</td>
+              <td><span class="badge badge-green">완료</span></td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700">상세</a>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">5월 프로모션 편성</a></td>
+              <td>봄 세일 재생목록</td>
+              <td>강남역 1번출구 외 5</td>
+              <td class="text-sm">05-01 ~ 05-31</td>
+              <td><span class="badge badge-blue">예약됨</span></td>
+              <td>2</td>
+              <td><span class="badge badge-gray">대기</span></td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700 mr-2">상세</a>
+                <button class="text-sm text-red-500 hover:text-red-700">삭제</button>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">여의도 IFC 편성</a></td>
+              <td>하우스 광고 목록</td>
+              <td>여의도 IFC몰</td>
+              <td class="text-sm">03-01 ~ 04-30</td>
+              <td><span class="badge badge-yellow">일시정지</span></td>
+              <td>3</td>
+              <td><span class="badge badge-gray">—</span></td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700">상세</a>
+              </td>
+            </tr>
+            <tr>
+              <td><a href="detail.html" class="font-medium text-blue-600 hover:underline">1분기 CU 편성</a></td>
+              <td>CU 프로모션 목록</td>
+              <td>삼성역 B2 외 3</td>
+              <td class="text-sm">01-15 ~ 03-31</td>
+              <td><span class="badge badge-gray">종료</span></td>
+              <td>2</td>
+              <td><span class="badge badge-gray">—</span></td>
+              <td class="text-right">
+                <a href="detail.html" class="text-sm text-gray-500 hover:text-gray-700">상세</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="p-4 border-t border-gray-100 text-sm text-gray-500 text-center">총 63개 편성표</div>
+      </div>
+    </main>
+  </div>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>
