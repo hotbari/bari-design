@@ -1197,7 +1197,7 @@ table { border-collapse: collapse; width: 100%; }
             </div>
 
             <div style="display:flex; gap:var(--space-3);">
-              <button class="btn-sync" onclick="showToast('편성 내용이 플레이어에 전달되었습니다.')">
+              <button class="btn-sync" onclick="openSyncModal()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
                 즉시 반영
               </button>
@@ -1286,6 +1286,25 @@ table { border-collapse: collapse; width: 100%; }
   </div>
 </div>
 
+<!-- ============ SYNC CONFIRM MODAL ============ -->
+<div class="modal-overlay" id="sync-modal">
+  <div class="modal" role="alertdialog" aria-label="즉시 반영 확인">
+    <div class="modal-title">즉시 반영</div>
+    <div class="modal-body">
+      편성 내용을 플레이어에 즉시 전달합니다.<br>
+      <span class="warning-text">현장 매체의 재생이 즉시 변경됩니다.</span>
+      <div style="margin-top:var(--space-3); padding:var(--space-3); background:var(--color-bg-surface); border-radius:var(--radius-md); font-size:var(--text-xs);">
+        <div style="margin-bottom:var(--space-1);"><strong>대상 매체:</strong> 강남역 1번출구</div>
+        <div><strong>재생목록:</strong> 4월 1주차 강남역 (5구좌 · 2분 30초)</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeSyncModal()">취소</button>
+      <button class="btn-sync" onclick="confirmSync()">반영</button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -1315,6 +1334,8 @@ document.addEventListener('keydown', function(e) {
   if (e.key !== 'Escape') return;
   var delModal = document.getElementById('delete-playlist-modal');
   var endModal = document.getElementById('end-schedule-modal');
+  var syncModal = document.getElementById('sync-modal');
+  if (syncModal.classList.contains('active')) { closeSyncModal(); return; }
   if (delModal.classList.contains('active')) { closeDeletePlaylistModal(); return; }
   if (endModal.classList.contains('active')) { closeEndScheduleModal(); return; }
 });
@@ -1397,6 +1418,22 @@ function confirmEndSchedule() {
   closeEndScheduleModal();
   showToast('편성표가 종료되었습니다.');
   setTimeout(showScheduleList, 600);
+}
+
+/* ── Sync Modal ── */
+function openSyncModal() {
+  var modal = document.getElementById('sync-modal');
+  modal.classList.add('active');
+  trapFocus(modal);
+}
+function closeSyncModal() {
+  var modal = document.getElementById('sync-modal');
+  modal.classList.remove('active');
+  releaseFocus(modal);
+}
+function confirmSync() {
+  closeSyncModal();
+  showToast('편성 내용이 플레이어에 전달되었습니다.');
 }
 
 /* ── Playlist Drawer (placeholder) ── */
