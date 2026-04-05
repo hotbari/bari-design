@@ -3,7 +3,7 @@
 ## Domains
 - [x] 사용자 관리 → 01-user-management.md
 - [x] 매체 관리 → 02-media-management.md
-- [x] 소재 관리 → 03-material-management.md
+- [ ] 소재 관리 → 03-material-management.md
 - [x] 캠페인 관리 → 04-campaign-management.md
 - [x] 편성 관리 → 05-scheduling-management.md
 - [x] 알림 관리 → 06-notification-management.md
