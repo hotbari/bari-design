@@ -63,13 +63,13 @@
           <input type="text" placeholder="이름, 이메일 검색..." aria-label="사용자 검색" style="padding:var(--space-2) var(--space-3);border:1px solid var(--color-border-default);border-radius:var(--radius-md);font-size:var(--text-sm);min-width:200px;">
         </div>
         <div class="toolbar"><span class="toolbar-count">전체 <strong>7명</strong></span></div>
-        <div class="data-table-wrap"><table class="data-table"><thead><tr><th>사용자</th><th>이메일</th><th>역할</th><th>소속 매체사</th><th>상태</th><th>가입일</th></tr></thead><tbody>
+        <div class="data-table-wrap"><table class="data-table"><thead><tr><th scope="col">사용자</th><th scope="col">이메일</th><th scope="col">역할</th><th scope="col">소속 매체사</th><th scope="col">상태</th><th scope="col">가입일</th></tr></thead><tbody>
           <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-primary-100);color:var(--color-primary-700);">최</div> 최관리</div></td><td class="cell-sub">admin@dooh.kr</td><td><span class="badge badge-admin">어드민</span></td><td class="cell-meta">—</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.01.15</td></tr>
           <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-info-50);color:var(--color-info-500);">김</div> 김서영</div></td><td class="cell-sub">seo@citymedia.kr</td><td><span class="badge badge-media">매체사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.02.01</td></tr>
           <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-status-warning-bg);color:var(--color-warning-600);">이</div> 이준혁</div></td><td class="cell-sub">jun@opsagency.kr</td><td><span class="badge badge-ops">운영대행사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.02.10</td></tr>
           <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-neutral-200);color:var(--color-neutral-600);">최</div> 최유진</div></td><td class="cell-sub">yujin@salesagency.kr</td><td><span class="badge badge-sales">영업대행사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.03.05</td></tr>
           <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-info-50);color:var(--color-info-500);">박</div> 박진수</div></td><td class="cell-sub">jinsu@citymedia.kr</td><td><span class="badge badge-media">매체사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.03.10</td></tr>
-          <tr style="opacity:0.5"><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-neutral-200);color:var(--color-neutral-400);">정</div> 정민수</div></td><td class="cell-sub">min@opsagency.kr</td><td><span class="badge badge-ops">운영대행사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-inactive">비활성</span></td><td class="cell-meta">2026.02.15</td></tr>
+          <tr style="opacity:0.5" aria-disabled="true"><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-neutral-200);color:var(--color-neutral-400);">정</div> 정민수</div></td><td class="cell-sub">min@opsagency.kr</td><td><span class="badge badge-ops">운영대행사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-inactive">비활성</span></td><td class="cell-meta">2026.02.15</td></tr>
         </tbody></table></div>
       </div>
 
@@ -81,7 +81,7 @@
         </div>
         <div class="page-header"><h1 class="page-title">초대 관리</h1><button class="btn-primary" onclick="openInviteDrawer()"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 새 초대</button></div>
         <div class="toolbar"><span class="toolbar-count">전체 <strong>3건</strong></span></div>
-        <div class="data-table-wrap"><table class="data-table"><thead><tr><th>이메일</th><th>역할</th><th>초대 상태</th><th>발송일</th><th>만료일</th></tr></thead><tbody>
+        <div class="data-table-wrap"><table class="data-table"><thead><tr><th scope="col">이메일</th><th scope="col">역할</th><th scope="col">초대 상태</th><th scope="col">발송일</th><th scope="col">만료일</th></tr></thead><tbody>
           <tr><td class="cell-name">newuser@agency.kr</td><td><span class="badge badge-ops">운영대행사</span></td><td><span class="badge badge-sent">발송됨</span></td><td class="cell-meta">04.04</td><td class="cell-meta">04.11</td></tr>
           <tr><td class="cell-name">designer@ad.kr</td><td><span class="badge badge-sales">영업대행사</span></td><td><span class="badge badge-active">가입완료</span></td><td class="cell-meta">04.01</td><td class="cell-meta">—</td></tr>
           <tr><td class="cell-name">old@test.kr</td><td><span class="badge badge-media">매체사</span></td><td><span class="badge badge-expired">만료</span></td><td class="cell-meta">03.20</td><td class="cell-meta">03.27</td></tr>
@@ -97,7 +97,7 @@
   <div class="drawer-header"><div class="drawer-title">사용자 초대</div><button class="drawer-close" onclick="closeInviteDrawer()" aria-label="닫기"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
   <div class="drawer-body">
     <form id="invite-form" onsubmit="return handleInvite(event)">
-    <div class="form-group"><label class="form-label" for="inv-email">이메일 <span class="required">*</span></label><input type="email" id="inv-email" class="form-control" placeholder="name@company.kr" required></div>
+    <div class="form-group"><label class="form-label" for="inv-email">이메일 <span class="required">*</span></label><input type="email" id="inv-email" class="form-control" placeholder="name@company.kr" required onblur="validateEmail(this)"></div>
     <div class="form-group"><label class="form-label" for="inv-role">역할 <span class="required">*</span></label><select id="inv-role" class="form-control" required><option value="">역할 선택</option><option>매체사</option><option>운영대행사</option><option>영업대행사</option></select></div>
     <div class="form-group"><label class="form-label" for="inv-company">소속 매체사 <span class="required">*</span></label><select id="inv-company" class="form-control" required><option value="">매체사 선택</option><option selected>시티미디어</option></select></div>
     <div class="form-group"><label class="form-label" for="inv-scope">권한 범위</label><select id="inv-scope" class="form-control"><option>전체 매체</option><option>강남역 1번출구</option><option>종로 전광판</option><option>홍대입구 A</option></select><div class="form-hint">운영대행사: 접근 가능 매체 선택 · 영업대행사: 소재 접근 범위</div></div>
@@ -122,6 +122,22 @@ function openDeactivateModal(){var m=document.getElementById('deactivate-modal')
 function closeDeactivateModal(){var m=document.getElementById('deactivate-modal');m.classList.remove('active');releaseFocus(m);}
 function confirmDeactivate(){closeDeactivateModal();showToast('사용자가 비활성화되었습니다.');}
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('active');setTimeout(function(){t.classList.remove('active');},2500);}
+function validateEmail(input) {
+  var error = input.parentElement.querySelector('.form-error');
+  if (!input.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    input.style.borderColor = 'var(--color-status-error)';
+    if (!error) {
+      var hint = document.createElement('div');
+      hint.className = 'form-hint form-error';
+      hint.style.color = 'var(--color-status-error)';
+      hint.textContent = '유효한 이메일 주소를 입력하세요.';
+      input.parentElement.appendChild(hint);
+    }
+  } else {
+    input.style.borderColor = '';
+    if (error) error.remove();
+  }
+}
 </script>
 </body>
 </html>
