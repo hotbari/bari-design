@@ -456,6 +456,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
   transition: background var(--transition-fast);
 }
 .data-table tbody tr:hover { background: var(--color-bg-hover); }
+.data-table tbody tr:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: -2px; background: var(--color-bg-hover); }
 .data-table tbody td {
   padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--color-border-default);
@@ -1098,28 +1099,28 @@ input, select { font-family: inherit; font-size: var(--text-base); }
   <div class="layout-body">
     <!-- Sidebar (collapsed) -->
     <nav class="sidebar">
-      <button class="sidebar-item" title="대시보드">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <button class="sidebar-item" title="대시보드" aria-label="대시보드">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         <span class="sidebar-tooltip">대시보드</span>
       </button>
-      <button class="sidebar-item active" title="소재 관리">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      <button class="sidebar-item active" title="소재 관리" aria-label="소재 관리" aria-current="page">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 8-6 4 6 4V8Z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
         <span class="sidebar-tooltip">소재 관리</span>
       </button>
-      <button class="sidebar-item" title="편성 관리">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <button class="sidebar-item" title="편성 관리" aria-label="편성 관리">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         <span class="sidebar-tooltip">편성 관리</span>
       </button>
-      <button class="sidebar-item" title="매체 관리">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <button class="sidebar-item" title="매체 관리" aria-label="매체 관리">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
         <span class="sidebar-tooltip">매체 관리</span>
       </button>
-      <button class="sidebar-item" title="캠페인">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <button class="sidebar-item" title="캠페인" aria-label="캠페인">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <span class="sidebar-tooltip">캠페인</span>
       </button>
-      <button class="sidebar-item" title="규격 안내">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <button class="sidebar-item" title="규격 안내" aria-label="규격 안내">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         <span class="sidebar-tooltip">규격 안내</span>
       </button>
     </nav>
@@ -1226,7 +1227,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
                 </tr>
               </thead>
               <tbody>
-                <tr onclick="showDetail(0)">
+                <tr tabindex="0" onclick="showDetail(0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail(0)}">
                   <td><div class="cell-thumb">16:9</div></td>
                   <td class="cell-name">프레시주스_여름신제품_15s</td>
                   <td class="cell-sub">프레시주스</td>
@@ -1238,7 +1239,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
                   <td><span class="badge badge-op-upcoming">예정</span></td>
                   <td class="cell-meta">04.05 14:32</td>
                 </tr>
-                <tr onclick="showDetail(1)">
+                <tr tabindex="0" onclick="showDetail(1)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail(1)}">
                   <td><div class="cell-thumb">16:9</div></td>
                   <td class="cell-name">프레시주스_봄시즌_30s</td>
                   <td class="cell-sub">프레시주스</td>
@@ -1250,7 +1251,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
                   <td><span class="badge badge-op-active">진행중</span></td>
                   <td class="cell-meta">04.01 09:15</td>
                 </tr>
-                <tr onclick="showDetail(2)">
+                <tr tabindex="0" onclick="showDetail(2)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail(2)}">
                   <td><div class="cell-thumb">16:9</div></td>
                   <td class="cell-name">클린에어_공기청정기_15s</td>
                   <td class="cell-sub">클린에어</td>
@@ -1262,7 +1263,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
                   <td><span class="badge badge-op-upcoming">예정</span></td>
                   <td class="cell-meta">04.03 11:20</td>
                 </tr>
-                <tr onclick="showDetail(3)">
+                <tr tabindex="0" onclick="showDetail(3)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail(3)}">
                   <td><div class="cell-thumb">16:9</div></td>
                   <td class="cell-name">스타벅스_리저브_15s</td>
                   <td class="cell-sub">스타벅스코리아</td>
@@ -1274,7 +1275,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
                   <td><span class="badge badge-op-upcoming">예정</span></td>
                   <td class="cell-meta">04.04 16:45</td>
                 </tr>
-                <tr onclick="showDetail(4)">
+                <tr tabindex="0" onclick="showDetail(4)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail(4)}">
                   <td><div class="cell-thumb">16:9</div></td>
                   <td class="cell-name">현대자동차_IONIQ6_30s</td>
                   <td class="cell-sub">현대자동차</td>
@@ -1286,7 +1287,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
                   <td><span class="badge badge-op-active">진행중</span></td>
                   <td class="cell-meta">03.28 10:00</td>
                 </tr>
-                <tr onclick="showDetail(5)">
+                <tr tabindex="0" onclick="showDetail(5)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail(5)}">
                   <td><div class="cell-thumb">16:9</div></td>
                   <td class="cell-name">삼성전자_갤럭시S26_15s</td>
                   <td class="cell-sub">삼성전자</td>
@@ -1304,7 +1305,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
                   <td><span class="badge badge-op-active">진행중</span></td>
                   <td class="cell-meta">03.25 14:10</td>
                 </tr>
-                <tr onclick="showDetail(6)">
+                <tr tabindex="0" onclick="showDetail(6)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail(6)}">
                   <td><div class="cell-thumb">16:9</div></td>
                   <td class="cell-name">CJ제일제당_비비고_30s</td>
                   <td class="cell-sub">CJ제일제당</td>
@@ -1316,7 +1317,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
                   <td><span class="badge badge-op-upcoming">예정</span></td>
                   <td class="cell-meta">03.22 13:30</td>
                 </tr>
-                <tr onclick="showDetail(7)">
+                <tr tabindex="0" onclick="showDetail(7)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail(7)}">
                   <td><div class="cell-thumb">16:9</div></td>
                   <td class="cell-name">나이키_에어맥스_15s_v2</td>
                   <td class="cell-sub">나이키코리아</td>
@@ -1328,7 +1329,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
                   <td><span class="badge badge-op-active">진행중</span></td>
                   <td class="cell-meta">04.05 14:28</td>
                 </tr>
-                <tr class="row-expired" onclick="showDetail(8)">
+                <tr class="row-expired" tabindex="0" onclick="showDetail(8)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail(8)}">
                   <td><div class="cell-thumb">16:9</div></td>
                   <td class="cell-name">롯데칠성_펩시제로_15s</td>
                   <td class="cell-sub">롯데칠성음료</td>
@@ -1765,7 +1766,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
 
 <!-- ============ UPLOAD DRAWER ============ -->
 <div class="drawer-overlay" id="drawer-overlay" onclick="confirmCloseDrawer()"></div>
-<div class="drawer" id="upload-drawer">
+<div class="drawer" id="upload-drawer" role="dialog" aria-label="소재 업로드">
   <div class="drawer-header">
     <div class="drawer-title">소재 업로드</div>
     <button class="drawer-close" onclick="confirmCloseDrawer()">
@@ -1783,19 +1784,19 @@ input, select { font-family: inherit; font-size: var(--text-base); }
     <!-- File list -->
     <div class="file-list" id="file-list">
       <div class="file-item">
-        <input type="checkbox" class="file-checkbox" checked>
+        <input type="checkbox" class="file-checkbox" checked aria-label="freshjuice_summer_15s.mp4 선택">
         <span class="file-name">freshjuice_summer_15s.mp4</span>
         <span class="file-size">12.4MB</span>
         <span class="file-status valid">&#10003; 검증통과</span>
       </div>
       <div class="file-item">
-        <input type="checkbox" class="file-checkbox" checked>
+        <input type="checkbox" class="file-checkbox" checked aria-label="freshjuice_summer_30s.mp4 선택">
         <span class="file-name">freshjuice_summer_30s.mp4</span>
         <span class="file-size">24.1MB</span>
         <span class="file-status validating"><span class="spinner" style="width:12px;height:12px;border-width:1.5px;"></span> 검증중</span>
       </div>
       <div class="file-item disabled">
-        <input type="checkbox" class="file-checkbox" disabled>
+        <input type="checkbox" class="file-checkbox" disabled aria-label="banner_draft.avi 선택 불가 — MP4만 허용">
         <span class="file-name">banner_draft.avi</span>
         <span class="file-size">—</span>
         <span class="file-status invalid">&#10005; MP4만 허용</span>
@@ -1857,7 +1858,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
 
 <!-- ============ DELETE MODAL ============ -->
 <div class="modal-overlay" id="delete-modal">
-  <div class="modal">
+  <div class="modal" role="alertdialog" aria-label="소재 삭제 확인">
     <div class="modal-title">소재 삭제</div>
     <div class="modal-body">
       이 소재를 삭제하시겠습니까?<br>
@@ -1872,7 +1873,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
 
 <!-- ============ CLOSE DRAWER CONFIRM MODAL ============ -->
 <div class="modal-overlay" id="close-confirm-modal">
-  <div class="modal">
+  <div class="modal" role="alertdialog" aria-label="업로드 취소 확인">
     <div class="modal-title">업로드 취소</div>
     <div class="modal-body">작성 중인 내용이 있습니다. 닫으시겠습니까?</div>
     <div class="modal-actions">
@@ -1883,7 +1884,7 @@ input, select { font-family: inherit; font-size: var(--text-base); }
 </div>
 
 <!-- TOAST -->
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* ── Row data for generic detail view ── */
@@ -1954,38 +1955,88 @@ function switchView(mode) {
   }
 }
 
+/* ── Focus Trap ── */
+let _lastFocused = null;
+function trapFocus(container) {
+  _lastFocused = document.activeElement;
+  const focusable = container.querySelectorAll('button, [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])');
+  if (!focusable.length) return;
+  const first = focusable[0], last = focusable[focusable.length - 1];
+  first.focus();
+  container._focusTrapHandler = function(e) {
+    if (e.key !== 'Tab') return;
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  };
+  container.addEventListener('keydown', container._focusTrapHandler);
+}
+function releaseFocus(container) {
+  if (container._focusTrapHandler) {
+    container.removeEventListener('keydown', container._focusTrapHandler);
+    delete container._focusTrapHandler;
+  }
+  if (_lastFocused) { _lastFocused.focus(); _lastFocused = null; }
+}
+
+/* ── Escape key ── */
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Escape') return;
+  const closeConfirm = document.getElementById('close-confirm-modal');
+  const deleteModal = document.getElementById('delete-modal');
+  if (closeConfirm.classList.contains('active')) { cancelCloseDrawer(); return; }
+  if (deleteModal.classList.contains('active')) { closeDeleteModal(); return; }
+  if (drawerOpen) { confirmCloseDrawer(); return; }
+});
+
 /* ── Upload Drawer ── */
 let drawerOpen = false;
 function openDrawer() {
   drawerOpen = true;
   document.getElementById('upload-drawer').classList.add('active');
   document.getElementById('drawer-overlay').classList.add('active');
+  trapFocus(document.getElementById('upload-drawer'));
 }
 function confirmCloseDrawer() {
-  document.getElementById('close-confirm-modal').classList.add('active');
+  var modal = document.getElementById('close-confirm-modal');
+  modal.classList.add('active');
+  trapFocus(modal);
 }
 function cancelCloseDrawer() {
-  document.getElementById('close-confirm-modal').classList.remove('active');
+  var modal = document.getElementById('close-confirm-modal');
+  modal.classList.remove('active');
+  releaseFocus(modal);
 }
 function forceCloseDrawer() {
   document.getElementById('close-confirm-modal').classList.remove('active');
-  document.getElementById('upload-drawer').classList.remove('active');
+  releaseFocus(document.getElementById('close-confirm-modal'));
+  var drawer = document.getElementById('upload-drawer');
+  drawer.classList.remove('active');
   document.getElementById('drawer-overlay').classList.remove('active');
+  releaseFocus(drawer);
   drawerOpen = false;
 }
 function doUpload() {
-  document.getElementById('upload-drawer').classList.remove('active');
+  var drawer = document.getElementById('upload-drawer');
+  drawer.classList.remove('active');
   document.getElementById('drawer-overlay').classList.remove('active');
+  releaseFocus(drawer);
   drawerOpen = false;
   showToast('2건의 소재가 업로드되었습니다. 검수가 시작됩니다.');
 }
 
 /* ── Delete Modal ── */
 function openDeleteModal() {
-  document.getElementById('delete-modal').classList.add('active');
+  var modal = document.getElementById('delete-modal');
+  modal.classList.add('active');
+  trapFocus(modal);
 }
 function closeDeleteModal() {
-  document.getElementById('delete-modal').classList.remove('active');
+  var modal = document.getElementById('delete-modal');
+  modal.classList.remove('active');
+  releaseFocus(modal);
 }
 function confirmDelete() {
   closeDeleteModal();
