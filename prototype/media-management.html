@@ -333,41 +333,43 @@ table{border-collapse:collapse;width:100%;}
         <div class="breadcrumb"><a onclick="showMediaList()">매체 관리</a><span>&rsaquo;</span><span>매체 등록</span></div>
         <div class="page-header"><h1 class="page-title">매체 등록</h1></div>
 
+        <form id="register-form" onsubmit="return handleRegister(event)">
         <div class="form-card">
           <div class="form-card-title">기본 정보</div>
           <div class="form-grid">
-            <div class="form-group"><label class="form-label">매체명 <span class="required">*</span></label><input type="text" class="form-control" placeholder="매체명을 입력하세요"></div>
-            <div class="form-group"><label class="form-label">매체 종류 <span class="required">*</span></label><select class="form-control"><option>고정형</option><option>이동형</option></select></div>
-            <div class="form-group"><label class="form-label">설치 주소 <span class="required">*</span></label><input type="text" class="form-control" placeholder="주소 검색"></div>
-            <div class="form-group"><label class="form-label">설치 형태 <span class="required">*</span></label><select class="form-control"><option>가로형</option><option>세로형</option></select></div>
+            <div class="form-group"><label class="form-label" for="reg-name">매체명 <span class="required">*</span></label><input type="text" id="reg-name" class="form-control" placeholder="매체명을 입력하세요" required></div>
+            <div class="form-group"><label class="form-label" for="reg-type">매체 종류 <span class="required">*</span></label><select id="reg-type" class="form-control" required><option>고정형</option><option>이동형</option></select></div>
+            <div class="form-group"><label class="form-label" for="reg-addr">설치 주소 <span class="required">*</span></label><input type="text" id="reg-addr" class="form-control" placeholder="주소 검색" required></div>
+            <div class="form-group"><label class="form-label" for="reg-orient">설치 형태 <span class="required">*</span></label><select id="reg-orient" class="form-control" required><option>가로형</option><option>세로형</option></select></div>
           </div>
         </div>
 
         <div class="form-card">
           <div class="form-card-title">디스플레이 설정</div>
           <div class="form-grid">
-            <div class="form-group"><label class="form-label">디스플레이 유형 <span class="required">*</span></label><select class="form-control"><option>LCD</option><option>LED</option><option>기타 (직접입력)</option></select></div>
-            <div class="form-group"><label class="form-label">화면 사이즈 <span class="required">*</span></label><input type="text" class="form-control" placeholder='예: 55"'></div>
-            <div class="form-group"><label class="form-label">해상도 <span class="required">*</span></label><select class="form-control"><option>1920×1080 (16:9)</option><option>3840×1080 (32:9)</option><option>3840×2160 (16:9)</option></select></div>
-            <div class="form-group"><label class="form-label">허용 해상도 <span class="required">*</span></label><input type="text" class="form-control" placeholder="예: 1920×1080, 1280×720" value="1920×1080"></div>
+            <div class="form-group"><label class="form-label" for="reg-display">디스플레이 유형 <span class="required">*</span></label><select id="reg-display" class="form-control" required><option>LCD</option><option>LED</option><option>기타 (직접입력)</option></select></div>
+            <div class="form-group"><label class="form-label" for="reg-size">화면 사이즈 <span class="required">*</span></label><input type="text" id="reg-size" class="form-control" placeholder='예: 55"' required></div>
+            <div class="form-group"><label class="form-label" for="reg-res">해상도 <span class="required">*</span></label><select id="reg-res" class="form-control" required><option>1920×1080 (16:9)</option><option>3840×1080 (32:9)</option><option>3840×2160 (16:9)</option></select></div>
+            <div class="form-group"><label class="form-label" for="reg-allowed">허용 해상도 <span class="required">*</span></label><input type="text" id="reg-allowed" class="form-control" placeholder="예: 1920×1080, 1280×720" value="1920×1080" required></div>
           </div>
         </div>
 
         <div class="form-card">
           <div class="form-card-title">운영 시간</div>
           <div class="form-grid">
-            <div class="form-group"><label class="form-label">운영 요일</label><select class="form-control"><option>매일</option><option>평일</option><option>주말</option><option>직접 선택</option></select></div>
-            <div class="form-group"><label class="form-label">운영 시간</label>
-              <div style="display:flex;align-items:center;gap:var(--space-2);"><input type="time" class="form-control" value="06:00"><span style="color:var(--color-text-tertiary);">~</span><input type="time" class="form-control" value="24:00"></div>
+            <div class="form-group"><label class="form-label" for="reg-days">운영 요일</label><select id="reg-days" class="form-control"><option>매일</option><option>평일</option><option>주말</option><option>직접 선택</option></select></div>
+            <div class="form-group"><label class="form-label" for="reg-time-start">운영 시간</label>
+              <div style="display:flex;align-items:center;gap:var(--space-2);"><input type="time" id="reg-time-start" class="form-control" value="06:00"><span style="color:var(--color-text-tertiary);">~</span><input type="time" id="reg-time-end" class="form-control" value="24:00"></div>
             </div>
-            <div class="form-group full-width"><label class="form-label">비고</label><input type="text" class="form-control" placeholder="비고 입력 (선택)"></div>
+            <div class="form-group full-width"><label class="form-label" for="reg-note">비고</label><input type="text" id="reg-note" class="form-control" placeholder="비고 입력 (선택)"></div>
           </div>
         </div>
 
         <div style="display:flex;gap:var(--space-3);">
-          <button class="btn-primary" onclick="showToast('매체가 등록되었습니다. 매체 식별 코드: MED-2026-007')">등록</button>
-          <button class="btn-secondary" onclick="showMediaList()">취소</button>
+          <button type="submit" class="btn-primary">등록</button>
+          <button type="button" class="btn-secondary" onclick="showMediaList()">취소</button>
         </div>
+        </form>
       </div>
 
       <!-- ===== S-08: 매체 상세 (강남역 1번출구) ===== -->
@@ -532,6 +534,8 @@ function switchDetailTab(tab){
 function openDeactivateModal(){var m=document.getElementById('deactivate-modal');m.classList.add('active');trapFocus(m);}
 function closeDeactivateModal(){var m=document.getElementById('deactivate-modal');m.classList.remove('active');releaseFocus(m);}
 function confirmDeactivate(){closeDeactivateModal();showToast('매체가 비활성화되었습니다. 편성표 2건이 일시정지됩니다.');}
+
+function handleRegister(e){e.preventDefault();showToast('매체가 등록되었습니다. 매체 식별 코드: MED-2026-007');setTimeout(showMediaList,600);return false;}
 
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('active');setTimeout(function(){t.classList.remove('active');},2500);}
 </script>
