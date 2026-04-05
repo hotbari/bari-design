@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOOH CMS — 유동인구 데이터 연결</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+.badge-connected{background:var(--color-status-success-bg);color:var(--color-status-success);}
+.badge-disconnected{background:var(--color-status-error-bg);color:var(--color-status-error);}
+.input-row{display:flex;gap:var(--space-2);align-items:center;}
+.input-row .form-control{flex:1;}
+.sync-info{font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:var(--space-4);text-align:right;}
+</style>
+</head>
+<body>
+
+<div class="app">
+<a href="#main-content" class="skip-to-content">본문으로 건너뛰기</a>
+  <header class="gnb">
+    <div class="gnb-brand">DOOH CMS <span>|</span> <span style="font-weight:500;color:var(--color-text-secondary);font-size:var(--text-sm);">시티미디어</span></div>
+    <div class="gnb-actions">
+      <button class="gnb-icon" title="알림" aria-label="알림"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+      <div class="gnb-avatar">최</div>
+    </div>
+  </header>
+
+  <div class="layout-body">
+    <nav class="sidebar">
+      <button class="sidebar-item" aria-label="대시보드"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="sidebar-tooltip">대시보드</span></button>
+      <button class="sidebar-item" aria-label="소재 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m22 8-6 4 6 4V8Z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><span class="sidebar-tooltip">소재 관리</span></button>
+      <button class="sidebar-item" aria-label="편성 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="sidebar-tooltip">편성 관리</span></button>
+      <button class="sidebar-item active" aria-label="매체 관리" aria-current="page"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="sidebar-tooltip">매체 관리</span></button>
+      <button class="sidebar-item" aria-label="캠페인"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span class="sidebar-tooltip">캠페인</span></button>
+      <button class="sidebar-item" aria-label="리포트"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="sidebar-tooltip">리포트</span></button>
+    </nav>
+
+    <main class="main" id="main-content">
+
+      <div class="page-header">
+        <h1 class="page-title">유동인구 데이터 연결</h1>
+        <span class="badge badge-connected">관리자 전용</span>
+      </div>
+
+      <!-- Data Source -->
+      <div class="form-card">
+        <h2 class="form-card-title">데이터 소스</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">제공사 <span class="required">*</span></label>
+            <select class="form-control" id="provider">
+              <option value="skt">SKT</option>
+              <option value="kt">KT</option>
+              <option value="custom">직접입력</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">연결 상태</label>
+            <div><span class="badge badge-connected" id="connStatus">연결됨</span></div>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">API Endpoint <span class="required">*</span></label>
+            <input type="url" class="form-control" id="apiEndpoint" value="https://api.skt.ai/foottraffic/v2">
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">인증 키 <span class="required">*</span></label>
+            <div class="input-row">
+              <input type="password" class="form-control" id="authKey" value="ft-key-xxxx-xxxx">
+              <button class="btn-secondary" onclick="testConnection()">연결 테스트</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Media Mapping -->
+      <div class="form-card">
+        <h2 class="form-card-title">매체 매핑</h2>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>매체명</th>
+                <th>데이터 포인트 ID</th>
+                <th>최종 수신</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr tabindex="0">
+                <td class="cell-name">강남역 1번출구</td>
+                <td class="cell-meta">FT-GN-001</td>
+                <td class="cell-meta">2026.04.05 14:00</td>
+              </tr>
+              <tr tabindex="0">
+                <td class="cell-name">홍대입구 메인</td>
+                <td class="cell-meta">FT-HD-002</td>
+                <td class="cell-meta">2026.04.05 14:00</td>
+              </tr>
+              <tr tabindex="0">
+                <td class="cell-name">종로3가 센트럴</td>
+                <td class="cell-meta">FT-JR-003</td>
+                <td class="cell-meta">2026.04.05 13:30</td>
+              </tr>
+              <tr tabindex="0">
+                <td class="cell-name">여의도 IFC</td>
+                <td class="cell-meta">FT-YD-004</td>
+                <td class="cell-meta">2026.04.05 14:00</td>
+              </tr>
+              <tr tabindex="0">
+                <td class="cell-name">서초 교대역</td>
+                <td class="cell-meta">FT-SC-005</td>
+                <td class="cell-meta">2026.04.05 13:00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sync-info">최종 동기화: 2026.04.05 14:05:32</div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+function testConnection() {
+  showToast('연결 테스트 중...');
+  setTimeout(() => showToast('연결 테스트 성공'), 1500);
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('active');
+  setTimeout(() => t.classList.remove('active'), 2500);
+}
+</script>
+</body>
+</html>
