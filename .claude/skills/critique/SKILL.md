@@ -1,6 +1,6 @@
 ---
 name: critique
-description: "Evaluate design from a UX perspective, assessing visual hierarchy, information architecture, emotional resonance, cognitive load, and overall quality with quantitative scoring, persona-based testing, and actionable feedback. Use when the user asks to review, critique, evaluate, or give feedback on a design or component."
+description: "설계 단계(코드/구현 전) 디자인 평가 — 명세·목업·스크린샷 기반으로 시각적 위계, 정보 구조, 감정 반응, 인지 부하, 전반적 품질을 정량 평가한다. Nielsen 휴리스틱 점수, 페르소나 테스트, 실행 가능한 피드백 제공. 구현된 라이브 UI 평가는 /design-review를 사용할 것."
 argument-hint: "[area (feature, page, component...)]"
 user-invocable: true
 ---

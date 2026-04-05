@@ -117,6 +117,16 @@ Anti-reference: [안티 레퍼런스]
 
 > **Hex fallback**: OKLCH를 지원하지 않는 도구를 위해 근사 Hex도 함께 제공한다.
 
+### Step 6: 다음 단계 안내
+
+팔레트 저장 후 사용자에게 안내:
+
+```
+색 취향 초안이 .impeccable.md에 저장되었습니다.
+풀 컬러 시스템(톤 스케일, 시맨틱 매핑, 접근성, 다크모드)을 구축하려면
+`/color-palette` 를 실행하세요. 저장된 Color Palette 섹션을 seed로 사용합니다.
+```
+
 ## Common Mistakes
 
 | 실수 | 결과 | 수정 |

@@ -15,6 +15,7 @@ UX 전략 스킬 허브.
 | `/frame-problem` | 문제 정의 — 제약조건, 판단 기준 구조화 |
 | `/benchmark` | 경쟁 분석 및 벤치마킹 |
 | `/strategize` | 전략 수립 및 기회 우선순위화 |
+| `/map-ia` | 정보 아키텍처 — 화면 인벤토리, 접근 매트릭스, 네비게이션, 플로우 |
 
 ## Sub-Skills
 
@@ -24,6 +25,7 @@ UX 전략 스킬 허브.
 | design-brief | 문제 진술 및 브리프 |
 | design-principles | 의사결정 원칙 |
 | experience-map | 사용자 경험 맵 |
+| information-architecture | 정보 아키텍처 — 화면 구조, 네비게이션, 사이트맵 |
 | metrics-definition | 성공 지표·KPI 정의 |
 | north-star-vision | 장기 비전 |
 | opportunity-framework | 문제 우선순위화 |

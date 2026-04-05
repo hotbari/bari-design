@@ -1,6 +1,6 @@
 ---
 name: design-review
-description: "Full design review harness: Playwright screenshot → AI Slop detection → Nielsen/Audit scoring → report → code fixes → polish. Use when the user wants a complete design quality evaluation and improvement cycle, or says '/design-review'."
+description: "구현 단계(코드 후, 라이브 UI) 디자인 평가 — Playwright 스크린샷 기반으로 AI Slop 탐지, Nielsen 휴리스틱/Audit 채점, 리포트 생성, 코드 수정, polish까지 완전한 품질 개선 사이클. 설계 단계(명세·목업) 평가는 /critique를 사용할 것."
 argument-hint: "[url (default: localhost:3000)] [area (optional: component or section name)]"
 user-invocable: true
 ---
