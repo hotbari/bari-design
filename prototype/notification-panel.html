@@ -109,7 +109,7 @@
   <div class="notif-list" role="list" aria-live="polite">
     <!-- Grouped notification -->
     <div class="notif-group" role="listitem">
-      <div class="notif-group-header" onclick="showToast('그룹 상세: 홍대입구 A 오프라인')">
+      <div class="notif-group-header" aria-expanded="false" onclick="showToast('그룹 상세: 홍대입구 A 오프라인')">
         <div class="notif-group-title">매체 오프라인 — 1건</div>
         <span class="notif-group-expand">펼치기 ▾</span>
       </div>
@@ -237,11 +237,19 @@ function markAllRead(){
   document.querySelector('.notif-panel-title').innerHTML='알림';
   showToast('모든 알림을 읽음 처리했습니다.');
 }
-function filterTab(el, type){
+function filterTab(btn, category){
   document.querySelectorAll('.notif-tab').forEach(function(t){t.classList.remove('active');t.setAttribute('aria-selected','false');});
-  el.classList.add('active');
-  el.setAttribute('aria-selected','true');
-  showToast(type === 'all' ? '전체 알림 표시' : type + ' 우선순위 필터 적용');
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected','true');
+  document.querySelectorAll('.notif-item').forEach(function(item){
+    var dot = item.querySelector('.notif-dot');
+    if (!dot) return;
+    if (category === 'all') { item.style.display = ''; return; }
+    item.style.display = dot.classList.contains(category) ? '' : 'none';
+  });
+  document.querySelectorAll('.notif-group').forEach(function(g){
+    g.style.display = (category === 'all' || category === 'urgent') ? '' : 'none';
+  });
 }
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('active');setTimeout(function(){t.classList.remove('active');},2500);}
 </script>
