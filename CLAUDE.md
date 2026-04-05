@@ -57,6 +57,11 @@
 - 시나리오 파일 수정 시 MANIFEST.md의 해당 도메인 `[x]`는 hook이 자동으로 `[ ]`로 해제 (재검증 필요)
 - 사용자 확인 없이 writing-plans에 직접 진입 금지
 
+## Output Rules
+- 모든 생성 산출물(리포트, 스크린샷, 평가 결과)은 output/ 디렉토리에 저장
+- 폴더 구조: output/yyyy-mm-dd-{산출물명}/
+- 프로젝트 루트에 산출물 파일을 직접 생성하지 않는다
+
 ## Research Outputs
 - 리서치 산출물은 `docs/research/` 하위에 저장
 - 페르소나: `docs/research/personas/{product}_{role}_{name}.md`

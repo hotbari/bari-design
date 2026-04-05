@@ -42,22 +42,23 @@ Dispatch the `design-evaluator` subagent with the following context:
 ```
 Target URL: [url from $ARGUMENTS, default: http://localhost:3000]
 Area: [area from $ARGUMENTS, default: "full page"]
-Task: Run the complete evaluation protocol and write design-eval-report.md
+Output directory: output/{date}-design-eval-{target}/
+Task: Run the complete evaluation protocol and write report.md to the output directory
 ```
 
 The subagent will:
-- Take Playwright screenshots
+- Take Playwright screenshots into `output/{date}-design-eval-{target}/`
 - Read CSS, component files, design tokens via Glob/Grep/Read
 - Run the AI Slop 4-item checklist
 - Score Nielsen heuristics (0–4 × 10 = /40)
 - Score Audit 5 dimensions (0–4 × 5 = /20)
-- Write `design-eval-report.md` to the project root
+- Write `report.md` to the output directory
 
 Wait for the subagent to complete before proceeding.
 
 ### 3. Read Report
 
-Read `design-eval-report.md` from the project root.
+Read `output/{date}-design-eval-{target}/report.md`.
 
 ### 4. Present Core Findings
 
@@ -129,3 +130,5 @@ If yes, dispatch `design-evaluator` again with the same URL and compare:
 - `.claude/bari-skills/frontend-design-impeccable/reference/` — color, typography, spacing, interaction reference docs
 - `.claude/bari-skills/critique/reference/heuristics-scoring.md` — Nielsen scoring rubric details
 - `.claude/bari-skills/audit/SKILL.md` — Audit dimension scoring criteria
+
+> 사용자 관점 플로우 검증: `/cognitive-walkthrough`

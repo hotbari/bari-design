@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOOH CMS — 매체사 관리</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+.badge-company{background:var(--color-primary-50);color:var(--color-primary-700);}
+</style>
+</head>
+<body>
+
+<div class="app">
+<a href="#main-content" class="skip-to-content">본문으로 건너뛰기</a>
+  <header class="gnb">
+    <div class="gnb-brand">DOOH CMS <span>|</span> <span style="font-weight:500;color:var(--color-text-secondary);font-size:var(--text-sm);">시티미디어</span></div>
+    <div class="gnb-actions">
+      <button class="gnb-icon" title="알림" aria-label="알림"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+      <div class="gnb-avatar">최</div>
+    </div>
+  </header>
+
+  <div class="layout-body">
+    <nav class="sidebar">
+      <button class="sidebar-item" aria-label="대시보드"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="sidebar-tooltip">대시보드</span></button>
+      <button class="sidebar-item" aria-label="소재 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m22 8-6 4 6 4V8Z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><span class="sidebar-tooltip">소재 관리</span></button>
+      <button class="sidebar-item" aria-label="편성 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="sidebar-tooltip">편성 관리</span></button>
+      <button class="sidebar-item active" aria-label="매체 관리" aria-current="page"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="sidebar-tooltip">매체 관리</span></button>
+      <button class="sidebar-item" aria-label="캠페인"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span class="sidebar-tooltip">캠페인</span></button>
+      <button class="sidebar-item" aria-label="리포트"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="sidebar-tooltip">리포트</span></button>
+    </nav>
+
+    <main class="main" id="main-content">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">매체사 관리</h1>
+        <button class="btn-primary" onclick="openDrawer()">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          매체사 등록
+        </button>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-count">전체 <strong>3</strong>건</div>
+      </div>
+
+      <!-- Data Table -->
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">매체사명</th>
+              <th scope="col">사업자등록번호</th>
+              <th scope="col">대표자</th>
+              <th scope="col">소속 매체 수</th>
+              <th scope="col">등록일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr tabindex="0" role="link" aria-label="시티미디어 상세 보기" onclick="openDrawer('시티미디어')">
+              <td class="cell-name">시티미디어 <span class="badge badge-company">운영사</span></td>
+              <td class="cell-meta">123-45-67890</td>
+              <td>김대표</td>
+              <td class="cell-meta">5</td>
+              <td class="cell-meta">2025.12.01</td>
+            </tr>
+            <tr tabindex="0" role="link" aria-label="그린애드 상세 보기" onclick="openDrawer('그린애드')">
+              <td class="cell-name">그린애드</td>
+              <td class="cell-meta">234-56-78901</td>
+              <td>이대표</td>
+              <td class="cell-meta">2</td>
+              <td class="cell-meta">2026.01.15</td>
+            </tr>
+            <tr tabindex="0" role="link" aria-label="스카이미디어 상세 보기" onclick="openDrawer('스카이미디어')">
+              <td class="cell-name">스카이미디어</td>
+              <td class="cell-meta">345-67-89012</td>
+              <td>박대표</td>
+              <td class="cell-meta">1</td>
+              <td class="cell-meta">2026.03.01</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Drawer -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="매체사 등록">
+  <div class="drawer-header">
+    <h2 class="drawer-title" id="drawerTitle">매체사 등록</h2>
+    <button class="drawer-close" onclick="closeDrawer()" aria-label="닫기"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="drawer-body">
+    <div class="form-grid">
+      <div class="form-group full-width">
+        <label class="form-label" for="companyName">매체사명 <span class="required">*</span></label>
+        <input type="text" class="form-control" id="companyName" placeholder="매체사명 입력" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="bizNumber">사업자등록번호 <span class="required">*</span></label>
+        <input type="text" class="form-control" id="bizNumber" placeholder="000-00-00000" pattern="\d{3}-\d{2}-\d{5}" maxlength="12" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="ceoName">대표자명 <span class="required">*</span></label>
+        <input type="text" class="form-control" id="ceoName" placeholder="대표자명 입력" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="phone">연락처</label>
+        <input type="tel" class="form-control" id="phone" placeholder="02-0000-0000">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="address">주소</label>
+        <input type="text" class="form-control" id="address" placeholder="주소 입력">
+      </div>
+    </div>
+  </div>
+  <div class="drawer-footer">
+    <button class="btn-secondary" onclick="closeDrawer()">취소</button>
+    <button class="btn-primary" onclick="saveCompany()">저장</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var d=document.getElementById('drawer');if(d.classList.contains('active'))closeDrawer();}});
+function openDrawer(name) {
+  document.getElementById('drawerTitle').textContent = name ? '매체사 수정' : '매체사 등록';
+  if (name) document.getElementById('companyName').value = name;
+  document.getElementById('drawer').classList.add('active');
+  document.getElementById('drawerOverlay').classList.add('active');
+  document.getElementById('companyName').focus();
+}
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('active');
+  document.getElementById('drawerOverlay').classList.remove('active');
+}
+function saveCompany() {
+  var name = document.getElementById('companyName');
+  var biz = document.getElementById('bizNumber');
+  var ceo = document.getElementById('ceoName');
+  if (!name.value || !biz.value || !ceo.value) {
+    showToast('필수 항목을 입력해주세요.');
+    return;
+  }
+  var tbody = document.querySelector('.data-table tbody');
+  var count = tbody.querySelectorAll('tr').length + 1;
+  var tr = document.createElement('tr');
+  tr.setAttribute('tabindex', '0');
+  tr.onclick = function(){ openDrawer(name.value); };
+  tr.style.background = 'var(--color-status-success-bg)';
+  setTimeout(function(){ tr.style.background = ''; }, 2000);
+  tr.innerHTML = '<td class="cell-name">' + name.value + '</td><td class="cell-meta">' + biz.value + '</td><td>' + ceo.value + '</td><td class="cell-meta">0</td><td class="cell-meta">2026.04.06</td>';
+  tbody.appendChild(tr);
+  document.querySelector('.toolbar-count strong').textContent = count;
+  closeDrawer();
+  showToast(name.value + ' 매체사가 등록되었습니다.');
+  name.value = ''; biz.value = ''; ceo.value = '';
+  document.getElementById('phone').value = '';
+  document.getElementById('address').value = '';
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('active');
+  setTimeout(() => t.classList.remove('active'), 2500);
+}
+// Biz number auto-format
+document.getElementById('bizNumber').addEventListener('input', function(e) {
+  let v = e.target.value.replace(/[^0-9]/g, '');
+  if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+  if (v.length > 6) v = v.slice(0,6) + '-' + v.slice(6);
+  e.target.value = v.slice(0, 12);
+});
+</script>
+</body>
+</html>

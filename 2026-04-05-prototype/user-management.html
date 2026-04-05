@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOOH CMS — 사용자 관리</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Badge variants — page-specific */
+.badge-active { background: var(--color-status-success-bg); color: var(--color-status-success); }
+.badge-inactive { background: var(--color-neutral-200); color: var(--color-neutral-600); }
+.badge-sent { background: var(--color-info-50); color: var(--color-info-500); }
+.badge-expired { background: var(--color-status-error-bg); color: var(--color-status-error); }
+.badge-admin { background: var(--color-primary-100); color: var(--color-primary-700); }
+.badge-media { background: var(--color-info-50); color: var(--color-info-500); }
+.badge-ops { background: var(--color-status-warning-bg); color: var(--color-warning-600); }
+.badge-sales { background: var(--color-neutral-200); color: var(--color-neutral-600); }
+
+/* User avatar */
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Drawer form-group override */
+.drawer-body .form-group {
+  margin-bottom: var(--space-4);
+}
+</style>
+</head>
+<body>
+<div class="app">
+<a href="#main-content" class="skip-to-content">본문으로 건너뛰기</a>
+  <header class="gnb"><div class="gnb-brand">DOOH CMS <span>|</span> <span style="font-weight:500;color:var(--color-text-secondary);font-size:var(--text-sm);">시티미디어</span></div><div class="gnb-actions"><button class="gnb-icon" aria-label="알림"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button><div class="gnb-avatar">최</div></div></header>
+  <div class="layout-body">
+    <nav class="sidebar">
+      <button class="sidebar-item" aria-label="대시보드"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="sidebar-tooltip">대시보드</span></button>
+      <button class="sidebar-item" aria-label="소재 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m22 8-6 4 6 4V8Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><span class="sidebar-tooltip">소재 관리</span></button>
+      <button class="sidebar-item" aria-label="편성 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="sidebar-tooltip">편성 관리</span></button>
+      <button class="sidebar-item" aria-label="매체 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="sidebar-tooltip">매체 관리</span></button>
+      <button class="sidebar-item" aria-label="캠페인"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span class="sidebar-tooltip">캠페인</span></button>
+      <button class="sidebar-item active" aria-label="설정" aria-current="page"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="sidebar-tooltip">설정</span></button>
+    </nav>
+    <main class="main" id="main-content">
+      <!-- S-03: 사용자 목록 -->
+      <div id="view-users" class="view active">
+        <div class="tab-nav">
+          <button class="tab-nav-item active" onclick="switchTab('users')">사용자 목록</button>
+          <button class="tab-nav-item" onclick="switchTab('invites')">초대 관리</button>
+        </div>
+        <div class="page-header"><h1 class="page-title">사용자 관리</h1><button class="btn-primary" onclick="openInviteDrawer()"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 사용자 초대</button></div>
+        <div style="display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;padding:var(--space-3) var(--space-4);background:var(--color-bg-elevated);border:1px solid var(--color-border-default);border-radius:var(--radius-lg);margin-bottom:var(--space-4);">
+          <select style="padding:var(--space-2) var(--space-8) var(--space-2) var(--space-3);border:1px solid var(--color-border-default);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-text-secondary);background:var(--color-bg-elevated);min-width:120px;appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 10px center;" aria-label="역할 필터"><option value="">역할</option><option>어드민</option><option>매체사</option><option>운영대행사</option><option>영업대행사</option></select>
+          <select style="padding:var(--space-2) var(--space-8) var(--space-2) var(--space-3);border:1px solid var(--color-border-default);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-text-secondary);background:var(--color-bg-elevated);min-width:120px;appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 10px center;" aria-label="상태 필터"><option value="">상태</option><option>활성</option><option>비활성</option></select>
+          <input type="text" placeholder="이름, 이메일 검색..." aria-label="사용자 검색" style="padding:var(--space-2) var(--space-3);border:1px solid var(--color-border-default);border-radius:var(--radius-md);font-size:var(--text-sm);min-width:200px;">
+        </div>
+        <div class="toolbar"><span class="toolbar-count">전체 <strong>7명</strong></span></div>
+        <div class="data-table-wrap"><table class="data-table"><thead><tr><th scope="col">사용자</th><th scope="col">이메일</th><th scope="col">역할</th><th scope="col">소속 매체사</th><th scope="col">상태</th><th scope="col">가입일</th></tr></thead><tbody>
+          <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-primary-100);color:var(--color-primary-700);">최</div> 최관리</div></td><td class="cell-sub">admin@dooh.kr</td><td><span class="badge badge-admin">어드민</span></td><td class="cell-meta">—</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.01.15</td></tr>
+          <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-info-50);color:var(--color-info-500);">김</div> 김서영</div></td><td class="cell-sub">seo@citymedia.kr</td><td><span class="badge badge-media">매체사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.02.01</td></tr>
+          <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-status-warning-bg);color:var(--color-warning-600);">이</div> 이준혁</div></td><td class="cell-sub">jun@opsagency.kr</td><td><span class="badge badge-ops">운영대행사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.02.10</td></tr>
+          <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-neutral-200);color:var(--color-neutral-600);">최</div> 최유진</div></td><td class="cell-sub">yujin@salesagency.kr</td><td><span class="badge badge-sales">영업대행사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.03.05</td></tr>
+          <tr><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-info-50);color:var(--color-info-500);">박</div> 박진수</div></td><td class="cell-sub">jinsu@citymedia.kr</td><td><span class="badge badge-media">매체사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-active">활성</span></td><td class="cell-meta">2026.03.10</td></tr>
+          <tr style="opacity:0.5" aria-disabled="true"><td class="cell-name"><div style="display:flex;align-items:center;gap:var(--space-2);"><div class="user-avatar" style="background:var(--color-neutral-200);color:var(--color-neutral-400);">정</div> 정민수</div></td><td class="cell-sub">min@opsagency.kr</td><td><span class="badge badge-ops">운영대행사</span></td><td class="cell-meta">시티미디어</td><td><span class="badge badge-inactive">비활성</span></td><td class="cell-meta">2026.02.15</td></tr>
+        </tbody></table></div>
+      </div>
+
+      <!-- S-04: 초대 관리 -->
+      <div id="view-invites" class="view">
+        <div class="tab-nav">
+          <button class="tab-nav-item" onclick="switchTab('users')">사용자 목록</button>
+          <button class="tab-nav-item active" onclick="switchTab('invites')">초대 관리</button>
+        </div>
+        <div class="page-header"><h1 class="page-title">초대 관리</h1><button class="btn-primary" onclick="openInviteDrawer()"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 새 초대</button></div>
+        <div class="toolbar"><span class="toolbar-count">전체 <strong>3건</strong></span></div>
+        <div class="data-table-wrap"><table class="data-table"><thead><tr><th scope="col">이메일</th><th scope="col">역할</th><th scope="col">초대 상태</th><th scope="col">발송일</th><th scope="col">만료일</th></tr></thead><tbody>
+          <tr><td class="cell-name">newuser@agency.kr</td><td><span class="badge badge-ops">운영대행사</span></td><td><span class="badge badge-sent">발송됨</span></td><td class="cell-meta">04.04</td><td class="cell-meta">04.11</td></tr>
+          <tr><td class="cell-name">designer@ad.kr</td><td><span class="badge badge-sales">영업대행사</span></td><td><span class="badge badge-active">가입완료</span></td><td class="cell-meta">04.01</td><td class="cell-meta">—</td></tr>
+          <tr><td class="cell-name">old@test.kr</td><td><span class="badge badge-media">매체사</span></td><td><span class="badge badge-expired">만료</span></td><td class="cell-meta">03.20</td><td class="cell-meta">03.27</td></tr>
+        </tbody></table></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Invite Drawer -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeInviteDrawer()"></div>
+<div class="drawer" id="invite-drawer" role="dialog" aria-label="사용자 초대">
+  <div class="drawer-header"><div class="drawer-title">사용자 초대</div><button class="drawer-close" onclick="closeInviteDrawer()" aria-label="닫기"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="drawer-body">
+    <form id="invite-form" onsubmit="return handleInvite(event)">
+    <div class="form-group"><label class="form-label" for="inv-email">이메일 <span class="required">*</span></label><input type="email" id="inv-email" class="form-control" placeholder="name@company.kr" required onblur="validateEmail(this)"></div>
+    <div class="form-group"><label class="form-label" for="inv-role">역할 <span class="required">*</span></label><select id="inv-role" class="form-control" required><option value="">역할 선택</option><option>매체사</option><option>운영대행사</option><option>영업대행사</option></select></div>
+    <div class="form-group"><label class="form-label" for="inv-company">소속 매체사 <span class="required">*</span></label><select id="inv-company" class="form-control" required><option value="">매체사 선택</option><option selected>시티미디어</option></select></div>
+    <div class="form-group"><label class="form-label" for="inv-scope">권한 범위</label><select id="inv-scope" class="form-control"><option>전체 매체</option><option>강남역 1번출구</option><option>종로 전광판</option><option>홍대입구 A</option></select><div class="form-hint">운영대행사: 접근 가능 매체 선택 · 영업대행사: 소재 접근 범위</div></div>
+    </form>
+  </div>
+  <div class="drawer-footer"><button class="btn-secondary" onclick="closeInviteDrawer()">취소</button><button class="btn-primary" onclick="handleInvite(event)">초대장 발송</button></div>
+</div>
+
+<!-- Deactivate Modal -->
+<div class="modal-overlay" id="deactivate-modal"><div class="modal" role="alertdialog" aria-label="사용자 비활성화 확인"><div class="modal-title">사용자 비활성화</div><div class="modal-body">이 사용자를 비활성화하시겠습니까?<br>비활성화된 사용자는 즉시 로그아웃되며 이후 로그인이 불가합니다.</div><div class="modal-actions"><button class="btn-secondary" onclick="closeDeactivateModal()">취소</button><button class="btn-destructive" onclick="confirmDeactivate()">비활성화</button></div></div></div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+var _lf=null;function trapFocus(c){_lf=document.activeElement;var f=c.querySelectorAll('button,[href],input:not([disabled]),select,[tabindex]:not([tabindex="-1"])');if(!f.length)return;f[0].focus();c._ft=function(e){if(e.key!=='Tab')return;var first=f[0],last=f[f.length-1];if(e.shiftKey){if(document.activeElement===first){e.preventDefault();last.focus();}}else{if(document.activeElement===last){e.preventDefault();first.focus();}}};c.addEventListener('keydown',c._ft);}
+function releaseFocus(c){if(c._ft){c.removeEventListener('keydown',c._ft);delete c._ft;}if(_lf){_lf.focus();_lf=null;}}
+document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var m=document.getElementById('deactivate-modal');if(m.classList.contains('active')){closeDeactivateModal();return;}if(document.getElementById('invite-drawer').classList.contains('active')){closeInviteDrawer();}});
+function switchTab(tab){document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});if(tab==='users')document.getElementById('view-users').classList.add('active');else document.getElementById('view-invites').classList.add('active');window.scrollTo(0,0);}
+function openInviteDrawer(){document.getElementById('invite-drawer').classList.add('active');document.getElementById('drawer-overlay').classList.add('active');trapFocus(document.getElementById('invite-drawer'));}
+function closeInviteDrawer(){document.getElementById('invite-drawer').classList.remove('active');document.getElementById('drawer-overlay').classList.remove('active');releaseFocus(document.getElementById('invite-drawer'));}
+function handleInvite(e){if(e)e.preventDefault();closeInviteDrawer();showToast('초대장이 발송되었습니다.');return false;}
+function openDeactivateModal(){var m=document.getElementById('deactivate-modal');m.classList.add('active');trapFocus(m);}
+function closeDeactivateModal(){var m=document.getElementById('deactivate-modal');m.classList.remove('active');releaseFocus(m);}
+function confirmDeactivate(){closeDeactivateModal();showToast('사용자가 비활성화되었습니다.');}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('active');setTimeout(function(){t.classList.remove('active');},2500);}
+function validateEmail(input) {
+  var error = input.parentElement.querySelector('.form-error');
+  if (!input.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    input.style.borderColor = 'var(--color-status-error)';
+    if (!error) {
+      var hint = document.createElement('div');
+      hint.className = 'form-hint form-error';
+      hint.style.color = 'var(--color-status-error)';
+      hint.textContent = '유효한 이메일 주소를 입력하세요.';
+      input.parentElement.appendChild(hint);
+    }
+  } else {
+    input.style.borderColor = '';
+    if (error) error.remove();
+  }
+}
+</script>
+</body>
+</html>

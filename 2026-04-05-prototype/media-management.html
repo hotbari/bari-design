@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOOH CMS — 매체 관리</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Badge variants */
+.badge-online{background:var(--color-status-success-bg);color:var(--color-status-success);}
+.badge-offline{background:var(--color-status-error-bg);color:var(--color-status-error);}
+.badge-active{background:var(--color-status-success-bg);color:var(--color-status-success);}
+.badge-inactive{background:var(--color-status-warning-bg);color:var(--color-warning-600);}
+.badge-unlinked{background:var(--color-neutral-200);color:var(--color-neutral-600);}
+.badge-archived{background:var(--color-neutral-200);color:var(--color-neutral-400);}
+.badge-lcd{background:var(--color-info-50);color:var(--color-info-500);}
+.badge-led{background:var(--color-warning-50);color:var(--color-warning-600);}
+
+/* Health dot */
+.health-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.health-dot.online{background:var(--color-status-success);}
+.health-dot.offline{background:var(--color-status-error);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+/* Monitor card */
+.monitor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4);margin-bottom:var(--space-5);}
+.monitor-card{background:var(--color-bg-elevated);border:1px solid var(--color-border-default);border-radius:var(--radius-md);padding:var(--space-4);text-align:center;}
+.monitor-card-label{font-size:var(--text-xs);color:var(--color-text-secondary);margin-bottom:var(--space-2);}
+.monitor-card-value{font-size:var(--text-lg);font-weight:700;}
+.monitor-card-value.ok{color:var(--color-status-success);}
+.monitor-card-value.warn{color:var(--color-status-warning);}
+.monitor-card-value.error{color:var(--color-status-error);}
+
+/* Temp bar */
+.temp-bar{height:6px;background:var(--color-neutral-200);border-radius:3px;margin-top:var(--space-2);overflow:hidden;}
+.temp-bar-fill{height:100%;border-radius:3px;transition:width var(--transition-normal);}
+.temp-bar-fill.ok{background:var(--color-status-success);}
+.temp-bar-fill.warn{background:var(--color-status-warning);}
+
+/* Device link section */
+.device-link-card{background:var(--color-bg-elevated);border:1px solid var(--color-border-default);border-radius:var(--radius-lg);padding:var(--space-6);margin-bottom:var(--space-5);}
+.device-status{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-4);background:var(--color-status-success-bg);border-radius:var(--radius-md);margin-bottom:var(--space-5);}
+.device-status.unlinked{background:var(--color-neutral-100);}
+
+/* Info banner */
+.info-banner{padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);background:var(--color-info-50);border:1px solid oklch(0.90 0.03 240);font-size:var(--text-sm);color:var(--color-info-500);font-weight:500;margin-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-2);}
+
+/* Detail grid (media-specific: 2-column) */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
+
+/* Lock badge */
+.lock-badge{display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);font-size:var(--text-xs);font-weight:600;background:var(--color-primary-50);color:var(--color-primary-700);}
+</style>
+</head>
+<body>
+
+<div class="app">
+<a href="#main-content" class="skip-to-content">본문으로 건너뛰기</a>
+  <header class="gnb">
+    <div class="gnb-brand">DOOH CMS <span>|</span> <span style="font-weight:500;color:var(--color-text-secondary);font-size:var(--text-sm);">시티미디어</span></div>
+    <div class="gnb-actions">
+      <button class="gnb-icon" title="알림" aria-label="알림"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+      <div class="gnb-avatar">최</div>
+    </div>
+  </header>
+
+  <div class="layout-body">
+    <nav class="sidebar">
+      <button class="sidebar-item" aria-label="대시보드"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="sidebar-tooltip">대시보드</span></button>
+      <button class="sidebar-item" aria-label="소재 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m22 8-6 4 6 4V8Z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><span class="sidebar-tooltip">소재 관리</span></button>
+      <button class="sidebar-item" aria-label="편성 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="sidebar-tooltip">편성 관리</span></button>
+      <button class="sidebar-item active" aria-label="매체 관리" aria-current="page"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="sidebar-tooltip">매체 관리</span></button>
+      <button class="sidebar-item" aria-label="캠페인"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span class="sidebar-tooltip">캠페인</span></button>
+      <button class="sidebar-item" aria-label="리포트"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="sidebar-tooltip">리포트</span></button>
+    </nav>
+
+    <main class="main" id="main-content">
+
+      <!-- ===== S-06: 매체 목록 ===== -->
+      <div id="view-media-list" class="view active">
+        <div class="summary-widget">
+          <div class="summary-card"><div class="summary-card-label">연동됨 (활성)</div><div class="summary-card-value">3</div></div>
+          <div class="summary-card"><div class="summary-card-label">연동됨 (비활성)</div><div class="summary-card-value" style="color:var(--color-status-warning);">1</div></div>
+          <div class="summary-card"><div class="summary-card-label">미연동</div><div class="summary-card-value" style="color:var(--color-text-tertiary);">1</div></div>
+          <div class="summary-card"><div class="summary-card-label">오프라인</div><div class="summary-card-value" style="color:var(--color-status-error);">1</div></div>
+        </div>
+
+        <div class="page-header">
+          <h1 class="page-title">매체 관리</h1>
+          <button class="btn-primary" onclick="showMediaRegister()">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            매체 등록
+          </button>
+        </div>
+
+        <div class="filter-bar">
+          <select class="filter-select" aria-label="매체 상태 필터"><option value="">매체 상태</option><option>연동됨(활성)</option><option>연동됨(비활성)</option><option>미연동</option><option>보관됨</option></select>
+          <select class="filter-select" aria-label="연결 상태 필터"><option value="">연결 상태</option><option>온라인</option><option>오프라인</option></select>
+          <select class="filter-select" aria-label="디스플레이 유형 필터"><option value="">디스플레이</option><option>LCD</option><option>LED</option></select>
+          <input type="text" class="filter-input" placeholder="매체명 검색..." aria-label="매체명 검색">
+        </div>
+
+        <div class="toolbar"><span class="toolbar-count">전체 <strong>6건</strong></span></div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th scope="col">매체명</th><th scope="col">설치 위치</th><th scope="col">디스플레이</th><th scope="col">해상도</th><th scope="col">운영 시간</th><th scope="col">연결</th><th scope="col">매체 상태</th></tr></thead>
+            <tbody>
+              <tr tabindex="0" role="link" aria-label="강남역 1번출구 상세 보기" onclick="showMediaDetail('gangnam')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMediaDetail('gangnam')}">
+                <td class="cell-name"><span class="health-dot online"></span> 강남역 1번출구</td>
+                <td class="cell-sub">서울 강남구 강남대로 396</td>
+                <td><span class="badge badge-lcd">LCD</span></td>
+                <td class="cell-meta">1920×1080</td>
+                <td class="cell-meta">06:00 ~ 24:00</td>
+                <td><span class="badge badge-online">온라인</span></td>
+                <td><span class="badge badge-active">연동됨(활성)</span></td>
+              </tr>
+              <tr tabindex="0" role="link" aria-label="종로 전광판 상세 보기" onclick="showMediaDetail('jongro')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMediaDetail('jongro')}">
+                <td class="cell-name"><span class="health-dot online"></span> 종로 전광판</td>
+                <td class="cell-sub">서울 종로구 종로 1</td>
+                <td><span class="badge badge-led">LED</span></td>
+                <td class="cell-meta">3840×1080</td>
+                <td class="cell-meta">00:00 ~ 24:00</td>
+                <td><span class="badge badge-online">온라인</span></td>
+                <td><span class="badge badge-active">연동됨(활성)</span></td>
+              </tr>
+              <tr tabindex="0" role="link" aria-label="홍대입구 A 상세 보기" onclick="showMediaDetail('hongdae')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMediaDetail('hongdae')}">
+                <td class="cell-name"><span class="health-dot offline"></span> 홍대입구 A</td>
+                <td class="cell-sub">서울 마포구 양화로 160</td>
+                <td><span class="badge badge-lcd">LCD</span></td>
+                <td class="cell-meta">1920×1080</td>
+                <td class="cell-meta">06:00 ~ 24:00</td>
+                <td><span class="badge badge-offline">오프라인</span></td>
+                <td><span class="badge badge-active">연동됨(활성)</span></td>
+              </tr>
+              <tr tabindex="0" role="link" aria-label="신촌 B 상세 보기" onclick="showMediaDetail('sinchon')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMediaDetail('sinchon')}">
+                <td class="cell-name"><span class="health-dot online"></span> 신촌 B</td>
+                <td class="cell-sub">서울 서대문구 연세로 12</td>
+                <td><span class="badge badge-lcd">LCD</span></td>
+                <td class="cell-meta">1920×1080</td>
+                <td class="cell-meta">08:00 ~ 22:00</td>
+                <td><span class="badge badge-online">온라인</span></td>
+                <td><span class="badge badge-inactive">연동됨(비활성)</span></td>
+              </tr>
+              <tr tabindex="0" role="link" aria-label="여의도 C 상세 보기" onclick="showMediaDetail('yeouido')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMediaDetail('yeouido')}">
+                <td class="cell-name">여의도 C</td>
+                <td class="cell-sub">서울 영등포구 여의대로 24</td>
+                <td><span class="badge badge-led">LED</span></td>
+                <td class="cell-meta">3840×2160</td>
+                <td class="cell-meta">24시간</td>
+                <td class="cell-meta">—</td>
+                <td><span class="badge badge-unlinked">미연동</span></td>
+              </tr>
+              <tr tabindex="0" style="opacity:0.5">
+                <td class="cell-name">잠실 D</td>
+                <td class="cell-sub">서울 송파구 올림픽로 300</td>
+                <td><span class="badge badge-lcd">LCD</span></td>
+                <td class="cell-meta">1920×1080</td>
+                <td class="cell-meta">—</td>
+                <td class="cell-meta">—</td>
+                <td><span class="badge badge-archived">보관됨</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== S-07: 매체 등록 ===== -->
+      <div id="view-media-register" class="view">
+        <div class="breadcrumb"><a onclick="showMediaList()">매체 관리</a><span>&rsaquo;</span><span>매체 등록</span></div>
+        <div class="page-header"><h1 class="page-title">매체 등록</h1></div>
+
+        <form id="register-form" onsubmit="return handleRegister(event)">
+        <div class="form-card">
+          <div class="form-card-title">기본 정보</div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label" for="reg-name">매체명 <span class="required">*</span></label><input type="text" id="reg-name" class="form-control" placeholder="매체명을 입력하세요" required></div>
+            <div class="form-group"><label class="form-label" for="reg-type">매체 종류 <span class="required">*</span></label><select id="reg-type" class="form-control" required><option>고정형</option><option>이동형</option></select></div>
+            <div class="form-group"><label class="form-label" for="reg-addr">설치 주소 <span class="required">*</span></label><input type="text" id="reg-addr" class="form-control" placeholder="주소 검색" required></div>
+            <div class="form-group"><label class="form-label" for="reg-orient">설치 형태 <span class="required">*</span></label><select id="reg-orient" class="form-control" required><option>가로형</option><option>세로형</option></select></div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-title">디스플레이 설정</div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label" for="reg-display">디스플레이 유형 <span class="required">*</span></label><select id="reg-display" class="form-control" required><option>LCD</option><option>LED</option><option>기타 (직접입력)</option></select></div>
+            <div class="form-group"><label class="form-label" for="reg-size">화면 사이즈 <span class="required">*</span></label><input type="text" id="reg-size" class="form-control" placeholder='예: 55"' required></div>
+            <div class="form-group"><label class="form-label" for="reg-res">해상도 <span class="required">*</span></label><select id="reg-res" class="form-control" required><option>1920×1080 (16:9)</option><option>3840×1080 (32:9)</option><option>3840×2160 (16:9)</option></select></div>
+            <div class="form-group"><label class="form-label" for="reg-allowed">허용 해상도 <span class="required">*</span></label><input type="text" id="reg-allowed" class="form-control" placeholder="예: 1920×1080, 1280×720" value="1920×1080" required></div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-card-title">운영 시간</div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label" for="reg-days">운영 요일</label><select id="reg-days" class="form-control"><option>매일</option><option>평일</option><option>주말</option><option>직접 선택</option></select></div>
+            <div class="form-group"><label class="form-label" for="reg-time-start">운영 시간</label>
+              <div style="display:flex;align-items:center;gap:var(--space-2);"><input type="time" id="reg-time-start" class="form-control" value="06:00" aria-label="운영 시작 시간"><span style="color:var(--color-text-tertiary);">~</span><input type="time" id="reg-time-end" class="form-control" value="23:59" aria-label="운영 종료 시간"></div>
+            </div>
+            <div class="form-group full-width"><label class="form-label" for="reg-note">비고</label><input type="text" id="reg-note" class="form-control" placeholder="비고 입력 (선택)"></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:var(--space-3);">
+          <button type="submit" class="btn-primary">등록</button>
+          <button type="button" class="btn-secondary" onclick="showMediaList()">취소</button>
+        </div>
+        </form>
+      </div>
+
+      <!-- ===== S-08: 매체 상세 (강남역 1번출구) ===== -->
+      <div id="view-media-detail" class="view">
+        <div class="breadcrumb"><a onclick="showMediaList()">매체 관리</a><span>&rsaquo;</span><span id="detail-media-name">강남역 1번출구</span></div>
+
+        <div class="tab-nav" id="detail-tabs">
+          <button class="tab-nav-item active" onclick="switchDetailTab('info')">기본 정보</button>
+          <button class="tab-nav-item" onclick="switchDetailTab('device')">디바이스 연동</button>
+          <button class="tab-nav-item" onclick="switchDetailTab('monitor')">모니터링</button>
+        </div>
+
+        <!-- Tab: 기본 정보 -->
+        <div id="tab-info" class="tab-content">
+          <div style="display:grid;grid-template-columns:1fr 340px;gap:var(--space-6);">
+            <div class="form-card" style="margin-bottom:0;">
+              <div class="form-card-title">기본 정보</div>
+              <div class="detail-grid">
+                <div><div class="detail-field-label">매체명</div><div class="detail-field-value">강남역 1번출구</div></div>
+                <div><div class="detail-field-label">매체 종류</div><div class="detail-field-value">고정형</div></div>
+                <div><div class="detail-field-label">설치 주소</div><div class="detail-field-value">서울 강남구 강남대로 396</div></div>
+                <div><div class="detail-field-label">설치 형태</div><div class="detail-field-value">가로형</div></div>
+                <div><div class="detail-field-label">디스플레이</div><div class="detail-field-value">LCD · 55" · 1920×1080</div></div>
+                <div><div class="detail-field-label">운영 시간</div><div class="detail-field-value">매일 06:00 ~ 24:00</div></div>
+                <div><div class="detail-field-label">매체 식별 코드</div><div class="detail-field-value" style="font-family:var(--font-mono);">MED-2026-001</div></div>
+                <div><div class="detail-field-label">등록일</div><div class="detail-field-value">2026.03.15</div></div>
+              </div>
+              <div style="margin-top:var(--space-5);display:flex;gap:var(--space-3);">
+                <button class="btn-secondary" onclick="showToast('수정 모드로 전환합니다.')">수정</button>
+                <button class="btn-secondary btn-danger-outline" onclick="openDeactivateModal()">비활성화</button>
+              </div>
+            </div>
+            <div>
+              <div class="meta-card">
+                <div style="font-size:var(--text-md);font-weight:700;margin-bottom:var(--space-3);">매체 상태</div>
+                <div class="meta-row"><span class="meta-row-label">상태</span><span class="badge badge-active">연동됨(활성)</span></div>
+                <div class="meta-row"><span class="meta-row-label">연결</span><span class="badge badge-online">온라인</span></div>
+                <div class="meta-row"><span class="meta-row-label">디바이스 ID</span><span class="meta-row-value" style="font-family:var(--font-mono);">DVS-KR-GN-001</span></div>
+                <div class="meta-row"><span class="meta-row-label">최근 통신</span><span class="meta-row-value">04.05 14:32 (3분 전)</span></div>
+                <div class="meta-row"><span class="meta-row-label">플레이어 버전</span><span class="meta-row-value">v3.2.1</span></div>
+                <div class="meta-row"><span class="meta-row-label">SSP 연동</span><span class="meta-row-value" style="color:var(--color-text-tertiary);">미설정</span></div>
+                <div class="meta-row"><span class="meta-row-label">편성표</span><span class="meta-row-value">적용중 2건</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: 디바이스 연동 -->
+        <div id="tab-device" class="tab-content" style="display:none;">
+          <div class="device-link-card">
+            <div class="form-card-title">디바이스 연동</div>
+            <div class="device-status">
+              <span class="health-dot online"></span>
+              <div><div style="font-weight:600;font-size:var(--text-sm);">연동 완료</div><div style="font-size:var(--text-xs);color:var(--color-text-secondary);">DVS-KR-GN-001 · 2026.03.16 연동</div></div>
+            </div>
+
+            <div class="form-card-title" style="margin-top:var(--space-4);">영상 출력 조정</div>
+            <div class="detail-grid" style="margin-bottom:var(--space-4);">
+              <div><div class="detail-field-label">X 오프셋</div><div class="detail-field-value">0 px</div></div>
+              <div><div class="detail-field-label">Y 오프셋</div><div class="detail-field-value">0 px</div></div>
+              <div><div class="detail-field-label">너비</div><div class="detail-field-value">1920 px</div></div>
+              <div><div class="detail-field-label">높이</div><div class="detail-field-value">1080 px</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:var(--space-3);">
+              <span class="lock-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                잠금됨
+              </span>
+              <button class="btn-ghost btn-sm" onclick="showToast('잠금이 해제되었습니다. 방향키로 조정하세요.')">잠금 해제</button>
+            </div>
+
+            <div style="margin-top:var(--space-6);border-top:1px solid var(--color-border-default);padding-top:var(--space-5);">
+              <button class="btn-secondary btn-danger-outline" onclick="showToast('디바이스 교체 모드로 전환합니다.')">디바이스 교체</button>
+              <div class="form-hint" style="margin-top:var(--space-2);">기존 연동을 해제하고 새 디바이스를 연동합니다. 편성표는 유지됩니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: 모니터링 -->
+        <div id="tab-monitor" class="tab-content" style="display:none;">
+          <div class="monitor-grid">
+            <div class="monitor-card">
+              <div class="monitor-card-label">연결 상태</div>
+              <div class="monitor-card-value ok">온라인</div>
+            </div>
+            <div class="monitor-card">
+              <div class="monitor-card-label">CPU 온도</div>
+              <div class="monitor-card-value ok">42°C</div>
+              <div class="temp-bar"><div class="temp-bar-fill ok" style="width:42%;"></div></div>
+            </div>
+            <div class="monitor-card">
+              <div class="monitor-card-label">GPU 온도</div>
+              <div class="monitor-card-value warn">68°C</div>
+              <div class="temp-bar"><div class="temp-bar-fill warn" style="width:68%;"></div></div>
+            </div>
+            <div class="monitor-card">
+              <div class="monitor-card-label">최근 통신</div>
+              <div class="monitor-card-value" style="font-size:var(--text-sm);">04.05 14:32</div>
+              <div style="font-size:var(--text-xs);color:var(--color-text-tertiary);margin-top:var(--space-1);">3분 전</div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card-title">편성 동기화 상태</div>
+            <div class="detail-grid">
+              <div><div class="detail-field-label">CMS 편성 버전</div><div class="detail-field-value" style="font-family:var(--font-mono);">v12</div></div>
+              <div><div class="detail-field-label">플레이어 보고 버전</div><div class="detail-field-value" style="font-family:var(--font-mono);">v12</div></div>
+              <div><div class="detail-field-label">동기화</div><div class="detail-field-value"><span class="badge badge-online">일치</span></div></div>
+              <div><div class="detail-field-label">마지막 동기화</div><div class="detail-field-value">04.05 09:05</div></div>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="form-card-title">플레이어 정보</div>
+            <div class="detail-grid">
+              <div><div class="detail-field-label">플레이어 버전</div><div class="detail-field-value">v3.2.1</div></div>
+              <div><div class="detail-field-label">마지막 업데이트</div><div class="detail-field-value">04.01 03:15 (콜타임)</div></div>
+              <div><div class="detail-field-label">다음 콜타임</div><div class="detail-field-value">04.06 03:00 (예정)</div></div>
+              <div><div class="detail-field-label">리프레시 상태</div><div class="detail-field-value"><span class="badge badge-online">정상</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Deactivate Modal -->
+<div class="modal-overlay" id="deactivate-modal">
+  <div class="modal" role="alertdialog" aria-label="매체 비활성화 확인">
+    <div class="modal-title">매체 비활성화</div>
+    <div class="modal-body">이 매체를 비활성화하시겠습니까?<br><span class="warning-text">적용중 편성표 2건이 일시정지됩니다.</span><br>예약됨 편성표 1건은 시작일에 자동 일시정지됩니다.</div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeDeactivateModal()">취소</button>
+      <button class="btn-destructive" onclick="confirmDeactivate()">비활성화</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+var _lastFocused=null;
+function trapFocus(c){_lastFocused=document.activeElement;var f=c.querySelectorAll('button,[href],input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])');if(!f.length)return;var first=f[0],last=f[f.length-1];first.focus();c._ft=function(e){if(e.key!=='Tab')return;if(e.shiftKey){if(document.activeElement===first){e.preventDefault();last.focus();}}else{if(document.activeElement===last){e.preventDefault();first.focus();}}};c.addEventListener('keydown',c._ft);}
+function releaseFocus(c){if(c._ft){c.removeEventListener('keydown',c._ft);delete c._ft;}if(_lastFocused){_lastFocused.focus();_lastFocused=null;}}
+document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;var m=document.getElementById('deactivate-modal');if(m.classList.contains('active')){closeDeactivateModal();}});
+
+function hideAllViews(){document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});}
+function showMediaList(){hideAllViews();document.getElementById('view-media-list').classList.add('active');window.scrollTo(0,0);}
+function showMediaRegister(){hideAllViews();document.getElementById('view-media-register').classList.add('active');window.scrollTo(0,0);}
+function showMediaDetail(id){hideAllViews();document.getElementById('view-media-detail').classList.add('active');switchDetailTab('info');window.scrollTo(0,0);}
+
+function switchDetailTab(tab){
+  document.querySelectorAll('#detail-tabs .tab-nav-item').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.tab-content').forEach(function(c){c.style.display='none';});
+  if(tab==='info'){document.getElementById('tab-info').style.display='';document.querySelectorAll('#detail-tabs .tab-nav-item')[0].classList.add('active');}
+  else if(tab==='device'){document.getElementById('tab-device').style.display='';document.querySelectorAll('#detail-tabs .tab-nav-item')[1].classList.add('active');}
+  else{document.getElementById('tab-monitor').style.display='';document.querySelectorAll('#detail-tabs .tab-nav-item')[2].classList.add('active');}
+}
+
+function openDeactivateModal(){var m=document.getElementById('deactivate-modal');m.classList.add('active');trapFocus(m);}
+function closeDeactivateModal(){var m=document.getElementById('deactivate-modal');m.classList.remove('active');releaseFocus(m);}
+function confirmDeactivate(){closeDeactivateModal();showToast('매체가 비활성화되었습니다. 편성표 2건이 일시정지됩니다.');}
+
+function handleRegister(e){
+  e.preventDefault();
+  // Field-level validation
+  var fields = [
+    {id:'reg-name', label:'매체명'},
+    {id:'reg-addr', label:'설치 주소'}
+  ];
+  var firstError = null;
+  fields.forEach(function(f){
+    var el = document.getElementById(f.id);
+    var hint = el.parentElement.querySelector('.field-error');
+    if (!hint) { hint = document.createElement('div'); hint.className = 'form-hint field-error'; hint.style.color = 'var(--color-status-error)'; el.parentElement.appendChild(hint); }
+    if (!el.value.trim()) {
+      hint.textContent = f.label + '을(를) 입력해주세요.';
+      el.style.borderColor = 'var(--color-status-error)';
+      if (!firstError) firstError = el;
+    } else {
+      hint.textContent = '';
+      el.style.borderColor = '';
+    }
+  });
+  if (firstError) { firstError.focus(); return false; }
+  var mediaName = document.getElementById('reg-name').value || '신규 매체';
+  var code = 'MED-2026-' + String(Math.floor(Math.random()*900)+100);
+  // Add to table
+  var tbody = document.querySelector('#view-media-list .data-table tbody');
+  var tr = document.createElement('tr');
+  tr.setAttribute('tabindex','0');
+  tr.setAttribute('role','link');
+  tr.setAttribute('aria-label', mediaName + ' 상세 보기');
+  tr.onclick = function(){ showMediaDetail('new'); };
+  tr.style.background = 'var(--color-status-success-bg)';
+  setTimeout(function(){ tr.style.background = ''; }, 2000);
+  tr.innerHTML = '<td class="cell-name"><span class="health-dot"></span> '+mediaName+'</td><td class="cell-sub">—</td><td><span class="badge badge-lcd">LCD</span></td><td class="cell-meta">1920×1080</td><td class="cell-meta">06:00 ~ 24:00</td><td class="cell-meta">—</td><td><span class="badge badge-unlinked">미연동</span></td>';
+  tbody.appendChild(tr);
+  showToast(mediaName + ' 등록 완료. 매체 식별 코드: ' + code);
+  setTimeout(showMediaList,2000);
+  return false;
+}
+
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('active');setTimeout(function(){t.classList.remove('active');},2500);}
+</script>
+</body>
+</html>

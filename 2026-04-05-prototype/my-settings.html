@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOOH CMS — 내 정보</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Badge */
+.badge-admin { background: var(--color-primary-100); color: var(--color-primary-700); }
+
+/* Setting rows & toggle */
+.setting-row { display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border-default); }
+.setting-row:last-child { border-bottom: none; }
+.setting-label { font-size: var(--text-sm); font-weight: 500; }
+.setting-desc { font-size: var(--text-xs); color: var(--color-text-tertiary); margin-top: 2px; }
+.toggle { position: relative; width: 44px; height: 24px; border-radius: 12px; background: var(--color-neutral-300); cursor: pointer; transition: background var(--transition-fast); flex-shrink: 0; }
+.toggle.active { background: var(--color-interactive-primary); }
+.toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: white; transition: transform var(--transition-fast); box-shadow: var(--shadow-sm); }
+.toggle.active::after { transform: translateX(20px); }
+
+/* Form readonly display */
+.form-readonly { font-size: var(--text-sm); padding: var(--space-2) 0; color: var(--color-text-primary); }
+.form-actions { margin-top: var(--space-5); }
+
+/* Push notification section */
+.push-section { margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border-default); }
+</style>
+</head>
+<body>
+<div class="app">
+<a href="#main-content" class="skip-to-content">본문으로 건너뛰기</a>
+  <header class="gnb"><div class="gnb-brand">DOOH CMS <span>|</span> <span style="font-weight:500;color:var(--color-text-secondary);font-size:var(--text-sm);">시티미디어</span></div><div class="gnb-actions"><button class="gnb-icon" aria-label="알림"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button><div class="gnb-avatar">최</div></div></header>
+  <div class="layout-body">
+    <nav class="sidebar">
+      <button class="sidebar-item" aria-label="대시보드"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="sidebar-tooltip">대시보드</span></button>
+      <button class="sidebar-item" aria-label="소재 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m22 8-6 4 6 4V8Z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><span class="sidebar-tooltip">소재 관리</span></button>
+      <button class="sidebar-item" aria-label="편성 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="sidebar-tooltip">편성 관리</span></button>
+      <button class="sidebar-item" aria-label="매체 관리"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span class="sidebar-tooltip">매체 관리</span></button>
+      <button class="sidebar-item" aria-label="캠페인"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span class="sidebar-tooltip">캠페인</span></button>
+      <button class="sidebar-item active" aria-label="설정" aria-current="page"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="sidebar-tooltip">설정</span></button>
+    </nav>
+    <main class="main" id="main-content">
+      <div class="page-header"><h1 class="page-title">내 정보</h1></div>
+
+      <!-- 기본 정보 -->
+      <div class="form-card">
+        <div class="form-card-title">기본 정보</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="user-name">이름</label>
+            <input type="text" id="user-name" class="form-control" value="최관리">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="user-email">이메일</label>
+            <input type="email" id="user-email" class="form-control" value="admin@dooh.kr" readonly style="background:var(--color-bg-surface);color:var(--color-text-secondary);">
+          </div>
+          <div class="form-group">
+            <label class="form-label">역할</label>
+            <div class="form-readonly"><span class="badge badge-admin">어드민</span></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">소속</label>
+            <div class="form-readonly" style="color:var(--color-text-tertiary);">—</div>
+          </div>
+        </div>
+        <div class="form-actions"><button class="btn-primary" onclick="showToast('기본 정보가 저장되었습니다.')">저장</button></div>
+      </div>
+
+      <!-- 비밀번호 변경 -->
+      <div class="form-card">
+        <div class="form-card-title">비밀번호 변경</div>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label class="form-label" for="pw-current">현재 비밀번호</label>
+            <input type="password" id="pw-current" class="form-control" placeholder="현재 비밀번호를 입력하세요">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pw-new">새 비밀번호</label>
+            <input type="password" id="pw-new" class="form-control" placeholder="새 비밀번호">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pw-confirm">새 비밀번호 확인</label>
+            <input type="password" id="pw-confirm" class="form-control" placeholder="새 비밀번호 확인">
+          </div>
+        </div>
+        <div class="form-actions"><button class="btn-secondary" onclick="showToast('비밀번호가 변경되었습니다.')">비밀번호 변경</button></div>
+      </div>
+
+      <!-- 알림 설정 -->
+      <div class="form-card">
+        <div class="form-card-title">알림 설정</div>
+        <div class="setting-row">
+          <div><div class="setting-label">매체 상태 변경</div><div class="setting-desc">매체가 온라인/오프라인으로 변경될 때 알림</div></div>
+          <div class="toggle active" role="switch" aria-checked="true" aria-label="매체 상태 변경 알림" tabindex="0" onclick="toggleSetting(this)" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleSetting(this);}"></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-label">소재 검수 결과</div><div class="setting-desc">소재 검수 승인/반려 시 알림</div></div>
+          <div class="toggle active" role="switch" aria-checked="true" aria-label="소재 검수 결과 알림" tabindex="0" onclick="toggleSetting(this)" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleSetting(this);}"></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-label">편성 동기화</div><div class="setting-desc">편성표가 매체에 동기화될 때 알림</div></div>
+          <div class="toggle active" role="switch" aria-checked="true" aria-label="편성 동기화 알림" tabindex="0" onclick="toggleSetting(this)" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleSetting(this);}"></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-label">캠페인 상태 변경</div><div class="setting-desc">캠페인 시작/종료/일시중지 시 알림</div></div>
+          <div class="toggle" role="switch" aria-checked="false" aria-label="캠페인 상태 변경 알림" tabindex="0" onclick="toggleSetting(this)" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleSetting(this);}"></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-label">사용자 가입/초대</div><div class="setting-desc">새 사용자 가입 또는 초대 수락 시 알림</div></div>
+          <div class="toggle" role="switch" aria-checked="false" aria-label="사용자 가입/초대 알림" tabindex="0" onclick="toggleSetting(this)" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleSetting(this);}"></div>
+        </div>
+        <div class="push-section">
+          <div class="setting-row" style="border-bottom:none;">
+            <div><div class="setting-label">브라우저 푸시 알림</div><div class="setting-desc">브라우저 알림 권한을 허용하면 실시간 푸시를 받을 수 있습니다</div></div>
+            <div class="toggle" role="switch" aria-checked="false" aria-label="브라우저 푸시 알림" tabindex="0" onclick="toggleSetting(this)" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleSetting(this);}"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+function toggleSetting(el){
+  el.classList.toggle('active');
+  var on=el.classList.contains('active');
+  el.setAttribute('aria-checked',on);
+  showToast(on?'알림이 활성화되었습니다.':'알림이 비활성화되었습니다.');
+}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('active');setTimeout(function(){t.classList.remove('active');},2500);}
+</script>
+</body>
+</html>
