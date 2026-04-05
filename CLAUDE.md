@@ -30,7 +30,7 @@
 - Read the file before modifying it. Never edit blind.
 - No docstrings or type annotations on code not being changed.
 - No error handling for scenarios that cannot happen.
-- Three similar lines is better than a premature abstraction.
+- Three similar lines is better than a premature abstraction. 단, 파일 간 50줄 이상 동일 코드가 반복되면 공통 파일로 분리.
 
 ## Review Rules
 - State the bug. Show the fix. Stop.
@@ -40,6 +40,14 @@
 - Never speculate about a bug without reading the relevant code first.
 - State what you found, where, and the fix. One pass.
 - If cause is unclear: say so. Do not guess.
+
+## Prototype Rules
+- 프로토타입 복수 파일 생성 시 공통 CSS/JS는 반드시 shared 파일로 분리. 복붙 금지
+- 화면 명세(GATE 1)를 거치지 않은 프로토타입은 만들지 않는다. 시나리오 → 프로토타입 직행 금지
+- 일괄 작업 시에도 품질 균일성 유지. 먼저 만든 것과 나중 만든 것의 Nielsen 점수 차이가 5점 이상이면 보강 필수
+- GATE 2(design-review)는 시스템 레벨 이슈가 동일하면 개별 반복하지 않는다. 첫 2~3회 후 시스템 리뷰 1회로 전환
+- AI Slop 체크는 디자인 시스템 확립 후 첫 1회만. 이후는 변경이 있을 때만
+- IA에 정의된 화면 수 대비 프로토타입 커버리지를 명시적으로 추적. 누락 화면 목록을 유지
 
 ## Scenario Workflow
 - 시나리오 문서는 `docs/scenarios/` 에 도메인별로 작성
