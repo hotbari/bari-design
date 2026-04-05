@@ -82,27 +82,66 @@
       <div id="view-create" class="view">
         <div class="breadcrumb"><a onclick="showList()">캠페인 관리</a><span>&rsaquo;</span><span>캠페인 등록</span></div>
         <div class="stepper">
-          <div class="step active" id="step1"><div class="step-num">1</div> 기본 정보</div>
+          <div class="step active" id="step1" onclick="goToStep(1)" style="cursor:pointer;"><div class="step-num">1</div> 기본 정보</div>
           <div class="step-line" id="line1"></div>
-          <div class="step" id="step2"><div class="step-num">2</div> 매체 및 기간</div>
+          <div class="step" id="step2" onclick="goToStep(2)" style="cursor:pointer;"><div class="step-num">2</div> 매체 및 기간</div>
           <div class="step-line" id="line2"></div>
-          <div class="step" id="step3"><div class="step-num">3</div> 예산 및 확인</div>
+          <div class="step" id="step3" onclick="goToStep(3)" style="cursor:pointer;"><div class="step-num">3</div> 예산 및 확인</div>
         </div>
         <form id="campaign-form" onsubmit="return handleSubmit(event)">
-        <div class="form-card">
+        <div class="form-card" id="step1-content">
           <div class="form-card-title">기본 정보</div>
           <div class="form-grid">
             <div class="form-group"><label class="form-label" for="c-name">캠페인명 <span class="required">*</span></label><input type="text" id="c-name" class="form-control" placeholder="캠페인명을 입력하세요" required></div>
             <div class="form-group"><label class="form-label" for="c-adv">광고주 <span class="required">*</span></label><select id="c-adv" class="form-control" required><option value="">광고주 선택</option><option>프레시주스</option><option>현대자동차</option><option>나이키코리아</option><option>CJ제일제당</option></select></div>
             <div class="form-group"><label class="form-label" for="c-agency">광고대행사</label><input type="text" id="c-agency" class="form-control" placeholder="광고대행사명 (선택)"></div>
             <div class="form-group"><label class="form-label" for="c-type">캠페인 유형 <span class="required">*</span></label><select id="c-type" class="form-control" required><option>직접판매</option><option>자사광고</option><option>필러</option><option>네이버</option></select></div>
-            <div class="form-group"><label class="form-label" for="c-media">대상 매체 <span class="required">*</span></label><select id="c-media" class="form-control" required><option value="">매체 선택</option><option>강남역 1번출구</option><option>종로 전광판</option><option>홍대입구 A</option></select></div>
-            <div class="form-group"><label class="form-label" for="c-start">집행 기간 <span class="required">*</span></label><div style="display:flex;align-items:center;gap:var(--space-2);"><input type="date" id="c-start" class="form-control" value="2026-04-10" required><span style="color:var(--color-text-tertiary);">~</span><input type="date" id="c-end" class="form-control" value="2026-05-10" required></div></div>
-            <div class="form-group"><label class="form-label" for="c-billing">과금 모델</label><select id="c-billing" class="form-control"><option>정액제</option><option>일단가</option><option>입력안함</option></select></div>
-            <div class="form-group"><label class="form-label" for="c-amount">집행 금액</label><input type="number" id="c-amount" class="form-control" placeholder="0" min="0" step="10000"></div>
           </div>
+          <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);"><button type="button" class="btn-primary" onclick="goToStep(2)">다음</button><button type="button" class="btn-secondary" onclick="showList()">취소</button></div>
         </div>
-        <div style="display:flex;gap:var(--space-3);"><button type="submit" class="btn-primary">등록</button><button type="button" class="btn-secondary" onclick="showList()">취소</button></div>
+        <div class="form-card" id="step2-content" style="display:none;">
+          <div class="form-card-title">매체 및 기간</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">대상 매체 <span class="required">*</span></label>
+              <select class="form-control" required>
+                <option value="">매체 선택</option>
+                <option>강남역 1번출구</option>
+                <option>종로 전광판</option>
+                <option>홍대입구 A</option>
+                <option>신촌 B</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">집행 기간 <span class="required">*</span></label>
+              <div style="display:flex;align-items:center;gap:var(--space-2);">
+                <input type="date" class="form-control" id="camp-start" onchange="validateDateRange()">
+                <span style="color:var(--color-text-tertiary);">~</span>
+                <input type="date" class="form-control" id="camp-end" onchange="validateDateRange()">
+              </div>
+              <div class="form-hint" id="date-error" style="color:var(--color-status-error);display:none;">종료일이 시작일보다 앞설 수 없습니다.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);"><button type="button" class="btn-secondary" onclick="goToStep(1)">이전</button><button type="button" class="btn-primary" onclick="goToStep(3)">다음</button></div>
+        </div>
+        <div class="form-card" id="step3-content" style="display:none;">
+          <div class="form-card-title">예산 및 확인</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">총 예산 (원)</label>
+              <input type="text" class="form-control" inputmode="numeric" placeholder="예: 5,000,000" oninput="formatBudget(this)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">과금 모델</label>
+              <select class="form-control"><option>CPM (노출당)</option><option>고정 금액</option></select>
+            </div>
+            <div class="form-group full-width">
+              <label class="form-label">비고</label>
+              <textarea class="form-control" rows="3" placeholder="캠페인 관련 메모..."></textarea>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);"><button type="button" class="btn-secondary" onclick="goToStep(2)">이전</button><button type="submit" class="btn-primary">등록</button></div>
+        </div>
         </form>
       </div>
 
@@ -163,6 +202,30 @@ function openCancelModal(){var m=document.getElementById('cancel-modal');m.class
 function closeCancelModal(){var m=document.getElementById('cancel-modal');m.classList.remove('active');releaseFocus(m);}
 function confirmCancel(){closeCancelModal();showToast('캠페인이 취소되었습니다. 연결 편성표 1건 종료.');setTimeout(showList,600);}
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('active');setTimeout(function(){t.classList.remove('active');},2500);}
+function goToStep(n) {
+  document.querySelectorAll('.step').forEach(function(s, i) {
+    s.classList.remove('active', 'done');
+    if (i < n - 1) s.classList.add('done');
+    if (i === n - 1) s.classList.add('active');
+  });
+  document.querySelectorAll('.step-line').forEach(function(l, i) {
+    l.classList.toggle('done', i < n - 1);
+  });
+  for (var i = 1; i <= 3; i++) {
+    var el = document.getElementById('step' + i + '-content');
+    if (el) el.style.display = (i === n) ? '' : 'none';
+  }
+}
+function validateDateRange() {
+  var s = document.getElementById('camp-start').value;
+  var e = document.getElementById('camp-end').value;
+  var err = document.getElementById('date-error');
+  if (s && e && e < s) { err.style.display = ''; } else { err.style.display = 'none'; }
+}
+function formatBudget(el) {
+  var v = el.value.replace(/[^\d]/g, '');
+  el.value = v ? Number(v).toLocaleString('ko-KR') : '';
+}
 </script>
 </body>
 </html>
