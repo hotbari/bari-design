@@ -39,22 +39,22 @@ docs/scenarios/
 
 ### 진입점
 
-`/validate-all` — 단위 검증과 교차 검증을 게이트 방식으로 연결한 단일 파이프라인
+`/validate-scenario` — 단위 검증과 교차 검증을 게이트 방식으로 연결한 단일 파이프라인
 
-- `/validate-all` — MANIFEST.md에서 `[ ]`인 도메인 전부 검증 후 교차 검증까지
-- `/validate-all <파일명>` — 해당 도메인만 검증
+- `/validate-scenario` — MANIFEST.md에서 `[ ]`인 도메인 전부 검증 후 교차 검증까지
+- `/validate-scenario <파일명>` — 해당 도메인만 검증
 
 ### 스킬 구조
 
 ```
 .claude/skills/scenario-pipeline/
-├── SKILL.md                          ← 파이프라인 오케스트레이터
+├── SKILL.md                              ← 파이프라인 오케스트레이터
 ├── commands/
-│   └── validate-all.md               ← /validate-all (유일한 진입점)
+│   └── validate-scenario.md              ← /validate-scenario (유일한 진입점)
 └── skills/
-    ├── validate-scenario/SKILL.md    ← Stage 1 로직
+    ├── validate-scenario/SKILL.md        ← Stage 1 로직
     └── spec-dialectic/
-        ├── SKILL.md                  ← Stage 2 로직
+        ├── SKILL.md                      ← Stage 2 로직
         └── commands/spec-dialectic.md
 ```
 
@@ -239,7 +239,7 @@ Claude가 Edit/Write로 시나리오 파일 수정
 
 ### 6-3. 자동 검증 해제
 
-시나리오 수정 시 hook이 MANIFEST.md를 자동 업데이트 → 변경된 도메인은 `/validate-all`로 재검증 필요
+시나리오 수정 시 hook이 MANIFEST.md를 자동 업데이트 → 변경된 도메인은 `/validate-scenario`로 재검증 필요
 
 ---
 
@@ -247,7 +247,7 @@ Claude가 Edit/Write로 시나리오 파일 수정
 
 ### 배경
 
-`/validate-all` Stage 2 교차 검증에서 8개 모순(C-1 ~ C-8) 발견
+`/validate-scenario` Stage 2 교차 검증에서 8개 모순(C-1 ~ C-8) 발견
 
 ### 인터뷰
 
@@ -271,4 +271,4 @@ Claude가 Edit/Write로 시나리오 파일 수정
 
 ### 자동 해제
 
-5개 파일 수정으로 MANIFEST.md에서 해당 5개 도메인이 자동으로 `[ ]`로 해제됨. `/validate-all`로 재검증 필요.
+5개 파일 수정으로 MANIFEST.md에서 해당 5개 도메인이 자동으로 `[ ]`로 해제됨. `/validate-scenario`로 재검증 필요.

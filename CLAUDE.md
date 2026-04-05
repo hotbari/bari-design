@@ -43,9 +43,9 @@
 
 ## Scenario Workflow
 - 시나리오 문서는 `docs/scenarios/` 에 도메인별로 작성
-- 검증은 `/validate-all` 로 전체 파이프라인 실행 (단위 검증 → 교차 검증 → 다음 단계 안내)
-- 개별 도메인만 검증: `/validate-all <파일명>`
-- 개별 스킬도 단독 사용 가능: `/validate-scenario`, `/spec-dialectic`
+- 검증은 `/validate-scenario` 로 전체 파이프라인 실행 (단위 검증 → 교차 검증 → 다음 단계 안내)
+- 개별 도메인만 검증: `/validate-scenario <파일명>`
+- 개별 스킬도 단독 사용 가능: `/spec-dialectic`
 - 시나리오 파일 수정 시 MANIFEST.md의 해당 도메인 `[x]`는 hook이 자동으로 `[ ]`로 해제 (재검증 필요)
 - 사용자 확인 없이 writing-plans에 직접 진입 금지
 
