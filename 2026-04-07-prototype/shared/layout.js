@@ -80,7 +80,7 @@ function injectLayout() {
   if (sidebar) {
     const visibleItems = MENU_ITEMS.filter(item => item.roles.includes(role));
     sidebar.innerHTML = `
-      <nav style="width:200px; background:#1a3a2a; border-right:none; min-height:100vh; padding:12px 8px;">
+      <nav style="width:200px; background:var(--color-primary-900); border-right:none; min-height:100vh; padding:12px 8px;">
         <div style="padding:0 10px 8px; font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.05em;">메뉴</div>
         ${visibleItems.map(item => {
           const href = resolveHref(item.href);

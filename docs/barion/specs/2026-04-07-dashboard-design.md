@@ -214,14 +214,14 @@ design-foundation.md 토큰을 이 화면에서 어떻게 쓰는지. anti-factor
 
 ### 컬러 블록 전략
 
-**사이드바:** 다크 그린 (primary-900 ~ #1a3a2a) 배경. 아이콘/텍스트 white. active 항목은 primary-500으로 하이라이트.
+**사이드바:** 다크 그린 (primary-900 ~ oklch(0.30 0.07 155)) 배경. 아이콘/텍스트 white. active 항목은 primary-500으로 하이라이트.
 
 **이상 감지 히어로:** 다크 그린 배경 + white 텍스트. 이상 0건이면 neutral-100 배경으로 전환.
 
 | 영역 | 배경색 | 텍스트색 |
 |------|--------|---------|
-| 사이드바 | primary-900 (#1a3a2a) | white, active=primary-400 |
-| 이상 감지 히어로 (이상 있음) | primary-900 (#1a3a2a) | white, 이상 뱃지=error tint |
+| 사이드바 | primary-900 (oklch(0.30 0.07 155)) | white, active=primary-400 |
+| 이상 감지 히어로 (이상 있음) | primary-900 (oklch(0.30 0.07 155)) | white, 이상 뱃지=error tint |
 | 이상 감지 히어로 (이상 없음) | neutral-100 | neutral-900 |
 | KPI 카드 | white | neutral-900 |
 | 페이지 배경 | neutral-50 | — |
