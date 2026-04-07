@@ -1,5 +1,4 @@
 .superpowers/
-docs/
 settings.local.json
 .venv/
 md-revert.py
