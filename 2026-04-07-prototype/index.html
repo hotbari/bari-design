@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 대시보드</title>
+  <link rel="stylesheet" href="shared/style.css">
+</head>
+<body>
+  <div id="app-header"></div>
+  <div style="display:flex;">
+    <div id="app-sidebar"></div>
+    <main style="flex:1; padding:var(--space-8);">
+
+      <!-- Page Header -->
+      <div class="dash-page-header">
+        <div>
+          <h1 class="dash-page-title">대시보드</h1>
+          <p class="dash-page-date" id="page-date"></p>
+        </div>
+        <div class="dash-page-actions">
+          <select class="form-input" style="width:auto;">
+            <option>최근 7일</option>
+            <option>최근 30일</option>
+            <option>최근 90일</option>
+          </select>
+          <button class="dash-refresh-btn" onclick="refreshDashboard()">↻ 새로고침</button>
+        </div>
+      </div>
+
+      <!-- ZONE 1: Asymmetric Hero Grid -->
+      <div class="dash-zone">
+        <div class="dash-hero-grid">
+
+          <!-- Left: Anomaly Hero Card (2fr, span 2 rows) -->
+          <div class="dash-hero-card alert">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-3);">
+              <span style="font-size:var(--text-xs); font-weight:600; color:var(--color-error-500); text-transform:uppercase; letter-spacing:0.03em;">⚠ 이상 감지</span>
+              <a href="media/list.html" class="dash-panel-link">전체 보기 →</a>
+            </div>
+            <div class="dash-hero-count">3건</div>
+            <div style="margin-top:var(--space-4);">
+              <div class="dash-anomaly-item">
+                <div>
+                  <div style="font-size:var(--text-sm); font-weight:600; color:var(--color-neutral-900);">강남역 1번출구</div>
+                  <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-top:2px;">서울 강남구 · LCD · 1920×1080</div>
+                </div>
+                <span class="dash-anomaly-badge badge-error">오프라인 5분</span>
+              </div>
+              <div class="dash-anomaly-item">
+                <div>
+                  <div style="font-size:var(--text-sm); font-weight:600; color:var(--color-neutral-900);">삼성역 B2</div>
+                  <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-top:2px;">서울 강남구 · LED · 3840×2160</div>
+                </div>
+                <span class="dash-anomaly-badge badge-paused">GPU 온도 높음</span>
+              </div>
+              <div class="dash-anomaly-item">
+                <div>
+                  <div style="font-size:var(--text-sm); font-weight:600; color:var(--color-neutral-900);">홍대입구 A</div>
+                  <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-top:2px;">서울 마포구 · LCD · 1920×1080</div>
+                </div>
+                <span class="dash-anomaly-badge badge-error">동기화 실패</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Top: 전체 매체 KPI -->
+          <a href="media/list.html" class="dash-kpi hero" style="text-decoration:none;">
+            <div class="dash-kpi-label">
+              전체 매체
+              <span class="dash-widget-time">· 14:35</span>
+            </div>
+            <div class="dash-kpi-value">142</div>
+            <div class="dash-kpi-sub">
+              <span style="color:var(--color-primary-500);">● 온라인 128</span>
+              &nbsp;·&nbsp;
+              <span style="color:var(--color-error-500);">● 오프라인 8</span>
+              &nbsp;·&nbsp;
+              <span>비활성 6</span>
+            </div>
+          </a>
+
+          <!-- Right Bottom: 캠페인 + 편성 pair -->
+          <div class="dash-kpi-pair">
+            <a href="campaigns/list.html" class="dash-kpi supporting" style="text-decoration:none;">
+              <div class="dash-kpi-label">캠페인</div>
+              <div class="dash-kpi-value">47</div>
+              <div class="dash-kpi-sub">초안 12 · 집행중 28 · 완료 5 · 취소 2</div>
+            </a>
+            <a href="schedules/list.html" class="dash-kpi supporting" style="text-decoration:none;">
+              <div class="dash-kpi-label">편성</div>
+              <div class="dash-kpi-value">63</div>
+              <div class="dash-kpi-sub">예약 15 · 적용중 38 · 일시정지 3 · 종료 7</div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ZONE 2: Mid Grid -->
+      <div class="dash-zone">
+        <div class="dash-mid-grid">
+
+          <!-- Left: 최근 알림 -->
+          <div class="dash-panel">
+            <div class="dash-panel-header">
+              <span class="dash-panel-title">
+                최근 알림
+                <span class="dash-widget-time">· 14:35</span>
+              </span>
+              <a href="notifications/center.html" class="dash-panel-link">전체 보기 →</a>
+            </div>
+            <div class="dash-alert-item">
+              <span class="dash-alert-dot urgent"></span>
+              <span style="flex:1; font-size:var(--text-sm);">강남역 1번출구 오프라인 감지</span>
+              <span style="font-size:var(--text-xs); color:var(--color-neutral-400);">5분 전</span>
+            </div>
+            <div class="dash-alert-item">
+              <span class="dash-alert-dot urgent"></span>
+              <span style="flex:1; font-size:var(--text-sm);">봄맞이 프로모션 30s 수동검수 대기</span>
+              <span style="font-size:var(--text-xs); color:var(--color-neutral-400);">12분 전</span>
+            </div>
+            <div class="dash-alert-item">
+              <span class="dash-alert-dot normal"></span>
+              <span style="flex:1; font-size:var(--text-sm);">4월 프로모션 편성 적용 시작</span>
+              <span style="font-size:var(--text-xs); color:var(--color-neutral-400);">1시간 전</span>
+            </div>
+            <div class="dash-alert-item">
+              <span class="dash-alert-dot info"></span>
+              <span style="flex:1; font-size:var(--text-sm);">리포트 '3월 운영현황' 생성 완료</span>
+              <span style="font-size:var(--text-xs); color:var(--color-neutral-400);">2시간 전</span>
+            </div>
+            <div class="dash-alert-item">
+              <span class="dash-alert-dot normal"></span>
+              <span style="flex:1; font-size:var(--text-sm);">사용자 '김영희' 가입 완료</span>
+              <span style="font-size:var(--text-xs); color:var(--color-neutral-400);">3시간 전</span>
+            </div>
+          </div>
+
+          <!-- Right: 매체 위치 지도 -->
+          <div class="dash-panel">
+            <div class="dash-panel-header">
+              <span class="dash-panel-title">
+                매체 위치
+                <span class="dash-widget-time">· 14:35</span>
+              </span>
+            </div>
+            <div class="dash-map-placeholder">
+              <div class="dash-map-pin" style="top:25%; left:30%; background:var(--color-primary-500);"></div>
+              <div class="dash-map-pin" style="top:45%; left:55%; background:var(--color-error-500);"></div>
+              <div class="dash-map-pin" style="top:35%; left:70%; background:var(--color-primary-500);"></div>
+              <div class="dash-map-pin" style="top:60%; left:40%; background:var(--color-neutral-300);"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ZONE 3: Role-specific -->
+      <div class="dash-zone">
+
+        <!-- Admin -->
+        <div data-roles="admin">
+          <div class="dash-admin-grid">
+            <a href="schedules/list.html" class="dash-admin-card" style="text-decoration:none;">
+              <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-bottom:6px;">동기화 미완료</div>
+              <div style="font-size:var(--text-xl); font-weight:700; color:var(--color-warning-500);">2건</div>
+              <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-top:4px;">홍대입구 A, 여의도 C</div>
+            </a>
+            <div class="dash-admin-card">
+              <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-bottom:6px;">배치 실행 상태</div>
+              <div style="font-size:var(--text-xl); font-weight:700; color:var(--color-primary-500);">정상</div>
+              <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-top:4px;">04.07 06:00 실행</div>
+            </div>
+            <div class="dash-admin-card">
+              <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-bottom:6px;">Slack 연동</div>
+              <div style="font-size:var(--text-xl); font-weight:700; color:var(--color-primary-500);">정상</div>
+              <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-top:4px;">마지막 발송 14:30</div>
+            </div>
+          </div>
+          <div class="dash-warn-banner" style="margin-top:var(--space-4);">
+            ⚠ 비정상 캠페인 1건: 현대자동차 봄 캠페인 — 시작일 경과 + 초안 상태
+          </div>
+        </div>
+
+        <!-- Media Owner -->
+        <div data-roles="media">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:var(--space-4);">
+            <span style="font-size:var(--text-sm); font-weight:600; color:var(--color-neutral-900);">내 매체 동기화 현황</span>
+            <span class="dash-widget-time">· 14:35</span>
+          </div>
+          <div class="dash-match-card mismatch" style="margin-bottom:var(--space-3);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-3);">
+              <span style="font-size:var(--text-sm); font-weight:600;">강남역 1번출구</span>
+              <span style="font-size:var(--text-xs); font-weight:600; color:var(--color-error-500);">불일치</span>
+            </div>
+            <div class="dash-match-pair">
+              <div class="dash-match-side">
+                <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-bottom:4px;">CMS 의도</div>
+                <div style="font-size:var(--text-sm); font-weight:500; color:var(--color-primary-500);">4월 프로모션 적용중</div>
+              </div>
+              <div style="font-size:var(--text-lg); color:var(--color-error-500); flex-shrink:0;">≠</div>
+              <div class="dash-match-side">
+                <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-bottom:4px;">플레이어 현장</div>
+                <div style="font-size:var(--text-sm); font-weight:500; color:var(--color-error-500);">v2.1 미반영</div>
+              </div>
+            </div>
+          </div>
+          <div class="dash-match-ok">
+            <span style="color:var(--color-primary-500);">●</span>
+            <div>
+              <div style="font-size:var(--text-sm); font-weight:500;">정상 동기화 3개 매체</div>
+              <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-top:2px;">종로 전광판, 삼성역 B2, 역삼역 3번출구</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ops Agency -->
+        <div data-roles="ops">
+          <div class="segment-control" style="margin-bottom:var(--space-4);">
+            <div class="segment-item active">시티미디어</div>
+            <div class="segment-item">한빛미디어</div>
+            <div class="segment-item">서울애드</div>
+          </div>
+          <div class="dash-warn-banner" style="margin-bottom:var(--space-3);">
+            ⚠ 이준혁님이 시티미디어의 편성을 편집 중입니다
+          </div>
+          <div class="dash-match-ok">
+            <span style="color:var(--color-primary-500);">●</span>
+            <div>
+              <div style="font-size:var(--text-sm); font-weight:500;">시티미디어 매체 3개 정상 동기화</div>
+              <div style="font-size:var(--text-xs); color:var(--color-neutral-500); margin-top:2px;">종로 전광판, 삼성역 B2, 역삼역 3번출구</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="shared/icons.js"></script>
+  <script src="shared/layout.js"></script>
+  <script>
+    function refreshDashboard() {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      document.querySelectorAll('.dash-widget-time').forEach(el => {
+        el.textContent = '· ' + hh + ':' + mm;
+      });
+    }
+
+    (function setPageDate() {
+      const days = ['일','월','화','수','목','금','토'];
+      const now = new Date();
+      const y = now.getFullYear();
+      const mo = now.getMonth() + 1;
+      const d = now.getDate();
+      const day = days[now.getDay()];
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const el = document.getElementById('page-date');
+      if (el) el.textContent = y + '년 ' + mo + '월 ' + d + '일 ' + day + '요일 · 마지막 갱신 ' + hh + ':' + mm;
+    })();
+  </script>
+</body>
+</html>
