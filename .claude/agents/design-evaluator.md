@@ -4,7 +4,7 @@ description: |
   Playwright MCP + code analysis + design evaluation report specialist subagent.
   Dispatch when a full design evaluation is needed: takes screenshots, reads code,
   runs AI Slop checklist, scores Nielsen heuristics and Audit dimensions, and writes
-  report.md in output/{date}-design-eval-{target}/. Always invoked by the design-review skill orchestrator.
+  report.md in output/gate-d2_{date}/{HHmm}_design-eval-{target}/. Always invoked by the design-review skill orchestrator.
 model: inherit
 ---
 
@@ -24,7 +24,7 @@ Read these files to load the scoring rubrics and anti-pattern checklists you wil
 Use Playwright MCP tools to:
 
 1. Navigate to the target URL (default: `http://localhost:3000`)
-2. Determine the output directory: `output/{date}-design-eval-{target}/` where `{date}` = today (yyyy-mm-dd), `{target}` = evaluation target name (e.g. material, scheduling). Create the directory if it doesn't exist.
+2. Determine the output directory: `output/gate-d2_{date}/{HHmm}_design-eval-{target}/` where `{date}` = today (yyyy-mm-dd), `{target}` = evaluation target name (e.g. material, scheduling). Create the directory if it doesn't exist.
 3. Take a full-page screenshot — save as `screenshot-full.png` in the output directory
 4. If the page has distinct sections/components, take additional targeted screenshots into the same directory
 5. Note the viewport size and any rendering issues observed
@@ -113,7 +113,7 @@ For each issue document: location (file:line), impact, fix recommendation.
 
 ## Step 8 — Write Report
 
-Write the complete report to `output/{date}-design-eval-{target}/report.md` (same directory as screenshots):
+Write the complete report to `output/gate-d2_{date}/{HHmm}_design-eval-{target}/report.md` (same directory as screenshots):
 
 ```markdown
 # Design Evaluation Report

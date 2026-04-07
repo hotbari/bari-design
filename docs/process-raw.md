@@ -28,6 +28,7 @@
 ```
 
 ### 핵심 수치 (DOOH CMS 프로젝트 실측)
+IA? Information Architecture, 화면 인벤토리 + 역할별 접근 매트릭스 + 네비게이션 구조
 
 | 지표 | 값 |
 |------|-----|
@@ -40,6 +41,31 @@
 | 스킬 | 25+개 |
 | 에이전트 | 3개 (설계 평가, 사용성 평가, 엔티티 커버리지) |
 | 자동화 hook | 시나리오 수정 시 검증 상태 자동 해제 |
+
+### 디렉토리 구조
+
+```
+docs/               ← 진화하는 정본 (삭제 불가, 의사결정의 근거)
+├── scenarios/      시나리오 문서 (7개 도메인)
+├── design/         UX 전략, IA, 디자인 파운데이션, 화면 명세
+├── research/       페르소나, 인터뷰 인사이트
+└── process-raw.md  이 문서 (하네스 프로세스)
+
+output/             ← 재생성 가능한 시점 기록 (에이전트 평가 결과)
+├── gate-d2_{date}/                     GATE D2 (design-review) 결과
+│   └── {HHmm}_design-eval-{target}/
+├── gate-u1_{date}/                     GATE U1 (cognitive-walkthrough) 결과
+│   ├── {HHmm}_usability-{flow}/
+│   └── {HHmm}_synthesis/              gate-checklist + issue-registry
+└── README.md                           네이밍 규칙 + 폴더별 설명
+
+.claude/            ← 하네스 정의 (스킬 + 에이전트 + 설정)
+├── skills/         스킬 (SKILL.md)
+├── agents/         에이전트 (.md)
+└── settings.json   hook 설정
+```
+
+판단 기준: **이 파일을 삭제하고 다시 만들 수 있는가?** Yes → `output/`, No → `docs/`
 
 ---
 
@@ -446,13 +472,13 @@ P1을 두 유형으로 분류하여 판정한다:
 ### 산출물
 
 ```
-output/{date}-usability-{flow}/
-├── report.md              # 플로우별 3축 평가
-└── screenshots/           # 단계별 Playwright 스크린샷
-
-output/{date}-usability-synthesis/
-├── issue-registry.md      # P0-P1 이슈 통합 목록
-└── gate-checklist.md      # 게이트 판정 + 패턴 분석
+output/gate-u1_{date}/
+├── {HHmm}_usability-{flow}/
+│   ├── report.md          # 플로우별 3축 평가
+│   └── screenshots/       # 단계별 Playwright 스크린샷
+└── {HHmm}_synthesis/
+    ├── issue-registry.md  # P0-P1 이슈 통합 목록
+    └── gate-checklist.md  # 게이트 판정 + 프로덕션 체크리스트
 ```
 
 ### 수정-재검증 사이클

@@ -51,14 +51,14 @@ Target URL: {url from $ARGUMENTS}
 Persona: {selected persona — full content from persona file}
 Flow: {flow name}
 Steps: {ordered step list with URLs/actions}
-Output directory: output/{date}-usability-{flow-name}/
+Output directory: output/gate-u1_{date}/{HHmm}_usability-{flow-name}/
 ```
 
 If multiple flows are being evaluated, dispatch agents in parallel where possible.
 
 ### 4. Collect & Synthesize Results
 
-After all agents complete, read each `output/{date}-usability-{flow}/report.md`.
+After all agents complete, read each `output/gate-u1_{date}/{HHmm}_usability-{flow}/report.md`.
 
 #### Issue Registry
 
@@ -85,7 +85,7 @@ Generated: {date}
 - P2 issues: {N}
 ```
 
-Write to `output/{date}-usability-synthesis/issue-registry.md`.
+Write to `output/gate-u1_{date}/{HHmm}_synthesis/issue-registry.md`.
 
 #### Gate Checklist
 
@@ -107,7 +107,7 @@ Generated: {date}
 **Result**: {PASS / CONDITIONAL / FAIL}
 ```
 
-Write to `output/{date}-usability-synthesis/gate-checklist.md`.
+Write to `output/gate-u1_{date}/{HHmm}_synthesis/gate-checklist.md`.
 
 ### 5. Present Results
 
