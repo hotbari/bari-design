@@ -247,13 +247,13 @@ select.form-input {
 
 /* ── Sidebar ── */
 #sidebar a.active {
-  background: var(--color-primary-50);
-  color: var(--color-primary-600);
-  border-left: 2px solid var(--color-primary-500);
+  background: rgba(3,199,90,0.2);
+  color: #03C75A;
+  border-left: 2px solid #03C75A;
   font-weight: 600;
 }
-#sidebar a.active svg { stroke: var(--color-primary-500); }
-#sidebar a:hover:not(.active) { background: rgba(0,0,0,0.03); }
+#sidebar a.active svg { stroke: #03C75A; }
+#sidebar a:hover:not(.active) { background: rgba(255,255,255,0.08); }
 
 /* ── Role badges ── */
 .role-badge-admin { background: var(--color-neutral-100); color: var(--color-neutral-700); }
@@ -397,9 +397,9 @@ tr:hover td { background: rgba(0,0,0,0.015); }
   box-shadow: var(--shadow-sm);
 }
 .dash-hero-card.alert {
-  border-color: oklch(0.75 0.16 25);
-  background: var(--color-error-50);
-  box-shadow: 0 4px 12px oklch(0.55 0.24 25 / 0.08);
+  background: #1a3a2a;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 .dash-hero-card.calm {
   border-color: var(--color-primary-200);
@@ -412,7 +412,8 @@ tr:hover td { background: rgba(0,0,0,0.015); }
   letter-spacing: -0.04em; line-height: 1;
   color: var(--color-neutral-900);
 }
-.dash-hero-card.alert .dash-hero-count { color: var(--color-error-500); }
+.dash-hero-card.alert .dash-hero-count { color: white; }
+.dash-hero-card.alert .dash-hero-label { color: rgba(255,255,255,0.7); }
 .dash-hero-card.calm .dash-hero-count  { color: var(--color-primary-600); }
 
 /* ── Anomaly list ── */
@@ -423,6 +424,16 @@ tr:hover td { background: rgba(0,0,0,0.015); }
   font-size: var(--text-sm);
 }
 .dash-anomaly-item:last-child { border-bottom: none; }
+.dash-hero-card.alert .dash-anomaly-item {
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  border-bottom: none;
+  margin-bottom: 6px;
+}
+.dash-hero-card.alert .dash-anomaly-item:last-child { margin-bottom: 0; }
+.dash-hero-card.alert .dash-anomaly-name { color: white; }
+.dash-hero-card.alert .dash-anomaly-location { color: rgba(255,255,255,0.5); }
 .dash-anomaly-badge {
   display: inline-flex; align-items: center;
   padding: 2px 7px;
