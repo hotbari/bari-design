@@ -344,6 +344,9 @@ tr:hover td { background: rgba(0,0,0,0.015); }
 /* Stat card compat */
 .stat-card h3 { font-size: var(--text-xs); color: var(--color-neutral-500); font-weight: 500; margin-bottom: 4px; text-transform: none; letter-spacing: 0; }
 
+/* Utility (Tailwind 제거 후 필요) */
+.hidden { display: none !important; }
+
 /* ══════════════════════════════════════
    Dashboard Components
    ══════════════════════════════════════ */
@@ -386,6 +389,7 @@ tr:hover td { background: rgba(0,0,0,0.015); }
 
 /* ── Hero anomaly card ── */
 .dash-hero-card {
+  grid-row: span 2;
   background: white;
   border: 1px solid rgba(0,0,0,0.08);
   border-radius: var(--radius-lg);
@@ -443,11 +447,12 @@ tr:hover td { background: rgba(0,0,0,0.015); }
   margin-bottom: 6px;
 }
 .dash-kpi-value {
-  font-size: var(--text-2xl); font-weight: 700;
+  font-size: var(--text-xl); font-weight: 800;
   color: var(--color-neutral-900); letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums; line-height: 1;
 }
 .dash-kpi.supporting .dash-kpi-value {
-  font-size: var(--text-xl);
+  font-size: var(--text-md); font-weight: 700;
 }
 .dash-kpi-sub {
   font-size: var(--text-xs); color: var(--color-neutral-400);
