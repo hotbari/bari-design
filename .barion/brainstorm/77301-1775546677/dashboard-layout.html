@@ -1,0 +1,201 @@
+<h2>대시보드 레이아웃 — 3가지 방향</h2>
+<p class="subtitle">공통 상단(이상 감지 주인공) + 역할 전용 하단. 지도는 조연. 클릭해서 선택해주세요.</p>
+
+<div class="cards" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px;">
+
+  <!-- Option A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="padding:0; overflow:hidden;">
+    <div class="card-body" style="padding:16px 16px 8px;">
+      <h3>A. 히어로 배너형</h3>
+      <p style="font-size:13px; color:#666; margin-bottom:12px;">이상 감지를 화면 최상단에 큰 배너로. 문제가 없으면 "정상" 배너로 변환.</p>
+    </div>
+    <div style="padding:0 16px 16px;">
+      <!-- Wireframe -->
+      <div style="background:#f5f4f2; border-radius:8px; padding:12px; font-size:11px; color:#666;">
+        <div style="background:#fef2f2; border:1.5px solid #fca5a5; border-radius:6px; padding:14px 12px; margin-bottom:8px; text-align:center;">
+          <div style="font-size:20px; font-weight:800; color:#dc2626;">3</div>
+          <div style="font-size:10px; color:#dc2626; font-weight:600;">이상 감지 — 오프라인 2, 동기화 실패 1</div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:8px;">
+          <div style="background:white; border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:9px; color:#999;">매체</div>
+            <div style="font-weight:700; font-size:14px;">142</div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:9px; color:#999;">캠페인</div>
+            <div style="font-weight:700; font-size:14px;">47</div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:9px; color:#999;">편성</div>
+            <div style="font-weight:700; font-size:14px;">63</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
+          <div style="background:white; border-radius:4px; padding:8px;">
+            <div style="font-size:9px; color:#999; margin-bottom:4px;">최근 알림</div>
+            <div style="height:3px; background:#eee; border-radius:2px; margin-bottom:3px;"></div>
+            <div style="height:3px; background:#eee; border-radius:2px; margin-bottom:3px;"></div>
+            <div style="height:3px; background:#eee; border-radius:2px;"></div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px;">
+            <div style="font-size:9px; color:#999; margin-bottom:4px;">매체 위치</div>
+            <div style="height:40px; background:#e8e6e3; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#999;">지도</div>
+          </div>
+        </div>
+        <div style="background:#f0f0ee; border-radius:4px; padding:6px; text-align:center; font-size:9px; color:#999; border:1px dashed #ccc;">
+          역할 전용 영역
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="padding:0; overflow:hidden;">
+    <div class="card-body" style="padding:16px 16px 8px;">
+      <h3>B. 비대칭 그리드형</h3>
+      <p style="font-size:13px; color:#666; margin-bottom:12px;">이상 감지 카드를 크게, KPI 3개를 작게. 크기 차이로 위계 표현.</p>
+    </div>
+    <div style="padding:0 16px 16px;">
+      <div style="background:#f5f4f2; border-radius:8px; padding:12px; font-size:11px; color:#666;">
+        <div style="display:grid; grid-template-columns:2fr 1fr; gap:6px; margin-bottom:8px;">
+          <div style="background:#fef2f2; border:1.5px solid #fca5a5; border-radius:6px; padding:14px 12px; grid-row:span 2;">
+            <div style="font-size:10px; color:#dc2626; font-weight:600; margin-bottom:6px;">이상 감지</div>
+            <div style="font-size:24px; font-weight:800; color:#dc2626;">3건</div>
+            <div style="margin-top:8px; font-size:9px; color:#999;">
+              <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #fee2e2;">
+                <span>강남역 1번출구</span><span style="color:#dc2626;">오프라인</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #fee2e2;">
+                <span>삼성역 B2</span><span style="color:#e8a030;">GPU 온도</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:3px 0;">
+                <span>홍대입구 A</span><span style="color:#dc2626;">동기화 실패</span>
+              </div>
+            </div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:9px; color:#999;">매체</div>
+            <div style="font-weight:700; font-size:13px;">142</div>
+            <div style="font-size:8px; color:#999;">온라인 128</div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:9px; color:#999;">캠페인</div>
+            <div style="font-weight:700; font-size:13px;">47</div>
+            <div style="font-size:8px; color:#999;">집행중 28</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
+          <div style="background:white; border-radius:4px; padding:8px;">
+            <div style="font-size:9px; color:#999; margin-bottom:4px;">최근 알림</div>
+            <div style="height:3px; background:#eee; border-radius:2px; margin-bottom:3px;"></div>
+            <div style="height:3px; background:#eee; border-radius:2px; margin-bottom:3px;"></div>
+            <div style="height:3px; background:#eee; border-radius:2px;"></div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px;">
+            <div style="font-size:9px; color:#999; margin-bottom:4px;">매체 위치</div>
+            <div style="height:40px; background:#e8e6e3; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#999;">지도</div>
+          </div>
+        </div>
+        <div style="background:#f0f0ee; border-radius:4px; padding:6px; text-align:center; font-size:9px; color:#999; border:1px dashed #ccc;">
+          역할 전용 영역
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)" style="padding:0; overflow:hidden;">
+    <div class="card-body" style="padding:16px 16px 8px;">
+      <h3>C. 상태등 + 흐름형</h3>
+      <p style="font-size:13px; color:#666; margin-bottom:12px;">최상단에 한 줄 상태등(🟢정상 / 🔴이상). 나머지는 시간순 흐름으로 배치.</p>
+    </div>
+    <div style="padding:0 16px 16px;">
+      <div style="background:#f5f4f2; border-radius:8px; padding:12px; font-size:11px; color:#666;">
+        <div style="background:#fef2f2; border-radius:6px; padding:8px 12px; margin-bottom:8px; display:flex; align-items:center; gap:8px; border:1.5px solid #fca5a5;">
+          <div style="width:10px; height:10px; border-radius:50%; background:#dc2626;"></div>
+          <div style="font-size:11px; font-weight:600; color:#dc2626;">이상 3건</div>
+          <div style="font-size:9px; color:#999; margin-left:auto;">오프라인 2 · 동기화 실패 1</div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:6px; margin-bottom:8px;">
+          <div style="background:white; border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:9px; color:#999;">매체</div>
+            <div style="font-weight:700; font-size:13px;">142</div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:9px; color:#999;">캠페인</div>
+            <div style="font-weight:700; font-size:13px;">47</div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:9px; color:#999;">편성</div>
+            <div style="font-weight:700; font-size:13px;">63</div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px; text-align:center;">
+            <div style="font-size:9px; color:#999;">소재</div>
+            <div style="font-weight:700; font-size:13px;">234</div>
+          </div>
+        </div>
+        <div style="background:white; border-radius:4px; padding:8px; margin-bottom:6px;">
+          <div style="font-size:9px; color:#999; margin-bottom:6px;">타임라인 (최근 활동)</div>
+          <div style="display:flex; align-items:center; gap:6px; padding:3px 0; border-bottom:1px solid #f5f4f2;">
+            <div style="width:6px; height:6px; border-radius:50%; background:#dc2626;"></div>
+            <div style="font-size:9px; flex:1;">강남역 1번출구 오프라인 감지</div>
+            <div style="font-size:8px; color:#999;">5분 전</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; padding:3px 0; border-bottom:1px solid #f5f4f2;">
+            <div style="width:6px; height:6px; border-radius:50%; background:#e8a030;"></div>
+            <div style="font-size:9px; flex:1;">봄맞이 프로모션 30s 수동검수 대기</div>
+            <div style="font-size:8px; color:#999;">12분 전</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; padding:3px 0;">
+            <div style="width:6px; height:6px; border-radius:50%; background:#03C75A;"></div>
+            <div style="font-size:9px; flex:1;">4월 프로모션 편성 적용 시작</div>
+            <div style="font-size:8px; color:#999;">1시간 전</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
+          <div style="background:white; border-radius:4px; padding:8px;">
+            <div style="font-size:9px; color:#999;">매체 위치</div>
+            <div style="height:30px; background:#e8e6e3; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:9px; color:#999;">지도</div>
+          </div>
+          <div style="background:#f0f0ee; border-radius:4px; padding:6px; text-align:center; font-size:9px; color:#999; border:1px dashed #ccc; display:flex; align-items:center; justify-content:center;">
+            역할 전용 영역
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:24px;">
+  <h3>원칙 대조</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-top:12px; font-size:12px;">
+    <div style="background:rgba(0,0,0,0.03); border-radius:8px; padding:16px;">
+      <div style="font-weight:700; margin-bottom:6px;">A. 히어로 배너형</div>
+      <div style="color:#666; line-height:1.6;">
+        ✅ 원칙2: 이상 건수가 확실한 주인공<br>
+        ✅ 원칙1: 모니터링 화면다운 구조<br>
+        ⚠️ 원칙4: 이상 0건일 때 빈 배너가 큰 공간 차지<br>
+        ⚠️ KPI 카드가 여전히 균일 크기
+      </div>
+    </div>
+    <div style="background:rgba(0,0,0,0.03); border-radius:8px; padding:16px;">
+      <div style="font-weight:700; margin-bottom:6px;">B. 비대칭 그리드형</div>
+      <div style="color:#666; line-height:1.6;">
+        ✅ 원칙2: 이상 카드가 2배 크기로 주인공<br>
+        ✅ 원칙4: 크기 차이로 그룹핑 표현<br>
+        ✅ 원칙1: 목록형 화면과 확실히 구분됨<br>
+        ⚠️ 이상 0건이면 좌측 큰 카드가 "정상" 표시 필요
+      </div>
+    </div>
+    <div style="background:rgba(0,0,0,0.03); border-radius:8px; padding:16px;">
+      <div style="font-weight:700; margin-bottom:6px;">C. 상태등 + 흐름형</div>
+      <div style="color:#666; line-height:1.6;">
+        ✅ 원칙5: 타임라인이 도메인 특화 UI<br>
+        ✅ 원칙2: 상태등이 즉각적 신호<br>
+        ⚠️ 원칙2: 상태등이 작아서 주인공 무게감 부족<br>
+        ⚠️ KPI 카드 4개가 다시 균일 크기
+      </div>
+    </div>
+  </div>
+</div>

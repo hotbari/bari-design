@@ -1,0 +1,338 @@
+<h2>타임라인 뷰 — 새로운 방향</h2>
+<p class="subtitle">이전 3개와 완전히 다른 접근. 실무에서 검증된 리소스 플래너 / 캘린더 패턴 기반.</p>
+
+<div class="options">
+  <!-- Option A: Resource Planner (Hotel-booking style) -->
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>리소스 플래너</h3>
+      <p>호텔 예약·회의실 시스템에서 검증된 패턴. 셀 기반 그리드 위에 블록을 얹어서 점유 상태가 즉시 보임. 빈 슬롯도 한눈에.</p>
+      <div style="margin-top:16px; border:1px solid #e8e6e3; border-radius:12px; overflow:hidden; font-family:'Pretendard',sans-serif; background:white;">
+        <!-- Toolbar -->
+        <div style="padding:16px 20px; border-bottom:1px solid #f0eeeb; display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <button style="border:none; background:none; font-size:18px; color:#8A8580; cursor:pointer;">◀</button>
+            <span style="font-size:15px; font-weight:700; color:#2D2A26;">2026년 4월</span>
+            <button style="border:none; background:none; font-size:18px; color:#8A8580; cursor:pointer;">▶</button>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <div style="padding:4px 10px; font-size:11px; border-radius:4px; background:#2D2A26; color:white;">주간</div>
+            <div style="padding:4px 10px; font-size:11px; border-radius:4px; color:#8A8580; border:1px solid #e8e6e3;">월간</div>
+            <div style="padding:4px 10px; font-size:11px; border-radius:4px; color:#8A8580; border:1px solid #e8e6e3;">분기</div>
+          </div>
+        </div>
+        <!-- Grid -->
+        <div style="overflow-x:auto;">
+          <div style="min-width:600px;">
+            <!-- Day headers -->
+            <div style="display:flex; border-bottom:1px solid #e8e6e3;">
+              <div style="width:130px; min-width:130px; padding:8px 12px; background:#FAF9F7;"></div>
+              <div style="flex:1; display:grid; grid-template-columns:repeat(7,1fr); background:#FAF9F7;">
+                <div style="padding:6px 0; text-align:center; font-size:10px; color:#8A8580;">월 <span style="display:block; font-size:12px; font-weight:600; color:#2D2A26; margin-top:1px;">31</span></div>
+                <div style="padding:6px 0; text-align:center; font-size:10px; color:#8A8580;">화 <span style="display:block; font-size:12px; font-weight:600; color:#2D2A26; margin-top:1px;">1</span></div>
+                <div style="padding:6px 0; text-align:center; font-size:10px; color:#8A8580;">수 <span style="display:block; font-size:12px; font-weight:600; color:#2D2A26; margin-top:1px;">2</span></div>
+                <div style="padding:6px 0; text-align:center; font-size:10px; color:#8A8580;">목 <span style="display:block; font-size:12px; font-weight:600; color:#2D2A26; margin-top:1px;">3</span></div>
+                <div style="padding:6px 0; text-align:center; font-size:10px; color:#8A8580;">금 <span style="display:block; font-size:12px; font-weight:600; color:#2D2A26; margin-top:1px;">4</span></div>
+                <div style="padding:6px 0; text-align:center; font-size:10px; color:#c4c0ba;">토 <span style="display:block; font-size:12px; font-weight:600; color:#c4c0ba; margin-top:1px;">5</span></div>
+                <div style="padding:6px 0; text-align:center; font-size:10px; color:#E62318; background:rgba(230,35,24,0.03);">일 <span style="display:block; font-size:12px; font-weight:600; margin-top:1px;">6</span></div>
+              </div>
+            </div>
+            <!-- Row 1 -->
+            <div style="display:flex; border-bottom:1px solid #f0eeeb; min-height:48px;">
+              <div style="width:130px; min-width:130px; padding:12px; display:flex; align-items:center; border-right:1px solid #f0eeeb;">
+                <div>
+                  <div style="font-size:12px; font-weight:600; color:#2D2A26;">강남역 1번출구</div>
+                  <div style="font-size:10px; color:#c4c0ba;">FHD · 세로형</div>
+                </div>
+              </div>
+              <div style="flex:1; position:relative; display:grid; grid-template-columns:repeat(7,1fr);">
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2; background:rgba(0,0,0,0.015);"></div>
+                <div style="background:rgba(0,0,0,0.015);"></div>
+                <!-- Block spanning full week -->
+                <div style="position:absolute; left:0; right:0; top:6px; bottom:6px; margin:0 4px; background:#03C75A; border-radius:6px; display:flex; align-items:center; padding:0 10px; gap:6px;">
+                  <span style="font-size:11px; color:white; font-weight:600;">4월 강남 편성</span>
+                  <span style="font-size:10px; color:rgba(255,255,255,0.7);">P1</span>
+                  <div style="margin-left:auto; width:6px; height:6px; border-radius:50%; background:#ff5555; border:1.5px solid white;" title="동기화 미완료"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Row 2 -->
+            <div style="display:flex; border-bottom:1px solid #f0eeeb; min-height:48px; background:#FDFCFB;">
+              <div style="width:130px; min-width:130px; padding:12px; display:flex; align-items:center; border-right:1px solid #f0eeeb;">
+                <div>
+                  <div style="font-size:12px; font-weight:600; color:#2D2A26;">삼성역 B2</div>
+                  <div style="font-size:10px; color:#c4c0ba;">4K · 가로형</div>
+                </div>
+              </div>
+              <div style="flex:1; position:relative; display:grid; grid-template-columns:repeat(7,1fr);">
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2; background:rgba(0,0,0,0.015);"></div>
+                <div style="background:rgba(0,0,0,0.015);"></div>
+                <div style="position:absolute; left:0; right:0; top:6px; bottom:6px; margin:0 4px; background:#03C75A; border-radius:6px; display:flex; align-items:center; padding:0 10px; gap:6px;">
+                  <span style="font-size:11px; color:white; font-weight:600;">4월 삼성역 편성</span>
+                  <span style="font-size:10px; color:rgba(255,255,255,0.7);">P1</span>
+                  <div style="margin-left:auto; width:6px; height:6px; border-radius:50%; background:#03C75A; border:1.5px solid white;"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Row 3: empty -->
+            <div style="display:flex; min-height:48px;">
+              <div style="width:130px; min-width:130px; padding:12px; display:flex; align-items:center; border-right:1px solid #f0eeeb;">
+                <div>
+                  <div style="font-size:12px; font-weight:600; color:#2D2A26;">코엑스 GF</div>
+                  <div style="font-size:10px; color:#c4c0ba;">FHD · 기둥형</div>
+                </div>
+              </div>
+              <div style="flex:1; position:relative; display:grid; grid-template-columns:repeat(7,1fr);">
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2;"></div>
+                <div style="border-right:1px solid #f7f5f2; background:rgba(0,0,0,0.015);"></div>
+                <div style="background:rgba(0,0,0,0.015);"></div>
+                <!-- Empty state -->
+                <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-size:11px; color:#c4c0ba; border:1px dashed #e0ddd8; padding:4px 12px; border-radius:4px;">편성 없음</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B: Horizontal blocks with stacking -->
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>블록 스택</h3>
+      <p>한 매체에 편성이 겹치면 블록을 세로로 쌓음. 충돌이 "물리적으로" 보임. 깊이감으로 우선순위 표현.</p>
+      <div style="margin-top:16px; border:1px solid #e8e6e3; border-radius:12px; overflow:hidden; font-family:'Pretendard',sans-serif; background:white;">
+        <div style="padding:20px 24px;">
+          <!-- Month axis -->
+          <div style="display:flex; margin-left:140px; margin-bottom:16px;">
+            <div style="flex:1; display:flex; flex-direction:column; align-items:flex-start;">
+              <span style="font-size:12px; font-weight:700; color:#2D2A26;">3월</span>
+              <div style="width:100%; height:1px; background:#e8e6e3; margin-top:4px;"></div>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:flex-start;">
+              <span style="font-size:12px; font-weight:700; color:#2D2A26;">4월</span>
+              <div style="width:100%; height:1px; background:#e8e6e3; margin-top:4px;"></div>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:flex-start;">
+              <span style="font-size:12px; font-weight:700; color:#2D2A26;">5월</span>
+              <div style="width:100%; height:1px; background:#e8e6e3; margin-top:4px;"></div>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; align-items:flex-start;">
+              <span style="font-size:12px; font-weight:700; color:#2D2A26;">6월</span>
+              <div style="width:100%; height:1px; background:#e8e6e3; margin-top:4px;"></div>
+            </div>
+          </div>
+
+          <!-- Row 1: 강남역 - stacked blocks -->
+          <div style="display:flex; margin-bottom:24px;">
+            <div style="width:140px; padding-right:16px; text-align:right; padding-top:4px;">
+              <div style="font-size:13px; font-weight:700; color:#2D2A26;">강남역 1번출구</div>
+              <div style="font-size:10px; color:#c4c0ba; margin-top:2px;">편성 2건 · 충돌 1건</div>
+            </div>
+            <div style="flex:1; position:relative;">
+              <!-- Background track -->
+              <div style="height:80px; background:#FAF9F7; border-radius:10px; position:relative; border:1px solid #f0eeeb;">
+                <!-- Grid lines -->
+                <div style="position:absolute; inset:0; display:flex; pointer-events:none;">
+                  <div style="flex:1; border-right:1px solid #f0eeeb;"></div>
+                  <div style="flex:1; border-right:1px solid #f0eeeb;"></div>
+                  <div style="flex:1; border-right:1px solid #f0eeeb;"></div>
+                  <div style="flex:1;"></div>
+                </div>
+                <!-- P1 block (front, larger) -->
+                <div style="position:absolute; left:25%; width:25%; top:6px; height:44px; background:#03C75A; border-radius:8px; display:flex; align-items:center; padding:0 12px; z-index:2; box-shadow:0 2px 8px rgba(3,199,90,0.25);">
+                  <div>
+                    <div style="font-size:12px; color:white; font-weight:600;">4월 강남 편성</div>
+                    <div style="font-size:10px; color:rgba(255,255,255,0.7);">04-01 ~ 04-30</div>
+                  </div>
+                  <div style="margin-left:auto; background:rgba(255,255,255,0.25); padding:2px 6px; border-radius:4px; font-size:10px; color:white; font-weight:700;">P1</div>
+                </div>
+                <!-- P2 block (behind, offset down) -->
+                <div style="position:absolute; left:50%; width:25%; top:30px; height:44px; background:#4a8af4; border-radius:8px; display:flex; align-items:center; padding:0 12px; z-index:1; box-shadow:0 2px 8px rgba(74,138,244,0.25);">
+                  <div>
+                    <div style="font-size:12px; color:white; font-weight:600;">5월 프로모션</div>
+                    <div style="font-size:10px; color:rgba(255,255,255,0.7);">05-01 ~ 05-31</div>
+                  </div>
+                  <div style="margin-left:auto; background:rgba(255,255,255,0.25); padding:2px 6px; border-radius:4px; font-size:10px; color:white;">P2</div>
+                </div>
+                <!-- Conflict zone indicator -->
+                <div style="position:absolute; left:50%; width:0; top:0; bottom:0; border-left:2px dashed #E8A030; z-index:3;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: 삼성역 - single block -->
+          <div style="display:flex; margin-bottom:24px;">
+            <div style="width:140px; padding-right:16px; text-align:right; padding-top:4px;">
+              <div style="font-size:13px; font-weight:700; color:#2D2A26;">삼성역 B2</div>
+              <div style="font-size:10px; color:#c4c0ba; margin-top:2px;">편성 1건</div>
+            </div>
+            <div style="flex:1;">
+              <div style="height:56px; background:#FAF9F7; border-radius:10px; position:relative; border:1px solid #f0eeeb;">
+                <div style="position:absolute; inset:0; display:flex; pointer-events:none;">
+                  <div style="flex:1; border-right:1px solid #f0eeeb;"></div>
+                  <div style="flex:1; border-right:1px solid #f0eeeb;"></div>
+                  <div style="flex:1; border-right:1px solid #f0eeeb;"></div>
+                  <div style="flex:1;"></div>
+                </div>
+                <div style="position:absolute; left:25%; width:25%; top:6px; height:44px; background:#03C75A; border-radius:8px; display:flex; align-items:center; padding:0 12px; box-shadow:0 2px 8px rgba(3,199,90,0.25);">
+                  <div>
+                    <div style="font-size:12px; color:white; font-weight:600;">4월 삼성역 편성</div>
+                    <div style="font-size:10px; color:rgba(255,255,255,0.7);">04-01 ~ 04-30</div>
+                  </div>
+                  <div style="margin-left:auto; background:rgba(255,255,255,0.25); padding:2px 6px; border-radius:4px; font-size:10px; color:white; font-weight:700;">P1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: 여의도 - paused -->
+          <div style="display:flex;">
+            <div style="width:140px; padding-right:16px; text-align:right; padding-top:4px;">
+              <div style="font-size:13px; font-weight:700; color:#2D2A26;">여의도 IFC몰</div>
+              <div style="font-size:10px; color:#E8A030; margin-top:2px;">일시정지됨</div>
+            </div>
+            <div style="flex:1;">
+              <div style="height:56px; background:#FAF9F7; border-radius:10px; position:relative; border:1px solid #f0eeeb;">
+                <div style="position:absolute; inset:0; display:flex; pointer-events:none;">
+                  <div style="flex:1; border-right:1px solid #f0eeeb;"></div>
+                  <div style="flex:1; border-right:1px solid #f0eeeb;"></div>
+                  <div style="flex:1; border-right:1px solid #f0eeeb;"></div>
+                  <div style="flex:1;"></div>
+                </div>
+                <div style="position:absolute; left:0%; width:50%; top:6px; height:44px; background:#FAF9F7; border:2px dashed #E8A030; border-radius:8px; display:flex; align-items:center; padding:0 12px;">
+                  <div>
+                    <div style="font-size:12px; color:#b87a1a; font-weight:600;">여의도 IFC 편성</div>
+                    <div style="font-size:10px; color:#c4a060;">03-01 ~ 04-30 · 일시정지</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C: Mini-map overview + focused detail -->
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>미니맵 + 포커스</h3>
+      <p>상단에 전체 분기 미니맵(축소), 하단에 선택 구간 확대. 전체 맥락과 디테일을 동시에 파악.</p>
+      <div style="margin-top:16px; border:1px solid #e8e6e3; border-radius:12px; overflow:hidden; font-family:'Pretendard',sans-serif; background:white;">
+        <!-- Mini-map (top) -->
+        <div style="padding:16px 20px; background:#FAF9F7; border-bottom:1px solid #e8e6e3;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span style="font-size:11px; font-weight:600; color:#8A8580;">2026 Q1–Q2 전체</span>
+            <span style="font-size:10px; color:#c4c0ba;">드래그하여 구간 선택</span>
+          </div>
+          <div style="position:relative;">
+            <!-- Month labels -->
+            <div style="display:flex; margin-bottom:4px;">
+              <div style="flex:1; font-size:9px; color:#c4c0ba;">1월</div>
+              <div style="flex:1; font-size:9px; color:#c4c0ba;">2월</div>
+              <div style="flex:1; font-size:9px; color:#c4c0ba;">3월</div>
+              <div style="flex:1; font-size:9px; color:#c4c0ba; font-weight:600; color:#2D2A26;">4월</div>
+              <div style="flex:1; font-size:9px; color:#c4c0ba;">5월</div>
+              <div style="flex:1; font-size:9px; color:#c4c0ba;">6월</div>
+            </div>
+            <!-- Compressed bars -->
+            <div style="display:flex; flex-direction:column; gap:3px;">
+              <div style="display:flex; height:8px; align-items:center;">
+                <div style="width:60px; font-size:9px; color:#8A8580; text-align:right; padding-right:6px;">강남역</div>
+                <div style="flex:1; position:relative; background:#f0eeeb; border-radius:2px; height:8px;">
+                  <div style="position:absolute; left:50%; width:16.6%; height:100%; background:#03C75A; border-radius:2px;"></div>
+                  <div style="position:absolute; left:66.6%; width:16.6%; height:100%; background:#4a8af4; border-radius:2px;"></div>
+                </div>
+              </div>
+              <div style="display:flex; height:8px; align-items:center;">
+                <div style="width:60px; font-size:9px; color:#8A8580; text-align:right; padding-right:6px;">삼성역</div>
+                <div style="flex:1; position:relative; background:#f0eeeb; border-radius:2px; height:8px;">
+                  <div style="position:absolute; left:50%; width:16.6%; height:100%; background:#03C75A; border-radius:2px;"></div>
+                </div>
+              </div>
+              <div style="display:flex; height:8px; align-items:center;">
+                <div style="width:60px; font-size:9px; color:#8A8580; text-align:right; padding-right:6px;">여의도</div>
+                <div style="flex:1; position:relative; background:#f0eeeb; border-radius:2px; height:8px;">
+                  <div style="position:absolute; left:33.3%; width:33.3%; height:100%; background:#E8A030; border-radius:2px; opacity:0.5;"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Focus window indicator -->
+            <div style="position:absolute; left:calc(60px + (100% - 60px) * 0.46); width:calc((100% - 60px) * 0.24); top:12px; bottom:-2px; border:2px solid #03C75A; border-radius:4px; background:rgba(3,199,90,0.06);"></div>
+          </div>
+        </div>
+
+        <!-- Focused detail (bottom) -->
+        <div style="padding:20px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+            <span style="font-size:13px; font-weight:700; color:#2D2A26;">4월 1일 ~ 4월 30일</span>
+            <span style="background:#e6f9ed; color:#03C75A; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:500;">포커스 구간</span>
+          </div>
+          <!-- Detailed week view -->
+          <div style="display:flex; margin-bottom:4px; padding-left:100px;">
+            <div style="flex:1; font-size:10px; color:#8A8580; text-align:center;">W1 (1~7)</div>
+            <div style="flex:1; font-size:10px; color:#8A8580; text-align:center;">W2 (8~14)</div>
+            <div style="flex:1; font-size:10px; color:#8A8580; text-align:center;">W3 (15~21)</div>
+            <div style="flex:1; font-size:10px; color:#8A8580; text-align:center;">W4 (22~30)</div>
+          </div>
+          <!-- Detailed rows -->
+          <div style="display:flex; align-items:center; margin-bottom:6px;">
+            <div style="width:100px; font-size:12px; font-weight:600; color:#2D2A26; text-align:right; padding-right:12px;">강남역</div>
+            <div style="flex:1; height:40px; position:relative; background:#FAF9F7; border-radius:8px; border:1px solid #f0eeeb;">
+              <div style="position:absolute; inset:4px; background:#03C75A; border-radius:6px; display:flex; align-items:center; padding:0 12px; box-shadow:0 2px 6px rgba(3,199,90,0.2);">
+                <span style="font-size:11px; color:white; font-weight:600;">4월 강남 편성</span>
+                <span style="font-size:10px; color:rgba(255,255,255,0.7); margin-left:8px;">P1 · 갤럭시 S26</span>
+                <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
+                  <span style="font-size:10px; color:rgba(255,255,255,0.7);">v13</span>
+                  <div style="width:6px; height:6px; border-radius:50%; background:#ff5555; border:1.5px solid white;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; margin-bottom:6px;">
+            <div style="width:100px; font-size:12px; font-weight:600; color:#2D2A26; text-align:right; padding-right:12px;">삼성역</div>
+            <div style="flex:1; height:40px; position:relative; background:#FAF9F7; border-radius:8px; border:1px solid #f0eeeb;">
+              <div style="position:absolute; inset:4px; background:#03C75A; border-radius:6px; display:flex; align-items:center; padding:0 12px; box-shadow:0 2px 6px rgba(3,199,90,0.2);">
+                <span style="font-size:11px; color:white; font-weight:600;">4월 삼성역 편성</span>
+                <span style="font-size:10px; color:rgba(255,255,255,0.7); margin-left:8px;">P1 · 갤럭시 S26</span>
+                <div style="margin-left:auto; display:flex; gap:6px; align-items:center;">
+                  <span style="font-size:10px; color:rgba(255,255,255,0.7);">v13</span>
+                  <div style="width:6px; height:6px; border-radius:50%; background:#03C75A; border:1.5px solid white;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center;">
+            <div style="width:100px; font-size:12px; font-weight:600; color:#2D2A26; text-align:right; padding-right:12px;">여의도</div>
+            <div style="flex:1; height:40px; position:relative; background:#FAF9F7; border-radius:8px; border:1px solid #f0eeeb;">
+              <div style="position:absolute; inset:4px; background:white; border:2px dashed #E8A030; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+                <span style="font-size:11px; color:#b87a1a; font-weight:600;">여의도 IFC 편성</span>
+                <span style="font-size:10px; color:#c4a060; margin-left:8px;">일시정지 · 하우스 광고</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

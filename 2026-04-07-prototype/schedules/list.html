@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 편성 관리</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#f0faf3', 100: '#e6f9ed', 200: '#b3eccc', 300: '#66d999',
+          400: '#33cc77', 500: '#03C75A', 600: '#02a84c', 700: '#028a3e',
+          800: '#016b30', 900: '#014d23',
+        },
+        gray: {
+          50: '#FAF9F7', 100: '#F2F0ED', 200: '#E8E6E3', 300: '#D0CCC7',
+          400: '#B0ABA5', 500: '#8A8580', 600: '#6E6A65', 700: '#55514D',
+          800: '#3B3835', 900: '#2D2A26',
+        },
+      },
+      borderRadius: {
+        'sm': '4px', 'md': '6px', 'lg': '10px', 'xl': '12px',
+      },
+    },
+  },
+}
+</script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+  <div id="app-header"></div>
+  <div style="display:flex;">
+    <div id="app-sidebar"></div>
+    <main style="flex:1; padding:32px;">
+
+      <!-- Page Header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:16px;">
+          <h1 style="font-size:var(--text-xl); font-weight:700; color:var(--color-neutral-900);">편성 관리</h1>
+          <span id="header-count" style="font-size:var(--text-sm); color:var(--color-neutral-500);"></span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="segment-control" role="tablist" aria-label="보기 전환">
+            <button class="segment-item active" role="tab" aria-selected="true" data-view="timeline" onclick="switchView('timeline')">타임라인</button>
+            <button class="segment-item" role="tab" aria-selected="false" data-view="list" onclick="switchView('list')">목록</button>
+          </div>
+          <a href="new.html" class="btn btn-primary">+ 편성표 생성</a>
+        </div>
+      </div>
+
+      <!-- Timeline View -->
+      <div id="view-timeline">
+        <div class="card" style="overflow:hidden;">
+          <div id="minimap-container"></div>
+          <div id="focus-container"></div>
+        </div>
+      </div>
+
+      <!-- List View -->
+      <div id="view-list" style="display:none;">
+        <!-- Status filter tabs -->
+        <div style="margin-bottom:16px;">
+          <div class="segment-control" id="status-filter" role="tablist" aria-label="상태 필터">
+            <button class="segment-item active" role="tab" data-filter="all" onclick="filterList('all')">전체</button>
+            <button class="segment-item" role="tab" data-filter="reserved" onclick="filterList('reserved')">예약됨</button>
+            <button class="segment-item" role="tab" data-filter="active" onclick="filterList('active')">적용중</button>
+            <button class="segment-item" role="tab" data-filter="paused" onclick="filterList('paused')">일시정지</button>
+            <button class="segment-item" role="tab" data-filter="ended" onclick="filterList('ended')">종료</button>
+          </div>
+        </div>
+
+        <!-- Column headers -->
+        <div class="data-row-header">
+          <div style="flex:2.5;">편성표명</div>
+          <div style="flex:2;">재생목록</div>
+          <div style="flex:1.5;">대상 매체</div>
+          <div style="flex:2;">기간</div>
+          <div style="flex:1;">상태</div>
+          <div style="flex:0.7;">우선순위</div>
+          <div style="flex:1;">동기화</div>
+        </div>
+
+        <!-- List rows -->
+        <div id="list-rows"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/layout.js"></script>
+  <script src="data.js"></script>
+  <script src="timeline.js"></script>
+  <script>
+    // State
+    let currentView = 'timeline';
+    let currentFilter = 'all';
+    let focusRange = { start: '2026-04-01', end: '2026-04-30' };
+    const minimapRange = { start: '2026-01-01', end: '2026-06-30' };
+
+    // Header count
+    const uniqueMedia = [...new Set(SCHEDULE_LIST.map(s => s.mediaId))].length;
+    document.getElementById('header-count').textContent =
+      '\uB9E4\uCCB4 ' + uniqueMedia + '\uAC1C \u00B7 \uD3B8\uC131 ' + SCHEDULE_LIST.length + '\uAC74';
+
+    // View switching
+    function switchView(view) {
+      currentView = view;
+      document.getElementById('view-timeline').style.display = view === 'timeline' ? '' : 'none';
+      document.getElementById('view-list').style.display = view === 'list' ? '' : 'none';
+
+      document.querySelectorAll('[aria-label="\uBCF4\uAE30 \uC804\uD658"] .segment-item').forEach(function(btn) {
+        var isActive = btn.dataset.view === view;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', String(isActive));
+      });
+
+      if (view === 'list') renderListView();
+    }
+
+    // Timeline rendering
+    function initTimeline() {
+      renderMinimap(document.getElementById('minimap-container'), {
+        schedules: SCHEDULE_LIST,
+        media: MEDIA_LIST,
+        focusRange: focusRange,
+        rangeStart: minimapRange.start,
+        rangeEnd: minimapRange.end,
+        onFocusChange: function(newRange) {
+          focusRange = newRange;
+          initTimeline();
+        }
+      });
+
+      renderFocusView(document.getElementById('focus-container'), {
+        schedules: SCHEDULE_LIST,
+        media: MEDIA_LIST,
+        range: focusRange,
+        todayDate: TODAY
+      });
+
+      // Bind month nav buttons after render
+      var prev = document.querySelector('.focus-prev');
+      var next = document.querySelector('.focus-next');
+      if (prev) prev.addEventListener('click', function() { navigateMonth(-1); });
+      if (next) next.addEventListener('click', function() { navigateMonth(1); });
+    }
+
+    function navigateMonth(delta) {
+      var d = new Date(focusRange.start + 'T00:00:00');
+      d.setMonth(d.getMonth() + delta);
+      var monthStart = new Date(d.getFullYear(), d.getMonth(), 1);
+      var monthEnd = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+      function fmt(dt) { return dt.toISOString().split('T')[0]; }
+      focusRange = { start: fmt(monthStart), end: fmt(monthEnd) };
+      initTimeline();
+    }
+
+    // List view
+    var STATUS_MAP = {
+      active:   { label: '\uC801\uC6A9\uC911', dotClass: 'active' },
+      reserved: { label: '\uC608\uC57D\uB428', dotClass: 'reserved' },
+      paused:   { label: '\uC77C\uC2DC\uC815\uC9C0', dotClass: 'paused' },
+      ended:    { label: '\uC885\uB8CC', dotClass: 'ended' }
+    };
+
+    var SYNC_MAP = {
+      ok:      { label: '\uB3D9\uAE30\uD654 \uC644\uB8CC', dotClass: 'synced' },
+      fail:    { label: '\uB3D9\uAE30\uD654 \uC2E4\uD328', dotClass: 'error' },
+      pending: { label: '\uB300\uAE30\uC911', dotClass: 'reserved' },
+      none:    { label: '\u2014', dotClass: '' }
+    };
+
+    function filterList(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('#status-filter .segment-item').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.filter === filter);
+      });
+      renderListView();
+    }
+
+    function renderListView() {
+      var filtered = currentFilter === 'all'
+        ? SCHEDULE_LIST
+        : SCHEDULE_LIST.filter(function(s) { return s.status === currentFilter; });
+
+      var container = document.getElementById('list-rows');
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--color-neutral-400); font-size:var(--text-sm);">\uD574\uB2F9 \uC0C1\uD0DC\uC758 \uD3B8\uC131\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(function(s) {
+        var media = getMediaById(s.mediaId);
+        var st = STATUS_MAP[s.status] || { label: s.status, dotClass: '' };
+        var sync = SYNC_MAP[s.syncStatus] || { label: s.syncStatus, dotClass: '' };
+        var syncExtra = (s.syncStatus === 'fail' && s.syncVersion)
+          ? ' <span style="font-size:10px; color:var(--color-neutral-400);">(v' + s.syncVersion.player + '\u2192v' + s.syncVersion.latest + ')</span>'
+          : '';
+
+        var badgeClass = s.status === 'active' ? 'badge-active'
+          : s.status === 'reserved' ? 'badge-reserved'
+          : s.status === 'paused' ? 'badge-paused'
+          : 'badge-ended';
+
+        return '<a href="detail.html?id=' + s.id + '" class="data-row" style="text-decoration:none; color:inherit; cursor:pointer;">'
+          + '<div style="flex:2.5;"><div style="font-weight:600; color:var(--color-neutral-900);">' + s.name + '</div></div>'
+          + '<div style="flex:2; color:var(--color-neutral-600);">' + s.playlist + '</div>'
+          + '<div style="flex:1.5; color:var(--color-neutral-600);">' + (media ? media.name : '\u2014') + '</div>'
+          + '<div style="flex:2; color:var(--color-neutral-500); font-size:var(--text-xs);">' + s.start + ' ~ ' + s.end + '</div>'
+          + '<div style="flex:1;"><span class="status-dot ' + st.dotClass + '">' + st.label + '</span></div>'
+          + '<div style="flex:0.7; text-align:center;"><span class="badge ' + badgeClass + '">P' + s.priority + '</span></div>'
+          + '<div style="flex:1;">'
+          + (sync.dotClass
+            ? '<span class="status-dot ' + sync.dotClass + '">' + sync.label + '</span>' + syncExtra
+            : '<span style="color:var(--color-neutral-400);">' + sync.label + '</span>')
+          + '</div>'
+          + '</a>';
+      }).join('');
+    }
+
+    // Initialize
+    initTimeline();
+  </script>
+</body>
+</html>

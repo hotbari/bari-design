@@ -1,0 +1,203 @@
+<h2>편성표 상세 — 디자인 방향</h2>
+<p class="subtitle">기존 3컬럼 레이아웃을 개선합니다. 상단에 핵심 상태를 한눈에, 하단에 구좌 테이블 + 사이드 정보.</p>
+
+<div style="border:1px solid #e8e6e3; border-radius:12px; overflow:hidden; font-family:'Pretendard',sans-serif; background:#FAF9F7; max-width:860px; margin:24px auto;">
+
+  <!-- Top bar: breadcrumb + actions -->
+  <div style="padding:12px 24px; background:white; border-bottom:1px solid #f0eeeb; display:flex; align-items:center; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#8A8580;">
+      <a style="color:#8A8580; text-decoration:none;">편성 관리</a>
+      <span>/</span>
+      <span style="color:#2D2A26; font-weight:500;">4월 강남 편성</span>
+    </div>
+    <div style="display:flex; gap:6px;">
+      <div style="padding:5px 12px; font-size:11px; border:1px solid #e8e6e3; border-radius:6px; color:#8A8580; cursor:pointer;">편성표 수정</div>
+      <div style="padding:5px 12px; font-size:11px; border:1px solid #f0c0c0; border-radius:6px; color:#E62318; cursor:pointer;">수동 종료</div>
+    </div>
+  </div>
+
+  <!-- Hero status block -->
+  <div style="padding:24px; background:white; border-bottom:1px solid #f0eeeb;">
+    <div style="display:flex; align-items:flex-start; gap:20px;">
+      <!-- Left: title + badges -->
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+          <h1 style="font-size:20px; font-weight:700; color:#2D2A26; margin:0;">4월 강남 편성</h1>
+          <span style="background:#e6f9ed; color:#03C75A; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:600;">적용중</span>
+        </div>
+        <div style="display:flex; gap:16px; font-size:12px; color:#8A8580;">
+          <span>강남역 1번출구</span>
+          <span>·</span>
+          <span>2026-04-01 ~ 04-30</span>
+          <span>·</span>
+          <span>우선순위 <b style="color:#2D2A26;">1</b></span>
+        </div>
+      </div>
+
+      <!-- Right: sync status card -->
+      <div style="background:#FEF2F2; border:1px solid #f0c0c0; border-radius:8px; padding:10px 14px; min-width:180px;">
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+          <div style="width:7px; height:7px; border-radius:50%; background:#E62318;"></div>
+          <span style="font-size:11px; font-weight:600; color:#E62318;">동기화 미완료</span>
+        </div>
+        <div style="font-size:11px; color:#8A8580;">플레이어 v12 · 최신 v13</div>
+        <div style="font-size:11px; color:#8A8580;">재시도 15분 후</div>
+      </div>
+    </div>
+
+    <!-- Mini timeline for this schedule -->
+    <div style="margin-top:16px; padding:12px 16px; background:#FAF9F7; border-radius:8px; border:1px solid #f0eeeb;">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <span style="font-size:10px; font-weight:600; color:#8A8580;">편성 기간</span>
+      </div>
+      <div style="position:relative; height:24px; background:#eeece8; border-radius:12px;">
+        <!-- Progress fill (7/30 days = 23%) -->
+        <div style="position:absolute; left:0; width:23%; height:100%; background:linear-gradient(90deg, #03C75A, #02b050); border-radius:12px;"></div>
+        <!-- Today marker -->
+        <div style="position:absolute; left:23%; top:-4px; width:2px; height:32px; background:#E62318; border-radius:1px;"></div>
+        <div style="position:absolute; left:calc(23% - 8px); top:-16px; font-size:9px; font-weight:700; color:#E62318;">4/7</div>
+        <!-- Labels -->
+        <div style="position:absolute; left:8px; top:0; bottom:0; display:flex; align-items:center;">
+          <span style="font-size:10px; color:white; font-weight:600;">04-01</span>
+        </div>
+        <div style="position:absolute; right:8px; top:0; bottom:0; display:flex; align-items:center;">
+          <span style="font-size:10px; color:#8A8580; font-weight:500;">04-30</span>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-top:4px;">
+        <span style="font-size:10px; color:#8A8580;">경과 7일 (23%)</span>
+        <span style="font-size:10px; color:#8A8580;">잔여 23일</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content: 2-column layout -->
+  <div style="display:flex;">
+    <!-- Main: playlist table -->
+    <div style="flex:1; padding:20px 24px; border-right:1px solid #f0eeeb;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+        <div>
+          <span style="font-size:13px; font-weight:700; color:#2D2A26;">재생목록</span>
+          <span style="font-size:12px; color:#8A8580; margin-left:6px;">갤럭시 S26</span>
+        </div>
+        <span style="font-size:11px; color:#c4c0ba;">루프 재생 · 약 70초/회</span>
+      </div>
+
+      <!-- Slot rows -->
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <!-- Slot 1 -->
+        <div style="display:flex; align-items:center; padding:10px 12px; background:white; border-radius:8px; border:1px solid #f0eeeb; gap:12px;">
+          <div style="width:22px; height:22px; background:#FAF9F7; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#8A8580;">1</div>
+          <div style="width:36px; height:36px; background:linear-gradient(135deg, #2D2A26, #555); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+            <span style="font-size:10px; color:white;">▶</span>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:12px; font-weight:600; color:#2D2A26;">갤럭시 S26 런칭 15s</div>
+            <div style="font-size:10px; color:#8A8580;">동영상 · 15초</div>
+          </div>
+          <div style="background:#e6f9ed; color:#03C75A; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:500;">정상</div>
+        </div>
+
+        <!-- Slot 2 -->
+        <div style="display:flex; align-items:center; padding:10px 12px; background:white; border-radius:8px; border:1px solid #f0eeeb; gap:12px;">
+          <div style="width:22px; height:22px; background:#FAF9F7; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#8A8580;">2</div>
+          <div style="width:36px; height:36px; background:linear-gradient(135deg, #2D2A26, #555); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+            <span style="font-size:10px; color:white;">▶</span>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:12px; font-weight:600; color:#2D2A26;">갤럭시 S26 기능소개 30s</div>
+            <div style="font-size:10px; color:#8A8580;">동영상 · 30초</div>
+          </div>
+          <div style="background:#e6f9ed; color:#03C75A; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:500;">정상</div>
+        </div>
+
+        <!-- Slot 3: deleted -->
+        <div style="display:flex; align-items:center; padding:10px 12px; background:#FDFCFB; border-radius:8px; border:1px dashed #e0ddd8; gap:12px; opacity:0.6;">
+          <div style="width:22px; height:22px; background:#f0eeeb; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#c4c0ba;">3</div>
+          <div style="width:36px; height:36px; background:#f0eeeb; border-radius:4px;"></div>
+          <div style="flex:1;">
+            <div style="font-size:12px; color:#c4c0ba; text-decoration:line-through;">삭제된 소재</div>
+            <div style="font-size:10px; color:#c4c0ba;">재생 시 건너뜀</div>
+          </div>
+          <div style="background:#fee2e2; color:#E62318; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:500;">삭제됨</div>
+        </div>
+
+        <!-- Slot 4: replacing -->
+        <div style="display:flex; align-items:center; padding:10px 12px; background:white; border-radius:8px; border:1px solid #f0eeeb; gap:12px;">
+          <div style="width:22px; height:22px; background:#FAF9F7; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#8A8580;">4</div>
+          <div style="width:36px; height:36px; background:linear-gradient(135deg, #eee, #ddd); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+            <span style="font-size:8px; color:#8A8580;">IMG</span>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:12px; font-weight:600; color:#2D2A26;">현대백화점 세일 배너</div>
+            <div style="font-size:10px; color:#8A8580;">이미지 · 10초 · <span style="color:#7c3aed;">새 소재 검수중</span></div>
+          </div>
+          <div style="background:#f3e8ff; color:#7c3aed; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:500;">교체중</div>
+        </div>
+
+        <!-- Slot 5: SSP -->
+        <div style="display:flex; align-items:center; padding:10px 12px; background:#f0f7ff; border-radius:8px; border:1px solid #d0e2f5; gap:12px;">
+          <div style="width:22px; height:22px; background:#dbeafe; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#3b6dd6;">5</div>
+          <div style="width:36px; height:36px; background:linear-gradient(135deg, #3b6dd6, #5a8af4); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+            <span style="font-size:7px; color:white; font-weight:700;">SSP</span>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:12px; font-weight:600; color:#2D2A26;">네이버 Ad Server 구좌</div>
+            <div style="font-size:10px; color:#3b6dd6;">실시간 광고 결정 · 15초</div>
+          </div>
+          <div style="background:#dbeafe; color:#3b6dd6; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:500;">네이버 연동</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div style="width:220px; padding:20px 16px; background:white;">
+      <!-- Conflict alert -->
+      <div style="padding:10px 12px; background:#fef3e0; border:1px solid #f0d8a8; border-radius:8px; margin-bottom:16px;">
+        <div style="font-size:11px; font-weight:600; color:#b87a1a; margin-bottom:4px;">충돌 1건</div>
+        <div style="font-size:10px; color:#8A8580;">5월 프로모션 편성과 매체 겹침</div>
+        <div style="margin-top:6px;">
+          <a style="font-size:11px; color:#03C75A; font-weight:500; text-decoration:none; cursor:pointer;">해소하기 →</a>
+        </div>
+      </div>
+
+      <!-- Sync history -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:11px; font-weight:600; color:#2D2A26; margin-bottom:8px;">동기화 이력</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:11px; color:#8A8580;">v12 전송</span>
+            <span style="font-size:11px; color:#03C75A; font-weight:500;">성공</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:11px; color:#8A8580;">v13 전송</span>
+            <span style="font-size:11px; color:#E62318; font-weight:500;">실패</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:11px; color:#8A8580;">다음 재시도</span>
+            <span style="font-size:11px; color:#2D2A26; font-weight:500;">15분 후</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div>
+        <div style="font-size:11px; font-weight:600; color:#2D2A26; margin-bottom:8px;">편성 정보</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div>
+            <div style="font-size:10px; color:#c4c0ba;">재생목록 버전</div>
+            <div style="font-size:11px; color:#2D2A26;">v13 (플레이어: v12)</div>
+          </div>
+          <div>
+            <div style="font-size:10px; color:#c4c0ba;">생성일</div>
+            <div style="font-size:11px; color:#2D2A26;">2026-03-28</div>
+          </div>
+          <div>
+            <div style="font-size:10px; color:#c4c0ba;">생성자</div>
+            <div style="font-size:11px; color:#2D2A26;">김운영</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

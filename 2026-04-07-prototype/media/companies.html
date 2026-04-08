@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 매체사 관리</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#f0faf3', 100: '#e6f9ed', 200: '#b3eccc', 300: '#66d999',
+          400: '#33cc77', 500: '#03C75A', 600: '#02a84c', 700: '#028a3e',
+          800: '#016b30', 900: '#014d23',
+        },
+        gray: {
+          50: '#FAF9F7', 100: '#F2F0ED', 200: '#E8E6E3', 300: '#D0CCC7',
+          400: '#B0ABA5', 500: '#8A8580', 600: '#6E6A65', 700: '#55514D',
+          800: '#3B3835', 900: '#2D2A26',
+        },
+      },
+      borderRadius: {
+        'sm': '4px', 'md': '6px', 'lg': '10px', 'xl': '12px',
+      },
+    },
+  },
+}
+</script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">매체사 관리</h1>
+        <a href="company-new.html" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">+ 매체사 등록</a>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200">
+        <div class="p-4 border-b border-gray-100 flex items-center gap-3">
+          <input type="text" placeholder="매체사명 검색..." class="form-input w-64">
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>매체사명</th>
+              <th>사업자등록번호</th>
+              <th>대표자</th>
+              <th>연락처</th>
+              <th>매체 수</th>
+              <th>활성 사용자</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="font-medium text-blue-600"><a href="list.html">씨앤에이미디어</a></td>
+              <td>123-45-67890</td>
+              <td>김대표</td>
+              <td>media@cna.co.kr</td>
+              <td>42</td>
+              <td>8</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">수정</button>
+                <button onclick="showModal('delete-modal')" class="text-sm text-red-500 hover:text-red-700">삭제</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-medium text-blue-600"><a href="list.html">디오에스미디어</a></td>
+              <td>234-56-78901</td>
+              <td>이사장</td>
+              <td>info@dosmedia.kr</td>
+              <td>68</td>
+              <td>12</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">수정</button>
+                <button onclick="showModal('delete-modal')" class="text-sm text-red-500 hover:text-red-700">삭제</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-medium text-blue-600"><a href="list.html">한국옥외광고</a></td>
+              <td>345-67-89012</td>
+              <td>박상무</td>
+              <td>contact@kooh.co.kr</td>
+              <td>32</td>
+              <td>5</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">수정</button>
+                <button onclick="showModal('delete-modal')" class="text-sm text-red-500 hover:text-red-700">삭제</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- 삭제 확인 모달 -->
+  <div id="delete-modal" class="modal-overlay hidden" onclick="hideModal('delete-modal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">매체사 삭제</h3>
+      <p class="text-sm text-gray-600 mb-2">이 매체사를 삭제하시겠습니까?</p>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+        <p class="text-sm text-yellow-800">⚠️ 소속 사용자 <strong>8명</strong>이 비활성화됩니다.</p>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button onclick="hideModal('delete-modal')" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">취소</button>
+        <button onclick="hideModal('delete-modal')" class="px-4 py-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700">삭제</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

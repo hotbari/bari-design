@@ -1,0 +1,174 @@
+<h2>상태 컬러 대안</h2>
+<p class="subtitle">적용중 + 예약됨의 색상 조합. 네이버 그린 체계 안에서 구분이 되면서도 조화로운 조합을 찾습니다.</p>
+
+<div class="options" data-multiselect>
+
+  <!-- Option A: Current -->
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>현재안: 그린 + 블루</h3>
+      <p>적용중=그린, 예약=블루. 명확한 구분이지만 블루가 체계 밖 느낌.</p>
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <div style="flex:1; height:40px; background:linear-gradient(135deg,#03C75A,#02a84c); border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">적용중</span>
+        </div>
+        <div style="flex:1; height:40px; background:linear-gradient(135deg,#4a8af4,#3b6dd6); border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">예약됨</span>
+        </div>
+        <div style="flex:1; height:40px; background:white; border:1.5px dashed #E8A030; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:#b87a1a; font-weight:600;">일시정지</span>
+        </div>
+        <div style="flex:1; height:40px; background:#d8d5d0; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">종료</span>
+        </div>
+      </div>
+      <!-- In context -->
+      <div style="margin-top:12px; background:#FAF9F7; border-radius:6px; padding:12px; position:relative;">
+        <div style="display:flex; padding-left:60px; margin-bottom:4px;">
+          <div style="flex:1; font-size:9px; color:#8A8580;">3월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">4월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">5월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">6월</div>
+        </div>
+        <div style="display:flex; align-items:center; margin-bottom:6px;">
+          <div style="width:60px; font-size:10px; color:#2D2A26; text-align:right; padding-right:8px; font-weight:500;">강남역</div>
+          <div style="flex:1; height:28px; position:relative; background:#f0eeeb; border-radius:4px;">
+            <div style="position:absolute; left:25%; width:25%; height:100%; background:linear-gradient(135deg,#03C75A,#02a84c); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:9px; color:white; font-weight:500;">4월 강남</span>
+            </div>
+            <div style="position:absolute; left:50%; width:25%; height:100%; background:linear-gradient(135deg,#4a8af4,#3b6dd6); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:9px; color:white; font-weight:500;">5월 프로모션</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B: Green scale only -->
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>그린 모노톤: 진한 그린 + 연한 그린</h3>
+      <p>같은 Hue(155) 안에서 명도 차이로 구분. 체계 통일감 극대화. 단, 구분력이 약할 수 있음.</p>
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <div style="flex:1; height:40px; background:linear-gradient(135deg,#03C75A,#02a84c); border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">적용중</span>
+        </div>
+        <div style="flex:1; height:40px; background:linear-gradient(135deg,#80e0a8,#5dd48e); border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:#0a5c2a; font-weight:600;">예약됨</span>
+        </div>
+        <div style="flex:1; height:40px; background:white; border:1.5px dashed #E8A030; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:#b87a1a; font-weight:600;">일시정지</span>
+        </div>
+        <div style="flex:1; height:40px; background:#d8d5d0; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">종료</span>
+        </div>
+      </div>
+      <div style="margin-top:12px; background:#FAF9F7; border-radius:6px; padding:12px;">
+        <div style="display:flex; padding-left:60px; margin-bottom:4px;">
+          <div style="flex:1; font-size:9px; color:#8A8580;">3월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">4월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">5월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">6월</div>
+        </div>
+        <div style="display:flex; align-items:center; margin-bottom:6px;">
+          <div style="width:60px; font-size:10px; color:#2D2A26; text-align:right; padding-right:8px; font-weight:500;">강남역</div>
+          <div style="flex:1; height:28px; position:relative; background:#f0eeeb; border-radius:4px;">
+            <div style="position:absolute; left:25%; width:25%; height:100%; background:linear-gradient(135deg,#03C75A,#02a84c); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:9px; color:white; font-weight:500;">4월 강남</span>
+            </div>
+            <div style="position:absolute; left:50%; width:25%; height:100%; background:linear-gradient(135deg,#80e0a8,#5dd48e); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:9px; color:#0a5c2a; font-weight:500;">5월 프로모션</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C: Green + Teal -->
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>그린 + 틸: 인접 색상</h3>
+      <p>예약을 틸(H180~190)로. 그린 가족 안에 있으면서 확실히 구분. 네이버 서비스에서도 틸 계열 사용 사례 있음.</p>
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <div style="flex:1; height:40px; background:linear-gradient(135deg,#03C75A,#02a84c); border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">적용중</span>
+        </div>
+        <div style="flex:1; height:40px; background:linear-gradient(135deg,#2bb8b0,#229e97); border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">예약됨</span>
+        </div>
+        <div style="flex:1; height:40px; background:white; border:1.5px dashed #E8A030; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:#b87a1a; font-weight:600;">일시정지</span>
+        </div>
+        <div style="flex:1; height:40px; background:#d8d5d0; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">종료</span>
+        </div>
+      </div>
+      <div style="margin-top:12px; background:#FAF9F7; border-radius:6px; padding:12px;">
+        <div style="display:flex; padding-left:60px; margin-bottom:4px;">
+          <div style="flex:1; font-size:9px; color:#8A8580;">3월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">4월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">5월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">6월</div>
+        </div>
+        <div style="display:flex; align-items:center; margin-bottom:6px;">
+          <div style="width:60px; font-size:10px; color:#2D2A26; text-align:right; padding-right:8px; font-weight:500;">강남역</div>
+          <div style="flex:1; height:28px; position:relative; background:#f0eeeb; border-radius:4px;">
+            <div style="position:absolute; left:25%; width:25%; height:100%; background:linear-gradient(135deg,#03C75A,#02a84c); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:9px; color:white; font-weight:500;">4월 강남</span>
+            </div>
+            <div style="position:absolute; left:50%; width:25%; height:100%; background:linear-gradient(135deg,#2bb8b0,#229e97); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:9px; color:white; font-weight:500;">5월 프로모션</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option D: Green + Outline -->
+  <div class="option" data-choice="d" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>그린 솔리드 + 그린 아웃라인</h3>
+      <p>적용중=채운 그린, 예약=그린 테두리만. "아직 활성이 아닌" 상태를 형태로 표현. 색상 추가 없음.</p>
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <div style="flex:1; height:40px; background:linear-gradient(135deg,#03C75A,#02a84c); border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">적용중</span>
+        </div>
+        <div style="flex:1; height:40px; background:rgba(3,199,90,0.08); border:1.5px solid #03C75A; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:#03C75A; font-weight:600;">예약됨</span>
+        </div>
+        <div style="flex:1; height:40px; background:white; border:1.5px dashed #E8A030; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:#b87a1a; font-weight:600;">일시정지</span>
+        </div>
+        <div style="flex:1; height:40px; background:#d8d5d0; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">종료</span>
+        </div>
+      </div>
+      <div style="margin-top:12px; background:#FAF9F7; border-radius:6px; padding:12px;">
+        <div style="display:flex; padding-left:60px; margin-bottom:4px;">
+          <div style="flex:1; font-size:9px; color:#8A8580;">3월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">4월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">5월</div>
+          <div style="flex:1; font-size:9px; color:#8A8580;">6월</div>
+        </div>
+        <div style="display:flex; align-items:center; margin-bottom:6px;">
+          <div style="width:60px; font-size:10px; color:#2D2A26; text-align:right; padding-right:8px; font-weight:500;">강남역</div>
+          <div style="flex:1; height:28px; position:relative; background:#f0eeeb; border-radius:4px;">
+            <div style="position:absolute; left:25%; width:25%; height:100%; background:linear-gradient(135deg,#03C75A,#02a84c); border-radius:4px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:9px; color:white; font-weight:500;">4월 강남</span>
+            </div>
+            <div style="position:absolute; left:50%; width:25%; height:100%; background:rgba(3,199,90,0.08); border:1.5px solid #03C75A; border-radius:4px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:9px; color:#03C75A; font-weight:500;">5월 프로모션</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

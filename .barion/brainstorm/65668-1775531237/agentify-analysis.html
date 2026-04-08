@@ -1,0 +1,166 @@
+<h2>Agentify 레퍼런스 분석 → DOOH CMS 적용</h2>
+<p class="subtitle">Agentify에서 배울 수 있는 컬러 조합 원리를 우리 라이트 테마 CMS에 번역합니다.</p>
+
+<!-- Analysis -->
+<div class="section">
+  <h3>Agentify 컬러 시스템 분석</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
+    <!-- Agentify palette -->
+    <div style="background:#1a1a24; border-radius:12px; padding:20px;">
+      <div style="font-size:13px; font-weight:600; color:white; margin-bottom:12px;">Agentify (Dark)</div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:#0e0d14; border:1px solid #2b2a30;"></div>
+          <div><div style="font-size:11px; color:white;">#0e0d14</div><div style="font-size:10px; color:#979e9b;">페이지 배경</div></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:#13111d;"></div>
+          <div><div style="font-size:11px; color:white;">#13111d</div><div style="font-size:10px; color:#979e9b;">카드/블록 표면</div></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:#cef47b;"></div>
+          <div><div style="font-size:11px; color:white;">#cef47b</div><div style="font-size:10px; color:#979e9b;">라임 액센트 (CTA, 호버)</div></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:#44ce93;"></div>
+          <div><div style="font-size:11px; color:white;">#44ce93</div><div style="font-size:10px; color:#979e9b;">틸 그린 (보조 강조)</div></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:#112a21;"></div>
+          <div><div style="font-size:11px; color:white;">#112a21</div><div style="font-size:10px; color:#979e9b;">다크 그린 (아이콘 배경)</div></div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="width:32px; height:32px; border-radius:6px; background:linear-gradient(135deg, #85e08c, #bcf381);"></div>
+          <div><div style="font-size:11px; color:white;">#85e08c → #bcf381</div><div style="font-size:10px; color:#979e9b;">그래디언트 (강조 영역)</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- Key principle -->
+    <div style="background:#f7f5f2; border-radius:12px; padding:20px; border:1px solid #e8e6e3;">
+      <div style="font-size:13px; font-weight:600; color:#2D2A26; margin-bottom:12px;">핵심 원리 (테마 무관)</div>
+      <div style="display:flex; flex-direction:column; gap:10px; font-size:12px; color:#555;">
+        <div><b style="color:#2D2A26;">1. 그린 스케일의 깊이</b><br>단일 그린이 아니라 5단계 이상. 아이콘 배경(어두운 그린) → 본문 그린 → 밝은 라임까지 레이어.</div>
+        <div><b style="color:#2D2A26;">2. 액센트는 절제</b><br>라임을 CTA 버튼과 호버에만 사용. 남용하지 않아서 눈에 "꽂힘".</div>
+        <div><b style="color:#2D2A26;">3. 표면 레이어링</b><br>배경 → 카드 → 활성 상태까지 3단계 명도차. 깊이감.</div>
+        <div><b style="color:#2D2A26;">4. 보더는 반투명</b><br>하드 라인이 아닌 rgba white 3~32% 투명도. 부드러운 구분.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Translation to our CMS -->
+<div class="section">
+  <h3>DOOH CMS 라이트 테마로 번역</h3>
+  <p class="subtitle" style="margin-bottom:16px;">Agentify 원리를 우리 디자인 파운데이션(warm gray + primary green)에 적용한 결과</p>
+
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+    <!-- Before: current flat -->
+    <div style="border:1px solid #e8e6e3; border-radius:12px; overflow:hidden;">
+      <div style="padding:10px; background:#f0eeeb; font-size:11px; font-weight:600; color:#8A8580; text-align:center;">기존 (플랫)</div>
+      <div style="padding:16px; background:white;">
+        <div style="background:#03C75A; color:white; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:500; text-align:center; margin-bottom:8px;">+ 편성표 생성</div>
+        <div style="padding:8px 12px; background:#e6f9ed; border-radius:6px; margin-bottom:6px;">
+          <span style="font-size:11px; color:#03C75A; font-weight:500;">적용중</span>
+        </div>
+        <div style="padding:8px 12px; background:#f3f4f6; border:1px solid #e5e7eb; border-radius:6px;">
+          <span style="font-size:11px; color:#6b7280;">편성표 카드</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- After: Agentify-inspired -->
+    <div style="border:1px solid #e8e6e3; border-radius:12px; overflow:hidden;">
+      <div style="padding:10px; background:#03C75A; font-size:11px; font-weight:600; color:white; text-align:center;">적용 후 (깊이감)</div>
+      <div style="padding:16px; background:#FAF9F7;">
+        <div style="background:linear-gradient(135deg, #03C75A, #02a84c); color:white; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:600; text-align:center; margin-bottom:8px; box-shadow:0 2px 8px rgba(3,199,90,0.25);">+ 편성표 생성</div>
+        <div style="padding:8px 12px; background:linear-gradient(135deg, rgba(3,199,90,0.08), rgba(3,199,90,0.03)); border:1px solid rgba(3,199,90,0.15); border-radius:6px; margin-bottom:6px;">
+          <span style="font-size:11px; color:#03C75A; font-weight:600;">적용중</span>
+        </div>
+        <div style="padding:8px 12px; background:white; border:1px solid #f0eeeb; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+          <span style="font-size:11px; color:#2D2A26;">편성표 카드</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark accent version -->
+    <div style="border:1px solid #e8e6e3; border-radius:12px; overflow:hidden;">
+      <div style="padding:10px; background:#2D2A26; font-size:11px; font-weight:600; color:#a1ff95; text-align:center;">다크 그린 포인트</div>
+      <div style="padding:16px; background:#FAF9F7;">
+        <div style="background:#2D2A26; color:#a1ff95; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:600; text-align:center; margin-bottom:8px;">+ 편성표 생성</div>
+        <div style="padding:8px 12px; background:#f0faf3; border-left:3px solid #03C75A; border-radius:2px 6px 6px 2px; margin-bottom:6px;">
+          <span style="font-size:11px; color:#03C75A; font-weight:600;">적용중</span>
+        </div>
+        <div style="padding:8px 12px; background:white; border:1px solid #f0eeeb; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+          <span style="font-size:11px; color:#2D2A26;">편성표 카드</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Specific takeaways for timeline -->
+<div class="section">
+  <h3>타임라인 뷰에 적용할 요소</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;">
+    <div style="border:1px solid #e8e6e3; border-radius:10px; padding:16px; background:white;">
+      <div style="font-size:12px; font-weight:600; color:#2D2A26; margin-bottom:8px;">타임라인 바 그래디언트</div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <div style="height:36px; background:linear-gradient(135deg, #03C75A, #02a84c); border-radius:6px; box-shadow:0 2px 8px rgba(3,199,90,0.25); display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:600;">적용중 (P1)</span>
+        </div>
+        <div style="height:32px; background:linear-gradient(135deg, #44ce93, #38b07d); border-radius:6px; box-shadow:0 2px 6px rgba(68,206,147,0.2); display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:500;">적용중 (P2)</span>
+        </div>
+        <div style="height:28px; background:linear-gradient(135deg, #4a8af4, #3b6dd6); border-radius:6px; box-shadow:0 2px 6px rgba(74,138,244,0.2); display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:white; font-weight:500;">예약됨</span>
+        </div>
+        <div style="height:28px; background:white; border:2px dashed #E8A030; border-radius:6px; display:flex; align-items:center; padding:0 12px;">
+          <span style="font-size:11px; color:#b87a1a; font-weight:500;">일시정지</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="border:1px solid #e8e6e3; border-radius:10px; padding:16px; background:white;">
+      <div style="font-size:12px; font-weight:600; color:#2D2A26; margin-bottom:8px;">아이콘/뱃지에 다크 그린 배경</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:32px; height:32px; background:#e6f9ed; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px;">📅</div>
+          <div style="font-size:11px; color:#8A8580;">기존: 밝은 그린 배경</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:32px; height:32px; background:#0a2e18; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px;">📅</div>
+          <div style="font-size:11px; color:#2D2A26; font-weight:500;">적용: 다크 그린 배경 (Agentify 스타일)</div>
+        </div>
+      </div>
+      <div style="margin-top:12px; padding:10px; background:#FAF9F7; border-radius:6px;">
+        <div style="font-size:11px; color:#8A8580;">사이드바 활성 메뉴, 상태 아이콘, 동기화 인디케이터에 다크 그린 배경을 쓰면 라이트 테마에서도 Agentify의 깊이감을 재현 가능</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>요약: 가져갈 것</h3>
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:8px;">
+    <div style="text-align:center; padding:12px; background:#FAF9F7; border-radius:8px; border:1px solid #f0eeeb;">
+      <div style="font-size:20px; margin-bottom:4px;">🎨</div>
+      <div style="font-size:11px; font-weight:600; color:#2D2A26;">그래디언트 바</div>
+      <div style="font-size:10px; color:#8A8580;">플랫 컬러 → 미묘한 그래디언트 + 섀도</div>
+    </div>
+    <div style="text-align:center; padding:12px; background:#FAF9F7; border-radius:8px; border:1px solid #f0eeeb;">
+      <div style="font-size:20px; margin-bottom:4px;">🌲</div>
+      <div style="font-size:11px; font-weight:600; color:#2D2A26;">다크 그린 포인트</div>
+      <div style="font-size:10px; color:#8A8580;">아이콘 bg, 사이드바 활성 상태</div>
+    </div>
+    <div style="text-align:center; padding:12px; background:#FAF9F7; border-radius:8px; border:1px solid #f0eeeb;">
+      <div style="font-size:20px; margin-bottom:4px;">📐</div>
+      <div style="font-size:11px; font-weight:600; color:#2D2A26;">3단계 표면</div>
+      <div style="font-size:10px; color:#8A8580;">배경 → 카드 → 활성: 명도 차이</div>
+    </div>
+    <div style="text-align:center; padding:12px; background:#FAF9F7; border-radius:8px; border:1px solid #f0eeeb;">
+      <div style="font-size:20px; margin-bottom:4px;">✨</div>
+      <div style="font-size:11px; font-weight:600; color:#2D2A26;">반투명 보더</div>
+      <div style="font-size:10px; color:#8A8580;">하드 라인 → rgba 투명도 보더</div>
+    </div>
+  </div>
+</div>

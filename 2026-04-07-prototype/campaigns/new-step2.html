@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 캠페인 등록 Step 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#f0faf3', 100: '#e6f9ed', 200: '#b3eccc', 300: '#66d999',
+          400: '#33cc77', 500: '#03C75A', 600: '#02a84c', 700: '#028a3e',
+          800: '#016b30', 900: '#014d23',
+        },
+        gray: {
+          50: '#FAF9F7', 100: '#F2F0ED', 200: '#E8E6E3', 300: '#D0CCC7',
+          400: '#B0ABA5', 500: '#8A8580', 600: '#6E6A65', 700: '#55514D',
+          800: '#3B3835', 900: '#2D2A26',
+        },
+      },
+      borderRadius: {
+        'sm': '4px', 'md': '6px', 'lg': '10px', 'xl': '12px',
+      },
+    },
+  },
+}
+</script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6">
+        <a href="new-step1.html" class="text-sm text-gray-500 hover:text-gray-700">← Step 1: 기본 정보</a>
+        <h1 class="text-2xl font-bold text-gray-900 mt-2">캠페인 등록</h1>
+      </div>
+
+      <!-- 스텝 인디케이터 -->
+      <div class="max-w-2xl mb-8">
+        <div class="step-indicator">
+          <div class="step-dot completed">✓</div>
+          <div class="step-line completed"></div>
+          <div class="step-dot current">2</div>
+          <div class="step-line"></div>
+          <div class="step-dot upcoming">3</div>
+        </div>
+        <div class="flex justify-between mt-2 text-xs text-gray-500 px-1">
+          <span class="text-green-600">기본 정보 ✓</span>
+          <span class="font-medium text-blue-600">매체 · 기간</span>
+          <span>예산 · 확인</span>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200 p-8 max-w-2xl">
+        <form action="new-step3.html">
+          <div class="form-group">
+            <label class="form-label">대상 매체 선택 <span class="text-red-500">*</span></label>
+            <p class="text-xs text-gray-400 mb-2">최소 1개 이상 선택하세요</p>
+            <div class="border border-gray-200 rounded-lg max-h-56 overflow-y-auto">
+              <label class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 cursor-pointer">
+                <input type="checkbox" checked class="rounded text-blue-600">
+                <span class="text-sm">강남역 1번출구</span>
+                <span class="badge badge-green ml-auto">활성</span>
+              </label>
+              <label class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 cursor-pointer">
+                <input type="checkbox" checked class="rounded text-blue-600">
+                <span class="text-sm">삼성역 B2</span>
+                <span class="badge badge-green ml-auto">활성</span>
+              </label>
+              <label class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 cursor-pointer">
+                <input type="checkbox" class="rounded text-blue-600">
+                <span class="text-sm">코엑스 GF 기둥</span>
+                <span class="badge badge-green ml-auto">활성</span>
+              </label>
+              <label class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 cursor-pointer">
+                <input type="checkbox" class="rounded text-blue-600" disabled>
+                <span class="text-sm text-gray-400">홍대입구역 광장</span>
+                <span class="badge badge-gray ml-auto">미연동</span>
+              </label>
+              <label class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer">
+                <input type="checkbox" class="rounded text-blue-600" disabled>
+                <span class="text-sm text-gray-400">여의도 IFC몰</span>
+                <span class="badge badge-yellow ml-auto">비활성</span>
+              </label>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">2개 선택됨</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label">시작일 <span class="text-red-500">*</span></label>
+              <input type="date" class="form-input" value="2026-05-01" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">종료일 <span class="text-red-500">*</span></label>
+              <input type="date" class="form-input" value="2026-06-30" required>
+            </div>
+          </div>
+
+          <div class="flex justify-end gap-2 mt-6 pt-6 border-t border-gray-200">
+            <a href="new-step1.html" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">← 이전</a>
+            <button type="submit" class="px-6 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700">다음 →</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

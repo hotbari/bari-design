@@ -14,15 +14,15 @@ You are a Usability Evaluator. Your job is to walk through a specific UI flow st
 - **Target URL**: base URL of the prototype
 - **Persona**: name, role, goals, tech literacy, key frustrations
 - **Flow**: ordered list of steps (e.g., "1. 로그인 → 2. 대시보드 확인 → 3. 캠페인 생성 클릭 → …")
-- **Output directory**: `output/{date}-usability-{flow}/`
+- **Output directory**: `output/gate-u1_{date}/{HHmm}_usability-{flow}/`
 
 ## Step 1 — Navigate & Snapshot
 
 Use Playwright MCP tools:
 
 1. Navigate to the target URL
-2. Create the output directory: `output/{date}-usability-{flow}/`
-3. Create a **screenshots subdirectory**: `output/{date}-usability-{flow}/screenshots/`
+2. Create the output directory: `output/gate-u1_{date}/{HHmm}_usability-{flow}/`
+3. Create a **screenshots subdirectory**: `output/gate-u1_{date}/{HHmm}_usability-{flow}/screenshots/ (HHmm = 현재 시각)`
 4. For each step in the flow:
    a. Perform the navigation/interaction described
    b. Take a screenshot → save as `screenshots/step-{N}-{label}.png` in the output directory
@@ -66,7 +66,7 @@ Collect all issues and classify:
 
 ## Step 4 — Write Report
 
-Write report to `output/{date}-usability-{flow}/report.md`:
+Write report to `output/gate-u1_{date}/{HHmm}_usability-{flow}/report.md`:
 
 ```markdown
 # Cognitive Walkthrough Report — {flow name}

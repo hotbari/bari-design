@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 편성표 생성</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#f0faf3', 100: '#e6f9ed', 200: '#b3eccc', 300: '#66d999',
+          400: '#33cc77', 500: '#03C75A', 600: '#02a84c', 700: '#028a3e',
+          800: '#016b30', 900: '#014d23',
+        },
+        gray: {
+          50: '#FAF9F7', 100: '#F2F0ED', 200: '#E8E6E3', 300: '#D0CCC7',
+          400: '#B0ABA5', 500: '#8A8580', 600: '#6E6A65', 700: '#55514D',
+          800: '#3B3835', 900: '#2D2A26',
+        },
+      },
+      borderRadius: {
+        'sm': '4px', 'md': '6px', 'lg': '10px', 'xl': '12px',
+      },
+    },
+  },
+}
+</script>
+  <link rel="stylesheet" href="../shared/style.css">
+  <style>
+    .media-checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(0,0,0,0.08);
+      background: white;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      margin-bottom: 4px;
+    }
+    .media-checkbox-item:hover { border-color: rgba(0,0,0,0.14); background: var(--color-neutral-50); }
+    .media-checkbox-item input[type="checkbox"] {
+      width: 15px; height: 15px;
+      accent-color: var(--color-primary-500);
+      cursor: pointer; flex-shrink: 0;
+    }
+    .media-checkbox-item.checked {
+      border-color: var(--color-primary-300);
+      background: var(--color-primary-50);
+    }
+
+    .preview-panel {
+      width: 360px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 24px;
+      align-self: flex-start;
+    }
+
+    .preview-track {
+      flex: 1;
+      height: 36px;
+      position: relative;
+      background: var(--color-neutral-50);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .preview-bar-existing {
+      position: absolute;
+      top: 5px; bottom: 5px;
+      background: var(--color-neutral-300);
+      border-radius: 3px;
+    }
+    .preview-bar-new {
+      position: absolute;
+      top: 5px; bottom: 5px;
+      background: transparent;
+      border: 2px dashed var(--color-primary-500);
+      border-radius: 3px;
+    }
+    .preview-bar-conflict {
+      position: absolute;
+      top: 0; bottom: 0;
+      background: var(--color-warning-50);
+      border: 1px dashed var(--color-warning-500);
+      border-radius: 3px;
+      z-index: 1;
+    }
+    .preview-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .conflict-alert {
+      background: var(--color-warning-50);
+      border: 1px solid rgba(232,160,48,0.3);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: var(--text-xs);
+      color: var(--color-warning-600);
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .no-conflict-msg {
+      background: var(--color-primary-50);
+      border: 1px solid rgba(3,199,90,0.2);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: var(--text-xs);
+      color: var(--color-primary-600);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .date-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  </style>
+</head>
+<body>
+  <div id="app-header"></div>
+  <div style="display:flex;">
+    <div id="app-sidebar"></div>
+    <main style="flex:1; padding:32px; min-width:0;">
+
+      <!-- Breadcrumb + page title -->
+      <div style="margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+          <a href="list.html" style="font-size:var(--text-sm); color:var(--color-neutral-500); text-decoration:none;">편성관리</a>
+          <span style="font-size:var(--text-sm); color:var(--color-neutral-400);">/</span>
+          <span style="font-size:var(--text-sm); color:var(--color-neutral-800); font-weight:600;">편성표 생성</span>
+        </div>
+        <h1 style="font-size:var(--text-xl); font-weight:700; color:var(--color-neutral-900); letter-spacing:-0.02em;">편성표 생성</h1>
+      </div>
+
+      <!-- 2-column layout -->
+      <div style="display:flex; gap:24px; align-items:flex-start;">
+
+        <!-- ── LEFT: Form ── -->
+        <div style="flex:1; min-width:0;">
+          <div class="card" style="padding:24px;">
+
+            <!-- 편성표명 -->
+            <div class="form-group">
+              <label class="form-label" for="sched-name">
+                편성표명 <span style="color:var(--color-error-500);">*</span>
+              </label>
+              <input
+                type="text"
+                id="sched-name"
+                class="form-input"
+                placeholder="예: 5월 강남역 캠페인 편성"
+                oninput="onNameInput(this)"
+              >
+            </div>
+
+            <!-- 재생목록 -->
+            <div class="form-group">
+              <label class="form-label" for="sched-playlist">재생목록 선택</label>
+              <select id="sched-playlist" class="form-input" onchange="updatePreview()">
+                <option value="">재생목록을 선택하세요</option>
+                <option value="galaxy">갤럭시 S26</option>
+                <option value="spring">봄 세일</option>
+                <option value="house">하우스 광고</option>
+                <option value="cu">CU 프로모션</option>
+              </select>
+            </div>
+
+            <!-- 매체 선택 -->
+            <div class="form-group">
+              <label class="form-label">매체 선택</label>
+              <div id="media-list"></div>
+            </div>
+
+            <!-- 기간 설정 -->
+            <div class="form-group">
+              <label class="form-label">기간 설정</label>
+              <div class="date-grid">
+                <div>
+                  <label class="form-label" for="sched-start" style="font-size:10px; color:var(--color-neutral-400);">시작일</label>
+                  <input type="date" id="sched-start" class="form-input" onchange="updatePreview()">
+                </div>
+                <div>
+                  <label class="form-label" for="sched-end" style="font-size:10px; color:var(--color-neutral-400);">종료일</label>
+                  <input type="date" id="sched-end" class="form-input" onchange="updatePreview()">
+                </div>
+              </div>
+            </div>
+
+            <!-- 우선순위 -->
+            <div class="form-group">
+              <label class="form-label" for="sched-priority">우선순위</label>
+              <select id="sched-priority" class="form-input" onchange="updatePreview()">
+                <option value="1">1 — 최우선</option>
+                <option value="2">2 — 높음</option>
+                <option value="3" selected>3 — 보통</option>
+                <option value="4">4 — 낮음</option>
+                <option value="5">5 — 최하</option>
+              </select>
+            </div>
+
+            <!-- Actions -->
+            <div style="display:flex; gap:10px; justify-content:flex-end; padding-top:16px; border-top:1px solid rgba(0,0,0,0.06);">
+              <a href="list.html" class="btn btn-secondary">취소</a>
+              <button class="btn btn-primary" onclick="handleSubmit()">편성표 생성</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── RIGHT: Live preview ── -->
+        <div class="preview-panel">
+          <div class="card" style="padding:20px;">
+            <div style="font-size:var(--text-sm); font-weight:700; color:var(--color-neutral-900); margin-bottom:3px;">편성 프리뷰</div>
+            <div style="font-size:var(--text-xs); color:var(--color-neutral-400); margin-bottom:16px;">매체·기간 선택 시 실시간 업데이트</div>
+
+            <!-- Timeline rows -->
+            <div id="preview-timeline">
+              <div style="
+                display:flex; align-items:center; justify-content:center;
+                height:80px;
+                background:var(--color-neutral-50);
+                border-radius:var(--radius-md);
+                border:1px dashed rgba(0,0,0,0.1);
+              ">
+                <span style="font-size:var(--text-xs); color:var(--color-neutral-400);">매체와 기간을 선택하면 프리뷰가 표시됩니다</span>
+              </div>
+            </div>
+
+            <!-- Conflict status -->
+            <div id="preview-conflict" style="margin-top:12px; display:none;"></div>
+
+            <!-- Legend -->
+            <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); display:flex; flex-wrap:wrap; gap:10px;">
+              <div style="display:flex; align-items:center; gap:4px;">
+                <div style="width:18px; height:10px; background:var(--color-neutral-300); border-radius:2px;"></div>
+                <span style="font-size:10px; color:var(--color-neutral-500);">기존 편성</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:4px;">
+                <div style="width:18px; height:10px; border:2px dashed var(--color-primary-500); border-radius:2px;"></div>
+                <span style="font-size:10px; color:var(--color-neutral-500);">새 편성</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:4px;">
+                <div style="width:18px; height:10px; background:var(--color-warning-50); border:1px dashed var(--color-warning-500); border-radius:2px;"></div>
+                <span style="font-size:10px; color:var(--color-neutral-500);">충돌 구간</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end 2-col -->
+    </main>
+  </div>
+
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/layout.js"></script>
+  <script src="data.js"></script>
+  <script src="timeline.js"></script>
+  <script>
+    // ── Media list ───────────────────────────────────────────────────
+    const MEDIA_STATUS_LABEL = { online: '운영중', inactive: '비활성', unlinked: '미연결' };
+    const MEDIA_BADGE_CLASS  = { online: 'badge-active', inactive: 'badge-paused', unlinked: 'badge-ended' };
+
+    function renderMediaList() {
+      document.getElementById('media-list').innerHTML = MEDIA_LIST.map(m => `
+        <label class="media-checkbox-item" id="media-item-${m.id}">
+          <input type="checkbox" name="media" value="${m.id}"
+            onchange="onMediaChange('${m.id}', this.checked)">
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:var(--text-sm); font-weight:500; color:var(--color-neutral-900);
+                        white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.name}</div>
+            <div style="font-size:10px; color:var(--color-neutral-400);">${m.spec}</div>
+          </div>
+          <span class="badge ${MEDIA_BADGE_CLASS[m.status]}" style="flex-shrink:0;">
+            ${MEDIA_STATUS_LABEL[m.status]}
+          </span>
+        </label>
+      `).join('');
+    }
+
+    function onMediaChange(mediaId, checked) {
+      const item = document.getElementById('media-item-' + mediaId);
+      item.classList.toggle('checked', checked);
+      updatePreview();
+    }
+
+    function onNameInput(input) {
+      input.style.borderColor = '';
+      updatePreview();
+    }
+
+    // ── Date helpers ─────────────────────────────────────────────────
+    function _parseDate(str) { return new Date(str + 'T00:00:00'); }
+
+    function _pct(date, rs, re) {
+      const total = (_parseDate(re) - _parseDate(rs)) / 86400000;
+      const elapsed = (_parseDate(date) - _parseDate(rs)) / 86400000;
+      return Math.max(0, Math.min(100, total > 0 ? (elapsed / total) * 100 : 0));
+    }
+
+    function _overlaps(aS, aE, bS, bE) { return aS <= bE && aE >= bS; }
+
+    function _overlapRange(aS, aE, bS, bE) {
+      return { start: aS > bS ? aS : bS, end: aE < bE ? aE : bE };
+    }
+
+    // ── Live preview ─────────────────────────────────────────────────
+    function updatePreview() {
+      const newStart = document.getElementById('sched-start').value;
+      const newEnd   = document.getElementById('sched-end').value;
+      const selectedIds = Array.from(
+        document.querySelectorAll('input[name="media"]:checked')
+      ).map(el => el.value);
+
+      const timelineEl = document.getElementById('preview-timeline');
+      const conflictEl = document.getElementById('preview-conflict');
+
+      if (selectedIds.length === 0) {
+        timelineEl.innerHTML = `
+          <div style="display:flex;align-items:center;justify-content:center;height:80px;
+                      background:var(--color-neutral-50);border-radius:var(--radius-md);
+                      border:1px dashed rgba(0,0,0,0.1);">
+            <span style="font-size:var(--text-xs);color:var(--color-neutral-400);">
+              매체와 기간을 선택하면 프리뷰가 표시됩니다
+            </span>
+          </div>`;
+        conflictEl.style.display = 'none';
+        return;
+      }
+
+      const hasValidDates = newStart && newEnd && newStart <= newEnd;
+
+      // Determine visible range (new schedule ± 2 weeks padding, or default)
+      let rs, re;
+      if (hasValidDates) {
+        const padMs = 14 * 86400000;
+        const padStart = new Date(_parseDate(newStart).getTime() - padMs);
+        const padEnd   = new Date(_parseDate(newEnd).getTime()   + padMs);
+        rs = padStart.toISOString().split('T')[0];
+        re = padEnd.toISOString().split('T')[0];
+      } else {
+        rs = '2026-04-01';
+        re = '2026-05-31';
+      }
+
+      // Build rows
+      let hasAnyConflict = false;
+      const conflictMessages = [];
+
+      const rowsHTML = selectedIds.map(mediaId => {
+        const media = getMediaById(mediaId);
+        if (!media) return '';
+
+        const existing = getSchedulesForMedia(mediaId)
+          .filter(s => s.end >= rs && s.start <= re);
+
+        // Conflict check
+        let conflicts = [];
+        if (hasValidDates) {
+          conflicts = existing.filter(s => _overlaps(newStart, newEnd, s.start, s.end));
+          if (conflicts.length) {
+            hasAnyConflict = true;
+            conflicts.forEach(c => {
+              const ov = _overlapRange(newStart, newEnd, c.start, c.end);
+              conflictMessages.push(`${media.name}: "${c.name}"과 ${ov.start}~${ov.end} 충돌`);
+            });
+          }
+        }
+
+        // Existing schedule bars
+        const existingBars = existing.map(s => {
+          const left  = _pct(s.start < rs ? rs : s.start, rs, re);
+          const right = _pct(s.end   > re ? re : s.end,   rs, re);
+          return `<div class="preview-bar-existing"
+                       style="left:${left}%;width:${right - left}%;"
+                       title="${s.name} (${s.start}~${s.end})"></div>`;
+        }).join('');
+
+        // New schedule bar (dashed outline)
+        let newBar = '';
+        if (hasValidDates) {
+          const l = _pct(newStart < rs ? rs : newStart, rs, re);
+          const r = _pct(newEnd   > re ? re : newEnd,   rs, re);
+          newBar = `<div class="preview-bar-new" style="left:${l}%;width:${r - l}%;z-index:2;"></div>`;
+        }
+
+        // Conflict overlays
+        const conflictOverlays = conflicts.map(c => {
+          const ov   = _overlapRange(newStart, newEnd, c.start, c.end);
+          const left  = _pct(ov.start, rs, re);
+          const right = _pct(ov.end,   rs, re);
+          return `<div class="preview-bar-conflict" style="left:${left}%;width:${right - left}%;"></div>`;
+        }).join('');
+
+        const shortName = media.name.length > 6 ? media.name.substring(0, 6) + '…' : media.name;
+
+        return `
+          <div class="preview-row">
+            <div style="width:72px; flex-shrink:0; padding-right:8px; text-align:right;">
+              <div style="font-size:11px; font-weight:600; color:var(--color-neutral-800);">${shortName}</div>
+              <div style="font-size:9px; color:var(--color-neutral-400);">${media.spec.split(' · ')[0]}</div>
+            </div>
+            <div class="preview-track">
+              ${conflictOverlays}
+              ${existingBars}
+              ${newBar}
+            </div>
+          </div>`;
+      }).join('');
+
+      // Date axis labels
+      const midTs = (_parseDate(rs).getTime() + _parseDate(re).getTime()) / 2;
+      const midD  = new Date(midTs);
+      const fmt = d => `${d.getMonth()+1}/${d.getDate()}`;
+      const rsD = _parseDate(rs);
+      const reD = _parseDate(re);
+
+      timelineEl.innerHTML = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px; padding-left:72px; padding-right:2px;">
+          <span style="font-size:9px; color:var(--color-neutral-400);">${fmt(rsD)}</span>
+          <span style="font-size:9px; color:var(--color-neutral-400);">${fmt(midD)}</span>
+          <span style="font-size:9px; color:var(--color-neutral-400);">${fmt(reD)}</span>
+        </div>
+        ${rowsHTML}
+      `;
+
+      // Conflict / no-conflict message
+      if (hasValidDates) {
+        conflictEl.style.display = 'block';
+        if (hasAnyConflict) {
+          conflictEl.innerHTML = `
+            <div class="conflict-alert">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" style="flex-shrink:0; margin-top:1px;">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              <div>
+                <div style="font-weight:700; margin-bottom:3px;">일정 충돌 감지</div>
+                ${conflictMessages.map(msg => `<div style="margin-top:2px;">${msg}</div>`).join('')}
+              </div>
+            </div>`;
+        } else {
+          conflictEl.innerHTML = `
+            <div class="no-conflict-msg">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              충돌 없음 ✓ — 선택 기간에 겹치는 편성이 없습니다
+            </div>`;
+        }
+      } else {
+        conflictEl.style.display = 'none';
+      }
+    }
+
+    // ── Submit ───────────────────────────────────────────────────────
+    function handleSubmit() {
+      const nameEl = document.getElementById('sched-name');
+      if (!nameEl.value.trim()) {
+        nameEl.focus();
+        nameEl.style.borderColor = 'var(--color-error-500)';
+        nameEl.style.boxShadow = '0 0 0 3px rgba(230,35,24,0.08)';
+        return;
+      }
+      const start = document.getElementById('sched-start').value;
+      const end   = document.getElementById('sched-end').value;
+      if (!start || !end || start > end) {
+        alert('시작일과 종료일을 올바르게 입력해주세요.');
+        return;
+      }
+      const checked = document.querySelectorAll('input[name="media"]:checked');
+      if (checked.length === 0) {
+        alert('매체를 하나 이상 선택해주세요.');
+        return;
+      }
+      window.location.href = 'list.html';
+    }
+
+    // ── Init ─────────────────────────────────────────────────────────
+    renderMediaList();
+  </script>
+</body>
+</html>

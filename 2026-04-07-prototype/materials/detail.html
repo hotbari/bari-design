@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 소재 상세</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#f0faf3', 100: '#e6f9ed', 200: '#b3eccc', 300: '#66d999',
+          400: '#33cc77', 500: '#03C75A', 600: '#02a84c', 700: '#028a3e',
+          800: '#016b30', 900: '#014d23',
+        },
+        gray: {
+          50: '#FAF9F7', 100: '#F2F0ED', 200: '#E8E6E3', 300: '#D0CCC7',
+          400: '#B0ABA5', 500: '#8A8580', 600: '#6E6A65', 700: '#55514D',
+          800: '#3B3835', 900: '#2D2A26',
+        },
+      },
+      borderRadius: {
+        'sm': '4px', 'md': '6px', 'lg': '10px', 'xl': '12px',
+      },
+    },
+  },
+}
+</script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6">
+        <a href="list.html" class="text-sm text-gray-500 hover:text-gray-700">← 소재 목록</a>
+        <div class="flex items-center gap-3 mt-2">
+          <h1 class="text-2xl font-bold text-gray-900">봄맞이 프로모션 30s</h1>
+          <span class="badge badge-yellow">수동검수대기</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-6">
+        <!-- 미리보기 -->
+        <div class="col-span-1">
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <div class="bg-gray-900 rounded-lg aspect-video flex items-center justify-center text-white text-sm mb-3">
+              미리보기
+            </div>
+            <div class="text-xs text-gray-500 space-y-1">
+              <div class="flex justify-between"><span>파일명</span><span>spring_promo_30s.mp4</span></div>
+              <div class="flex justify-between"><span>파일 크기</span><span>24.3 MB</span></div>
+              <div class="flex justify-between"><span>코덱</span><span>H.264</span></div>
+              <div class="flex justify-between"><span>등록자</span><span>김영희</span></div>
+              <div class="flex justify-between"><span>등록일</span><span>2026-04-01</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 상세 정보 -->
+        <div class="col-span-2 space-y-6">
+          <!-- 기본 정보 -->
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h3 class="text-sm font-semibold mb-4">기본 정보</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-xs text-gray-500 mb-1">소재명</p>
+                <p class="text-sm font-medium">봄맞이 프로모션 30s</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">광고주</p>
+                <p class="text-sm font-medium">삼성전자</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">재생 시간</p>
+                <p class="text-sm font-medium">30초</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500 mb-1">대상 해상도</p>
+                <p class="text-sm font-medium">1920 × 1080</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 검수 결과 -->
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h3 class="text-sm font-semibold mb-4">자동 검수 결과</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>검수 항목</th>
+                  <th>결과</th>
+                  <th>상세</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>해상도 일치</td>
+                  <td><span class="badge badge-green">통과</span></td>
+                  <td class="text-sm text-gray-500">1920×1080 (일치)</td>
+                </tr>
+                <tr>
+                  <td>파일 무결성</td>
+                  <td><span class="badge badge-green">통과</span></td>
+                  <td class="text-sm text-gray-500">정상</td>
+                </tr>
+                <tr>
+                  <td>코덱 지원</td>
+                  <td><span class="badge badge-green">통과</span></td>
+                  <td class="text-sm text-gray-500">H.264</td>
+                </tr>
+                <tr>
+                  <td>재생시간 일치</td>
+                  <td><span class="badge badge-yellow">수동 확인 필요</span></td>
+                  <td class="text-sm text-yellow-600">선언: 30s / 실제: 30.2s (오차 범위 초과)</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- 수동 검수 영역 (어드민/매체사만) -->
+            <div class="mt-6 pt-6 border-t border-gray-200" data-roles="admin,media">
+              <h4 class="text-sm font-semibold mb-3">수동 검수 판정</h4>
+              <div class="flex gap-3">
+                <button onclick="showModal('pass-modal')" class="px-4 py-2 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700">검수 통과</button>
+                <button onclick="showModal('fail-modal')" class="px-4 py-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700">검수 실패</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 사용 편성표 -->
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <h3 class="text-sm font-semibold mb-4">사용 중인 편성표</h3>
+            <p class="text-sm text-gray-500">이 소재를 사용 중인 편성표가 없습니다.</p>
+          </div>
+
+          <!-- 액션 버튼 -->
+          <div class="flex gap-2">
+            <a href="upload.html" class="px-4 py-2 text-sm text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50">소재 교체</a>
+            <button onclick="showModal('delete-modal')" class="px-4 py-2 text-sm text-red-600 border border-red-300 rounded-lg hover:bg-red-50">삭제</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 검수 통과 모달 -->
+  <div id="pass-modal" class="modal-overlay hidden" onclick="hideModal('pass-modal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">검수 통과 확인</h3>
+      <p class="text-sm text-gray-600 mb-4">이 소재의 검수를 통과 처리하시겠습니까?</p>
+      <div class="flex justify-end gap-2">
+        <button onclick="hideModal('pass-modal')" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg">취소</button>
+        <a href="list.html" class="px-4 py-2 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700">통과</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 검수 실패 모달 -->
+  <div id="fail-modal" class="modal-overlay hidden" onclick="hideModal('fail-modal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">검수 실패 처리</h3>
+      <div class="form-group">
+        <label class="form-label">실패 사유 <span class="text-red-500">*</span></label>
+        <textarea class="form-input" rows="3" placeholder="최소 10자 이상 입력" minlength="10">재생시간 오차가 허용 범위를 초과합니다.</textarea>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button onclick="hideModal('fail-modal')" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg">취소</button>
+        <a href="list.html" class="px-4 py-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700">실패 처리</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 삭제 모달 -->
+  <div id="delete-modal" class="modal-overlay hidden" onclick="hideModal('delete-modal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">소재 삭제</h3>
+      <p class="text-sm text-gray-600 mb-4">이 소재를 삭제하시겠습니까?</p>
+      <div class="flex justify-end gap-2">
+        <button onclick="hideModal('delete-modal')" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg">취소</button>
+        <a href="list.html" class="px-4 py-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700">삭제</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

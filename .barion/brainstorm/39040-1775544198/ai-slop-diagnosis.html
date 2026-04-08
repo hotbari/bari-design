@@ -1,0 +1,73 @@
+<h2>두 프로토타입이 "AI가 만든 것 같은" 느낌을 주는 원인 분석</h2>
+<p class="subtitle">개별 설정값이 아니라, 이것들이 조합되었을 때 만들어내는 패턴이 문제입니다</p>
+
+<div class="section">
+  <h3>진단: 7가지 "공장형 디자인" 신호</h3>
+  <p class="subtitle">동의하는 항목을 클릭해주세요 (복수 선택 가능). 분석 방향을 잡는 데 쓰겠습니다.</p>
+</div>
+
+<div class="options" data-multiselect>
+
+  <div class="option" data-choice="uniform-rhythm" onclick="toggleSelect(this)">
+    <div class="letter">1</div>
+    <div class="content">
+      <h3>균일한 리듬 — 모든 페이지가 같은 박자</h3>
+      <p>페이지 헤더 → 필터 바 → 테이블/카드 그리드. 대시보드도, 캠페인 목록도, 편성 관리도 같은 구조. 스크롤해도 시각적 변주가 없음. 마치 동일 템플릿에 데이터만 바꿔 넣은 느낌.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="color-monotone" onclick="toggleSelect(this)">
+    <div class="letter">2</div>
+    <div class="content">
+      <h3>컬러 단조로움 — 초록 + 회색 2톤 세계</h3>
+      <p>Primary green과 warm gray만으로 전체 화면 구성. 도메인(캠페인 / 매체 / 편성 / 소재)마다 시각적 구분이 없음. Error red와 Warning yellow도 상태 뱃지에만 쓰여서 화면 전체로 보면 거의 무채색.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="flat-hierarchy" onclick="toggleSelect(this)">
+    <div class="letter">3</div>
+    <div class="content">
+      <h3>평탄한 위계 — 강약 없는 정보 나열</h3>
+      <p>숫자 카드(stat-card)들이 모두 같은 크기, 같은 weight. 테이블 행도 모두 같은 높이, 같은 텍스트 크기. "가장 중요한 것"이 시각적으로 두드러지지 않음. 모든 정보가 같은 레벨로 나열.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="generic-component" onclick="toggleSelect(this)">
+    <div class="letter">4</div>
+    <div class="content">
+      <h3>범용 컴포넌트 반복 — 개성 없는 조립</h3>
+      <p>card, badge, data-row, stat-card, segment-control… 모든 페이지에서 같은 컴포넌트를 같은 방식으로 사용. 편성 타임라인 같은 도메인 특화 UI가 예외적으로 있지만, 나머지는 전부 "카드에 테이블" 패턴.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="shadow-border" onclick="toggleSelect(this)">
+    <div class="letter">5</div>
+    <div class="content">
+      <h3>그림자/보더 획일성 — 모든 면이 같은 깊이</h3>
+      <p>shadow-sm, shadow-md가 너무 미세하고 균일. 카드와 테이블, 모달과 드롭다운이 같은 elevation 느낌. 화면에 깊이감이 없어서 납작하게 보임. "깔끔한"을 넘어 "밋밋한" 영역.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="spacing-grid" onclick="toggleSelect(this)">
+    <div class="letter">6</div>
+    <div class="content">
+      <h3>기계적 스페이싱 — 4px 그리드의 함정</h3>
+      <p>4-8-12-16-20-24-32 스페이싱을 기계적으로 적용. 섹션 간 간격이나 카드 내부 여백이 전부 동일한 리듬이라 "계산된" 느낌. 사람이 손으로 잡았을 때의 미세한 불균형(의도적 긴장)이 없음.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="no-personality" onclick="toggleSelect(this)">
+    <div class="letter">7</div>
+    <div class="content">
+      <h3>브랜드 부재 — "누구의" 제품인지 모름</h3>
+      <p>로고 타입("DOOH CMS")만 있고, 제품의 캐릭터가 없음. 어떤 SaaS든 이 디자인을 갖다 쓸 수 있을 것 같은 범용성. B2B 도구라서 절제해야 하지만, 절제와 무개성은 다름.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:32px; padding:20px; background:rgba(0,0,0,0.03); border-radius:12px;">
+  <p style="font-size:14px; color:#666; line-height:1.7;">
+    <strong>핵심 가설:</strong> 이 7가지가 개별적으로는 모두 "올바른 선택"입니다. 4px 그리드, 일관된 컴포넌트, 절제된 컬러 — 디자인 시스템의 교과서적 접근. 문제는 이 모든 "올바름"이 동시에 적용되면 <strong>예측 가능성이 100%</strong>가 되어 버린다는 것. 사용자가 다음 화면을 보기도 전에 어떻게 생겼을지 알 수 있다면, 그건 시스템이 아니라 공장입니다.
+  </p>
+</div>

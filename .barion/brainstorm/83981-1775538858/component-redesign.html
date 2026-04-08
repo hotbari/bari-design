@@ -1,0 +1,252 @@
+<h2>컴포넌트 리디자인 — Before / After</h2>
+<p class="subtitle">기존 "뻔한" 컴포넌트 vs 네이버 톤 안에서 차별화된 버전. 임팩트 큰 순서로 정렬.</p>
+
+<!-- 1. Buttons -->
+<div class="section">
+  <h3>1. 버튼</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">Before — 플랫 단색</div>
+      <div class="mockup-body" style="padding:24px; display:flex; flex-direction:column; gap:12px; background:#FAF9F7;">
+        <button style="background:#2563eb; color:white; padding:8px 20px; border-radius:8px; border:none; font-size:13px; font-weight:500; cursor:pointer;">Primary 버튼</button>
+        <button style="background:white; color:#374151; padding:8px 20px; border-radius:8px; border:1px solid #d1d5db; font-size:13px; font-weight:500; cursor:pointer;">Secondary 버튼</button>
+        <button style="background:white; color:#dc2626; padding:8px 20px; border-radius:8px; border:1px solid #fca5a5; font-size:13px; font-weight:500; cursor:pointer;">Danger 버튼</button>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">After — 무게감 + 미묘한 깊이</div>
+      <div class="mockup-body" style="padding:24px; display:flex; flex-direction:column; gap:12px; background:#FAF9F7;">
+        <button style="background:linear-gradient(180deg, #04d160, #03C75A); color:white; padding:9px 22px; border-radius:6px; border:none; font-size:13px; font-weight:600; cursor:pointer; box-shadow:0 1px 2px rgba(3,199,90,0.3), inset 0 1px 0 rgba(255,255,255,0.15); letter-spacing:-0.01em;">Primary 버튼</button>
+        <button style="background:white; color:#2D2A26; padding:9px 22px; border-radius:6px; border:1px solid rgba(0,0,0,0.12); font-size:13px; font-weight:500; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.04); letter-spacing:-0.01em;">Secondary 버튼</button>
+        <button style="background:white; color:#c0281e; padding:9px 22px; border-radius:6px; border:1px solid rgba(230,35,24,0.25); font-size:13px; font-weight:500; cursor:pointer; box-shadow:0 1px 2px rgba(230,35,24,0.06); letter-spacing:-0.01em;">Danger 버튼</button>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:8px; font-size:11px; color:#8A8580; line-height:1.6; padding:0 4px;">
+    변경점: radius 8→6px, 미묘한 top-down 그래디언트 (180deg), inset highlight (유리처럼 빛 반사), 소프트 드롭섀도, letter-spacing -0.01em으로 타이트한 글꼴. 화려하지 않지만 "만져지는" 느낌.
+  </div>
+</div>
+
+<!-- 2. Cards -->
+<div class="section">
+  <h3>2. 카드</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">Before — 흰 박스 + 1px 보더</div>
+      <div class="mockup-body" style="padding:24px; background:#f3f4f6;">
+        <div style="background:white; border:1px solid #e5e7eb; border-radius:12px; padding:20px;">
+          <h4 style="font-size:12px; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 4px;">전체 매체</h4>
+          <div style="font-size:28px; font-weight:700; color:#111827; margin:0;">142</div>
+          <div style="font-size:12px; color:#6b7280; margin-top:8px;">
+            <span style="color:#22c55e;">● 온라인 128</span>&nbsp;&nbsp;
+            <span style="color:#ef4444;">● 오프라인 8</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">After — 표면 레이어링 + 좌측 액센트</div>
+      <div class="mockup-body" style="padding:24px; background:#FAF9F7;">
+        <div style="background:white; border:1px solid rgba(0,0,0,0.06); border-left:3px solid #03C75A; border-radius:2px 10px 10px 2px; padding:18px 20px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:12px; color:#8A8580; font-weight:500; margin:0 0 6px;">전체 매체</div>
+              <div style="font-size:26px; font-weight:700; color:#2D2A26; letter-spacing:-0.02em;">142</div>
+            </div>
+            <div style="width:36px; height:36px; background:#0a2e18; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:16px;">🖥</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px; margin-top:10px; font-size:11px;">
+            <span style="color:#03C75A; font-weight:500;">● 128 온라인</span>
+            <span style="color:#E62318; font-weight:500;">● 8 오프라인</span>
+            <span style="color:#c4c0ba;">● 6 비활성</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:8px; font-size:11px; color:#8A8580; line-height:1.6; padding:0 4px;">
+    변경점: 좌측 3px 컬러 바 (카드 성격 표시), 다크 그린 아이콘 배경, 반투명 보더, 숫자 letter-spacing 타이트, 라벨 순서 변경 (숫자 먼저).
+  </div>
+</div>
+
+<!-- 3. Badges -->
+<div class="section">
+  <h3>3. 뱃지 / 상태 표시</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">Before — 컬러 필 라운드</div>
+      <div class="mockup-body" style="padding:24px; background:white; display:flex; gap:8px; flex-wrap:wrap;">
+        <span style="background:#dcfce7; color:#15803d; padding:2px 10px; border-radius:9999px; font-size:12px; font-weight:500;">적용중</span>
+        <span style="background:#dbeafe; color:#1d4ed8; padding:2px 10px; border-radius:9999px; font-size:12px; font-weight:500;">예약됨</span>
+        <span style="background:#fef3c7; color:#b45309; padding:2px 10px; border-radius:9999px; font-size:12px; font-weight:500;">일시정지</span>
+        <span style="background:#fee2e2; color:#dc2626; padding:2px 10px; border-radius:9999px; font-size:12px; font-weight:500;">미완료</span>
+        <span style="background:#f3f4f6; color:#6b7280; padding:2px 10px; border-radius:9999px; font-size:12px; font-weight:500;">종료</span>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">After — dot + 라벨 / 스퀘어 뱃지</div>
+      <div class="mockup-body" style="padding:24px; background:white; display:flex; flex-direction:column; gap:16px;">
+        <div>
+          <div style="font-size:10px; color:#8A8580; margin-bottom:6px;">인라인 상태 (테이블, 목록 내)</div>
+          <div style="display:flex; gap:14px;">
+            <span style="display:flex; align-items:center; gap:5px; font-size:12px; font-weight:500; color:#03C75A;"><span style="width:7px; height:7px; border-radius:50%; background:#03C75A;"></span>적용중</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:12px; font-weight:500; color:#03C75A;"><span style="width:7px; height:7px; border-radius:50%; border:1.5px solid #03C75A; background:white;"></span>예약됨</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:12px; font-weight:500; color:#E8A030;"><span style="width:7px; height:7px; border-radius:50%; background:#E8A030; opacity:0.6;"></span>일시정지</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:12px; font-weight:500; color:#E62318;"><span style="width:7px; height:7px; border-radius:50%; background:#E62318;"></span>미완료</span>
+            <span style="display:flex; align-items:center; gap:5px; font-size:12px; font-weight:500; color:#c4c0ba;"><span style="width:7px; height:7px; border-radius:50%; background:#c4c0ba;"></span>종료</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:10px; color:#8A8580; margin-bottom:6px;">강조 뱃지 (헤더, 카드 타이틀)</div>
+          <div style="display:flex; gap:6px;">
+            <span style="background:rgba(3,199,90,0.1); color:#03C75A; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600; border:1px solid rgba(3,199,90,0.2);">적용중</span>
+            <span style="background:rgba(3,199,90,0.05); color:#03C75A; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600; border:1px solid rgba(3,199,90,0.15);">예약됨</span>
+            <span style="background:rgba(232,160,48,0.08); color:#b87a1a; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600; border:1px solid rgba(232,160,48,0.2);">일시정지</span>
+            <span style="background:rgba(230,35,24,0.06); color:#c0281e; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600; border:1px solid rgba(230,35,24,0.15);">미완료</span>
+            <span style="background:rgba(0,0,0,0.04); color:#8A8580; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:500; border:1px solid rgba(0,0,0,0.06);">종료</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:8px; font-size:11px; color:#8A8580; line-height:1.6; padding:0 4px;">
+    변경점: (1) 인라인 상태는 dot+텍스트로 가볍게. 적용중=솔리드 dot, 예약됨=아웃라인 dot (타임라인 바와 동일 언어). (2) 강조 뱃지는 풀라운드→4px 스퀘어, 반투명 bg + 반투명 보더. 더 단정함.
+  </div>
+</div>
+
+<!-- 4. Table -->
+<div class="section">
+  <h3>4. 테이블</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">Before — 줄무늬 호버</div>
+      <div class="mockup-body" style="padding:0; background:white;">
+        <table style="width:100%; border-collapse:collapse; font-size:12px;">
+          <thead>
+            <tr style="border-bottom:2px solid #e5e7eb;">
+              <th style="text-align:left; padding:10px 14px; font-weight:600; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; font-size:11px;">편성표명</th>
+              <th style="text-align:left; padding:10px 14px; font-weight:600; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; font-size:11px;">매체</th>
+              <th style="text-align:left; padding:10px 14px; font-weight:600; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; font-size:11px;">상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #f3f4f6;">
+              <td style="padding:10px 14px; color:#2563eb; font-weight:500;">4월 강남 편성</td>
+              <td style="padding:10px 14px; color:#374151;">강남역 1번출구</td>
+              <td style="padding:10px 14px;"><span style="background:#dcfce7; color:#15803d; padding:2px 10px; border-radius:9999px; font-size:11px;">적용중</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #f3f4f6;">
+              <td style="padding:10px 14px; color:#2563eb; font-weight:500;">5월 프로모션</td>
+              <td style="padding:10px 14px; color:#374151;">강남역 외 5</td>
+              <td style="padding:10px 14px;"><span style="background:#dbeafe; color:#1d4ed8; padding:2px 10px; border-radius:9999px; font-size:11px;">예약됨</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">After — 클린 그리드 + 행 간 여백</div>
+      <div class="mockup-body" style="padding:12px; background:#FAF9F7;">
+        <!-- Header row -->
+        <div style="display:flex; padding:0 12px 8px; font-size:11px; font-weight:500; color:#8A8580;">
+          <div style="flex:2;">편성표명</div>
+          <div style="flex:1.5;">매체</div>
+          <div style="flex:0.8; text-align:center;">상태</div>
+        </div>
+        <!-- Data row 1 -->
+        <div style="display:flex; align-items:center; padding:10px 12px; background:white; border-radius:6px; margin-bottom:4px; border:1px solid rgba(0,0,0,0.04); box-shadow:0 1px 2px rgba(0,0,0,0.02);">
+          <div style="flex:2; font-size:13px; font-weight:600; color:#2D2A26;">4월 강남 편성</div>
+          <div style="flex:1.5; font-size:12px; color:#8A8580;">강남역 1번출구</div>
+          <div style="flex:0.8; text-align:center; display:flex; align-items:center; justify-content:center; gap:5px; font-size:11px; font-weight:500; color:#03C75A;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#03C75A;"></span>적용중
+          </div>
+        </div>
+        <!-- Data row 2 -->
+        <div style="display:flex; align-items:center; padding:10px 12px; background:white; border-radius:6px; margin-bottom:4px; border:1px solid rgba(0,0,0,0.04); box-shadow:0 1px 2px rgba(0,0,0,0.02);">
+          <div style="flex:2; font-size:13px; font-weight:600; color:#2D2A26;">5월 프로모션</div>
+          <div style="flex:1.5; font-size:12px; color:#8A8580;">강남역 외 5</div>
+          <div style="flex:0.8; text-align:center; display:flex; align-items:center; justify-content:center; gap:5px; font-size:11px; font-weight:500; color:#03C75A;">
+            <span style="width:6px; height:6px; border-radius:50%; border:1.5px solid #03C75A; background:white;"></span>예약됨
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:8px; font-size:11px; color:#8A8580; line-height:1.6; padding:0 4px;">
+    변경점: table→flex 카드 행. 행 사이 4px 갭. 각 행에 미세 라운드(6px)+섀도. 헤더는 배경 없이 텍스트만. 링크색(블루) 제거 → 본문색으로. 상태는 dot+텍스트 인라인.
+  </div>
+</div>
+
+<!-- 5. Inputs -->
+<div class="section">
+  <h3>5. 인풋 / 폼</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">Before — 기본 보더 박스</div>
+      <div class="mockup-body" style="padding:24px; background:white;">
+        <div style="margin-bottom:12px;">
+          <label style="display:block; font-size:13px; font-weight:500; color:#374151; margin-bottom:4px;">편성표명 <span style="color:#ef4444;">*</span></label>
+          <input style="width:100%; padding:8px 12px; border:1px solid #d1d5db; border-radius:8px; font-size:13px; outline:none; box-sizing:border-box;" placeholder="편성표명을 입력하세요">
+        </div>
+        <div>
+          <label style="display:block; font-size:13px; font-weight:500; color:#374151; margin-bottom:4px;">재생목록</label>
+          <select style="width:100%; padding:8px 12px; border:1px solid #d1d5db; border-radius:8px; font-size:13px; outline:none; box-sizing:border-box; appearance:auto;">
+            <option>재생목록을 선택하세요</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">After — 플로팅 라벨 느낌 + 포커스 하이라이트</div>
+      <div class="mockup-body" style="padding:24px; background:#FAF9F7;">
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-size:11px; font-weight:500; color:#8A8580; margin-bottom:5px; letter-spacing:0.01em;">편성표명 <span style="color:#E62318;">*</span></label>
+          <input style="width:100%; padding:10px 12px; background:white; border:1px solid rgba(0,0,0,0.1); border-radius:6px; font-size:13px; outline:none; box-sizing:border-box; color:#2D2A26; transition:border 0.15s, box-shadow 0.15s;" placeholder="편성표명을 입력하세요" onfocus="this.style.borderColor='#03C75A'; this.style.boxShadow='0 0 0 3px rgba(3,199,90,0.08)'" onblur="this.style.borderColor='rgba(0,0,0,0.1)'; this.style.boxShadow='none'">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:500; color:#8A8580; margin-bottom:5px; letter-spacing:0.01em;">재생목록</label>
+          <select style="width:100%; padding:10px 12px; background:white; border:1px solid rgba(0,0,0,0.1); border-radius:6px; font-size:13px; outline:none; box-sizing:border-box; color:#2D2A26; appearance:none; background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22><path d=%22M3 4.5L6 7.5L9 4.5%22 fill=%22none%22 stroke=%22%238A8580%22 stroke-width=%221.5%22/></svg>'); background-repeat:no-repeat; background-position:right 12px center;">
+            <option>재생목록을 선택하세요</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:8px; font-size:11px; color:#8A8580; line-height:1.6; padding:0 4px;">
+    변경점: 라벨 11px로 작게 + 회색 (플로팅 느낌), 반투명 보더, 포커스 시 그린 보더 + 그린 글로 (3px), 커스텀 select 화살표, 배경 white → FAF9F7 위에 올려서 레이어 구분.
+  </div>
+</div>
+
+<!-- 6. Tabs -->
+<div class="section">
+  <h3>6. 탭</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">Before — 밑줄 탭</div>
+      <div class="mockup-body" style="padding:24px 24px 0; background:white;">
+        <div style="display:flex; gap:0; border-bottom:2px solid #e5e7eb;">
+          <div style="padding:10px 20px; font-size:13px; font-weight:500; color:#2563eb; border-bottom:2px solid #2563eb; margin-bottom:-2px;">전체 (63)</div>
+          <div style="padding:10px 20px; font-size:13px; font-weight:500; color:#6b7280;">예약됨 (15)</div>
+          <div style="padding:10px 20px; font-size:13px; font-weight:500; color:#6b7280;">적용중 (38)</div>
+        </div>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-header">After — 세그먼트 필 탭</div>
+      <div class="mockup-body" style="padding:24px; background:#FAF9F7;">
+        <div style="display:inline-flex; background:rgba(0,0,0,0.04); border-radius:6px; padding:3px; gap:2px;">
+          <div style="padding:6px 14px; font-size:12px; font-weight:600; color:#2D2A26; background:white; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.06);">전체 63</div>
+          <div style="padding:6px 14px; font-size:12px; font-weight:500; color:#8A8580; border-radius:4px;">예약됨 15</div>
+          <div style="padding:6px 14px; font-size:12px; font-weight:500; color:#8A8580; border-radius:4px;">적용중 38</div>
+          <div style="padding:6px 14px; font-size:12px; font-weight:500; color:#8A8580; border-radius:4px;">일시정지 3</div>
+          <div style="padding:6px 14px; font-size:12px; font-weight:500; color:#8A8580; border-radius:4px;">종료 7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:8px; font-size:11px; color:#8A8580; line-height:1.6; padding:0 4px;">
+    변경점: 밑줄 탭→세그먼트 컨트롤. 활성 탭은 white pill + 미세 섀도. iOS/macOS 세그먼트 참고. 괄호 제거하고 숫자만. 더 현대적이고 컴팩트.
+  </div>
+</div>

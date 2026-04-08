@@ -42,12 +42,12 @@ Dispatch the `design-evaluator` subagent with the following context:
 ```
 Target URL: [url from $ARGUMENTS, default: http://localhost:3000]
 Area: [area from $ARGUMENTS, default: "full page"]
-Output directory: output/{date}-design-eval-{target}/
+Output directory: output/gate-d2_{date}/{HHmm}_design-eval-{target}/
 Task: Run the complete evaluation protocol and write report.md to the output directory
 ```
 
 The subagent will:
-- Take Playwright screenshots into `output/{date}-design-eval-{target}/`
+- Take Playwright screenshots into `output/gate-d2_{date}/{HHmm}_design-eval-{target}/`
 - Read CSS, component files, design tokens via Glob/Grep/Read
 - Run the AI Slop 4-item checklist
 - Score Nielsen heuristics (0–4 × 10 = /40)
@@ -58,7 +58,7 @@ Wait for the subagent to complete before proceeding.
 
 ### 3. Read Report
 
-Read `output/{date}-design-eval-{target}/report.md`.
+Read `output/gate-d2_{date}/{HHmm}_design-eval-{target}/report.md`.
 
 ### 4. Present Core Findings
 
