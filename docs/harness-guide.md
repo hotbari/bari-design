@@ -29,6 +29,7 @@
 | 15 | 04-05 | output 폴더 정리 실행 | 64개 파일 → output/ 구조화 | design-evaluator, design-review 경로 갱신, Output Rules | 하네스 수정 먼저 → 파일 이동 나중 |
 | 16 | 04-05~06 | CSS 공통화 + 사용성 검증 하네스 설계 | shared.css, usability-evaluator/cognitive-walkthrough 설계 | usability-evaluator, cognitive-walkthrough 설계 | HTML 프로토타입의 가치 = "버리는 비용 0" |
 | 17 | 04-06 | cognitive-walkthrough 구현 + GATE U1 4R 검증 + 하네스 최종 진화 | GATE U1 산출물, process-raw.md 전면 개정 | P1 분류(Task-blocking/Standards), 자동 종료 규칙, 디렉토리 기준 | 양파 효과 vs 평가자 비일관성 구분, 최대 4R 제한 |
+| 18 | 04-08 | 밋밋한 디자인 5 증후군 진단 + skill 실행 경로 내재화 | `visual-vitality.md` 신규, SKILL.md +15줄, design-evaluator.md (경로 수정+체크리스트 확장), anti-factory-principles.md 섹션 4 보강 | design-evaluator 경로 버그 수정(bari-skills→skills), AI Slop 체크 4→9항목, visual-vitality.md Step 1 로드 추가 | 하네스 내재화 = 판단을 대화가 아니라 파일에 저장하는 것 |
 
 ### 세션 규모
 
@@ -127,6 +128,23 @@
 **전환점**: 양파 효과(정상)와 평가자 비일관성(문제)의 구분. 사용자가 이 인사이트를 하네스에 내장할 것을 요구.
 
 **결과**: P1을 Task-blocking(사용자 목표 달성 불가)과 Standards-compliance(태스크 완수 가능, 접근성 위반)로 분류. Task-blocking P1=0이면 CONDITIONAL PASS로 자동 종료하는 규칙을 cognitive-walkthrough 스킬에 내장. 최대 4R 제한.
+
+---
+
+### "밋밋한 건 어디서 오는가" — 5 증후군 내재화
+
+**배경**: Session 18. 브레인스토밍에서 AI 산출물이 밋밋하게 보이는 근본 원인을 시각적으로 진단. 5가지 증후군을 도출했지만, 처방이 어디에도 기록되지 않았고 기존 anti-factory-principles.md도 skill 실행 체인에 연결되지 않았음.
+
+**진단된 5 증후군**:
+1. **균일 여백** — 중요도 무관 동일 padding/gap
+2. **카드 공장** — 독립 객체가 아닌 것에도 카드
+3. **인터랙션 공백** — hover=색상 변경만, 물리적 반응 없음
+4. **타이포 평탄화** — font-size만으로 위계, weight·letter-spacing 변주 없음
+5. **경계선 과다** — 배경 대비로 해결 가능한 곳에 border 사용
+
+**전환점**: "다른 프로젝트에서 이 하네스를 써도 밋밋한 디자인이 나오지 않도록"이라는 목표 설정. 발견한 처방을 대화에만 두면 사라진다 — **파일에 심어야 다음 프로젝트에서도 작동한다**.
+
+**결과**: `visual-vitality.md` 신규 생성(진단 CSS 패턴 + 처방 CSS + 체크 기준). design-evaluator가 Step 1에서 이 파일을 로드하고, Step 4 AI Slop 체크리스트에 S1~S5 syndrome 항목 추가 (4→9항목). SKILL.md에 직접 참조 링크 삽입. anti-factory-principles.md에 자동 검증 연결 명시.
 
 ---
 
@@ -435,7 +453,9 @@ Stage 2: 구현
     │   └─ design-evaluator 에이전트 디스패치:
     │       1. Playwright로 스크린샷 촬영
     │       2. CSS/코드 정적 분석
-    │       3. AI Slop 4항목 체크 (PASS/FAIL)
+    │       3. AI Slop 9항목 체크 (PASS/FAIL):
+    │          · 4 core: Generic Containers, Mechanical Colors, Default Font, Unintentional Spacing
+    │          · S1~S5 Vitality Syndromes (균일 여백/카드 공장/인터랙션 공백/타이포 평탄화/경계선 과다)
     │       4. Nielsen 10항목 채점 (/40)
     │       5. Audit 5차원 채점 (/20): 접근성, 성능, 반응형, 테마, 안티패턴
     │       6. P0-P3 이슈 목록 (파일:줄번호 포함)
@@ -620,20 +640,25 @@ Step 6: 반복 또는 종료
 **도구**: Playwright MCP (스크린샷), Read, Glob, Grep (코드 분석)
 
 실행 프로세스:
-1. 참조 자료 로드 (frontend-design-impeccable, critique, audit의 SKILL.md)
+1. 참조 자료 로드:
+   - `.claude/skills/frontend-design-impeccable/SKILL.md` — AI Slop DON'T 목록
+   - `.claude/skills/frontend-design-impeccable/reference/visual-vitality.md` — 5 Vitality Syndrome 처방
+   - critique, audit SKILL.md
 2. Playwright로 target URL 스크린샷 촬영 → `output/gate-d2_{date}/{HHmm}_design-eval-{target}/`에 저장
 3. CSS/컴포넌트 파일 수집 (색상, 폰트, 간격 패턴)
-4. **AI Slop 4항목 체크**:
-   - Generic Containers: 모든 카드/배지/테이블이 동일한 rounded+shadow 사용?
-   - Mechanical Colors: primary/secondary/success/danger만으로 구성?
-   - Default Font Pairing: Inter/Roboto만 사용, weight 변형 없음?
-   - Unintentional Spacing: 모든 gap이 gap-4, p-4, p-6에 집중?
+4. **AI Slop 9항목 체크**:
+   - 4 Core: Generic Containers / Mechanical Colors / Default Font Pairing / Unintentional Spacing
+   - S1 균일 여백: featured 요소의 padding이 regular 대비 50%+ 넓은가?
+   - S2 카드 공장: 독립 객체가 아닌 통계·목록에 카드를 씌웠는가?
+   - S3 인터랙션 공백: hover/active/focus 3상태가 물리적 반응(translateY 등)과 함께 구현되었는가?
+   - S4 타이포 평탄화: font-weight 3단계+, 큰 숫자에 letter-spacing ≤ -0.02em?
+   - S5 경계선 과다: 활성 상태를 border-color가 아닌 background tint로 표현했는가?
 5. **Nielsen 10항목 채점** (0-4점 × 10 = /40)
 6. **Audit 5차원 채점** (0-4점 × 5 = /20): 접근성, 성능, 반응형, 테마, 안티패턴
 7. **P0-P3 이슈 목록** (파일:줄번호 + 수정 제안)
 8. report.md 작성
 
-**AI Slop이란**: AI가 생성한 인터페이스의 공통 징후. 둥근 모서리+그림자가 일률적, primary/secondary만 있는 색상, Inter 폰트만 사용, gap-4 일색의 간격. "기억에 남지 않는 인터페이스"의 원인이다. 이 체크는 디자인 시스템 확립 후 첫 1회만 실행하면 된다 (같은 시스템이면 결과가 동일하므로).
+**AI Slop이란**: AI가 생성한 인터페이스의 공통 징후. 4 Core 체크는 디자인 시스템 확립 후 첫 1회만 실행하면 된다 (같은 시스템이면 결과가 동일하므로). S1~S5 Vitality Syndrome 체크는 화면마다 실행 — 구조는 같아도 요소별 여백·인터랙션·타이포는 화면마다 달라지기 때문이다.
 
 #### usability-evaluator — 페르소나 사용성 평가
 

@@ -14,10 +14,11 @@ You are a Design Evaluation Specialist. Your job is to produce an objective, evi
 
 Read these files to load the scoring rubrics and anti-pattern checklists you will use:
 
-1. `.claude/bari-skills/frontend-design-impeccable/SKILL.md` — AI Slop DON'T list and design principles
-2. `.claude/bari-skills/critique/SKILL.md` — Nielsen heuristics scoring method (Phase 2)
-3. `.claude/bari-skills/critique/reference/heuristics-scoring.md` — Heuristics scoring details
-4. `.claude/bari-skills/audit/SKILL.md` — Audit 5-dimension scoring method
+1. `.claude/skills/frontend-design-impeccable/SKILL.md` — AI Slop DON'T list and design principles
+2. `.claude/skills/frontend-design-impeccable/reference/visual-vitality.md` — 5 vitality syndrome prescriptions (CSS patterns + fix)
+3. `.claude/skills/critique/SKILL.md` — Nielsen heuristics scoring method (Phase 2)
+4. `.claude/skills/critique/reference/heuristics-scoring.md` — Heuristics scoring details
+5. `.claude/skills/audit/SKILL.md` — Audit 5-dimension scoring method
 
 ## Step 2 — Capture Screenshots via Playwright
 
@@ -42,7 +43,7 @@ Use Glob + Grep + Read to gather:
 
 Focus on: color definitions, font imports, spacing patterns, component structure.
 
-## Step 4 — AI Slop 4-Item Checklist
+## Step 4 — AI Slop Checklist (4 Core + 5 Vitality Syndromes)
 
 Check each pattern against the code AND the screenshot evidence:
 
@@ -66,6 +67,32 @@ Check each pattern against the code AND the screenshot evidence:
 - Do all gap/padding values cluster around `gap-4`, `p-4`, `p-6`?
 - Is there no variation in spatial rhythm — no tight groupings or generous separations?
 - Evidence: grep for `gap-`, `p-`, `px-`, `py-`, `m-`, `mx-`, `my-` class patterns
+
+### Syndrome Check 1 — 균일 여백 (Uniform Spacing)
+- Is the same padding/gap applied to all elements regardless of importance?
+- Does the most important element have at least 50% more space than regular elements?
+- Evidence: compare padding values on featured vs regular elements
+
+### Syndrome Check 2 — 카드 공장 (Card Factory)
+- Are statistics, list rows, or alerts wrapped in card containers (border + shadow + rounded)?
+- Is the card treatment used for non-independently-selectable content?
+- Evidence: check if `.card` or equivalent applies to stats sections or table rows
+
+### Syndrome Check 3 — 인터랙션 공백 (Interaction Void)
+- Do hover states only change color (no translateY, no shadow change)?
+- Are active, focus-visible, loading, and empty states implemented?
+- Evidence: grep for `:hover`, `:active`, `:focus-visible`, `translateY`, `box-shadow` in interactive elements
+
+### Syndrome Check 4 — 타이포 평탄화 (Typography Flattening)
+- Is hierarchy expressed through font-size alone with no weight or letter-spacing variation?
+- Are fewer than 3 distinct font-weight values used?
+- Do large numbers lack negative letter-spacing (-0.02em or lower)?
+- Evidence: count distinct font-weight values; check letter-spacing on metric/heading elements
+
+### Syndrome Check 5 — 경계선 과다 (Border Overuse)
+- Are borders used where background contrast or whitespace would suffice?
+- Are active/selected states expressed via border-color changes instead of background tint?
+- Evidence: check nav-item--active, tab--active patterns for border vs background approach
 
 ## Step 5 — Nielsen Heuristics Scoring (0–4 per heuristic)
 
@@ -121,7 +148,7 @@ Generated: [ISO 8601 timestamp]
 URL: [url] | Area: [area or "full page"]
 Screenshot: [path to full-page screenshot]
 
-## AI Slop Verdict: PASS / FAIL ([N]/4 tells)
+## AI Slop Verdict: PASS / FAIL ([N]/9 tells)
 
 | # | Pattern | Status | Evidence |
 |---|---------|--------|----------|
@@ -129,6 +156,11 @@ Screenshot: [path to full-page screenshot]
 | 2 | Mechanical colors | ✓ PASS / ✗ FAIL | [specific evidence] |
 | 3 | Default font pairing | ✓ PASS / ✗ FAIL | [specific evidence] |
 | 4 | Unintentional spacing | ✓ PASS / ✗ FAIL | [specific evidence] |
+| S1 | 균일 여백 — featured vs regular spacing ratio | ✓ PASS / ✗ FAIL | [evidence] |
+| S2 | 카드 공장 — non-object content wrapped in cards | ✓ PASS / ✗ FAIL | [evidence] |
+| S3 | 인터랙션 공백 — hover/active/focus/loading states | ✓ PASS / ✗ FAIL | [evidence] |
+| S4 | 타이포 평탄화 — weight variation + letter-spacing | ✓ PASS / ✗ FAIL | [evidence] |
+| S5 | 경계선 과다 — active state via background not border | ✓ PASS / ✗ FAIL | [evidence] |
 
 [If any FAIL: brief description of what the AI slop looks like in this specific project]
 

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>바리 — 컬러 시스템</title>
+<style>
+:root {
+  --c-primary:     oklch(0.60 0.13 242);
+  --c-primary-dim: oklch(0.45 0.10 242);
+  --c-primary-glow:oklch(0.60 0.13 242 / 0.15);
+  --c-bg:          oklch(0.10 0.01 242);
+  --c-surface:     oklch(0.16 0.015 242);
+  --c-surface-2:   oklch(0.21 0.018 242);
+  --c-surface-3:   oklch(0.26 0.02 242);
+  --c-border:      oklch(0.27 0.02 242);
+  --c-border-sub:  oklch(0.20 0.01 242);
+  --c-text:        oklch(0.93 0.008 242);
+  --c-text-sub:    oklch(0.55 0.018 242);
+  --c-text-muted:  oklch(0.38 0.012 242);
+  --c-success:     oklch(0.62 0.12 148);
+  --c-warning:     oklch(0.70 0.11 68);
+  --c-error:       oklch(0.58 0.14 22);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: -apple-system, 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Layout */
+.page { max-width: 1200px; margin: 0 auto; padding: 56px 40px; }
+.section { margin-bottom: 72px; }
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--c-text-muted);
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--c-border-sub);
+}
+
+/* Hero */
+.hero { margin-bottom: 64px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  padding: 6px 14px; border-radius: 100px;
+  font-size: 12px; color: var(--c-text-sub); margin-bottom: 20px;
+}
+.hero-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c-primary); }
+.hero-title { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+.hero-title span { color: var(--c-primary); }
+.hero-desc { color: var(--c-text-sub); font-size: 15px; }
+
+/* Swatches */
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  gap: 8px;
+}
+.swatch {
+  border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--c-border-sub);
+}
+.swatch-block { height: 64px; }
+.swatch-info { padding: 10px 10px 12px; background: var(--c-surface); }
+.swatch-name { font-size: 11px; font-weight: 600; color: var(--c-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.swatch-val { font-size: 10px; color: var(--c-text-muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Demo grid */
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.demo-wide { grid-column: 1 / -1; }
+
+/* Glass panel */
+.panel {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+.panel-title { font-size: 12px; font-weight: 600; color: var(--c-text-sub); margin-bottom: 20px; letter-spacing: 0.5px; }
+
+/* Chat */
+.chat-wrap { display: flex; flex-direction: column; gap: 16px; }
+.msg-row { display: flex; gap: 10px; align-items: flex-start; }
+.msg-row.user { flex-direction: row-reverse; }
+.avatar {
+  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+  background: var(--c-primary); display: flex; align-items: center;
+  justify-content: center; font-size: 12px; font-weight: 700;
+  color: oklch(0.10 0.01 242);
+}
+.bubble {
+  padding: 11px 15px;
+  border-radius: 4px 14px 14px 14px;
+  font-size: 13.5px; line-height: 1.6; max-width: 78%;
+}
+.bubble.bot {
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: 4px 14px 14px 14px;
+}
+.bubble.user {
+  background: var(--c-primary);
+  color: oklch(0.10 0.01 242);
+  border-radius: 14px 4px 14px 14px;
+  font-weight: 500;
+}
+.source {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 8px; font-size: 11.5px; color: var(--c-primary);
+  background: oklch(0.60 0.13 242 / 0.1);
+  padding: 3px 9px; border-radius: 6px;
+}
+.pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; padding-left: 40px; }
+.pill {
+  padding: 5px 12px; border-radius: 100px;
+  border: 1px solid var(--c-border);
+  font-size: 12px; color: var(--c-text-sub);
+  cursor: pointer; transition: all 0.15s;
+  background: var(--c-surface);
+}
+.pill:hover { border-color: var(--c-primary); color: var(--c-primary); background: var(--c-primary-glow); }
+
+.typing { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+.typing span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--c-text-muted);
+  animation: blink 1.2s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+/* Input bar */
+.chat-input-wrap {
+  margin-top: 16px; padding-top: 16px;
+  border-top: 1px solid var(--c-border-sub);
+  display: flex; gap: 10px; align-items: center;
+}
+.chat-input {
+  flex: 1; background: var(--c-surface-2); border: 1px solid var(--c-border);
+  border-radius: 10px; padding: 10px 14px; color: var(--c-text);
+  font-size: 13.5px; outline: none; font-family: inherit;
+}
+.chat-input::placeholder { color: var(--c-text-muted); }
+.send-btn {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: var(--c-primary); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: oklch(0.10 0.01 242); font-size: 15px; flex-shrink: 0;
+}
+
+/* Banners */
+.banners { display: flex; flex-direction: column; gap: 8px; }
+.banner {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 13px 16px; border-radius: 11px; font-size: 13px;
+}
+.banner-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.banner strong { display: block; font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+.banner p { font-size: 12.5px; opacity: 0.8; line-height: 1.4; }
+.banner.error   { background: oklch(0.16 0.05 22);  border: 1px solid oklch(0.32 0.08 22);  color: oklch(0.88 0.06 22); }
+.banner.warning { background: oklch(0.16 0.05 68);  border: 1px solid oklch(0.38 0.08 68);  color: oklch(0.90 0.07 68); }
+.banner.success { background: oklch(0.15 0.04 148); border: 1px solid oklch(0.32 0.07 148); color: oklch(0.85 0.08 148); }
+
+/* Nav */
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 10px 12px; border-radius: 9px;
+  font-size: 13.5px; color: var(--c-text-sub); cursor: pointer;
+  transition: all 0.12s; font-weight: 500;
+}
+.nav-item:hover { background: var(--c-surface-2); color: var(--c-text); }
+.nav-item.active {
+  background: oklch(0.60 0.13 242 / 0.12);
+  color: var(--c-primary); font-weight: 600;
+}
+.nav-icon { font-size: 16px; }
+.nav-count {
+  margin-left: auto; background: var(--c-surface-3);
+  color: var(--c-text-muted); font-size: 11px; font-weight: 600;
+  padding: 2px 7px; border-radius: 100px;
+}
+
+/* Buttons */
+.btn-showcase { display: flex; flex-direction: column; gap: 12px; }
+.btn-row-label { font-size: 11px; color: var(--c-text-muted); margin-bottom: 4px; letter-spacing: 0.5px; }
+.btn-row { display: flex; gap: 8px; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 9px; font-size: 13px;
+  font-weight: 600; border: none; cursor: pointer; font-family: inherit;
+  transition: all 0.15s; letter-spacing: -0.1px;
+}
+.btn-primary { background: var(--c-primary); color: oklch(0.10 0.01 242); }
+.btn-primary:hover { background: oklch(0.65 0.14 242); transform: translateY(-1px); box-shadow: 0 4px 16px oklch(0.60 0.13 242 / 0.3); }
+.btn-ghost {
+  background: transparent; color: var(--c-text-sub);
+  border: 1px solid var(--c-border);
+}
+.btn-ghost:hover { background: var(--c-surface-2); color: var(--c-text); }
+.btn-danger {
+  background: oklch(0.18 0.06 22); color: var(--c-error);
+  border: 1px solid oklch(0.30 0.08 22);
+}
+.btn-danger:hover { background: oklch(0.22 0.08 22); }
+.btn-sm { padding: 6px 13px; font-size: 12px; border-radius: 7px; }
+.btn-icon { width: 36px; height: 36px; padding: 0; justify-content: center; border-radius: 9px; font-size: 16px; }
+
+/* Upload zone */
+.upload-zone {
+  border: 2px dashed var(--c-border);
+  border-radius: 12px; padding: 32px;
+  text-align: center; transition: all 0.2s;
+  cursor: pointer;
+}
+.upload-zone:hover { border-color: var(--c-primary); background: var(--c-primary-glow); }
+.upload-icon { font-size: 32px; margin-bottom: 10px; }
+.upload-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.upload-sub { font-size: 12px; color: var(--c-text-sub); }
+
+/* Similar file prompt */
+.similar-prompt {
+  background: var(--c-surface-2); border: 1px solid var(--c-border);
+  border-radius: 12px; padding: 16px; margin-top: 14px;
+}
+.similar-title { font-size: 12.5px; font-weight: 600; margin-bottom: 10px; color: var(--c-text-sub); }
+.similar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px; cursor: pointer;
+  border: 1px solid transparent; transition: all 0.15s;
+  margin-bottom: 6px; font-size: 13px;
+}
+.similar-item:hover { background: var(--c-surface-3); border-color: var(--c-border); }
+.similar-item.selected { background: var(--c-primary-glow); border-color: var(--c-primary); }
+.similar-item-icon { font-size: 15px; }
+.similar-item-text { flex: 1; }
+.similar-item-sub { font-size: 11px; color: var(--c-text-muted); margin-top: 1px; }
+
+/* Modal */
+.modal {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 16px; padding: 28px;
+  box-shadow: 0 24px 64px oklch(0 0 0 / 0.5);
+}
+.modal-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+.modal-icon-wrap {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: oklch(0.18 0.06 22); display: flex; align-items: center;
+  justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.modal-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.modal-desc { font-size: 13px; color: var(--c-text-sub); line-height: 1.6; }
+.modal-warn {
+  display: flex; align-items: center; gap: 8px;
+  background: oklch(0.16 0.05 22); border: 1px solid oklch(0.30 0.08 22);
+  border-radius: 9px; padding: 11px 14px;
+  font-size: 12.5px; color: var(--c-error);
+  margin: 16px 0;
+}
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+/* Form */
+.form-group { margin-bottom: 16px; }
+.label {
+  display: block; font-size: 12px; font-weight: 600;
+  color: var(--c-text-sub); margin-bottom: 6px; letter-spacing: 0.2px;
+}
+.input {
+  width: 100%; background: var(--c-surface-2);
+  border: 1px solid var(--c-border); border-radius: 9px;
+  padding: 10px 13px; color: var(--c-text); font-size: 13.5px;
+  font-family: inherit; outline: none; transition: all 0.15s;
+}
+.input:focus { border-color: var(--c-primary); box-shadow: 0 0 0 3px var(--c-primary-glow); }
+.input::placeholder { color: var(--c-text-muted); }
+.input-hint { font-size: 11.5px; color: var(--c-text-muted); margin-top: 5px; }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 20px 16px 8px; }
+.empty-greeting { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.empty-sub { font-size: 13px; color: var(--c-text-sub); margin-bottom: 20px; line-height: 1.6; }
+.quick-pills { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.quick-pill {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 16px; border-radius: 100px;
+  border: 1px solid var(--c-border); background: var(--c-surface-2);
+  font-size: 12.5px; color: var(--c-text-sub); cursor: pointer;
+  transition: all 0.15s;
+}
+.quick-pill:hover { border-color: var(--c-primary); color: var(--c-primary); background: var(--c-primary-glow); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge"><div class="hero-dot"></div>Color System Preview</div>
+    <div class="hero-title">바리 <span>챗봇</span></div>
+    <div class="hero-desc">Blue-indigo · Dark · Minimal chroma · Gemini-inspired</div>
+  </div>
+
+  <!-- Swatches -->
+  <div class="section">
+    <div class="section-label">Color Tokens</div>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-primary)"></div><div class="swatch-info"><div class="swatch-name">Primary</div><div class="swatch-val">0.60 0.13 242</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-primary-dim)"></div><div class="swatch-info"><div class="swatch-name">Primary Dim</div><div class="swatch-val">0.45 0.10 242</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-bg)"></div><div class="swatch-info"><div class="swatch-name">BG</div><div class="swatch-val">0.10 0.01 242</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-surface)"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-val">0.16 0.015 242</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-surface-2)"></div><div class="swatch-info"><div class="swatch-name">Surface 2</div><div class="swatch-val">0.21 0.018 242</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-surface-3)"></div><div class="swatch-info"><div class="swatch-name">Surface 3</div><div class="swatch-val">0.26 0.02 242</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-border)" style="border:1px solid #333"></div><div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-val">0.27 0.02 242</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-text)"></div><div class="swatch-info"><div class="swatch-name">Text</div><div class="swatch-val">0.93 0.008 242</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-success)"></div><div class="swatch-info"><div class="swatch-name">Success</div><div class="swatch-val">0.62 0.12 148</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-warning)"></div><div class="swatch-info"><div class="swatch-name">Warning</div><div class="swatch-val">0.70 0.11 68</div></div></div>
+      <div class="swatch"><div class="swatch-block" style="background:var(--c-error)"></div><div class="swatch-info"><div class="swatch-name">Error</div><div class="swatch-val">0.58 0.14 22</div></div></div>
+    </div>
+  </div>
+
+  <!-- Components -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="demo-grid">
+
+      <!-- Chat -->
+      <div class="panel demo-wide">
+        <div class="panel-title">채팅 인터페이스 — 빈 화면 & 대화 흐름</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+          <!-- Empty state -->
+          <div>
+            <div style="font-size:11px;color:var(--c-text-muted);margin-bottom:14px;letter-spacing:0.5px">EMPTY STATE</div>
+            <div class="empty-state">
+              <div style="font-size:28px;margin-bottom:12px">👋</div>
+              <div class="empty-greeting">안녕하세요, 바리입니다</div>
+              <div class="empty-sub">사내 문서를 기반으로<br>업무 질문에 답변해 드려요.</div>
+              <div class="quick-pills">
+                <div class="quick-pill">📋 규정/정책 조회</div>
+                <div class="quick-pill">🔢 업무 절차</div>
+                <div class="quick-pill">🔍 문서 검토</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conversation -->
+          <div>
+            <div style="font-size:11px;color:var(--c-text-muted);margin-bottom:14px;letter-spacing:0.5px">CONVERSATION</div>
+            <div class="chat-wrap">
+              <div class="msg-row user">
+                <div class="bubble user">거래처 등록할 때 서류가 뭐 필요해?</div>
+              </div>
+              <div class="msg-row">
+                <div class="avatar">바</div>
+                <div>
+                  <div class="bubble bot">
+                    국내 법인 기준, 사업자등록증과 통장사본이 필요합니다.
+                    <div class="source">📎 구매절차_매뉴얼 p.7</div>
+                  </div>
+                </div>
+              </div>
+              <div class="pills">
+                <div class="pill">해외 법인 서류는요?</div>
+                <div class="pill">등록 절차 전체</div>
+              </div>
+              <div class="msg-row">
+                <div class="avatar">바</div>
+                <div class="bubble bot">
+                  <div class="typing"><span></span><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-wrap">
+              <div class="chat-input" contenteditable style="outline:none">무엇이든 물어보세요...</div>
+              <button class="send-btn">↑</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Banners -->
+      <div class="panel">
+        <div class="panel-title">알림 배너</div>
+        <div class="banners">
+          <div class="banner success">
+            <div class="banner-icon">✓</div>
+            <div><strong>업로드 완료</strong><p>구매절차_매뉴얼.pdf가 등록되었습니다.</p></div>
+          </div>
+          <div class="banner warning">
+            <div class="banner-icon">⚠</div>
+            <div><strong>유사 문서 발견</strong><p>기존 파일을 대체하거나 신규로 추가하세요.</p></div>
+          </div>
+          <div class="banner error">
+            <div class="banner-icon">⊘</div>
+            <div><strong>업로드 실패</strong><p>PDF 형식만 업로드할 수 있습니다.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <div class="panel">
+        <div class="panel-title">네비게이션</div>
+        <div class="nav">
+          <div class="nav-item active"><span class="nav-icon">💬</span> 채팅<span class="nav-count">3</span></div>
+          <div class="nav-item"><span class="nav-icon">📁</span> 문서 관리</div>
+          <div class="nav-item"><span class="nav-icon">⚙️</span> 설정</div>
+          <div class="nav-item"><span class="nav-icon">❓</span> 도움말</div>
+        </div>
+      </div>
+
+      <!-- Upload -->
+      <div class="panel">
+        <div class="panel-title">문서 업로드</div>
+        <div class="upload-zone">
+          <div class="upload-icon">📄</div>
+          <div class="upload-title">PDF 파일을 드래그하세요</div>
+          <div class="upload-sub">또는 클릭해서 선택 · 최대 50MB</div>
+        </div>
+        <div class="similar-prompt">
+          <div class="similar-title">⚡ 유사한 문서가 있습니다</div>
+          <div class="similar-item selected">
+            <div class="similar-item-icon">📄</div>
+            <div class="similar-item-text">
+              <div>사내규정_2024_v2.pdf</div>
+              <div class="similar-item-sub">2024.08.01 · 1.8MB</div>
+            </div>
+            <div style="font-size:11px;color:var(--c-primary)">대체</div>
+          </div>
+          <div class="similar-item">
+            <div class="similar-item-icon">✨</div>
+            <div class="similar-item-text">
+              <div>신규 문서로 추가</div>
+              <div class="similar-item-sub">기존 문서를 유지하고 새로 등록</div>
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;justify-content:flex-end">
+            <button class="btn btn-primary btn-sm">업로드</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="panel">
+        <div class="panel-title">관리자 인증</div>
+        <div class="form-group">
+          <label class="label">관리자 비밀번호</label>
+          <input class="input" type="password" placeholder="비밀번호를 입력하세요">
+          <div class="input-hint">문서 관리 권한이 있는 경우에만 접근 가능합니다.</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" style="flex:1">확인</button>
+          <button class="btn btn-ghost">취소</button>
+        </div>
+      </div>
+
+      <!-- Delete modal -->
+      <div class="panel">
+        <div class="panel-title">삭제 확인 모달</div>
+        <div class="modal">
+          <div class="modal-header">
+            <div class="modal-icon-wrap">🗑️</div>
+            <div>
+              <div class="modal-title">문서를 삭제할까요?</div>
+              <div class="modal-desc">사내규정_2024_v3.pdf의 모든 검색 데이터가 제거됩니다.</div>
+            </div>
+          </div>
+          <div class="modal-warn">⚠ 이 작업은 되돌릴 수 없습니다.</div>
+          <div class="modal-actions">
+            <button class="btn btn-ghost btn-sm">취소</button>
+            <button class="btn btn-danger btn-sm">삭제</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="panel">
+        <div class="panel-title">버튼 시스템</div>
+        <div class="btn-showcase">
+          <div>
+            <div class="btn-row-label">PRIMARY ACTIONS</div>
+            <div class="btn-row">
+              <button class="btn btn-primary">업로드</button>
+              <button class="btn btn-primary btn-sm">전송 ↑</button>
+              <button class="btn btn-icon btn-primary">↑</button>
+            </div>
+          </div>
+          <div>
+            <div class="btn-row-label">SECONDARY</div>
+            <div class="btn-row">
+              <button class="btn btn-ghost">취소</button>
+              <button class="btn btn-ghost btn-sm">자세히</button>
+            </div>
+          </div>
+          <div>
+            <div class="btn-row-label">DESTRUCTIVE</div>
+            <div class="btn-row">
+              <button class="btn btn-danger">삭제</button>
+              <button class="btn btn-danger btn-sm">제거</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
