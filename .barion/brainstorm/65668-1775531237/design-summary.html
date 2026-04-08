@@ -1,0 +1,200 @@
+<h2>편성관리 리디자인 — 최종 설계 요약</h2>
+<p class="subtitle">4개 화면 전체 설계. 확인 후 스펙 문서로 넘어갑니다.</p>
+
+<!-- Design Tokens Update -->
+<div class="section">
+  <h3>1. 디자인 토큰 업데이트</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px;">
+    <div style="border:1px solid #e8e6e3; border-radius:10px; padding:16px; background:white;">
+      <div style="font-size:12px; font-weight:600; color:#2D2A26; margin-bottom:10px;">Border Radius (네이버 기준)</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:40px; height:24px; background:#f0eeeb; border-radius:4px;"></div>
+          <span style="font-size:11px; color:#2D2A26;"><b>4px</b> — 뱃지, 태그</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:40px; height:28px; background:#f0eeeb; border-radius:6px;"></div>
+          <span style="font-size:11px; color:#2D2A26;"><b>6px</b> — 버튼, 인풋</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:40px; height:32px; background:#f0eeeb; border-radius:10px;"></div>
+          <span style="font-size:11px; color:#2D2A26;"><b>10px</b> — 카드</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:40px; height:36px; background:#f0eeeb; border-radius:12px;"></div>
+          <span style="font-size:11px; color:#2D2A26;"><b>12px</b> — 모달, 패널</span>
+        </div>
+      </div>
+    </div>
+    <div style="border:1px solid #e8e6e3; border-radius:10px; padding:16px; background:white;">
+      <div style="font-size:12px; font-weight:600; color:#2D2A26; margin-bottom:10px;">컬러 적용 원칙 (Agentify 영감)</div>
+      <div style="display:flex; flex-direction:column; gap:6px; font-size:11px; color:#555;">
+        <div>• CTA: <span style="background:linear-gradient(135deg,#03C75A,#02a84c); color:white; padding:1px 8px; border-radius:4px;">미묘한 그래디언트</span> + 소프트 섀도</div>
+        <div>• 표면: FAF9F7 → F2F0ED → white (3단계 레이어링)</div>
+        <div>• 보더: rgba 투명도 활용 (하드 라인 최소화)</div>
+        <div>• 상태 뱃지: border-left 3px 액센트 포인트</div>
+        <div>• 타임라인 바: 상태별 그래디언트 (한 톤 차이만)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 1: List -->
+<div class="section">
+  <h3>2. 편성 목록 (list.html)</h3>
+  <div style="border:1px solid #e8e6e3; border-radius:10px; padding:16px; background:white; margin-top:8px;">
+    <div style="font-size:12px; font-weight:600; color:#2D2A26; margin-bottom:8px;">핵심 변경</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:11px; color:#555;">
+      <div>
+        <div style="font-weight:600; color:#2D2A26; margin-bottom:4px;">목록 ↔ 타임라인 듀얼 뷰</div>
+        <ul style="margin:0; padding-left:16px; line-height:1.8;">
+          <li>토글 스위치로 목록/타임라인 전환</li>
+          <li>타임라인 = 미니맵 + 포커스 패턴</li>
+          <li>오늘 마커 (빨간 수직선 + 날짜 라벨)</li>
+          <li>미니맵에서 드래그로 포커스 구간 선택</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600; color:#2D2A26; margin-bottom:4px;">타임라인 바 상태 표현</div>
+        <div style="display:flex; flex-direction:column; gap:4px; margin-top:4px;">
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:60px; height:16px; background:linear-gradient(135deg,#03C75A,#02a84c); border-radius:4px;"></div><span>적용중</span></div>
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:60px; height:16px; background:linear-gradient(135deg,#4a8af4,#3b6dd6); border-radius:4px;"></div><span>예약됨</span></div>
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:60px; height:16px; background:white; border:1.5px dashed #E8A030; border-radius:4px;"></div><span>일시정지</span></div>
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:60px; height:16px; background:#d8d5d0; border-radius:4px;"></div><span>종료</span></div>
+        </div>
+        <div style="margin-top:8px;">
+          <div style="font-weight:600; color:#2D2A26; margin-bottom:2px;">정보 표시</div>
+          <ul style="margin:0; padding-left:16px; line-height:1.8;">
+            <li>바 안: 편성명 + 기간</li>
+            <li>우선순위: P1/P2 라벨</li>
+            <li>동기화: 빨간/초록 점 인디케이터</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 2: Detail -->
+<div class="section">
+  <h3>3. 편성표 상세 (detail.html)</h3>
+  <div style="border:1px solid #e8e6e3; border-radius:10px; padding:16px; background:white; margin-top:8px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:11px; color:#555;">
+      <div>
+        <div style="font-weight:600; color:#2D2A26; margin-bottom:4px;">레이아웃 구조</div>
+        <div style="background:#FAF9F7; border-radius:6px; padding:10px; font-size:10px; line-height:1.6; font-family:monospace; color:#555;">
+          ┌─────────────────────────────┐<br>
+          │ breadcrumb + 액션 버튼     │<br>
+          ├─────────────────────────────┤<br>
+          │ 히어로: 제목 + 상태 │ 동기화 │<br>
+          │ 미니 타임라인 진행바        │<br>
+          ├──────────────────┬──────────┤<br>
+          │ 재생목록 구좌    │ 충돌알림 │<br>
+          │ (카드 리스트)    │ 동기화   │<br>
+          │                  │ 메타정보 │<br>
+          └──────────────────┴──────────┘
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:600; color:#2D2A26; margin-bottom:4px;">핵심 변경</div>
+        <ul style="margin:0; padding-left:16px; line-height:1.8;">
+          <li><b>히어로 블록</b>: 제목+뱃지+동기화 경고를 한 줄에</li>
+          <li><b>진행바</b>: 30일 중 경과일 % + 오늘 마커</li>
+          <li><b>구좌 테이블→카드</b>: 썸네일+순번+상태</li>
+          <li><b>SSP 구좌</b>: 파란 배경으로 시각 차별화</li>
+          <li><b>삭제 구좌</b>: dashed 보더 + 투명도</li>
+          <li><b>사이드바</b>: 충돌경고, 동기화이력, 메타정보</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 3: New -->
+<div class="section">
+  <h3>4. 편성표 생성 (new.html)</h3>
+  <div style="border:1px solid #e8e6e3; border-radius:10px; padding:16px; background:white; margin-top:8px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:11px; color:#555;">
+      <div>
+        <div style="font-weight:600; color:#2D2A26; margin-bottom:4px;">레이아웃</div>
+        <div style="background:#FAF9F7; border-radius:6px; padding:10px; font-size:10px; line-height:1.6; font-family:monospace; color:#555;">
+          ┌────────────────┬────────────┐<br>
+          │ 폼 영역        │ 라이브     │<br>
+          │                │ 프리뷰     │<br>
+          │ - 편성표명      │            │<br>
+          │ - 재생목록 선택  │ 미니       │<br>
+          │ - 매체 선택     │ 타임라인   │<br>
+          │ - 기간 설정     │            │<br>
+          │ - 우선순위      │ 충돌 경고  │<br>
+          │                │ (실시간)   │<br>
+          └────────────────┴────────────┘
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:600; color:#2D2A26; margin-bottom:4px;">핵심 변경</div>
+        <ul style="margin:0; padding-left:16px; line-height:1.8;">
+          <li><b>2컬럼</b>: 좌 폼 + 우 라이브 프리뷰</li>
+          <li><b>프리뷰 타임라인</b>: 매체/기간 입력하면 실시간 반영</li>
+          <li><b>충돌 사전 감지</b>: 기존 편성과 겹침 시 즉시 경고</li>
+          <li>기존 편성 = 회색 바, 새 편성 = 초록 점선 바</li>
+          <li>충돌 없으면 "충돌 없음 ✓" 표시</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 4: Conflict -->
+<div class="section">
+  <h3>5. 충돌 해소 (conflict.html)</h3>
+  <div style="border:1px solid #e8e6e3; border-radius:10px; padding:16px; background:white; margin-top:8px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:11px; color:#555;">
+      <div>
+        <div style="font-weight:600; color:#2D2A26; margin-bottom:4px;">레이아웃</div>
+        <div style="background:#FAF9F7; border-radius:6px; padding:10px; font-size:10px; line-height:1.6; font-family:monospace; color:#555;">
+          ┌─────────────────────────────┐<br>
+          │ 충돌 타임라인 시각화        │<br>
+          │ (두 편성 겹침 구간 강조)    │<br>
+          ├─────────────────────────────┤<br>
+          │ 해소 옵션 A                 │<br>
+          │  → 선택 시 타임라인 변화    │<br>
+          │ 해소 옵션 B                 │<br>
+          │  → 선택 시 타임라인 변화    │<br>
+          │ 해소 옵션 C                 │<br>
+          │  → 선택 시 타임라인 변화    │<br>
+          └─────────────────────────────┘
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:600; color:#2D2A26; margin-bottom:4px;">핵심 변경</div>
+        <ul style="margin:0; padding-left:16px; line-height:1.8;">
+          <li><b>상단 타임라인</b>: 두 편성 바가 겹치는 구간을 빗금/투명도로 강조</li>
+          <li><b>인터랙티브 프리뷰</b>: 라디오 선택 시 타임라인이 before→after로 전환</li>
+          <li>옵션 A: 우선순위 유지 → 바 겹침 그대로</li>
+          <li>옵션 B: 기간 조정 → 바가 밀려남 애니메이션</li>
+          <li>옵션 C: 취소 → 새 편성 바 사라짐</li>
+          <li>겹침 구간에 경고색 배경 (#fef3e0)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Shared visual language -->
+<div class="section">
+  <h3>6. 공통 시각 언어</h3>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:8px;">
+    <div style="border:1px solid #e8e6e3; border-radius:10px; padding:12px; background:white; text-align:center;">
+      <div style="font-size:11px; font-weight:600; color:#2D2A26; margin-bottom:6px;">타임라인 관통</div>
+      <div style="font-size:10px; color:#8A8580;">목록(미니맵) → 상세(진행바) → 생성(프리뷰) → 충돌(비교) 모두 동일한 타임라인 시각 언어</div>
+    </div>
+    <div style="border:1px solid #e8e6e3; border-radius:10px; padding:12px; background:white; text-align:center;">
+      <div style="font-size:11px; font-weight:600; color:#2D2A26; margin-bottom:6px;">오늘 마커 일관성</div>
+      <div style="font-size:10px; color:#8A8580;">빨간 수직선 + 날짜 라벨. 목록·상세·생성·충돌 화면 모두 동일 패턴</div>
+    </div>
+    <div style="border:1px solid #e8e6e3; border-radius:10px; padding:12px; background:white; text-align:center;">
+      <div style="font-size:11px; font-weight:600; color:#2D2A26; margin-bottom:6px;">상태 컬러 통일</div>
+      <div style="font-size:10px; color:#8A8580;">적용중(그린) · 예약(블루) · 일시정지(옐로 dashed) · 종료(그레이) · 동기화실패(레드 dot)</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 알림 설정</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#f0faf3', 100: '#e6f9ed', 200: '#b3eccc', 300: '#66d999',
+          400: '#33cc77', 500: '#03C75A', 600: '#02a84c', 700: '#028a3e',
+          800: '#016b30', 900: '#014d23',
+        },
+        gray: {
+          50: '#FAF9F7', 100: '#F2F0ED', 200: '#E8E6E3', 300: '#D0CCC7',
+          400: '#B0ABA5', 500: '#8A8580', 600: '#6E6A65', 700: '#55514D',
+          800: '#3B3835', 900: '#2D2A26',
+        },
+      },
+      borderRadius: {
+        'sm': '4px', 'md': '6px', 'lg': '10px', 'xl': '12px',
+      },
+    },
+  },
+}
+</script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6">
+        <a href="center.html" class="text-sm text-gray-500 hover:text-gray-700">← 알림 센터</a>
+        <h1 class="text-2xl font-bold text-gray-900 mt-2">알림 설정</h1>
+      </div>
+
+      <div class="max-w-2xl space-y-6">
+        <!-- 브라우저 푸시 -->
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-semibold">브라우저 푸시 알림</h3>
+              <p class="text-xs text-gray-500 mt-0.5">브라우저 알림으로 실시간 알림을 받습니다</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" checked class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          <h4 class="text-xs text-gray-500 uppercase tracking-wider mb-3">카테고리별 푸시 설정</h4>
+          <div class="space-y-3">
+            <label class="flex items-center justify-between py-2">
+              <div>
+                <span class="text-sm">매체 상태 (오프라인/이상 감지)</span>
+                <span class="badge badge-red ml-2">긴급</span>
+              </div>
+              <input type="checkbox" checked class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <div>
+                <span class="text-sm">소재 검수 실패</span>
+                <span class="badge badge-red ml-2">긴급</span>
+              </div>
+              <input type="checkbox" checked class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <div>
+                <span class="text-sm">편성 충돌 감지</span>
+                <span class="badge badge-red ml-2">긴급</span>
+              </div>
+              <input type="checkbox" checked class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <div>
+                <span class="text-sm">편성 일시정지 (매체 비활성화)</span>
+                <span class="badge badge-red ml-2">긴급</span>
+              </div>
+              <input type="checkbox" checked class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <span class="text-sm">소재 검수 완료</span>
+              <input type="checkbox" class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <span class="text-sm">편성 시작/종료</span>
+              <input type="checkbox" class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <span class="text-sm">리포트 생성 완료</span>
+              <input type="checkbox" class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <span class="text-sm">사용자 가입/초대</span>
+              <input type="checkbox" class="rounded text-blue-600">
+            </label>
+          </div>
+        </div>
+
+        <!-- Slack 연동 (어드민만) -->
+        <div class="bg-white rounded-xl border border-gray-200 p-6" data-roles="admin">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-semibold">Slack 알림</h3>
+              <p class="text-xs text-gray-500 mt-0.5">어드민 전용 · Slack 채널로 알림을 전송합니다</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" checked class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Webhook URL</label>
+            <input type="url" class="form-input" value="https://hooks.slack.com/services/T00000/B00000/XXXX" placeholder="https://hooks.slack.com/services/...">
+          </div>
+
+          <h4 class="text-xs text-gray-500 uppercase tracking-wider mb-3">Slack 전송 카테고리</h4>
+          <div class="space-y-3">
+            <label class="flex items-center justify-between py-2">
+              <span class="text-sm">매체 오프라인/이상 감지</span>
+              <input type="checkbox" checked class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <span class="text-sm">매체 이상 감지</span>
+              <input type="checkbox" checked class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <span class="text-sm">편성 충돌/일시정지</span>
+              <input type="checkbox" checked class="rounded text-blue-600">
+            </label>
+            <label class="flex items-center justify-between py-2">
+              <span class="text-sm">리포트 전송 실패</span>
+              <input type="checkbox" checked class="rounded text-blue-600">
+            </label>
+          </div>
+        </div>
+
+        <div class="flex justify-end">
+          <button class="px-6 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700">설정 저장</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

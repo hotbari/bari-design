@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 편성표 상세</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#f0faf3', 100: '#e6f9ed', 200: '#b3eccc', 300: '#66d999',
+          400: '#33cc77', 500: '#03C75A', 600: '#02a84c', 700: '#028a3e',
+          800: '#016b30', 900: '#014d23',
+        },
+        gray: {
+          50: '#FAF9F7', 100: '#F2F0ED', 200: '#E8E6E3', 300: '#D0CCC7',
+          400: '#B0ABA5', 500: '#8A8580', 600: '#6E6A65', 700: '#55514D',
+          800: '#3B3835', 900: '#2D2A26',
+        },
+      },
+      borderRadius: {
+        'sm': '4px', 'md': '6px', 'lg': '10px', 'xl': '12px',
+      },
+    },
+  },
+}
+</script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+  <div id="app-header"></div>
+  <div style="display:flex;">
+    <div id="app-sidebar"></div>
+    <main style="flex:1; padding:32px; min-width:0;">
+
+      <!-- Breadcrumb + Action Buttons -->
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+        <nav style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--color-neutral-500);">
+          <a href="list.html" style="color:var(--color-neutral-500); text-decoration:none;">편성 관리</a>
+          <span>/</span>
+          <span style="color:var(--color-neutral-900); font-weight:600;">4월 강남 편성</span>
+        </nav>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-secondary">수정</button>
+          <button class="btn btn-danger" onclick="showModal('modal-end')">종료</button>
+        </div>
+      </div>
+
+      <!-- Hero Block -->
+      <div class="card" style="padding:24px; margin-bottom:20px;">
+        <div style="display:flex; gap:24px; align-items:flex-start;">
+          <!-- Left: title + meta + progress -->
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+              <h1 style="font-size:22px; font-weight:700; color:var(--color-neutral-900); letter-spacing:-0.02em; margin:0;">4월 강남 편성</h1>
+              <span class="badge badge-active">
+                <span style="width:6px; height:6px; border-radius:50%; background:var(--color-primary-500); display:inline-block;"></span>
+                적용중
+              </span>
+            </div>
+            <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:16px;">
+              <div style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--color-neutral-600);">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="12" height="11" rx="2"/><line x1="5" y1="1" x2="5" y2="5"/><line x1="11" y1="1" x2="11" y2="5"/><line x1="2" y1="7" x2="14" y2="7"/></svg>
+                <span>2026-04-01 ~ 2026-04-30</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--color-neutral-600);">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="14" height="10" rx="2"/><line x1="5" y1="3" x2="5" y2="13"/></svg>
+                <span>강남역 1번출구</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--color-neutral-600);">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l1.5 3.5 3.5.5-2.5 2.5.5 3.5L8 10.5l-3 1.5.5-3.5L3 6l3.5-.5z"/></svg>
+                <span>우선순위 P1</span>
+              </div>
+            </div>
+            <!-- Progress bar rendered by timeline.js -->
+            <div id="hero-progress"></div>
+          </div>
+
+          <!-- Right: sync status card (error-50 bg, red border) -->
+          <div style="width:220px; flex-shrink:0; background:var(--color-error-50); border:1px solid rgba(230,35,24,0.2); border-radius:var(--radius-lg); padding:14px;">
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--color-error-500)" stroke-width="1.8"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="8"/><line x1="8" y1="11" x2="8" y2="11.5" stroke-linecap="round" stroke-width="2.4"/></svg>
+              <span style="font-size:12px; font-weight:600; color:var(--color-error-500);">동기화 미완료</span>
+            </div>
+            <div style="font-size:11px; color:var(--color-neutral-600); margin-bottom:10px; line-height:1.5;">
+              플레이어가 최신 버전(v13)을 수신하지 못했습니다. 현재 v12 재생 중.
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--color-neutral-500); margin-bottom:10px;">
+              <span>플레이어: <strong style="color:var(--color-neutral-900);">v12</strong></span>
+              <span>최신: <strong style="color:var(--color-primary-600);">v13</strong></span>
+            </div>
+            <button class="btn btn-danger" style="width:100%; font-size:12px; padding:7px 14px;">
+              재동기화 요청
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main + Sidebar Layout -->
+      <div style="display:flex; gap:16px; align-items:flex-start;">
+
+        <!-- Playlist Slots (flex:1) -->
+        <div style="flex:1; min-width:0;">
+          <div class="card" style="padding:20px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+              <h2 style="font-size:15px; font-weight:700; color:var(--color-neutral-900); margin:0;">재생목록 구좌</h2>
+              <span style="font-size:12px; color:var(--color-neutral-500);">갤럭시 S26 재생목록 · 5개 구좌</span>
+            </div>
+
+            <!-- Slot 1: normal -->
+            <div class="data-row" style="margin-bottom:6px;">
+              <div style="width:22px; height:22px; border-radius:4px; background:var(--color-neutral-50); border:1px solid rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--color-neutral-500); flex-shrink:0; margin-right:10px;">1</div>
+              <div style="width:36px; height:36px; border-radius:6px; background:var(--color-neutral-100); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-right:12px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-neutral-400)" stroke-width="1.6"><polygon points="4,2 14,8 4,14"/></svg>
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-size:13px; font-weight:600; color:var(--color-neutral-900);">갤럭시 S26 런칭 15s</div>
+                <div style="font-size:11px; color:var(--color-neutral-500); margin-top:2px;">동영상 · 15초</div>
+              </div>
+              <span class="badge badge-active">정상</span>
+            </div>
+
+            <!-- Slot 2: normal -->
+            <div class="data-row" style="margin-bottom:6px;">
+              <div style="width:22px; height:22px; border-radius:4px; background:var(--color-neutral-50); border:1px solid rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--color-neutral-500); flex-shrink:0; margin-right:10px;">2</div>
+              <div style="width:36px; height:36px; border-radius:6px; background:var(--color-neutral-100); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-right:12px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-neutral-400)" stroke-width="1.6"><polygon points="4,2 14,8 4,14"/></svg>
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-size:13px; font-weight:600; color:var(--color-neutral-900);">갤럭시 S26 기능소개 30s</div>
+                <div style="font-size:11px; color:var(--color-neutral-500); margin-top:2px;">동영상 · 30초</div>
+              </div>
+              <span class="badge badge-active">정상</span>
+            </div>
+
+            <!-- Slot 3: deleted (dashed border, opacity 0.6, strikethrough, badge-error) -->
+            <div class="data-row" style="margin-bottom:6px; border:1px dashed var(--color-neutral-300); opacity:0.6;">
+              <div style="width:22px; height:22px; border-radius:4px; background:var(--color-neutral-50); border:1px solid rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--color-neutral-500); flex-shrink:0; margin-right:10px;">3</div>
+              <div style="width:36px; height:36px; border-radius:6px; background:var(--color-neutral-100); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-right:12px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-neutral-400)" stroke-width="1.6"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg>
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-size:13px; font-weight:600; color:var(--color-neutral-500); text-decoration:line-through;">삭제된 소재</div>
+                <div style="font-size:11px; color:var(--color-neutral-400); margin-top:2px;">— · —</div>
+              </div>
+              <span class="badge badge-error">삭제됨</span>
+            </div>
+
+            <!-- Slot 4: replacing (badge-purple) -->
+            <div class="data-row" style="margin-bottom:6px;">
+              <div style="width:22px; height:22px; border-radius:4px; background:var(--color-neutral-50); border:1px solid rgba(0,0,0,0.08); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--color-neutral-500); flex-shrink:0; margin-right:10px;">4</div>
+              <div style="width:36px; height:36px; border-radius:6px; background:var(--color-neutral-100); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-right:12px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-neutral-400)" stroke-width="1.6"><rect x="2" y="3" width="12" height="10" rx="1"/><line x1="5" y1="6" x2="11" y2="6"/><line x1="5" y1="9" x2="9" y2="9"/></svg>
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-size:13px; font-weight:600; color:var(--color-neutral-900);">현대백화점 세일 배너</div>
+                <div style="font-size:11px; color:var(--color-neutral-500); margin-top:2px;">이미지 · 10초</div>
+              </div>
+              <span class="badge badge-purple">교체중</span>
+            </div>
+
+            <!-- Slot 5: SSP (primary-50 bg, primary-200 border, green tint) -->
+            <div class="data-row" style="background:var(--color-primary-50); border:1px solid var(--color-primary-200);">
+              <div style="width:22px; height:22px; border-radius:4px; background:var(--color-primary-100); border:1px solid var(--color-primary-200); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--color-primary-700); flex-shrink:0; margin-right:10px;">5</div>
+              <div style="width:36px; height:36px; border-radius:6px; background:var(--color-primary-100); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-right:12px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-primary-600)" stroke-width="1.6"><circle cx="8" cy="8" r="5"/><circle cx="8" cy="8" r="2"/></svg>
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-size:13px; font-weight:600; color:var(--color-primary-800);">네이버 Ad Server 구좌</div>
+                <div style="font-size:11px; color:var(--color-primary-600); margin-top:2px;">실시간 · 15초</div>
+              </div>
+              <span class="badge badge-active">SSP 연동</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar (220px) -->
+        <div style="width:220px; flex-shrink:0; display:flex; flex-direction:column; gap:12px;">
+
+          <!-- Conflict Alert -->
+          <div style="background:var(--color-warning-50); border:1px solid rgba(232,160,48,0.3); border-radius:var(--radius-lg); padding:14px;">
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--color-warning-600)" stroke-width="1.8"><path d="M8 2L15 13H1z"/><line x1="8" y1="7" x2="8" y2="10"/><line x1="8" y1="12" x2="8" y2="12.5" stroke-linecap="round" stroke-width="2.4"/></svg>
+              <span style="font-size:12px; font-weight:600; color:var(--color-warning-600);">편성 충돌 감지</span>
+            </div>
+            <p style="font-size:11px; color:var(--color-neutral-600); margin:0 0 10px; line-height:1.5;">5월 프로모션 편성과 기간이 겹칩니다.</p>
+            <a href="conflict.html" style="display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; color:var(--color-warning-600); text-decoration:none;">
+              충돌 확인하기
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h8M6 2l4 4-4 4"/></svg>
+            </a>
+          </div>
+
+          <!-- Sync History -->
+          <div class="card" style="padding:14px;">
+            <div style="font-size:12px; font-weight:600; color:var(--color-neutral-700); margin-bottom:12px;">동기화 이력</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div style="display:flex; align-items:flex-start; gap:8px;">
+                <div style="width:6px; height:6px; border-radius:50%; background:var(--color-primary-500); flex-shrink:0; margin-top:4px;"></div>
+                <div>
+                  <div style="font-size:11px; font-weight:600; color:var(--color-neutral-900);">v12 동기화 성공</div>
+                  <div style="font-size:10px; color:var(--color-neutral-400); margin-top:2px;">2026-04-06 09:32</div>
+                </div>
+              </div>
+              <div style="display:flex; align-items:flex-start; gap:8px;">
+                <div style="width:6px; height:6px; border-radius:50%; background:var(--color-error-500); flex-shrink:0; margin-top:4px;"></div>
+                <div>
+                  <div style="font-size:11px; font-weight:600; color:var(--color-neutral-900);">v13 동기화 실패</div>
+                  <div style="font-size:10px; color:var(--color-neutral-400); margin-top:2px;">2026-04-07 08:15</div>
+                  <div style="font-size:10px; color:var(--color-warning-600); margin-top:2px;">15분 후 재시도 예정</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Meta Info -->
+          <div class="card" style="padding:14px;">
+            <div style="font-size:12px; font-weight:600; color:var(--color-neutral-700); margin-bottom:12px;">메타 정보</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div>
+                <div style="font-size:10px; color:var(--color-neutral-400); margin-bottom:2px;">버전</div>
+                <div style="font-size:12px; color:var(--color-neutral-900); font-weight:600;">v13</div>
+              </div>
+              <div>
+                <div style="font-size:10px; color:var(--color-neutral-400); margin-bottom:2px;">생성일</div>
+                <div style="font-size:12px; color:var(--color-neutral-900);">2026-03-28</div>
+              </div>
+              <div>
+                <div style="font-size:10px; color:var(--color-neutral-400); margin-bottom:2px;">작성자</div>
+                <div style="font-size:12px; color:var(--color-neutral-900);">관리자</div>
+              </div>
+              <div>
+                <div style="font-size:10px; color:var(--color-neutral-400); margin-bottom:2px;">우선순위</div>
+                <div style="font-size:12px; color:var(--color-neutral-900); font-weight:600;">P1 (최우선)</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- End Modal -->
+  <div id="modal-end" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+        <div style="width:36px; height:36px; border-radius:50%; background:var(--color-error-50); border:1px solid rgba(230,35,24,0.2); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--color-error-500)" stroke-width="1.8"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="8"/><line x1="8" y1="11" x2="8" y2="11.5" stroke-linecap="round" stroke-width="2.4"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:16px; font-weight:700; color:var(--color-neutral-900); margin:0;">편성 수동 종료</h3>
+          <p style="font-size:12px; color:var(--color-neutral-500); margin:4px 0 0;">이 작업은 즉시 적용되며 되돌릴 수 없습니다.</p>
+        </div>
+      </div>
+      <div style="background:var(--color-neutral-50); border-radius:var(--radius-md); padding:12px; margin-bottom:16px; font-size:13px; color:var(--color-neutral-700);">
+        <strong>4월 강남 편성</strong>을 지금 즉시 종료하시겠습니까?<br>
+        <span style="font-size:11px; color:var(--color-neutral-500); margin-top:4px; display:block;">종료 시 플레이어에 즉시 반영됩니다. 재생 중인 소재가 중단됩니다.</span>
+      </div>
+      <div style="display:flex; gap:8px; justify-content:flex-end;">
+        <button class="btn btn-secondary" onclick="hideModal('modal-end')">취소</button>
+        <button class="btn btn-danger" onclick="hideModal('modal-end')">지금 종료</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/layout.js"></script>
+  <script src="data.js"></script>
+  <script src="timeline.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const s1 = SCHEDULE_LIST.find(s => s.id === 's1');
+      renderProgressBar(document.getElementById('hero-progress'), {
+        startDate: s1.start,
+        endDate: s1.end,
+        todayDate: TODAY,
+      });
+    });
+  </script>
+</body>
+</html>

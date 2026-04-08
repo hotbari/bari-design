@@ -1,0 +1,157 @@
+<h2>매체사 전용 — "의도 vs 현실" 표현 방식</h2>
+<p class="subtitle">매체사 김서영이 "현장에서 진짜 이렇게 돌아가나요?"를 확인하는 영역입니다</p>
+
+<div class="cards" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px;">
+
+  <!-- Option A: Table -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="padding:0; overflow:hidden;">
+    <div class="card-body" style="padding:16px 16px 8px;">
+      <h3>A. 테이블형</h3>
+      <p style="font-size:13px; color:#666; margin-bottom:12px;">CMS 상태와 플레이어 상태를 컬럼으로 나란히. 익숙한 패턴, 한눈에 비교 가능.</p>
+    </div>
+    <div style="padding:0 16px 16px;">
+      <div style="background:#f5f4f2; border-radius:8px; padding:12px; font-size:10px; color:#666;">
+        <div style="font-size:11px; font-weight:700; margin-bottom:8px; color:#333;">내 매체 동기화 현황</div>
+        <!-- Header -->
+        <div style="display:grid; grid-template-columns:2fr 1.5fr 1.5fr 1fr; gap:4px; padding:4px 0; border-bottom:1px solid #e0e0e0; font-weight:600; color:#999; font-size:9px;">
+          <div>매체명</div>
+          <div>CMS 상태</div>
+          <div>플레이어</div>
+          <div>일치</div>
+        </div>
+        <!-- Row 1 - mismatch -->
+        <div style="display:grid; grid-template-columns:2fr 1.5fr 1.5fr 1fr; gap:4px; padding:6px 0; border-bottom:1px solid #f0f0f0; background:#fef2f2; margin:0 -4px; padding-left:4px; padding-right:4px; border-radius:3px;">
+          <div style="font-weight:600; color:#333;">강남역 1번출구</div>
+          <div><span style="color:#03C75A; font-weight:600;">적용중</span></div>
+          <div><span style="color:#dc2626; font-weight:600;">v2.1 미반영</span></div>
+          <div><span style="color:#dc2626;">✕</span></div>
+        </div>
+        <!-- Row 2 - ok -->
+        <div style="display:grid; grid-template-columns:2fr 1.5fr 1.5fr 1fr; gap:4px; padding:6px 0; border-bottom:1px solid #f0f0f0;">
+          <div style="font-weight:500;">종로 전광판</div>
+          <div><span style="color:#03C75A;">적용중</span></div>
+          <div><span style="color:#03C75A;">동기화 완료</span></div>
+          <div><span style="color:#03C75A;">✓</span></div>
+        </div>
+        <!-- Row 3 - ok -->
+        <div style="display:grid; grid-template-columns:2fr 1.5fr 1.5fr 1fr; gap:4px; padding:6px 0; border-bottom:1px solid #f0f0f0;">
+          <div style="font-weight:500;">삼성역 B2</div>
+          <div><span style="color:#03C75A;">적용중</span></div>
+          <div><span style="color:#03C75A;">동기화 완료</span></div>
+          <div><span style="color:#03C75A;">✓</span></div>
+        </div>
+        <!-- Row 4 - ok -->
+        <div style="display:grid; grid-template-columns:2fr 1.5fr 1.5fr 1fr; gap:4px; padding:6px 0;">
+          <div style="font-weight:500;">신촌 B</div>
+          <div><span style="color:#999;">비활성</span></div>
+          <div><span style="color:#999;">—</span></div>
+          <div><span style="color:#999;">—</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:0 16px 16px; font-size:11px; color:#999;">
+      ⚠️ 원칙 위반: 다른 목록 화면과 동일한 테이블 패턴
+    </div>
+  </div>
+
+  <!-- Option B: Matching Cards -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="padding:0; overflow:hidden;">
+    <div class="card-body" style="padding:16px 16px 8px;">
+      <h3>B. 매칭 카드형</h3>
+      <p style="font-size:13px; color:#666; margin-bottom:12px;">매체별로 "의도 ↔ 현장"을 화살표로 연결. 불일치가 시각적으로 튀어나옴.</p>
+    </div>
+    <div style="padding:0 16px 16px;">
+      <div style="background:#f5f4f2; border-radius:8px; padding:12px; font-size:10px; color:#666;">
+        <div style="font-size:11px; font-weight:700; margin-bottom:8px; color:#333;">내 매체 동기화 현황</div>
+
+        <!-- Card 1 - mismatch -->
+        <div style="background:#fef2f2; border:1.5px solid #fca5a5; border-radius:6px; padding:10px; margin-bottom:6px;">
+          <div style="font-weight:700; color:#333; font-size:11px; margin-bottom:6px;">강남역 1번출구</div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="flex:1; background:white; border-radius:4px; padding:6px; text-align:center;">
+              <div style="font-size:8px; color:#999; margin-bottom:2px;">CMS 의도</div>
+              <div style="font-size:10px; font-weight:600; color:#03C75A;">4월 프로모션 적용중</div>
+            </div>
+            <div style="font-size:14px; color:#dc2626; font-weight:700;">≠</div>
+            <div style="flex:1; background:white; border-radius:4px; padding:6px; text-align:center;">
+              <div style="font-size:8px; color:#999; margin-bottom:2px;">플레이어 현장</div>
+              <div style="font-size:10px; font-weight:600; color:#dc2626;">v2.1 미반영</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 - ok -->
+        <div style="background:white; border:1px solid #e8e6e3; border-radius:6px; padding:10px; margin-bottom:6px;">
+          <div style="font-weight:600; color:#333; font-size:11px; margin-bottom:6px;">종로 전광판</div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <div style="flex:1; background:#f8f8f6; border-radius:4px; padding:6px; text-align:center;">
+              <div style="font-size:8px; color:#999; margin-bottom:2px;">CMS 의도</div>
+              <div style="font-size:10px; color:#666;">4월 프로모션 적용중</div>
+            </div>
+            <div style="font-size:12px; color:#03C75A; font-weight:700;">=</div>
+            <div style="flex:1; background:#f8f8f6; border-radius:4px; padding:6px; text-align:center;">
+              <div style="font-size:8px; color:#999; margin-bottom:2px;">플레이어 현장</div>
+              <div style="font-size:10px; color:#03C75A;">동기화 완료</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div style="text-align:center; font-size:9px; color:#999; padding:4px;">
+          외 2개 매체 정상
+        </div>
+      </div>
+    </div>
+    <div style="padding:0 16px 16px; font-size:11px; color:#666;">
+      ✅ 도메인 특화: "의도 vs 현실" 개념이 UI 구조에 반영
+    </div>
+  </div>
+
+  <!-- Option C: Exception Only -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)" style="padding:0; overflow:hidden;">
+    <div class="card-body" style="padding:16px 16px 8px;">
+      <h3>C. 예외만 표시형</h3>
+      <p style="font-size:13px; color:#666; margin-bottom:12px;">불일치만 강조, 정상은 한 줄 요약. 공간 효율 최고.</p>
+    </div>
+    <div style="padding:0 16px 16px;">
+      <div style="background:#f5f4f2; border-radius:8px; padding:12px; font-size:10px; color:#666;">
+        <div style="font-size:11px; font-weight:700; margin-bottom:8px; color:#333;">내 매체 동기화 현황</div>
+
+        <!-- Exception alert -->
+        <div style="background:#fef2f2; border:1.5px solid #fca5a5; border-radius:6px; padding:10px; margin-bottom:8px;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+            <div style="width:8px; height:8px; border-radius:50%; background:#dc2626;"></div>
+            <div style="font-weight:700; color:#dc2626; font-size:11px;">불일치 1건</div>
+          </div>
+          <div style="background:white; border-radius:4px; padding:8px;">
+            <div style="font-weight:600; color:#333; margin-bottom:4px;">강남역 1번출구</div>
+            <div style="display:flex; justify-content:space-between; font-size:9px;">
+              <span>CMS: <span style="color:#03C75A; font-weight:600;">4월 프로모션 적용중</span></span>
+              <span>현장: <span style="color:#dc2626; font-weight:600;">v2.1 미반영</span></span>
+            </div>
+            <div style="font-size:9px; color:#999; margin-top:4px;">마지막 동기화 시도: 14:30 · 3회 실패</div>
+          </div>
+        </div>
+
+        <!-- Normal summary -->
+        <div style="background:white; border:1px solid #e8e6e3; border-radius:6px; padding:10px; display:flex; align-items:center; gap:8px;">
+          <div style="width:8px; height:8px; border-radius:50%; background:#03C75A;"></div>
+          <div>
+            <div style="font-weight:600; color:#333; font-size:11px;">정상 동기화 3개 매체</div>
+            <div style="font-size:9px; color:#999;">종로 전광판, 삼성역 B2, 역삼역 3번출구</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:0 16px 16px; font-size:11px; color:#666;">
+      ✅ 원칙2: 예외가 주인공, 정상은 배경으로 축약
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:24px; padding:20px; background:rgba(0,0,0,0.03); border-radius:12px;">
+  <p style="font-size:13px; color:#666; line-height:1.7;">
+    <strong>제 추천: B + C 혼합</strong> — 불일치가 있을 때는 B의 매칭 카드로 "의도 ↔ 현장" 대비를 보여주고, 정상 매체는 C처럼 한 줄 요약으로 축약. 불일치 0건이면 전체가 C의 정상 요약 형태.
+  </p>
+</div>

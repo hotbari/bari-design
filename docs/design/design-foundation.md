@@ -142,9 +142,9 @@ Base unit: 4px
 | Token | Value | Usage |
 |-------|------:|-------|
 | `--radius-sm` | 4px | 뱃지, 태그 |
-| `--radius-md` | 8px | 버튼, 인풋 |
-| `--radius-lg` | 12px | 카드 |
-| `--radius-xl` | 16px | 모달, 패널 |
+| `--radius-md` | 6px | 버튼, 인풋 |
+| `--radius-lg` | 10px | 카드 |
+| `--radius-xl` | 12px | 모달, 패널 |
 
 ### 5.2 Shadows
 
@@ -251,7 +251,7 @@ Base unit: 4px
   --space-12: 48px; --space-16: 64px;
 
   /* ── Border Radius ── */
-  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px;
+  --radius-sm: 4px; --radius-md: 6px; --radius-lg: 10px; --radius-xl: 12px;
 
   /* ── Shadows ── */
   --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.05);

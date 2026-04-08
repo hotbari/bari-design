@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOOH CMS - 리포트</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blue: {
+          50: '#f0faf3', 100: '#e6f9ed', 200: '#b3eccc', 300: '#66d999',
+          400: '#33cc77', 500: '#03C75A', 600: '#02a84c', 700: '#028a3e',
+          800: '#016b30', 900: '#014d23',
+        },
+        gray: {
+          50: '#FAF9F7', 100: '#F2F0ED', 200: '#E8E6E3', 300: '#D0CCC7',
+          400: '#B0ABA5', 500: '#8A8580', 600: '#6E6A65', 700: '#55514D',
+          800: '#3B3835', 900: '#2D2A26',
+        },
+      },
+      borderRadius: {
+        'sm': '4px', 'md': '6px', 'lg': '10px', 'xl': '12px',
+      },
+    },
+  },
+}
+</script>
+  <link rel="stylesheet" href="../shared/style.css">
+</head>
+<body class="bg-gray-50">
+  <div id="app-header"></div>
+  <div class="flex">
+    <div id="app-sidebar"></div>
+    <main class="flex-1 p-8">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">리포트</h1>
+        <button onclick="showModal('new-report-modal')" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">+ 리포트 생성</button>
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200">
+        <div class="p-4 border-b border-gray-100 flex items-center gap-3">
+          <select class="form-input w-auto">
+            <option>전체 유형</option>
+            <option>매체 운영</option>
+            <option>캠페인 성과</option>
+            <option>편성 통계</option>
+          </select>
+          <select class="form-input w-auto">
+            <option>전체 상태</option>
+            <option>생성완료</option>
+            <option>발송중</option>
+            <option>발송실패</option>
+          </select>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>리포트 유형</th>
+              <th>기간</th>
+              <th>대상 매체</th>
+              <th>상태</th>
+              <th>생성일</th>
+              <th>생성자</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="font-medium">매체 운영 현황</td>
+              <td class="text-sm">2026-03-01 ~ 2026-03-31</td>
+              <td>전체 (142개)</td>
+              <td><span class="badge badge-green">생성완료</span></td>
+              <td>2026-04-01</td>
+              <td>관리자</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">미리보기</button>
+                <button class="text-sm text-blue-600 hover:text-blue-800">다운로드</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-medium">캠페인 성과 리포트</td>
+              <td class="text-sm">2026-03-15 ~ 2026-03-31</td>
+              <td>강남역 1번출구 외 23개</td>
+              <td><span class="badge badge-green">생성완료</span></td>
+              <td>2026-04-01</td>
+              <td>김대표</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">미리보기</button>
+                <button class="text-sm text-blue-600 hover:text-blue-800">다운로드</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-medium">편성 통계</td>
+              <td class="text-sm">2026-01-01 ~ 2026-03-31</td>
+              <td>전체</td>
+              <td><span class="badge badge-red">발송실패</span></td>
+              <td>2026-04-02</td>
+              <td>관리자</td>
+              <td class="text-right">
+                <button class="text-sm text-blue-600 hover:text-blue-800">재발송</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-medium">매체 운영 현황 (주간)</td>
+              <td class="text-sm">2026-03-25 ~ 2026-03-31</td>
+              <td>전체</td>
+              <td><span class="badge badge-green">생성완료</span></td>
+              <td>2026-04-01</td>
+              <td>시스템 (자동)</td>
+              <td class="text-right">
+                <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">미리보기</button>
+                <button class="text-sm text-blue-600 hover:text-blue-800">다운로드</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="p-4 border-t border-gray-100 text-sm text-gray-500 text-center">총 28개 리포트</div>
+      </div>
+
+      <!-- 정기 리포트 설정 -->
+      <div class="mt-8">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">정기 리포트 설정</h2>
+        <div class="bg-white rounded-xl border border-gray-200">
+          <table>
+            <thead>
+              <tr>
+                <th>리포트 유형</th>
+                <th>주기</th>
+                <th>수신자</th>
+                <th>상태</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-medium">매체 운영 현황</td>
+                <td>주간 (매주 월요일)</td>
+                <td>admin@doohcms.com, kim@cna.co.kr</td>
+                <td><span class="badge badge-green">활성</span></td>
+                <td class="text-right">
+                  <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">수정</button>
+                  <button class="text-sm text-red-500 hover:text-red-700">삭제</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-medium">매체 운영 현황</td>
+                <td>월간 (매월 1일)</td>
+                <td>admin@doohcms.com</td>
+                <td><span class="badge badge-green">활성</span></td>
+                <td class="text-right">
+                  <button class="text-sm text-gray-500 hover:text-gray-700 mr-2">수정</button>
+                  <button class="text-sm text-red-500 hover:text-red-700">삭제</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 리포트 생성 모달 -->
+  <div id="new-report-modal" class="modal-overlay hidden" onclick="hideModal('new-report-modal')">
+    <div class="modal-content" onclick="event.stopPropagation()" style="max-width:560px">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">리포트 생성</h3>
+      <div class="form-group">
+        <label class="form-label">리포트 유형 <span class="text-red-500">*</span></label>
+        <select class="form-input" required>
+          <option value="">유형 선택</option>
+          <option>매체 운영 (온라인 시간, 재생 횟수)</option>
+          <option>캠페인 성과</option>
+          <option>편성 통계</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="form-group">
+          <label class="form-label">시작일 <span class="text-red-500">*</span></label>
+          <input type="date" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">종료일 <span class="text-red-500">*</span></label>
+          <input type="date" class="form-input" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">대상 매체</label>
+        <select class="form-input">
+          <option>전체 매체</option>
+          <option>강남역 1번출구</option>
+          <option>삼성역 B2</option>
+          <option>코엑스 GF 기둥</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">수신 이메일</label>
+        <input type="email" class="form-input" placeholder="이메일 주소 (선택, 쉼표 구분)">
+      </div>
+      <div class="flex justify-end gap-2 mt-4">
+        <button onclick="hideModal('new-report-modal')" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg">취소</button>
+        <button onclick="hideModal('new-report-modal')" class="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700">생성</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/layout.js"></script>
+</body>
+</html>

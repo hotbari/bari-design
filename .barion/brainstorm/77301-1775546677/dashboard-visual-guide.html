@@ -1,0 +1,197 @@
+<h2>대시보드 비주얼 해석 가이드</h2>
+<p class="subtitle">design-foundation.md 토큰을 대시보드에서 "어떻게 쓸 것인가"</p>
+
+<div class="section">
+  <h3>1. 컬러 해석 — 이 화면에서 색은 경보 등급이다</h3>
+  <p class="subtitle">원칙 3: "primary는 행동 유도에만"</p>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:32px;">
+
+  <!-- Current problem -->
+  <div style="background:rgba(0,0,0,0.03); border-radius:10px; padding:20px;">
+    <div style="font-size:12px; font-weight:700; color:#dc2626; margin-bottom:12px;">❌ 기존 프로토타입</div>
+    <div style="display:flex; flex-direction:column; gap:8px; font-size:12px;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:24px; height:24px; border-radius:4px; background:#03C75A;"></div>
+        <span>KPI 숫자, 사이드바 active, 버튼, 뱃지, 링크, 온라인 상태…</span>
+      </div>
+      <div style="padding:8px 12px; background:#fef2f2; border-radius:6px; font-size:11px; color:#dc2626;">
+        → 초록이 도처에 있으니 "초록 = ?" 의미 상실
+      </div>
+    </div>
+  </div>
+
+  <!-- New interpretation -->
+  <div style="background:rgba(0,0,0,0.03); border-radius:10px; padding:20px;">
+    <div style="font-size:12px; font-weight:700; color:#03C75A; margin-bottom:12px;">✅ 대시보드 해석</div>
+    <div style="display:flex; flex-direction:column; gap:6px; font-size:12px;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:24px; height:24px; border-radius:4px; background:#dc2626;"></div>
+        <span><strong>즉시 대응</strong> — 오프라인, 동기화 실패, 검수 실패</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:24px; height:24px; border-radius:4px; background:#e8a030;"></div>
+        <span><strong>주의 관찰</strong> — GPU 온도, 검수 대기, 비정상 캠페인</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:24px; height:24px; border-radius:4px; background:#e8e6e3;"></div>
+        <span><strong>정상/배경</strong> — KPI 숫자, 정상 매체, 일반 알림</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="width:24px; height:24px; border-radius:4px; background:#03C75A;"></div>
+        <span><strong>행동 유도만</strong> — 새로고침 버튼, "전체 보기" 링크</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>2. 타이포그래피 해석 — 숫자의 무게가 다르다</h3>
+  <p class="subtitle">원칙 2: "주인공 1, 조연 2~3, 배경 나머지"</p>
+</div>
+
+<div style="background:rgba(0,0,0,0.03); border-radius:10px; padding:20px; margin-bottom:32px;">
+  <div style="display:flex; gap:24px; align-items:flex-end;">
+
+    <!-- Hero number -->
+    <div style="text-align:center;">
+      <div style="font-size:9px; font-weight:600; color:#999; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">주인공</div>
+      <div style="background:#fef2f2; border-radius:8px; padding:16px 24px;">
+        <div style="font-size:40px; font-weight:800; color:#dc2626; letter-spacing:-0.03em; font-variant-numeric:tabular-nums;">3</div>
+        <div style="font-size:11px; color:#dc2626; font-weight:600;">이상 감지</div>
+      </div>
+      <div style="margin-top:6px; font-size:10px; color:#999;">text-2xl (28px) 이상<br>font-weight: 800<br>color: status 색상</div>
+    </div>
+
+    <!-- Supporting numbers -->
+    <div style="text-align:center;">
+      <div style="font-size:9px; font-weight:600; color:#999; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">조연</div>
+      <div style="background:white; border:1px solid #e8e6e3; border-radius:8px; padding:12px 20px;">
+        <div style="font-size:22px; font-weight:800; color:#2D2A26; letter-spacing:-0.03em; font-variant-numeric:tabular-nums;">142</div>
+        <div style="font-size:10px; color:#999;">전체 매체</div>
+      </div>
+      <div style="margin-top:6px; font-size:10px; color:#999;">text-xl (22px)<br>font-weight: 800<br>color: neutral-900</div>
+    </div>
+
+    <!-- Minor numbers -->
+    <div style="text-align:center;">
+      <div style="font-size:9px; font-weight:600; color:#999; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">배경</div>
+      <div style="background:white; border:1px solid #e8e6e3; border-radius:8px; padding:10px 16px;">
+        <div style="font-size:16px; font-weight:700; color:#2D2A26; font-variant-numeric:tabular-nums;">47</div>
+        <div style="font-size:10px; color:#999;">캠페인</div>
+      </div>
+      <div style="margin-top:6px; font-size:10px; color:#999;">text-md (16px)<br>font-weight: 700<br>color: neutral-900</div>
+    </div>
+
+    <!-- Label text -->
+    <div style="text-align:center;">
+      <div style="font-size:9px; font-weight:600; color:#999; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">라벨/보조</div>
+      <div style="background:white; border:1px solid #e8e6e3; border-radius:8px; padding:10px 16px;">
+        <div style="font-size:11px; color:#999; font-weight:500;">온라인 128 · 오프라인 8</div>
+      </div>
+      <div style="margin-top:6px; font-size:10px; color:#999;">text-xs (11px)<br>font-weight: 500<br>color: neutral-500</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <h3>3. Elevation 해석 — 3단계 깊이</h3>
+  <p class="subtitle">원칙 4: "카드의 border를 전부 지워도 그룹핑이 읽히는가?"</p>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:32px;">
+  <div style="text-align:center;">
+    <div style="font-size:9px; font-weight:600; color:#999; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">바닥 (Level 0)</div>
+    <div style="background:#f5f4f2; border-radius:8px; padding:24px; height:80px; display:flex; align-items:center; justify-content:center;">
+      <span style="font-size:11px; color:#999;">페이지 배경</span>
+    </div>
+    <div style="margin-top:6px; font-size:10px; color:#999;">bg-primary (neutral-50)<br>그림자 없음</div>
+  </div>
+  <div style="text-align:center;">
+    <div style="font-size:9px; font-weight:600; color:#999; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">표면 (Level 1)</div>
+    <div style="background:white; border:1px solid #e8e6e3; border-radius:8px; padding:24px; height:80px; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+      <span style="font-size:11px; color:#999;">KPI 카드, 알림 패널</span>
+    </div>
+    <div style="margin-top:6px; font-size:10px; color:#999;">bg-elevated (white)<br>border-default + shadow-sm</div>
+  </div>
+  <div style="text-align:center;">
+    <div style="font-size:9px; font-weight:600; color:#999; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">부유 (Level 2)</div>
+    <div style="background:#fef2f2; border:1.5px solid #fca5a5; border-radius:8px; padding:24px; height:80px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(220,38,38,0.08);">
+      <span style="font-size:11px; color:#dc2626;">이상 감지 히어로 카드</span>
+    </div>
+    <div style="margin-top:6px; font-size:10px; color:#999;">error-50 배경<br>error border + 컬러 shadow</div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>4. 스페이싱 해석 — 간격으로 ZONE을 구분</h3>
+  <p class="subtitle">원칙 4: 관련 없는 요소 사이 의도적 빈 공간</p>
+</div>
+
+<div style="background:rgba(0,0,0,0.03); border-radius:10px; padding:20px; margin-bottom:32px;">
+  <div style="font-size:12px; line-height:2.2; color:#666;">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <code style="background:white; padding:2px 8px; border-radius:4px; font-size:11px; min-width:100px; text-align:center;">--space-2 (8px)</code>
+      <span>카드 내부 요소 간 (라벨↔숫자, 뱃지 내부)</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <code style="background:white; padding:2px 8px; border-radius:4px; font-size:11px; min-width:100px; text-align:center;">--space-3 (12px)</code>
+      <span>같은 ZONE 내 카드 간 간격</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <code style="background:white; padding:2px 8px; border-radius:4px; font-size:11px; min-width:100px; text-align:center; font-weight:700; color:#7c3aed;">--space-6 (24px)</code>
+      <span><strong>ZONE 간 간격 — 시각적 호흡</strong> (카드 내부의 3배)</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <code style="background:white; padding:2px 8px; border-radius:4px; font-size:11px; min-width:100px; text-align:center;">--space-8 (32px)</code>
+      <span>메인 영역 좌우 패딩</span>
+    </div>
+  </div>
+  <div style="margin-top:12px; padding:10px; background:#fffbeb; border-radius:6px; font-size:11px; color:#b45309;">
+    핵심: 카드 내부(8px) → 카드 간(12px) → ZONE 간(24px) 으로 <strong>비율이 1 : 1.5 : 3</strong>. 기존 프로토타입은 전부 16px으로 동일했음.
+  </div>
+</div>
+
+<div class="section">
+  <h3>요약: 토큰은 같고, 해석이 다르다</h3>
+</div>
+
+<div style="background:rgba(0,0,0,0.03); border-radius:10px; padding:20px; margin-bottom:16px;">
+  <table style="width:100%; font-size:12px; border-collapse:collapse;">
+    <thead>
+      <tr style="border-bottom:2px solid #e0e0e0;">
+        <th style="text-align:left; padding:8px; font-weight:700; color:#333;">영역</th>
+        <th style="text-align:left; padding:8px; font-weight:700; color:#333;">기존 (공장형)</th>
+        <th style="text-align:left; padding:8px; font-weight:700; color:#333;">대시보드 해석</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid #eee;">
+        <td style="padding:8px; font-weight:600;">컬러</td>
+        <td style="padding:8px; color:#999;">primary green 도처에</td>
+        <td style="padding:8px;">red=즉시, yellow=주의, gray=정상, green=행동유도만</td>
+      </tr>
+      <tr style="border-bottom:1px solid #eee;">
+        <td style="padding:8px; font-weight:600;">숫자 크기</td>
+        <td style="padding:8px; color:#999;">모든 stat-card 동일 28px</td>
+        <td style="padding:8px;">주인공 28px+ / 조연 22px / 배경 16px</td>
+      </tr>
+      <tr style="border-bottom:1px solid #eee;">
+        <td style="padding:8px; font-weight:600;">Elevation</td>
+        <td style="padding:8px; color:#999;">모두 shadow-sm + 1px border</td>
+        <td style="padding:8px;">3단계: 바닥 / 표면(sm) / 부유(컬러 shadow)</td>
+      </tr>
+      <tr>
+        <td style="padding:8px; font-weight:600;">간격</td>
+        <td style="padding:8px; color:#999;">전부 16px</td>
+        <td style="padding:8px;">8px → 12px → 24px (1:1.5:3 비율)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="padding:20px; background:rgba(0,0,0,0.03); border-radius:12px;">
+  <p style="font-size:14px; color:#666;">이 비주얼 가이드까지 포함해서 명세를 작성할까요? 수정할 부분 있으면 말씀해주세요.</p>
+</div>

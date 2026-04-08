@@ -1,0 +1,210 @@
+<h2>편성관리 — 비주얼 방향</h2>
+<p class="subtitle">같은 편성 목록 데이터를 3가지 스타일로 표현했습니다. 클릭해서 선호하는 방향을 골라주세요.</p>
+
+<div class="options">
+  <!-- Option A -->
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Clean Minimal</h3>
+      <p>넓은 여백, 절제된 컬러, 타이포 위계로 승부. 정보를 덜어내고 핵심만 보여줌.</p>
+      <div style="margin-top:16px; border:1px solid #e8e6e3; border-radius:12px; overflow:hidden; font-family:'Pretendard',sans-serif;">
+        <!-- Header area -->
+        <div style="padding:24px 28px; border-bottom:1px solid #f0eeeb;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-size:20px; font-weight:700; color:#2D2A26;">편성 관리</div>
+              <div style="font-size:12px; color:#8A8580; margin-top:2px;">63개 편성표</div>
+            </div>
+            <div style="background:#03C75A; color:white; padding:8px 16px; border-radius:8px; font-size:13px; font-weight:500;">+ 편성표 생성</div>
+          </div>
+        </div>
+        <!-- Minimal tabs -->
+        <div style="padding:0 28px; display:flex; gap:24px; border-bottom:1px solid #f0eeeb;">
+          <div style="padding:12px 0; font-size:13px; font-weight:600; color:#03C75A; border-bottom:2px solid #03C75A;">전체 63</div>
+          <div style="padding:12px 0; font-size:13px; color:#8A8580;">예약됨 15</div>
+          <div style="padding:12px 0; font-size:13px; color:#8A8580;">적용중 38</div>
+          <div style="padding:12px 0; font-size:13px; color:#8A8580;">일시정지 3</div>
+        </div>
+        <!-- Minimal row -->
+        <div style="padding:16px 28px; border-bottom:1px solid #f7f5f2; display:flex; align-items:center; gap:16px;">
+          <div style="flex:1;">
+            <div style="font-size:14px; font-weight:500; color:#2D2A26;">4월 강남 편성</div>
+            <div style="font-size:12px; color:#8A8580; margin-top:2px;">강남역 1번출구 · 갤럭시 S26</div>
+          </div>
+          <div style="font-size:12px; color:#8A8580;">04-01 ~ 04-30</div>
+          <div style="background:#e6f9ed; color:#03C75A; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:500;">적용중</div>
+        </div>
+        <div style="padding:16px 28px; border-bottom:1px solid #f7f5f2; display:flex; align-items:center; gap:16px;">
+          <div style="flex:1;">
+            <div style="font-size:14px; font-weight:500; color:#2D2A26;">5월 프로모션 편성</div>
+            <div style="font-size:12px; color:#8A8580; margin-top:2px;">강남역 외 5 · 봄 세일</div>
+          </div>
+          <div style="font-size:12px; color:#8A8580;">05-01 ~ 05-31</div>
+          <div style="background:#e8f0fe; color:#3b6dd6; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:500;">예약됨</div>
+        </div>
+        <div style="padding:16px 28px; display:flex; align-items:center; gap:16px;">
+          <div style="flex:1;">
+            <div style="font-size:14px; font-weight:500; color:#2D2A26;">여의도 IFC 편성</div>
+            <div style="font-size:12px; color:#8A8580; margin-top:2px;">여의도 IFC몰 · 하우스 광고</div>
+          </div>
+          <div style="font-size:12px; color:#8A8580;">03-01 ~ 04-30</div>
+          <div style="background:#fef3e0; color:#b87a1a; padding:3px 10px; border-radius:4px; font-size:11px; font-weight:500;">일시정지</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Data-Dense Dashboard</h3>
+      <p>정보 밀도 극대화. 테이블 컬럼 풍부, 인라인 상태 표시, 한 화면에 최대한 많은 컨텍스트.</p>
+      <div style="margin-top:16px; border:1px solid #e8e6e3; border-radius:12px; overflow:hidden; font-family:'Pretendard',sans-serif; background:#FAF9F7;">
+        <!-- Header -->
+        <div style="padding:20px 24px; background:white; border-bottom:1px solid #e8e6e3;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:18px; font-weight:700; color:#2D2A26;">편성 관리</div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input style="border:1px solid #d8d5d0; border-radius:6px; padding:6px 12px; font-size:12px; width:180px; outline:none;" placeholder="편성표명 검색...">
+              <div style="background:#03C75A; color:white; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:500;">+ 생성</div>
+            </div>
+          </div>
+          <!-- Status summary bar -->
+          <div style="display:flex; gap:16px; margin-top:12px;">
+            <div style="display:flex; align-items:center; gap:4px; font-size:11px;">
+              <div style="width:8px; height:8px; border-radius:50%; background:#03C75A;"></div>
+              <span style="color:#8A8580;">적용중 <b style="color:#2D2A26;">38</b></span>
+            </div>
+            <div style="display:flex; align-items:center; gap:4px; font-size:11px;">
+              <div style="width:8px; height:8px; border-radius:50%; background:#3b6dd6;"></div>
+              <span style="color:#8A8580;">예약 <b style="color:#2D2A26;">15</b></span>
+            </div>
+            <div style="display:flex; align-items:center; gap:4px; font-size:11px;">
+              <div style="width:8px; height:8px; border-radius:50%; background:#E8A030;"></div>
+              <span style="color:#8A8580;">일시정지 <b style="color:#2D2A26;">3</b></span>
+            </div>
+            <div style="display:flex; align-items:center; gap:4px; font-size:11px;">
+              <div style="width:8px; height:8px; border-radius:50%; background:#c4c0ba;"></div>
+              <span style="color:#8A8580;">종료 <b style="color:#2D2A26;">7</b></span>
+            </div>
+          </div>
+        </div>
+        <!-- Dense table -->
+        <div style="padding:0 2px;">
+          <table style="width:100%; border-collapse:collapse; font-size:12px;">
+            <thead>
+              <tr style="border-bottom:1px solid #e8e6e3;">
+                <th style="text-align:left; padding:10px 12px; font-weight:500; color:#8A8580; font-size:11px;">편성표명</th>
+                <th style="text-align:left; padding:10px 8px; font-weight:500; color:#8A8580; font-size:11px;">매체</th>
+                <th style="text-align:left; padding:10px 8px; font-weight:500; color:#8A8580; font-size:11px;">기간</th>
+                <th style="text-align:center; padding:10px 8px; font-weight:500; color:#8A8580; font-size:11px;">상태</th>
+                <th style="text-align:center; padding:10px 8px; font-weight:500; color:#8A8580; font-size:11px;">P</th>
+                <th style="text-align:center; padding:10px 8px; font-weight:500; color:#8A8580; font-size:11px;">동기화</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #f2f0ed; background:white;">
+                <td style="padding:10px 12px; font-weight:500; color:#2D2A26;">4월 강남 편성</td>
+                <td style="padding:10px 8px; color:#8A8580;">강남역 1번출구</td>
+                <td style="padding:10px 8px; color:#8A8580;">04-01~04-30</td>
+                <td style="padding:10px 8px; text-align:center;"><span style="background:#e6f9ed; color:#03C75A; padding:2px 8px; border-radius:3px; font-size:11px;">적용중</span></td>
+                <td style="padding:10px 8px; text-align:center; font-weight:600; color:#2D2A26;">1</td>
+                <td style="padding:10px 8px; text-align:center;"><span style="color:#E62318; font-size:11px;">● 미완료</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid #f2f0ed; background:white;">
+                <td style="padding:10px 12px; font-weight:500; color:#2D2A26;">4월 삼성역 편성</td>
+                <td style="padding:10px 8px; color:#8A8580;">삼성역 B2</td>
+                <td style="padding:10px 8px; color:#8A8580;">04-01~04-30</td>
+                <td style="padding:10px 8px; text-align:center;"><span style="background:#e6f9ed; color:#03C75A; padding:2px 8px; border-radius:3px; font-size:11px;">적용중</span></td>
+                <td style="padding:10px 8px; text-align:center; font-weight:600; color:#2D2A26;">1</td>
+                <td style="padding:10px 8px; text-align:center;"><span style="color:#03C75A; font-size:11px;">● 완료</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid #f2f0ed; background:white;">
+                <td style="padding:10px 12px; font-weight:500; color:#2D2A26;">5월 프로모션 편성</td>
+                <td style="padding:10px 8px; color:#8A8580;">강남역 외 5</td>
+                <td style="padding:10px 8px; color:#8A8580;">05-01~05-31</td>
+                <td style="padding:10px 8px; text-align:center;"><span style="background:#e8f0fe; color:#3b6dd6; padding:2px 8px; border-radius:3px; font-size:11px;">예약됨</span></td>
+                <td style="padding:10px 8px; text-align:center; font-weight:600; color:#2D2A26;">2</td>
+                <td style="padding:10px 8px; text-align:center;"><span style="color:#8A8580; font-size:11px;">— 대기</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Visual Timeline</h3>
+      <p>편성 = 시간 기반 데이터. 테이블 + 타임라인 듀얼 뷰. 기간 겹침과 충돌을 시각적으로 즉시 파악.</p>
+      <div style="margin-top:16px; border:1px solid #e8e6e3; border-radius:12px; overflow:hidden; font-family:'Pretendard',sans-serif;">
+        <!-- Header -->
+        <div style="padding:20px 24px; border-bottom:1px solid #f0eeeb;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:18px; font-weight:700; color:#2D2A26;">편성 관리</div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <div style="display:flex; border:1px solid #d8d5d0; border-radius:6px; overflow:hidden;">
+                <div style="padding:6px 12px; font-size:12px; background:#2D2A26; color:white;">목록</div>
+                <div style="padding:6px 12px; font-size:12px; color:#8A8580;">타임라인</div>
+              </div>
+              <div style="background:#03C75A; color:white; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:500;">+ 생성</div>
+            </div>
+          </div>
+        </div>
+        <!-- Timeline view mockup -->
+        <div style="padding:20px 24px;">
+          <!-- Timeline header -->
+          <div style="display:flex; margin-bottom:4px; padding-left:140px;">
+            <div style="flex:1; text-align:center; font-size:10px; color:#8A8580;">3월</div>
+            <div style="flex:1; text-align:center; font-size:10px; color:#8A8580;">4월</div>
+            <div style="flex:1; text-align:center; font-size:10px; color:#8A8580;">5월</div>
+            <div style="flex:1; text-align:center; font-size:10px; color:#8A8580;">6월</div>
+          </div>
+          <!-- Today marker line -->
+          <div style="position:relative; padding-left:140px; height:1px; margin-bottom:8px;">
+            <div style="position:absolute; left:calc(140px + 38%); top:-4px; width:1px; height:120px; background:#E62318; opacity:0.4; z-index:1;"></div>
+            <div style="position:absolute; left:calc(140px + 38% - 12px); top:-14px; font-size:9px; color:#E62318; font-weight:500; z-index:2;">오늘</div>
+          </div>
+          <!-- Timeline rows -->
+          <div style="display:flex; align-items:center; margin-bottom:8px;">
+            <div style="width:140px; font-size:12px; font-weight:500; color:#2D2A26; padding-right:12px; text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">강남역 1번출구</div>
+            <div style="flex:1; position:relative; height:28px; background:#f7f5f2; border-radius:4px;">
+              <div style="position:absolute; left:25%; width:25%; height:100%; background:#03C75A; border-radius:4px; display:flex; align-items:center; padding:0 8px;">
+                <span style="font-size:10px; color:white; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">4월 강남 편성</span>
+              </div>
+              <div style="position:absolute; left:50%; width:25%; height:100%; background:#3b6dd6; border-radius:4px; opacity:0.8; display:flex; align-items:center; padding:0 8px;">
+                <span style="font-size:10px; color:white; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">5월 프로모션</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; margin-bottom:8px;">
+            <div style="width:140px; font-size:12px; font-weight:500; color:#2D2A26; padding-right:12px; text-align:right;">삼성역 B2</div>
+            <div style="flex:1; position:relative; height:28px; background:#f7f5f2; border-radius:4px;">
+              <div style="position:absolute; left:25%; width:25%; height:100%; background:#03C75A; border-radius:4px; display:flex; align-items:center; padding:0 8px;">
+                <span style="font-size:10px; color:white; font-weight:500;">4월 삼성역 편성</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; margin-bottom:8px;">
+            <div style="width:140px; font-size:12px; font-weight:500; color:#2D2A26; padding-right:12px; text-align:right;">여의도 IFC몰</div>
+            <div style="flex:1; position:relative; height:28px; background:#f7f5f2; border-radius:4px;">
+              <div style="position:absolute; left:0%; width:50%; height:100%; background:repeating-linear-gradient(45deg, #E8A030, #E8A030 2px, #f0c070 2px, #f0c070 4px); border-radius:4px; display:flex; align-items:center; padding:0 8px;">
+                <span style="font-size:10px; color:#5a3a00; font-weight:500;">여의도 IFC (일시정지)</span>
+              </div>
+            </div>
+          </div>
+          <!-- Conflict indicator -->
+          <div style="margin-top:12px; padding:8px 12px; background:#fef3e0; border-radius:6px; border:1px solid #f0d8a8; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:11px; color:#b87a1a; font-weight:500;">⚠ 충돌 1건</span>
+            <span style="font-size:11px; color:#8A8580;">강남역 1번출구 — 4월/5월 편성 기간 겹침</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
