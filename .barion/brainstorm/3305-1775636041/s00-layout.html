@@ -1,0 +1,235 @@
+<style>
+  :root {
+    --color-bg-primary: oklch(0.98 0.005 80);
+    --color-bg-surface: oklch(0.95 0.008 80);
+    --color-bg-elevated: oklch(1.00 0 0);
+    --color-text-primary: oklch(0.20 0.02 80);
+    --color-text-secondary: oklch(0.62 0.01 80);
+    --color-text-tertiary: oklch(0.72 0.01 80);
+    --color-border-default: oklch(0.90 0.01 80);
+    --color-border-strong: oklch(0.82 0.01 80);
+    --color-interactive-primary: oklch(0.72 0.19 155);
+    --color-interactive-hover: oklch(0.62 0.17 155);
+    --color-text-inverse: oklch(1.00 0 0);
+    --color-status-error: oklch(0.55 0.24 25);
+    --color-status-error-bg: oklch(0.97 0.02 25);
+    --color-focus-ring: oklch(0.76 0.17 155);
+  }
+
+  .login-page {
+    min-height: 100vh;
+    background: var(--color-bg-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif;
+  }
+
+  .login-card {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-default);
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 2px 12px oklch(0.20 0.02 80 / 0.06);
+  }
+
+  .brand {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+    background: var(--color-interactive-primary);
+    border-radius: 10px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.3px;
+  }
+
+  .brand-sub {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+  }
+
+  .form-input {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--color-text-primary);
+    background: var(--color-bg-elevated);
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .form-input:focus {
+    border-color: var(--color-focus-ring);
+    box-shadow: 0 0 0 3px oklch(0.76 0.17 155 / 0.15);
+  }
+
+  .form-input.error {
+    border-color: var(--color-status-error);
+  }
+
+  .error-banner {
+    background: var(--color-status-error-bg);
+    border: 1px solid oklch(0.55 0.24 25 / 0.3);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--color-status-error);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .password-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .forgot-link {
+    font-size: 12px;
+    color: var(--color-interactive-primary);
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    width: 100%;
+    height: 40px;
+    background: var(--color-interactive-primary);
+    color: var(--color-text-inverse);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-interactive-hover);
+  }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+  }
+
+  /* State variants label */
+  .state-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .state-tab {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--color-border-default);
+    color: var(--color-text-secondary);
+    background: transparent;
+    cursor: pointer;
+  }
+  .state-tab.active {
+    background: var(--color-interactive-primary);
+    color: white;
+    border-color: transparent;
+  }
+</style>
+
+<h2>S-00 로그인 — 레이아웃 & 상태 검토</h2>
+<p class="subtitle">현재 표시: 에러 상태 (가장 복잡한 케이스). 레이아웃과 컴포넌트 구성을 확인해주세요.</p>
+
+<div class="section">
+  <div class="state-tabs">
+    <div class="state-tab active">에러 상태</div>
+    <div class="state-tab">기본 상태</div>
+    <div class="state-tab">로딩 상태</div>
+  </div>
+
+  <div style="display: flex; justify-content: center;">
+    <div class="login-card">
+      <div class="brand">
+        <div class="brand-logo">B</div>
+        <div class="brand-name">Bari CMS</div>
+        <div class="brand-sub">DOOH 광고 관리 플랫폼</div>
+      </div>
+
+      <div class="error-banner">
+        <span>⚠</span>
+        이메일 또는 비밀번호가 올바르지 않습니다.
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">이메일</label>
+        <input class="form-input error" type="email" value="user@example.com" />
+      </div>
+
+      <div class="form-group">
+        <div class="password-row">
+          <label class="form-label" style="margin-bottom:0">비밀번호</label>
+          <a href="#" class="forgot-link">비밀번호 찾기</a>
+        </div>
+        <input class="form-input error" type="password" value="••••••••" />
+      </div>
+
+      <button class="btn-primary">로그인</button>
+
+      <div class="footer-note">
+        계정 문의: 관리자에게 연락하세요
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 32px;">
+  <h3>설계 포인트</h3>
+  <ul style="font-size:14px; color: var(--color-text-secondary, #666); line-height: 1.8; padding-left: 20px;">
+    <li>에러 배너는 상단에 한 번만 — 각 필드 아래 에러를 반복하지 않음 (어느 필드가 틀렸는지 노출하면 보안 위험)</li>
+    <li>비밀번호 찾기 링크는 레이블 옆에 배치 — 버튼 클릭 전에 눈에 들어오는 위치</li>
+    <li>세션은 브라우저 종료 시까지 자동 유지</li>
+    <li>푸터: 계정 생성은 초대 전용이므로 "회원가입" 링크 없음</li>
+  </ul>
+</div>

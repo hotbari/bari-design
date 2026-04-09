@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>S-02 운영대행사 — 히어로 섹션 방식</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Pretendard', -apple-system, sans-serif; background: #f5f5f3; padding: 24px; color: #1a1a1a; }
+  h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #666; margin-bottom: 24px; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .card { background: white; border-radius: 10px; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color 0.15s; }
+  .card:hover { border-color: #03C75A; }
+  .card.selected { border-color: #03C75A; }
+  .card-image { padding: 10px; background: #f5f5f3; border-radius: 6px; margin: 10px; }
+  .card-body { padding: 10px 14px 14px; }
+  .card-body h3 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .card-body p { font-size: 11px; color: #555; line-height: 1.5; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; margin-left: 6px; background: oklch(0.72 0.19 155 / 0.15); color: oklch(0.35 0.12 155); }
+
+  /* GNB tab strip (shared) */
+  .gnb { background: white; border-radius: 4px 4px 0 0; padding: 5px 8px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; margin-bottom: 6px; }
+  .gnb-title { font-size: 9px; font-weight: 700; }
+  .tabs { display: flex; gap: 2px; }
+  .tab { padding: 2px 6px; border-radius: 3px; font-size: 7px; font-weight: 500; color: #888; background: #f5f5f3; }
+  .tab.active { background: oklch(0.72 0.19 155); color: white; font-weight: 700; }
+
+  /* Option A: 4 stat cards */
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 6px; }
+  .stat-card { background: white; border-radius: 4px; padding: 5px 6px; }
+  .stat-val { font-size: 14px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  .stat-lbl { font-size: 6px; color: #888; margin-top: 1px; }
+  .stat-val.neutral { color: #1a1a1a; }
+  .stat-val.green { color: oklch(0.45 0.15 155); }
+  .stat-val.red { color: oklch(0.50 0.22 25); }
+  .stat-val.yellow { color: oklch(0.55 0.14 55); }
+
+  /* Option B: dark sync hero (매체사 스타일) */
+  .hero-dark { background: oklch(0.16 0.06 155); border-radius: 5px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; color: white; margin-bottom: 6px; }
+  .donut-mini { width: 36px; height: 36px; flex-shrink: 0; position: relative; }
+  .donut-mini svg { transform: rotate(-90deg); }
+  .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .donut-val { font-size: 8px; font-weight: 800; color: white; line-height: 1; }
+  .donut-lbl { font-size: 5px; color: rgba(255,255,255,0.4); }
+  .hero-info { flex: 1; }
+  .hero-meta { font-size: 6px; color: rgba(255,255,255,0.4); margin-bottom: 2px; }
+  .hero-headline { font-size: 11px; font-weight: 700; color: oklch(0.72 0.19 155); letter-spacing: -0.02em; }
+  .hero-chips { display: flex; gap: 3px; margin-top: 3px; }
+  .chip { font-size: 6px; font-weight: 600; padding: 1px 4px; border-radius: 2px; }
+  .chip-green { background: oklch(0.72 0.19 155 / 0.2); color: oklch(0.72 0.19 155); }
+  .chip-red { background: oklch(0.55 0.24 25 / 0.2); color: oklch(0.75 0.16 25); }
+  .chip-yellow { background: oklch(0.70 0.15 55 / 0.2); color: oklch(0.80 0.13 55); }
+  .chip-gray { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+
+  /* Option C: task queue hero */
+  .task-hero { background: white; border: 1.5px solid #e8e5e0; border-radius: 5px; padding: 7px 8px; margin-bottom: 6px; }
+  .task-hero-title { font-size: 7px; font-weight: 700; color: #333; margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; }
+  .task-items { display: flex; gap: 4px; }
+  .task-item { flex: 1; background: #f8f7f5; border-radius: 3px; padding: 5px 6px; text-align: center; cursor: pointer; }
+  .task-item.urgent { background: oklch(0.55 0.24 25 / 0.07); border: 1px solid oklch(0.55 0.24 25 / 0.15); }
+  .task-item.warn { background: oklch(0.70 0.15 55 / 0.07); border: 1px solid oklch(0.70 0.15 55 / 0.15); }
+  .task-item.info { background: oklch(0.72 0.19 155 / 0.07); border: 1px solid oklch(0.72 0.19 155 / 0.15); }
+  .task-count { font-size: 16px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .task-count.red { color: oklch(0.50 0.22 25); }
+  .task-count.yellow { color: oklch(0.55 0.14 55); }
+  .task-count.green { color: oklch(0.45 0.15 155); }
+  .task-label { font-size: 6px; color: #666; margin-top: 1px; }
+  .task-sub { font-size: 5.5px; color: #999; margin-top: 1px; }
+
+  /* Shared bottom: company summary */
+  .company-summary { background: white; border-radius: 4px; padding: 5px 7px; }
+  .company-summary-title { font-size: 7px; font-weight: 700; color: #333; margin-bottom: 3px; }
+  .company-row { display: flex; align-items: center; gap: 4px; font-size: 6px; padding: 2px 0; border-top: 1px solid #f5f5f3; }
+  .company-row:first-of-type { border-top: none; }
+  .company-name { font-weight: 600; width: 40px; }
+  .status-dots { display: flex; gap: 2px; flex: 1; }
+  .dot-group { display: flex; align-items: center; gap: 1.5px; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; }
+</style>
+</head>
+<body>
+
+<h2>S-02 운영대행사 — 히어로 섹션 방식</h2>
+<p class="subtitle">전체 합산 뷰(150대)의 최상단 주목 영역을 어떻게 구성할까요?</p>
+
+<div class="cards">
+
+  <!-- Option A: 4 stat cards -->
+  <div class="card" onclick="this.classList.toggle('selected')">
+    <div class="card-image">
+      <div class="gnb">
+        <span class="gnb-title">대시보드</span>
+        <div class="tabs"><span class="tab active">전체</span><span class="tab">A사</span><span class="tab">B사</span><span class="tab">C사</span></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-val neutral">150</div><div class="stat-lbl">총 매체</div></div>
+        <div class="stat-card"><div class="stat-val green">132</div><div class="stat-lbl">온라인</div></div>
+        <div class="stat-card"><div class="stat-val red">4</div><div class="stat-lbl">이상</div></div>
+        <div class="stat-card"><div class="stat-val yellow">14</div><div class="stat-lbl">기타</div></div>
+      </div>
+      <div class="company-summary">
+        <div class="company-summary-title">매체사별 상태</div>
+        <div class="company-row">
+          <span class="company-name">A사 미디어</span>
+          <div class="status-dots">
+            <div class="dot-group"><div class="dot" style="background:oklch(0.72 0.19 155)"></div><span style="color:#555;">48</span></div>
+            <div class="dot-group"><div class="dot" style="background:oklch(0.50 0.22 25)"></div><span style="color:oklch(0.50 0.22 25);">2</span></div>
+          </div>
+          <a style="color:oklch(0.45 0.15 155);font-size:6px;">보기 →</a>
+        </div>
+        <div class="company-row">
+          <span class="company-name" style="color:oklch(0.50 0.22 25);">B사 ⚠</span>
+          <div class="status-dots">
+            <div class="dot-group"><div class="dot" style="background:oklch(0.72 0.19 155)"></div><span style="color:#555;">56</span></div>
+            <div class="dot-group"><div class="dot" style="background:oklch(0.50 0.22 25)"></div><span style="color:oklch(0.50 0.22 25);">2</span></div>
+            <div class="dot-group"><div class="dot" style="background:oklch(0.70 0.15 55)"></div><span style="color:oklch(0.55 0.14 55);">2</span></div>
+          </div>
+          <a style="color:oklch(0.45 0.15 155);font-size:6px;">보기 →</a>
+        </div>
+        <div class="company-row">
+          <span class="company-name">C사 광고</span>
+          <div class="status-dots">
+            <div class="dot-group"><div class="dot" style="background:oklch(0.72 0.19 155)"></div><span style="color:#555;">40</span></div>
+          </div>
+          <a style="color:oklch(0.45 0.15 155);font-size:6px;">보기 →</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Stat 카드 4개 (어드민 스타일)</h3>
+      <p>총 150대·온라인·이상·기타 4개 숫자 카드. 어드민 대시보드와 동일한 패턴. 아래 매체사별 상태 요약 행. 빠른 스캔이 가능하지만 "지금 뭘 해야 하는가"는 명확하지 않음.</p>
+    </div>
+  </div>
+
+  <!-- Option B: dark sync hero (매체사 스타일) -->
+  <div class="card" onclick="this.classList.toggle('selected')">
+    <div class="card-image">
+      <div class="gnb">
+        <span class="gnb-title">대시보드</span>
+        <div class="tabs"><span class="tab active">전체</span><span class="tab">A사</span><span class="tab">B사</span><span class="tab">C사</span></div>
+      </div>
+      <div class="hero-dark">
+        <div class="donut-mini">
+          <svg viewBox="0 0 36 36" width="36" height="36">
+            <circle cx="18" cy="18" r="12" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="7"/>
+            <circle cx="18" cy="18" r="12" fill="none" stroke="oklch(0.72 0.19 155)" stroke-width="7" stroke-dasharray="62.83 75.40" stroke-dashoffset="0"/>
+            <circle cx="18" cy="18" r="12" fill="none" stroke="oklch(0.55 0.24 25)" stroke-width="7" stroke-dasharray="5 75.40" stroke-dashoffset="12.57"/>
+            <circle cx="18" cy="18" r="12" fill="none" stroke="oklch(0.70 0.15 55)" stroke-width="7" stroke-dasharray="5 75.40" stroke-dashoffset="7.57"/>
+          </svg>
+          <div class="donut-center"><div class="donut-val">132</div><div class="donut-lbl">정상</div></div>
+        </div>
+        <div class="hero-info">
+          <div class="hero-meta">전체 편성 동기화 현황 — 150대</div>
+          <div class="hero-headline">132대 정상 반영 중</div>
+          <div class="hero-chips">
+            <span class="chip chip-green">정상 132</span>
+            <span class="chip chip-red">이상 4</span>
+            <span class="chip chip-yellow">지연 10</span>
+            <span class="chip chip-gray">오프라인 4</span>
+          </div>
+        </div>
+        <span style="font-size:6px;color:rgba(255,255,255,0.2);align-self:flex-end;">2분 전 갱신</span>
+      </div>
+      <div class="company-summary">
+        <div class="company-summary-title">매체사별 상태</div>
+        <div class="company-row">
+          <span class="company-name">A사 미디어</span>
+          <div class="status-dots">
+            <div class="dot-group"><div class="dot" style="background:oklch(0.72 0.19 155)"></div><span>48</span></div>
+            <div class="dot-group"><div class="dot" style="background:oklch(0.50 0.22 25)"></div><span style="color:oklch(0.50 0.22 25);">2</span></div>
+          </div>
+          <a style="color:oklch(0.45 0.15 155);font-size:6px;">보기 →</a>
+        </div>
+        <div class="company-row">
+          <span class="company-name" style="color:oklch(0.50 0.22 25);">B사 ⚠</span>
+          <div class="status-dots">
+            <div class="dot-group"><div class="dot" style="background:oklch(0.72 0.19 155)"></div><span>56</span></div>
+            <div class="dot-group"><div class="dot" style="background:oklch(0.50 0.22 25)"></div><span style="color:oklch(0.50 0.22 25);">4</span></div>
+            <div class="dot-group"><div class="dot" style="background:oklch(0.70 0.15 55)"></div><span style="color:oklch(0.55 0.14 55);">0</span></div>
+          </div>
+          <a style="color:oklch(0.45 0.15 155);font-size:6px;">보기 →</a>
+        </div>
+        <div class="company-row">
+          <span class="company-name">C사 광고</span>
+          <div class="status-dots">
+            <div class="dot-group"><div class="dot" style="background:oklch(0.72 0.19 155)"></div><span>40</span></div>
+          </div>
+          <a style="color:oklch(0.45 0.15 155);font-size:6px;">보기 →</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 동기화 히어로 (매체사 스타일 확장)</h3>
+      <p>매체사 대시보드와 동일한 다크 그린 히어로 + SVG 도넛. 150대 전체 동기화 현황을 집계. 패턴 일관성이 높고 동기화 상태를 최우선 시각화. 하지만 150대 집계는 과도하게 추상적일 수 있음.</p>
+    </div>
+  </div>
+
+  <!-- Option C: task queue hero -->
+  <div class="card" onclick="this.classList.toggle('selected')">
+    <div class="card-image">
+      <div class="gnb">
+        <span class="gnb-title">대시보드</span>
+        <div class="tabs"><span class="tab active">전체</span><span class="tab">A사</span><span class="tab">B사</span><span class="tab">C사</span></div>
+      </div>
+      <div class="task-hero">
+        <div class="task-hero-title">
+          <span>지금 처리 필요</span>
+          <span style="font-size:5.5px;color:#aaa;font-weight:400;">2분 전 갱신</span>
+        </div>
+        <div class="task-items">
+          <div class="task-item urgent">
+            <div class="task-count red">4</div>
+            <div class="task-label">매체 이상</div>
+            <div class="task-sub">B사 2 · A사 2</div>
+          </div>
+          <div class="task-item warn">
+            <div class="task-count yellow">7</div>
+            <div class="task-label">검수 대기</div>
+            <div class="task-sub">B사 5 · A사 2</div>
+          </div>
+          <div class="task-item warn">
+            <div class="task-count yellow">3</div>
+            <div class="task-label">편성 예정</div>
+            <div class="task-sub">오늘 내</div>
+          </div>
+          <div class="task-item info">
+            <div class="task-count green">132</div>
+            <div class="task-label">정상 매체</div>
+            <div class="task-sub">총 150대</div>
+          </div>
+        </div>
+      </div>
+      <div class="company-summary">
+        <div class="company-summary-title">매체사별 상태</div>
+        <div class="company-row">
+          <span class="company-name">A사 미디어</span>
+          <div class="status-dots">
+            <div class="dot-group"><div class="dot" style="background:oklch(0.72 0.19 155)"></div><span>48</span></div>
+            <div class="dot-group"><div class="dot" style="background:oklch(0.50 0.22 25)"></div><span style="color:oklch(0.50 0.22 25);">2</span></div>
+          </div>
+          <a style="color:oklch(0.45 0.15 155);font-size:6px;">보기 →</a>
+        </div>
+        <div class="company-row">
+          <span class="company-name" style="color:oklch(0.50 0.22 25);">B사 ⚠</span>
+          <div class="status-dots">
+            <div class="dot-group"><div class="dot" style="background:oklch(0.72 0.19 155)"></div><span>56</span></div>
+            <div class="dot-group"><div class="dot" style="background:oklch(0.50 0.22 25)"></div><span style="color:oklch(0.50 0.22 25);">2</span></div>
+            <div class="dot-group"><div class="dot" style="background:oklch(0.70 0.15 55)"></div><span style="color:oklch(0.55 0.14 55);">2</span></div>
+          </div>
+          <a style="color:oklch(0.45 0.15 155);font-size:6px;">보기 →</a>
+        </div>
+        <div class="company-row">
+          <span class="company-name">C사 광고</span>
+          <div class="status-dots">
+            <div class="dot-group"><div class="dot" style="background:oklch(0.72 0.19 155)"></div><span>40</span></div>
+          </div>
+          <a style="color:oklch(0.45 0.15 155);font-size:6px;">보기 →</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. 처리 필요 작업 큐 히어로 <span class="badge">★ 추천</span></h3>
+      <p>이준혁의 핵심 질문 "지금 뭘 해야 하나"에 바로 답변. 매체 이상·검수 대기·편성 예정을 우선순위별로 나열. 클릭 시 해당 항목으로 이동. 아래 매체사별 상태 요약 유지.</p>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

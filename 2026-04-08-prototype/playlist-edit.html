@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>재생목록 편집 — Bari CMS</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :focus-visible { outline: 2px solid var(--color-primary-500); outline-offset: 2px; }
+    .sidebar-item:focus-visible { outline: 2px solid var(--color-primary-400); outline-offset: -2px; border-radius: 6px; }
+    .app-shell { display: flex; height: 100vh; overflow: hidden; background: var(--color-neutral-100); }
+    .sidebar { width: 200px; flex-shrink: 0; background: oklch(0.16 0.02 155); display: flex; flex-direction: column; border-right: 1px solid oklch(0.12 0.02 155); }
+    .sidebar-logo { display: flex; align-items: center; gap: 8px; padding: 16px; border-bottom: 1px solid oklch(1 0 0 / 0.08); margin-bottom: 6px; }
+    .sidebar-logo-mark { width: 28px; height: 28px; background: var(--color-primary-500); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sidebar-logo-mark svg { width: 16px; height: 16px; }
+    .sidebar-logo-name { font-size: 15px; font-weight: 700; color: white; letter-spacing: -0.3px; }
+    .sidebar-nav { flex: 1; padding: 4px 8px; display: flex; flex-direction: column; gap: 1px; overflow-y: auto; }
+    .sidebar-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 6px; font-size: var(--text-sm); color: oklch(1 0 0 / 0.55); text-decoration: none; cursor: pointer; transition: background 0.12s, color 0.12s; position: relative; }
+    .sidebar-item:hover { background: oklch(1 0 0 / 0.06); color: oklch(1 0 0 / 0.8); }
+    .sidebar-item.active { background: oklch(1 0 0 / 0.1); color: white; font-weight: 600; }
+    .sidebar-item.active::after { content: ''; position: absolute; right: 0; top: 4px; bottom: 4px; width: 2px; background: var(--color-primary-400); border-radius: 2px; }
+    .sidebar-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .sidebar-subnav { padding: 0 8px 4px 28px; display: flex; flex-direction: column; gap: 1px; }
+    .sidebar-subitem { display: block; padding: 5px 10px; border-radius: 5px; font-size: var(--text-xs); color: oklch(1 0 0 / 0.45); text-decoration: none; transition: background 0.1s, color 0.1s; }
+    .sidebar-subitem:hover { background: oklch(1 0 0 / 0.05); color: oklch(1 0 0 / 0.75); }
+    .sidebar-subitem.active { color: var(--color-primary-300); font-weight: 600; }
+    .sidebar-footer { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid oklch(1 0 0 / 0.08); cursor: pointer; }
+    .sidebar-footer:hover { background: oklch(1 0 0 / 0.05); }
+    .sidebar-footer-avatar { width: 28px; height: 28px; background: oklch(0.35 0.12 155); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: 700; color: white; flex-shrink: 0; }
+    .sidebar-footer-info { flex: 1; min-width: 0; }
+    .sidebar-footer-role { font-size: 10px; color: oklch(1 0 0 / 0.35); font-weight: 500; }
+    .sidebar-footer-name { font-size: var(--text-xs); color: oklch(1 0 0 / 0.75); font-weight: 600; }
+
+    .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .gnb { height: 52px; flex-shrink: 0; background: white; border-bottom: 1px solid var(--color-border-default); display: flex; align-items: center; padding: 0 20px; gap: 12px; }
+    .gnb-breadcrumb { display: flex; align-items: center; gap: 6px; flex: 1; }
+    .gnb-breadcrumb-item { font-size: var(--text-sm); color: var(--color-neutral-500); text-decoration: none; }
+    .gnb-breadcrumb-item:hover { color: var(--color-neutral-700); }
+    .gnb-breadcrumb-sep { font-size: var(--text-sm); color: var(--color-neutral-300); }
+    .gnb-breadcrumb-item.current { color: var(--color-neutral-900); font-weight: 600; }
+
+    /* Page layout */
+    .page-content { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+    .page-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: white; border-bottom: 1px solid var(--color-border-default); gap: 12px; flex-shrink: 0; }
+    .pl-name-input { height: 36px; padding: 0 12px; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 600; color: var(--color-neutral-900); background: white; min-width: 280px; transition: border-color 0.15s; font-family: var(--font-sans); }
+    .pl-name-input:focus { border-color: var(--color-primary-400); outline: none; }
+    .toolbar-right { display: flex; align-items: center; gap: 8px; }
+    .instant-apply-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: var(--radius-md); border: none; cursor: pointer;
+      font-size: var(--text-xs); font-weight: 700;
+      background: oklch(0.72 0.19 155); color: white;
+      box-shadow: 0 1px 3px rgba(3,199,90,0.3);
+      transition: all 0.15s;
+    }
+    .instant-apply-btn:hover { filter: brightness(1.05); }
+    .instant-apply-btn svg { width: 13px; height: 13px; }
+
+    /* Edit area: 2-col */
+    .edit-area { flex: 1; display: grid; grid-template-columns: 1fr 320px; overflow: hidden; }
+
+    /* Slot canvas */
+    .slot-canvas {
+      display: flex; flex-direction: column; overflow-y: auto;
+      padding: 20px; gap: 8px;
+      background: var(--color-neutral-100);
+    }
+    .slot-canvas-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .slot-canvas-title { font-size: var(--text-sm); font-weight: 700; color: var(--color-neutral-700); }
+    .slot-stats { font-size: var(--text-xs); color: var(--color-neutral-500); }
+
+    /* Slot item */
+    .slot-item {
+      display: flex; align-items: center; gap: 10px;
+      background: white; border: 1px solid var(--color-border-default);
+      border-radius: var(--radius-md); padding: 10px 12px;
+      cursor: grab; user-select: none;
+      transition: box-shadow 0.12s, border-color 0.12s;
+    }
+    .slot-item:active { cursor: grabbing; }
+    .slot-item.dragging { opacity: 0.5; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+    .slot-item.drag-over { border-color: var(--color-primary-400); border-style: dashed; background: var(--color-primary-50); }
+    .slot-item.deleted-mat { border-color: var(--color-error-500); border-style: dashed; background: var(--color-error-50); }
+    .slot-item.is-dummy { background: var(--color-neutral-50); border-style: dashed; border-color: var(--color-neutral-300); }
+    .drag-handle { color: var(--color-neutral-300); cursor: grab; flex-shrink: 0; }
+    .drag-handle:active { cursor: grabbing; }
+    .drag-handle svg { width: 14px; height: 14px; display: block; }
+    .slot-num { width: 22px; height: 22px; background: var(--color-neutral-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--color-neutral-500); flex-shrink: 0; }
+    .slot-thumb { width: 44px; height: 28px; border-radius: 3px; overflow: hidden; flex-shrink: 0; background: var(--color-neutral-200); display: flex; align-items: center; justify-content: center; }
+    .slot-thumb-dummy { width: 44px; height: 28px; border-radius: 3px; border: 1px dashed var(--color-neutral-400); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .slot-thumb-dummy span { font-size: 9px; color: var(--color-neutral-400); font-weight: 600; }
+    .slot-thumb-deleted { width: 44px; height: 28px; border-radius: 3px; border: 1px dashed var(--color-error-500); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--color-error-50); }
+    .slot-info { flex: 1; min-width: 0; }
+    .slot-name { font-size: var(--text-sm); font-weight: 600; color: var(--color-neutral-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .slot-meta { font-size: var(--text-xs); color: var(--color-neutral-400); margin-top: 2px; }
+    .slot-deleted-label { font-size: var(--text-xs); color: var(--color-error-500); font-weight: 600; margin-top: 2px; display: flex; align-items: center; gap: 3px; }
+    .slot-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .slot-btn { width: 26px; height: 26px; border: none; background: none; cursor: pointer; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--color-neutral-400); transition: background 0.12s, color 0.12s; }
+    .slot-btn:hover { background: var(--color-neutral-100); color: var(--color-neutral-700); }
+    .slot-btn.danger:hover { background: var(--color-error-50); color: var(--color-error-500); }
+    .slot-btn svg { width: 13px; height: 13px; }
+
+    /* Drop zone */
+    .drop-zone {
+      height: 40px; border: 2px dashed var(--color-neutral-200); border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--text-xs); color: var(--color-neutral-400);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .drop-zone.active { border-color: var(--color-primary-400); background: var(--color-primary-50); color: var(--color-primary-600); }
+
+    /* Material picker panel */
+    .picker-panel {
+      background: white; border-left: 1px solid var(--color-border-default);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .picker-header { padding: 14px 16px; border-bottom: 1px solid var(--color-border-default); flex-shrink: 0; }
+    .picker-title { font-size: var(--text-sm); font-weight: 700; color: var(--color-neutral-900); margin-bottom: 10px; }
+    .picker-search { position: relative; }
+    .picker-search svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); width: 13px; height: 13px; color: var(--color-neutral-400); }
+    .picker-search input { width: 100%; height: 32px; padding: 0 10px 0 30px; border: 1px solid var(--color-border-default); border-radius: var(--radius-md); font-size: var(--text-sm); }
+    .picker-search input:focus { border-color: var(--color-primary-400); outline: none; }
+    .picker-list { flex: 1; overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+    .picker-item {
+      display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+      border-radius: var(--radius-md); cursor: pointer; transition: background 0.1s;
+    }
+    .picker-item:hover { background: var(--color-neutral-100); }
+    .picker-thumb { width: 40px; height: 26px; border-radius: 3px; overflow: hidden; background: var(--color-neutral-200); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .picker-info { flex: 1; min-width: 0; }
+    .picker-name { font-size: var(--text-xs); font-weight: 600; color: var(--color-neutral-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .picker-meta { font-size: 10px; color: var(--color-neutral-500); margin-top: 1px; }
+    .picker-add-btn { width: 26px; height: 26px; border: none; background: var(--color-primary-100); color: var(--color-primary-700); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.12s; }
+    .picker-add-btn:hover { background: var(--color-primary-200); }
+    .picker-add-btn svg { width: 12px; height: 12px; }
+    .picker-footer { padding: 12px 16px; border-top: 1px solid var(--color-border-default); flex-shrink: 0; }
+    .add-dummy-btn { width: 100%; height: 36px; background: none; border: 1px dashed var(--color-neutral-300); border-radius: var(--radius-md); font-size: var(--text-xs); font-weight: 600; color: var(--color-neutral-500); cursor: pointer; transition: all 0.12s; }
+    .add-dummy-btn:hover { border-color: var(--color-neutral-500); color: var(--color-neutral-700); background: var(--color-neutral-50); }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(12px); background: var(--color-neutral-900); color: white; padding: 10px 18px; border-radius: var(--radius-lg); font-size: var(--text-sm); box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 200; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" aria-label="주 내비게이션">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark">
+        <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+      </div>
+      <span class="sidebar-logo-name">Bari CMS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="sidebar-item" href="dashboard-admin.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="1" width="6" height="6" rx="1.2"/><rect x="9" y="1" width="6" height="6" rx="1.2"/><rect x="1" y="9" width="6" height="6" rx="1.2"/><rect x="9" y="9" width="6" height="6" rx="1.2"/></svg>대시보드
+      </a>
+      <a class="sidebar-item" href="media-list.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="3" width="14" height="10" rx="1.5"/><path d="M5 13v2M11 13v2M3 15h10"/></svg>매체 관리
+      </a>
+      <a class="sidebar-item" href="material-list.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="1" width="14" height="14" rx="1.5"/><circle cx="6" cy="6" r="2"/><path d="M1 11l4-3 3 2 3-4 4 5"/></svg>소재 관리
+      </a>
+      <a class="sidebar-item" href="campaign-list.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="7"/><polygon points="6,5 12,8 6,11" fill="currentColor" stroke="none"/></svg>캠페인 관리
+      </a>
+      <a class="sidebar-item active" href="schedule-list.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="3" width="14" height="12" rx="1.5"/><path d="M1 7h14M5 1v4M11 1v4"/></svg>편성 관리
+      </a>
+      <div class="sidebar-subnav">
+        <a class="sidebar-subitem active" href="playlist-list.html">재생목록</a>
+        <a class="sidebar-subitem" href="schedule-list.html">편성표</a>
+        <a class="sidebar-subitem" href="slot-remaining.html">잔여 구좌</a>
+      </div>
+      <a class="sidebar-item" href="user-list.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>사용자 관리
+      </a>
+      <a class="sidebar-item" href="report-list.html">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="1" width="14" height="14" rx="1.5"/><path d="M4 11V8M7 11V6M10 11V9M13 11V5"/></svg>리포트
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-avatar">김</div>
+      <div class="sidebar-footer-info">
+        <div class="sidebar-footer-role">어드민</div>
+        <div class="sidebar-footer-name">김관리</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="gnb">
+      <nav class="gnb-breadcrumb">
+        <a href="playlist-list.html" class="gnb-breadcrumb-item">재생목록</a>
+        <span class="gnb-breadcrumb-sep">›</span>
+        <span class="gnb-breadcrumb-item current">강남권 4월 운영 재생목록</span>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <!-- Toolbar -->
+      <div class="page-toolbar">
+        <input type="text" class="pl-name-input" value="강남권 4월 운영 재생목록" aria-label="재생목록 이름" id="pl-name">
+        <div class="toolbar-right">
+          <span id="change-notice" style="font-size:var(--text-xs);color:var(--color-warning-600);font-weight:600;display:none;">저장되지 않은 변경 있음</span>
+          <button class="instant-apply-btn" onclick="applyInstant()">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 2v8M4 7l4 4 4-4"/><path d="M2 13h12"/></svg>
+            즉시 반영
+          </button>
+          <button class="btn btn-secondary" onclick="location.href='playlist-list.html'">취소</button>
+          <button class="btn btn-primary" onclick="savePlaylist()">저장</button>
+        </div>
+      </div>
+
+      <!-- Edit area -->
+      <div class="edit-area">
+        <!-- Slot canvas -->
+        <div class="slot-canvas" id="slot-canvas" aria-label="재생목록 구좌">
+          <div class="slot-canvas-header">
+            <span class="slot-canvas-title">구좌 목록</span>
+            <span class="slot-stats" id="slot-stats">구좌 4개 · 소재 3개 · 더미 1개</span>
+          </div>
+
+          <!-- Slots -->
+          <div id="slots-container">
+            <!-- Slot 1 -->
+            <div class="slot-item" draggable="true" data-slot="1" id="slot-1" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+              <div class="drag-handle" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="5" r="1"/><circle cx="10.5" cy="5" r="1"/><circle cx="5.5" cy="9" r="1"/><circle cx="10.5" cy="9" r="1"/><circle cx="5.5" cy="13" r="1"/><circle cx="10.5" cy="13" r="1"/></svg>
+              </div>
+              <div class="slot-num">1</div>
+              <div class="slot-thumb" style="background:linear-gradient(135deg,oklch(0.5 0.18 155),oklch(0.35 0.14 155));">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><rect x="1" y="1" width="14" height="14" rx="1.5"/><polygon points="6,5 12,8 6,11" fill="rgba(255,255,255,0.6)" stroke="none"/></svg>
+              </div>
+              <div class="slot-info">
+                <div class="slot-name">삼성 갤럭시 S26 런칭 영상 30s</div>
+                <div class="slot-meta">30초 · 1920×1080 · 검수완료</div>
+              </div>
+              <div class="slot-actions">
+                <button class="slot-btn danger" aria-label="구좌 삭제" onclick="removeSlot(1)">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 4h10M5 4V2h6v2M6 7v5M10 7v5M4 4l1 10h6l1-10"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slot 2 -->
+            <div class="slot-item" draggable="true" data-slot="2" id="slot-2" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+              <div class="drag-handle" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="5" r="1"/><circle cx="10.5" cy="5" r="1"/><circle cx="5.5" cy="9" r="1"/><circle cx="10.5" cy="9" r="1"/><circle cx="5.5" cy="13" r="1"/><circle cx="10.5" cy="13" r="1"/></svg>
+              </div>
+              <div class="slot-num">2</div>
+              <div class="slot-thumb" style="background:linear-gradient(135deg,oklch(0.45 0.15 220),oklch(0.30 0.12 220));">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><rect x="1" y="1" width="14" height="14" rx="1.5"/><polygon points="6,5 12,8 6,11" fill="rgba(255,255,255,0.6)" stroke="none"/></svg>
+              </div>
+              <div class="slot-info">
+                <div class="slot-name">LG 오휘 봄 신제품 15s</div>
+                <div class="slot-meta">15초 · 1920×1080 · 검수완료</div>
+              </div>
+              <div class="slot-actions">
+                <button class="slot-btn danger" aria-label="구좌 삭제" onclick="removeSlot(2)">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 4h10M5 4V2h6v2M6 7v5M10 7v5M4 4l1 10h6l1-10"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slot 3: Deleted material -->
+            <div class="slot-item deleted-mat" draggable="true" data-slot="3" id="slot-3" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+              <div class="drag-handle" aria-hidden="true" style="color:var(--color-neutral-300);">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="5" r="1"/><circle cx="10.5" cy="5" r="1"/><circle cx="5.5" cy="9" r="1"/><circle cx="10.5" cy="9" r="1"/><circle cx="5.5" cy="13" r="1"/><circle cx="10.5" cy="13" r="1"/></svg>
+              </div>
+              <div class="slot-num" style="background:var(--color-error-50);color:var(--color-error-500);">3</div>
+              <div class="slot-thumb-deleted">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="var(--color-error-400)" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
+              </div>
+              <div class="slot-info">
+                <div class="slot-name" style="color:var(--color-neutral-500);">배달의민족 이벤트 영상 (삭제됨)</div>
+                <div class="slot-deleted-label">
+                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="8" cy="8" r="7"/><path d="M8 5v4M8 12v.01"/></svg>
+                  소재 삭제됨 — 재생 시 스킵
+                </div>
+              </div>
+              <div class="slot-actions">
+                <button class="slot-btn" style="font-size:10px;width:auto;padding:0 8px;border:1px solid var(--color-border-default);" onclick="showToast('소재 선택 패널에서 교체할 소재를 선택하세요')">교체</button>
+                <button class="slot-btn danger" aria-label="구좌 삭제" onclick="removeSlot(3)">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 4h10M5 4V2h6v2M6 7v5M10 7v5M4 4l1 10h6l1-10"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Slot 4: Dummy -->
+            <div class="slot-item is-dummy" draggable="true" data-slot="4" id="slot-4" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+              <div class="drag-handle" aria-hidden="true" style="color:var(--color-neutral-300);">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="5" r="1"/><circle cx="10.5" cy="5" r="1"/><circle cx="5.5" cy="9" r="1"/><circle cx="10.5" cy="9" r="1"/><circle cx="5.5" cy="13" r="1"/><circle cx="10.5" cy="13" r="1"/></svg>
+              </div>
+              <div class="slot-num" style="background:none;border:1px dashed var(--color-neutral-300);">4</div>
+              <div class="slot-thumb-dummy"><span>더미</span></div>
+              <div class="slot-info">
+                <div class="slot-name" style="color:var(--color-neutral-400);">더미 (스킵)</div>
+                <div class="slot-meta">재생 시 이 구좌를 건너뜁니다</div>
+              </div>
+              <div class="slot-actions">
+                <button class="slot-btn danger" aria-label="구좌 삭제" onclick="removeSlot(4)">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 4h10M5 4V2h6v2M6 7v5M10 7v5M4 4l1 10h6l1-10"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="drop-zone" id="drop-zone-bottom">
+            소재를 여기에 드래그하거나 오른쪽 패널에서 추가하세요
+          </div>
+        </div>
+
+        <!-- Material picker -->
+        <div class="picker-panel">
+          <div class="picker-header">
+            <div class="picker-title">소재 선택</div>
+            <div class="picker-search">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 13 13"/></svg>
+              <input type="search" placeholder="소재명 검색" aria-label="소재 검색" oninput="filterPicker(this.value)">
+            </div>
+          </div>
+          <div class="picker-list" id="picker-list">
+            <div class="picker-item" data-name="삼성 갤럭시 S26 런칭 영상 30s">
+              <div class="picker-thumb" style="background:linear-gradient(135deg,oklch(0.5 0.18 155),oklch(0.35 0.14 155));">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><rect x="1" y="1" width="14" height="14" rx="1.5"/><polygon points="6,5 12,8 6,11" fill="rgba(255,255,255,0.6)" stroke="none"/></svg>
+              </div>
+              <div class="picker-info">
+                <div class="picker-name">삼성 갤럭시 S26 런칭 영상 30s</div>
+                <div class="picker-meta">30초 · 1920×1080</div>
+              </div>
+              <button class="picker-add-btn" aria-label="구좌에 추가" onclick="addSlot('삼성 갤럭시 S26 런칭 영상 30s', '30초 · 1920×1080', '155')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>
+              </button>
+            </div>
+            <div class="picker-item" data-name="LG 오휘 봄 신제품 15s">
+              <div class="picker-thumb" style="background:linear-gradient(135deg,oklch(0.45 0.15 220),oklch(0.30 0.12 220));">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><rect x="1" y="1" width="14" height="14" rx="1.5"/><polygon points="6,5 12,8 6,11" fill="rgba(255,255,255,0.6)" stroke="none"/></svg>
+              </div>
+              <div class="picker-info">
+                <div class="picker-name">LG 오휘 봄 신제품 15s</div>
+                <div class="picker-meta">15초 · 1920×1080</div>
+              </div>
+              <button class="picker-add-btn" aria-label="구좌에 추가" onclick="addSlot('LG 오휘 봄 신제품 15s', '15초 · 1920×1080', '220')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>
+              </button>
+            </div>
+            <div class="picker-item" data-name="현대 아이오닉 9 사전계약 20s">
+              <div class="picker-thumb" style="background:linear-gradient(135deg,oklch(0.50 0.17 280),oklch(0.35 0.14 280));">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><rect x="1" y="1" width="14" height="14" rx="1.5"/><polygon points="6,5 12,8 6,11" fill="rgba(255,255,255,0.6)" stroke="none"/></svg>
+              </div>
+              <div class="picker-info">
+                <div class="picker-name">현대 아이오닉 9 사전계약 20s</div>
+                <div class="picker-meta">20초 · 1920×1080</div>
+              </div>
+              <button class="picker-add-btn" aria-label="구좌에 추가" onclick="addSlot('현대 아이오닉 9 사전계약 20s', '20초 · 1920×1080', '280')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>
+              </button>
+            </div>
+            <div class="picker-item" data-name="공익광고 환경 캠페인 30s">
+              <div class="picker-thumb" style="background:linear-gradient(135deg,oklch(0.50 0.17 130),oklch(0.35 0.14 130));">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><rect x="1" y="1" width="14" height="14" rx="1.5"/><polygon points="6,5 12,8 6,11" fill="rgba(255,255,255,0.6)" stroke="none"/></svg>
+              </div>
+              <div class="picker-info">
+                <div class="picker-name">공익광고 환경 캠페인 30s</div>
+                <div class="picker-meta">30초 · 1920×1080</div>
+              </div>
+              <button class="picker-add-btn" aria-label="구좌에 추가" onclick="addSlot('공익광고 환경 캠페인 30s', '30초 · 1920×1080', '130')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>
+              </button>
+            </div>
+            <div class="picker-item" data-name="배달의민족 2월 이벤트 15s">
+              <div class="picker-thumb" style="background:linear-gradient(135deg,oklch(0.50 0.17 35),oklch(0.35 0.14 35));">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><rect x="1" y="1" width="14" height="14" rx="1.5"/><polygon points="6,5 12,8 6,11" fill="rgba(255,255,255,0.6)" stroke="none"/></svg>
+              </div>
+              <div class="picker-info">
+                <div class="picker-name">배달의민족 2월 이벤트 15s</div>
+                <div class="picker-meta">15초 · 1920×1080</div>
+              </div>
+              <button class="picker-add-btn" aria-label="구좌에 추가" onclick="addSlot('배달의민족 2월 이벤트 15s', '15초 · 1920×1080', '35')">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="picker-footer">
+            <button class="add-dummy-btn" onclick="addDummySlot()">+ 더미(스킵) 구좌 추가</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  let slotCounter = 4;
+  let dragSrcEl = null;
+
+  /* ── Drag and drop ── */
+  function onDragStart(e) {
+    dragSrcEl = e.currentTarget;
+    e.currentTarget.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  }
+  function onDragOver(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('drag-over');
+    e.dataTransfer.dropEffect = 'move';
+  }
+  function onDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+  function onDrop(e) {
+    e.preventDefault();
+    const target = e.currentTarget;
+    target.classList.remove('drag-over');
+    if (dragSrcEl && dragSrcEl !== target) {
+      const parent = target.parentNode;
+      const dragIdx = [...parent.children].indexOf(dragSrcEl);
+      const targetIdx = [...parent.children].indexOf(target);
+      if (dragIdx < targetIdx) parent.insertBefore(dragSrcEl, target.nextSibling);
+      else parent.insertBefore(dragSrcEl, target);
+      renumberSlots();
+      markChanged();
+    }
+    if (dragSrcEl) dragSrcEl.classList.remove('dragging');
+    dragSrcEl = null;
+  }
+
+  /* ── Add / remove slots ── */
+  function addSlot(name, meta, hue) {
+    slotCounter++;
+    const container = document.getElementById('slots-container');
+    const div = document.createElement('div');
+    div.className = 'slot-item';
+    div.draggable = true;
+    div.dataset.slot = slotCounter;
+    div.id = `slot-${slotCounter}`;
+    div.innerHTML = `
+      <div class="drag-handle" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="5" r="1"/><circle cx="10.5" cy="5" r="1"/><circle cx="5.5" cy="9" r="1"/><circle cx="10.5" cy="9" r="1"/><circle cx="5.5" cy="13" r="1"/><circle cx="10.5" cy="13" r="1"/></svg></div>
+      <div class="slot-num">${slotCounter}</div>
+      <div class="slot-thumb" style="background:linear-gradient(135deg,oklch(0.5 0.17 ${hue}),oklch(0.35 0.14 ${hue}));">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><rect x="1" y="1" width="14" height="14" rx="1.5"/><polygon points="6,5 12,8 6,11" fill="rgba(255,255,255,0.6)" stroke="none"/></svg>
+      </div>
+      <div class="slot-info">
+        <div class="slot-name">${name}</div>
+        <div class="slot-meta">${meta} · 검수완료</div>
+      </div>
+      <div class="slot-actions">
+        <button class="slot-btn danger" aria-label="구좌 삭제" onclick="removeSlot(${slotCounter})">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 4h10M5 4V2h6v2M6 7v5M10 7v5M4 4l1 10h6l1-10"/></svg>
+        </button>
+      </div>`;
+    div.addEventListener('dragstart', onDragStart);
+    div.addEventListener('dragover', onDragOver);
+    div.addEventListener('dragleave', onDragLeave);
+    div.addEventListener('drop', onDrop);
+    container.appendChild(div);
+    renumberSlots(); updateStats(); markChanged();
+    showToast(`'${name}'을 구좌 ${slotCounter}에 추가했습니다.`);
+  }
+
+  function addDummySlot() {
+    slotCounter++;
+    const container = document.getElementById('slots-container');
+    const div = document.createElement('div');
+    div.className = 'slot-item is-dummy';
+    div.draggable = true;
+    div.dataset.slot = slotCounter;
+    div.id = `slot-${slotCounter}`;
+    div.innerHTML = `
+      <div class="drag-handle" aria-hidden="true" style="color:var(--color-neutral-300);"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="5" r="1"/><circle cx="10.5" cy="5" r="1"/><circle cx="5.5" cy="9" r="1"/><circle cx="10.5" cy="9" r="1"/><circle cx="5.5" cy="13" r="1"/><circle cx="10.5" cy="13" r="1"/></svg></div>
+      <div class="slot-num" style="background:none;border:1px dashed var(--color-neutral-300);">${slotCounter}</div>
+      <div class="slot-thumb-dummy"><span>더미</span></div>
+      <div class="slot-info"><div class="slot-name" style="color:var(--color-neutral-400);">더미 (스킵)</div><div class="slot-meta">재생 시 이 구좌를 건너뜁니다</div></div>
+      <div class="slot-actions"><button class="slot-btn danger" aria-label="구좌 삭제" onclick="removeSlot(${slotCounter})"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 4h10M5 4V2h6v2M6 7v5M10 7v5M4 4l1 10h6l1-10"/></svg></button></div>`;
+    div.addEventListener('dragstart', onDragStart);
+    div.addEventListener('dragover', onDragOver);
+    div.addEventListener('dragleave', onDragLeave);
+    div.addEventListener('drop', onDrop);
+    container.appendChild(div);
+    renumberSlots(); updateStats(); markChanged();
+  }
+
+  function removeSlot(num) {
+    const el = document.getElementById(`slot-${num}`);
+    if (el) { el.remove(); renumberSlots(); updateStats(); markChanged(); }
+  }
+
+  function renumberSlots() {
+    document.querySelectorAll('#slots-container .slot-item').forEach((el, i) => {
+      const numEl = el.querySelector('.slot-num');
+      if (numEl) numEl.textContent = i + 1;
+    });
+  }
+
+  function updateStats() {
+    const slots = document.querySelectorAll('#slots-container .slot-item');
+    const dummies = document.querySelectorAll('#slots-container .slot-item.is-dummy').length;
+    const deleted = document.querySelectorAll('#slots-container .slot-item.deleted-mat').length;
+    const real = slots.length - dummies - deleted;
+    document.getElementById('slot-stats').textContent =
+      `구좌 ${slots.length}개 · 소재 ${real}개 · 더미 ${dummies}개${deleted > 0 ? ` · 삭제됨 ${deleted}개` : ''}`;
+  }
+
+  function markChanged() {
+    document.getElementById('change-notice').style.display = 'block';
+  }
+
+  /* ── Picker filter ── */
+  function filterPicker(q) {
+    document.querySelectorAll('#picker-list .picker-item').forEach(item => {
+      item.hidden = q && !item.dataset.name.toLowerCase().includes(q.toLowerCase());
+    });
+  }
+
+  /* ── Instant apply ── */
+  function applyInstant() {
+    showToast('재생목록이 편성표 2건에 즉시 반영되었습니다.');
+    document.getElementById('change-notice').style.display = 'none';
+  }
+
+  /* ── Save ── */
+  function savePlaylist() {
+    const slots = document.querySelectorAll('#slots-container .slot-item:not(.deleted-mat)');
+    const realSlots = [...slots].filter(s => !s.classList.contains('is-dummy'));
+    if (realSlots.length === 0) { showToast('최소 1개의 소재를 추가해주세요'); return; }
+    document.getElementById('change-notice').style.display = 'none';
+    showToast('재생목록이 저장되었습니다.');
+    setTimeout(() => location.href = 'playlist-list.html', 1200);
+  }
+
+  /* ── Drop zone highlight ── */
+  const dropZone = document.getElementById('drop-zone-bottom');
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('active'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+  dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('active'); });
+
+  /* ── Name change ── */
+  document.getElementById('pl-name').addEventListener('input', markChanged);
+
+  /* ── Toast ── */
+  let toastTimer;
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>

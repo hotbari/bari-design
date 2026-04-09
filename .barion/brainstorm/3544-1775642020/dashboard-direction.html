@@ -1,0 +1,155 @@
+<h2>S-02 매체사 대시보드 — 레이아웃 방향</h2>
+<p class="subtitle">김서영(매체사)의 핵심 불안: "편성 변경이 현장에 실제로 반영됐나?" — 어떤 방향이 맞나요?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;height:180px;gap:6px;padding:10px;background:#f5f5f3;border-radius:6px;font-size:10px;">
+        <!-- Sidebar -->
+        <div style="width:44px;background:#1a2e20;border-radius:4px;padding:6px 4px;color:#fff;font-size:8px;display:flex;flex-direction:column;gap:4px;">
+          <div style="background:rgba(255,255,255,0.15);border-radius:2px;padding:2px 3px;">대시보드</div>
+          <div style="color:rgba(255,255,255,0.5);padding:2px 3px;">매체 관리</div>
+          <div style="color:rgba(255,255,255,0.5);padding:2px 3px;">소재 관리</div>
+          <div style="color:rgba(255,255,255,0.5);padding:2px 3px;">캠페인</div>
+        </div>
+        <!-- Main -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <div style="background:#fff;border-radius:3px;padding:4px 6px;border-bottom:1px solid #e5e5e5;font-size:9px;font-weight:700;">대시보드</div>
+          <!-- Stats row -->
+          <div style="display:flex;gap:4px;">
+            <div style="flex:1;background:#fff;border-radius:3px;padding:4px;text-align:center;"><div style="font-size:14px;font-weight:700;color:#03C75A">18</div><div style="font-size:7px;color:#666">전체</div></div>
+            <div style="flex:1;background:#fff;border-radius:3px;padding:4px;text-align:center;"><div style="font-size:14px;font-weight:700;color:#03C75A">15</div><div style="font-size:7px;color:#666">온라인</div></div>
+            <div style="flex:1;background:#fff;border-radius:3px;padding:4px;text-align:center;"><div style="font-size:14px;font-weight:700;color:#999">2</div><div style="font-size:7px;color:#666">오프라인</div></div>
+            <div style="flex:1;background:#fff;border-radius:3px;padding:4px;text-align:center;"><div style="font-size:14px;font-weight:700;color:#bbb">1</div><div style="font-size:7px;color:#666">비활성</div></div>
+          </div>
+          <!-- Bottom split -->
+          <div style="flex:1;display:flex;gap:4px;">
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px;">
+              <div style="background:#fff;border-radius:3px;padding:4px;font-size:7px;"><strong>헬스체크 이상</strong><div style="margin-top:3px;color:#E62318;">● 강남구 3번 — 이상 감지</div><div style="color:#E8A030;margin-top:2px;">● 홍대입구 1번 — 지연</div></div>
+              <div style="background:#fff;border-radius:3px;padding:4px;font-size:7px;flex:1;"><strong>최근 알림</strong><div style="margin-top:3px;color:#666;">매체 오프라인 감지 · 2분 전</div></div>
+            </div>
+            <!-- Map -->
+            <div style="flex:1;background:#d4e6c3;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#4a7a3a;font-size:8px;font-weight:600;">Naver Maps<br/><span style="font-size:7px;font-weight:400">자사 매체 마커</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. 어드민 Lite</h3>
+      <p>같은 3열 구조, 시스템 상태 섹션만 제거. 지도 + 매체 상태 카드 + 헬스체크. 개발 빠름, 두 역할 일관성 높음.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>장점</h4><ul><li>어드민과 레이아웃 공유</li><li>지도로 위치 파악 가능</li></ul></div>
+        <div class="cons"><h4>단점</h4><ul><li>동기화 반영 여부가 묻힘</li><li>공장형 리스크 — 두 화면이 동일해 보임</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;height:180px;gap:6px;padding:10px;background:#f5f5f3;border-radius:6px;font-size:10px;">
+        <!-- Sidebar -->
+        <div style="width:44px;background:#1a2e20;border-radius:4px;padding:6px 4px;color:#fff;font-size:8px;display:flex;flex-direction:column;gap:4px;">
+          <div style="background:rgba(255,255,255,0.15);border-radius:2px;padding:2px 3px;">대시보드</div>
+          <div style="color:rgba(255,255,255,0.5);padding:2px 3px;">매체 관리</div>
+          <div style="color:rgba(255,255,255,0.5);padding:2px 3px;">소재 관리</div>
+          <div style="color:rgba(255,255,255,0.5);padding:2px 3px;">캠페인</div>
+        </div>
+        <!-- Main -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <div style="background:#fff;border-radius:3px;padding:4px 6px;border-bottom:1px solid #e5e5e5;font-size:9px;font-weight:700;">대시보드</div>
+          <!-- Hero: sync status -->
+          <div style="background:#0d2b1a;border-radius:4px;padding:6px;display:flex;align-items:center;gap:8px;color:#fff;">
+            <!-- Donut placeholder -->
+            <div style="width:40px;height:40px;border-radius:50%;background:conic-gradient(#03C75A 0% 83%,#E62318 83% 94%,#E8A030 94% 100%);flex-shrink:0;"></div>
+            <div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.6);">편성 동기화 현황</div>
+              <div style="font-size:13px;font-weight:700;"><span style="color:#03C75A">15</span><span style="font-size:8px;color:rgba(255,255,255,0.5)">/18 반영 완료</span></div>
+              <div style="font-size:7px;color:#E62318;margin-top:2px;">미동기화 2대 · 이상 1대</div>
+            </div>
+          </div>
+          <!-- Bottom -->
+          <div style="flex:1;display:flex;gap:4px;">
+            <div style="flex:3;background:#fff;border-radius:3px;padding:4px;font-size:7px;">
+              <strong style="font-size:8px;">미동기화 매체</strong>
+              <div style="margin-top:3px;display:flex;justify-content:space-between;"><span>강남구 3번</span><span style="color:#E62318">이상 감지</span></div>
+              <div style="margin-top:2px;display:flex;justify-content:space-between;"><span>홍대입구 1번</span><span style="color:#E8A030">지연 14분</span></div>
+              <div style="margin-top:2px;display:flex;justify-content:space-between;"><span>마포대로 2번</span><span style="color:#E8A030">지연 3분</span></div>
+            </div>
+            <div style="flex:2;display:flex;flex-direction:column;gap:3px;">
+              <div style="background:#fff;border-radius:3px;padding:4px;font-size:7px;"><strong>캠페인/편성</strong><div style="color:#03C75A;margin-top:2px;">집행중 3건</div></div>
+              <div style="background:#d4e6c3;border-radius:3px;flex:1;display:flex;align-items:center;justify-content:center;font-size:7px;color:#4a7a3a;">지도 (축소)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 동기화 히어로 ★추천</h3>
+      <p>다크 히어로 영역에 "편성 동기화 현황" 도넛 + 미반영 매체 목록. 지도는 보조. 김서영의 핵심 불안에 직결.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>장점</h4><ul><li>어드민과 시각적으로 명확히 구분</li><li>3초 안에 "몇 대 반영됐나" 파악</li><li>도메인 특화 UI (동기화 도넛)</li></ul></div>
+        <div class="cons"><h4>단점</h4><ul><li>어드민 대시보드와 다른 레이아웃 구현</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;height:180px;gap:6px;padding:10px;background:#f5f5f3;border-radius:6px;font-size:10px;">
+        <!-- Sidebar -->
+        <div style="width:44px;background:#1a2e20;border-radius:4px;padding:6px 4px;color:#fff;font-size:8px;display:flex;flex-direction:column;gap:4px;">
+          <div style="background:rgba(255,255,255,0.15);border-radius:2px;padding:2px 3px;">대시보드</div>
+          <div style="color:rgba(255,255,255,0.5);padding:2px 3px;">매체 관리</div>
+          <div style="color:rgba(255,255,255,0.5);padding:2px 3px;">소재 관리</div>
+          <div style="color:rgba(255,255,255,0.5);padding:2px 3px;">캠페인</div>
+        </div>
+        <!-- Main -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <div style="background:#fff;border-radius:3px;padding:4px 6px;border-bottom:1px solid #e5e5e5;font-size:9px;font-weight:700;">대시보드</div>
+          <!-- 3 column layout -->
+          <div style="flex:1;display:flex;gap:4px;">
+            <!-- Col 1: 오늘 편성 -->
+            <div style="flex:1;background:#fff;border-radius:3px;padding:5px;font-size:7px;">
+              <div style="font-weight:700;font-size:8px;margin-bottom:3px;">오늘 편성 현황</div>
+              <div style="background:#f0f9f3;border-radius:2px;padding:3px;margin-bottom:2px;"><span style="color:#03C75A">●</span> 적용중 3건</div>
+              <div style="background:#fff9f0;border-radius:2px;padding:3px;margin-bottom:2px;"><span style="color:#E8A030">●</span> 예약 2건</div>
+              <div style="background:#f5f5f5;border-radius:2px;padding:3px;"><span style="color:#999">●</span> 종료 5건</div>
+            </div>
+            <!-- Col 2: 소재 검수 -->
+            <div style="flex:1;background:#fff;border-radius:3px;padding:5px;font-size:7px;">
+              <div style="font-weight:700;font-size:8px;margin-bottom:3px;">소재 검수 현황</div>
+              <div style="margin-bottom:2px;display:flex;justify-content:space-between;"><span>검수 대기</span><span style="color:#E8A030">3건</span></div>
+              <div style="margin-bottom:2px;display:flex;justify-content:space-between;"><span>검수중</span><span style="color:#03C75A">1건</span></div>
+              <div style="display:flex;justify-content:space-between;"><span>완료</span><span style="color:#999">12건</span></div>
+            </div>
+            <!-- Col 3: 동기화 -->
+            <div style="flex:1;background:#fff;border-radius:3px;padding:5px;font-size:7px;">
+              <div style="font-weight:700;font-size:8px;margin-bottom:3px;">동기화 상태</div>
+              <div style="text-align:center;padding:4px 0;">
+                <div style="font-size:16px;font-weight:700;color:#03C75A">15/18</div>
+                <div style="color:#666;font-size:7px;">반영 완료</div>
+              </div>
+              <div style="color:#E62318;font-size:7px;">미완료 3대 →</div>
+            </div>
+          </div>
+          <!-- Row 2: alerts -->
+          <div style="background:#fff;border-radius:3px;padding:4px 6px;font-size:7px;">
+            <strong>최근 알림</strong>
+            <span style="color:#E62318;margin-left:6px;">● 강남구 3번 오프라인</span>
+            <span style="color:#666;margin-left:6px;">2분 전</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. 오늘의 운영 체크리스트</h3>
+      <p>오늘 편성 현황 + 소재 검수 현황 + 동기화 상태 3열. 지도 없음. 하루 업무 시작 시 상황 파악 최적화.</p>
+      <div class="pros-cons" style="margin-top:8px;">
+        <div class="pros"><h4>장점</h4><ul><li>매체사 업무 흐름에 맞춤</li><li>소재 검수 현황까지 포함</li></ul></div>
+        <div class="cons"><h4>단점</h4><ul><li>지도 없음 — 위치 기반 파악 불가</li><li>어드민과 가장 이질적 구조</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>

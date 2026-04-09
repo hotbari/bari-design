@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>유동인구 데이터 연동 — Bari CMS</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :focus-visible { outline: 2px solid var(--color-primary-500); outline-offset: 2px; }
+    .sidebar-item:focus-visible, .sidebar-footer:focus-visible { outline: 2px solid var(--color-primary-400); outline-offset: -2px; border-radius: 6px; }
+
+    .app-shell { display: flex; height: 100vh; overflow: hidden; background: var(--color-neutral-100); }
+
+    .sidebar { width: 200px; flex-shrink: 0; background: oklch(0.16 0.02 155); display: flex; flex-direction: column; border-right: 1px solid oklch(0.12 0.02 155); }
+    .sidebar-logo { display: flex; align-items: center; gap: 8px; padding: 16px; border-bottom: 1px solid oklch(1 0 0 / 0.08); margin-bottom: 6px; }
+    .sidebar-logo-mark { width: 28px; height: 28px; background: var(--color-primary-500); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sidebar-logo-mark svg { width: 16px; height: 16px; }
+    .sidebar-logo-name { font-size: 15px; font-weight: 700; color: white; letter-spacing: -0.3px; }
+    .sidebar-nav { flex: 1; padding: 4px 8px; display: flex; flex-direction: column; gap: 1px; overflow-y: auto; }
+    .sidebar-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 6px; font-size: var(--text-sm); color: oklch(1 0 0 / 0.55); text-decoration: none; cursor: pointer; transition: background 0.12s, color 0.12s; position: relative; }
+    .sidebar-item:hover { background: oklch(1 0 0 / 0.06); color: oklch(1 0 0 / 0.8); }
+    .sidebar-item.active { background: oklch(1 0 0 / 0.1); color: white; font-weight: 600; }
+    .sidebar-item.active::after { content: ''; position: absolute; right: 0; top: 4px; bottom: 4px; width: 2px; background: var(--color-primary-400); border-radius: 2px; }
+    .sidebar-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .sidebar-subnav { padding: 0 8px 4px 28px; display: flex; flex-direction: column; gap: 1px; }
+    .sidebar-subitem { display: block; padding: 5px 10px; border-radius: 5px; font-size: var(--text-xs); color: oklch(1 0 0 / 0.45); text-decoration: none; transition: background 0.1s, color 0.1s; }
+    .sidebar-subitem:hover { background: oklch(1 0 0 / 0.05); color: oklch(1 0 0 / 0.75); }
+    .sidebar-subitem.active { color: var(--color-primary-300); font-weight: 600; }
+    .sidebar-footer { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid oklch(1 0 0 / 0.08); cursor: pointer; transition: background 0.12s; }
+    .sidebar-footer:hover { background: oklch(1 0 0 / 0.05); }
+    .sidebar-footer-avatar { width: 28px; height: 28px; background: oklch(0.35 0.12 155); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: 700; color: white; flex-shrink: 0; }
+    .sidebar-footer-info { flex: 1; min-width: 0; }
+    .sidebar-footer-role { font-size: 10px; color: oklch(1 0 0 / 0.35); font-weight: 500; }
+    .sidebar-footer-name { font-size: var(--text-xs); color: oklch(1 0 0 / 0.75); font-weight: 600; }
+
+    .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+    .gnb { height: 52px; flex-shrink: 0; background: white; border-bottom: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; padding: 0 24px; gap: 12px; }
+    .gnb-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: var(--text-sm); color: var(--color-neutral-400); }
+    .gnb-breadcrumb-sep { font-size: 10px; color: var(--color-neutral-300); }
+    .gnb-breadcrumb-current { color: var(--color-neutral-900); font-weight: 600; }
+    .gnb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .gnb-date { font-size: var(--text-xs); color: var(--color-neutral-400); }
+    .gnb-bell { position: relative; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); cursor: pointer; color: var(--color-neutral-500); transition: background 0.12s; }
+    .gnb-bell:hover { background: var(--color-neutral-100); }
+    .notif-dot { position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--color-error-500); border: 1.5px solid white; }
+
+    .content-area { flex: 1; overflow-y: auto; padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; max-width: 800px; }
+    .page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .page-title { font-size: var(--text-xl); font-weight: 800; color: var(--color-neutral-900); letter-spacing: -0.03em; }
+    .page-desc { font-size: var(--text-sm); color: var(--color-neutral-500); margin-top: 3px; }
+
+    .form-card { background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+    .form-card-header { padding: 16px 20px; border-bottom: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: space-between; }
+    .form-card-title { font-size: var(--text-base); font-weight: 700; color: var(--color-neutral-900); }
+    .form-card-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field-label { font-size: var(--text-xs); font-weight: 600; color: var(--color-neutral-700); }
+    .field-required { color: var(--color-error-500); }
+    .field-input { padding: 9px 12px; border: 1px solid rgba(0,0,0,0.12); border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--color-neutral-900); background: white; transition: border 0.12s, box-shadow 0.12s; font-family: var(--font-sans); width: 100%; }
+    .field-input:focus { outline: none; border-color: var(--color-primary-500); box-shadow: 0 0 0 3px oklch(0.72 0.19 155 / 0.1); }
+    .field-hint { font-size: var(--text-xs); color: var(--color-neutral-400); }
+    select.field-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' fill='none' stroke='%238A8580' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
+
+    .password-wrap { position: relative; }
+    .password-wrap .field-input { padding-right: 44px; }
+    .password-toggle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--color-neutral-400); padding: 4px; display: flex; align-items: center; }
+    .password-toggle:hover { color: var(--color-neutral-700); }
+
+    .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: var(--radius-md); font-size: var(--text-xs); font-weight: 600; }
+    .status-badge.success { background: oklch(0.72 0.19 155 / 0.1); color: var(--color-primary-700); }
+    .status-badge.error   { background: oklch(0.55 0.24 25 / 0.1); color: var(--color-error-500); }
+    .status-badge.pending { background: oklch(0.70 0.15 55 / 0.1); color: var(--color-warning-600); }
+    .status-badge.disconnected { background: var(--color-neutral-100); color: var(--color-neutral-600); }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .status-badge.success .status-dot { background: var(--color-primary-500); }
+    .status-badge.error .status-dot { background: var(--color-error-500); }
+    .status-badge.pending .status-dot { background: var(--color-warning-500); }
+    .status-badge.disconnected .status-dot { background: var(--color-neutral-400); }
+
+    .connection-result { padding: 10px 14px; border-radius: var(--radius-md); font-size: var(--text-sm); display: none; }
+    .connection-result.success { background: oklch(0.72 0.19 155 / 0.08); color: var(--color-primary-700); border: 1px solid oklch(0.72 0.19 155 / 0.2); }
+    .connection-result.error { background: oklch(0.55 0.24 25 / 0.06); color: var(--color-error-500); border: 1px solid oklch(0.55 0.24 25 / 0.2); }
+
+    .sync-info { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--color-neutral-50); border-top: 1px solid rgba(0,0,0,0.05); font-size: var(--text-xs); color: var(--color-neutral-500); }
+
+    .mapping-table { width: 100%; border-collapse: collapse; }
+    .mapping-table th { padding: 8px 12px; font-size: var(--text-xs); font-weight: 600; color: var(--color-neutral-500); text-align: left; background: var(--color-neutral-50); border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .mapping-table td { padding: 10px 12px; font-size: var(--text-sm); color: var(--color-neutral-800); border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .mapping-table tr:last-child td { border-bottom: none; }
+    .dp-id { font-family: 'Pretendard', monospace; font-size: var(--text-xs); color: var(--color-neutral-600); }
+
+    /* Loading spinner on btn */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-loading { pointer-events: none; opacity: 0.7; }
+    .btn-loading::before { content: ''; display: inline-block; width: 12px; height: 12px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: -2px; }
+
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar" aria-label="주 메뉴">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" fill="white" opacity="0.9"/><rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity="0.6"/><rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity="0.6"/><rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity="0.9"/></svg>
+      </div>
+      <span class="sidebar-logo-name">Bari CMS</span>
+    </div>
+    <nav class="sidebar-nav" aria-label="주 네비게이션">
+      <a href="dashboard-admin.html" class="sidebar-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/></svg>대시보드</a>
+      <a href="#" class="sidebar-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="5.5" r="2.5"/><path d="M2 13c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>사용자 관리</a>
+      <a href="#" class="sidebar-item active" aria-expanded="true">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5"/><path d="M5 2.5V4.5M11 2.5V4.5M1.5 7h13"/></svg>매체 관리
+      </a>
+      <div class="sidebar-subnav" role="list" aria-label="매체 관리 하위 메뉴">
+        <a href="media-company-mgmt.html" class="sidebar-subitem" role="listitem">매체사 관리</a>
+        <a href="#" class="sidebar-subitem" role="listitem">매체 목록</a>
+        <a href="ssp-integration.html" class="sidebar-subitem" role="listitem">SSP 연동</a>
+        <a href="#" class="sidebar-subitem active" role="listitem" aria-current="page">유동인구 연동</a>
+        <a href="#" class="sidebar-subitem" role="listitem">매체 그룹</a>
+      </div>
+      <a href="#" class="sidebar-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 8.5l2 2 4-4"/></svg>소재 관리</a>
+      <a href="#" class="sidebar-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3.5l2.5 1.5"/></svg>캠페인 관리</a>
+      <a href="#" class="sidebar-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3.5h12M2 8h12M2 12.5h8"/></svg>편성 관리</a>
+      <a href="#" class="sidebar-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12V7l5-4 5 4v5"/><rect x="6" y="9" width="4" height="3"/></svg>리포트</a>
+      <a href="#" class="sidebar-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v.5M8 8v3"/></svg>시스템 설정</a>
+    </nav>
+    <div class="sidebar-footer" tabindex="0" role="button" aria-label="개인 설정으로 이동"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+      <div class="sidebar-footer-avatar" aria-hidden="true">박</div>
+      <div class="sidebar-footer-info">
+        <div class="sidebar-footer-role">어드민</div>
+        <div class="sidebar-footer-name">박진수</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="gnb">
+      <nav class="gnb-breadcrumb" aria-label="현재 위치">
+        <span>매체 관리</span>
+        <span class="gnb-breadcrumb-sep" aria-hidden="true">›</span>
+        <span class="gnb-breadcrumb-current">유동인구 데이터 연동</span>
+      </nav>
+      <div class="gnb-right">
+        <span class="gnb-date">2026-04-09 목</span>
+        <div class="gnb-bell" role="button" tabindex="0" aria-label="미읽음 알림 2건"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2.5A4 4 0 0 1 13 6.5c0 2.5-.5 3.5-1 4.5H6c-.5-1-1-2-1-4.5A4 4 0 0 1 9 2.5z"/><path d="M7.5 11c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5"/></svg>
+          <span class="notif-dot" aria-hidden="true"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content-area">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">유동인구 데이터 연동</h1>
+          <p class="page-desc">외부 유동인구 데이터 소스를 연결하고 매체에 매핑합니다.</p>
+        </div>
+        <span class="status-badge success" role="status" aria-label="연결 상태: 연결됨">
+          <span class="status-dot" aria-hidden="true"></span>연결됨
+        </span>
+      </div>
+
+      <!-- 데이터 소스 card -->
+      <section class="form-card" aria-label="데이터 소스 설정">
+        <div class="form-card-header">
+          <span class="form-card-title">데이터 소스</span>
+        </div>
+        <div class="form-card-body">
+          <!-- 제공사 -->
+          <div class="field">
+            <label class="field-label" for="provider-select">
+              제공사 <span class="field-required" aria-hidden="true">*</span>
+            </label>
+            <select id="provider-select" class="field-input" required aria-required="true"
+              onchange="onProviderChange(this.value)" aria-describedby="provider-hint">
+              <option value="skt" selected>SKT</option>
+              <option value="kt">KT</option>
+              <option value="custom">직접 입력</option>
+            </select>
+            <span class="field-hint" id="provider-hint">제공사 변경 시 엔드포인트와 인증 방식이 달라집니다.</span>
+          </div>
+
+          <!-- API Endpoint -->
+          <div class="field">
+            <label class="field-label" for="api-endpoint">
+              API Endpoint <span class="field-required" aria-hidden="true">*</span>
+            </label>
+            <input type="url" id="api-endpoint" class="field-input"
+              value="https://api.skt-biz.com/dooh/foottraffic/v2"
+              required aria-required="true" autocomplete="off">
+          </div>
+
+          <!-- 인증 키 -->
+          <div class="field">
+            <label class="field-label" for="auth-key">인증 키</label>
+            <div class="password-wrap">
+              <input type="password" id="auth-key" class="field-input"
+                value="skt_live_key_9f8e7d6c5b4a3221"
+                autocomplete="off" aria-describedby="auth-hint">
+              <button class="password-toggle" aria-label="인증 키 보기" aria-pressed="false"
+                onclick="toggleAuthKey()">
+                <svg id="auth-key-eye" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z"/><circle cx="8" cy="8" r="2"/></svg>
+              </button>
+            </div>
+            <span class="field-hint" id="auth-hint">Bearer Token 또는 API Key 형식으로 입력하세요.</span>
+          </div>
+
+          <!-- Connection test result -->
+          <div class="connection-result" id="conn-result" role="alert" aria-live="assertive"></div>
+
+          <!-- 마지막 동기화 -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--color-neutral-50);border-radius:var(--radius-md);font-size:var(--text-xs);color:var(--color-neutral-500);">
+            <span>마지막 동기화</span>
+            <span style="color:var(--color-neutral-700);font-weight:600;" aria-label="마지막 동기화 시각">2026-04-09 오전 11:00:00</span>
+          </div>
+
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-secondary" id="test-btn" onclick="testConnection()">연결 테스트</button>
+            <button class="btn btn-primary">저장</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 매체 매핑 card -->
+      <section class="form-card" aria-label="매체 데이터포인트 매핑">
+        <div class="form-card-header">
+          <span class="form-card-title">매체 매핑</span>
+          <button class="btn btn-primary" style="font-size:var(--text-xs);padding:5px 12px;">+ 매핑 추가</button>
+        </div>
+        <div style="overflow:hidden;">
+          <table class="mapping-table" aria-label="매체와 유동인구 데이터포인트 매핑">
+            <thead>
+              <tr>
+                <th scope="col">매체명</th>
+                <th scope="col">데이터포인트 ID</th>
+                <th scope="col">최근 수신</th>
+                <th scope="col">상태</th>
+                <th scope="col"><span style="position:absolute;width:1px;height:1px;overflow:hidden;">액션</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600;">강남구 3번 디스플레이</td>
+                <td class="dp-id">SKT_DP_GN_003</td>
+                <td style="font-size:var(--text-xs);color:var(--color-neutral-500);">3분 전</td>
+                <td><span class="status-badge success" style="padding:3px 8px;font-size:10px;"><span class="status-dot" aria-hidden="true"></span>정상</span></td>
+                <td><button class="action-btn action-btn-edit" style="font-size:var(--text-xs);">수정</button></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">홍대입구 1번 스크린</td>
+                <td class="dp-id">SKT_DP_MP_001</td>
+                <td style="font-size:var(--text-xs);color:var(--color-neutral-500);">3분 전</td>
+                <td><span class="status-badge success" style="padding:3px 8px;font-size:10px;"><span class="status-dot" aria-hidden="true"></span>정상</span></td>
+                <td><button class="action-btn action-btn-edit" style="font-size:var(--text-xs);">수정</button></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">종로 1번 빌보드</td>
+                <td class="dp-id">SKT_DP_JR_001</td>
+                <td style="font-size:var(--text-xs);color:var(--color-neutral-500);">1시간 전</td>
+                <td><span class="status-badge pending" style="padding:3px 8px;font-size:10px;"><span class="status-dot" aria-hidden="true"></span>지연</span></td>
+                <td><button class="action-btn action-btn-edit" style="font-size:var(--text-xs);">수정</button></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600;">송파 2번 스크린</td>
+                <td class="dp-id">—</td>
+                <td style="font-size:var(--text-xs);color:var(--color-neutral-400);">미매핑</td>
+                <td><span class="status-badge disconnected" style="padding:3px 8px;font-size:10px;"><span class="status-dot" aria-hidden="true"></span>미연결</span></td>
+                <td><button class="action-btn action-btn-edit" style="font-size:var(--text-xs);">매핑</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  function toggleAuthKey() {
+    const f = document.getElementById('auth-key');
+    const btn = event.currentTarget;
+    const isHidden = f.type === 'password';
+    f.type = isHidden ? 'text' : 'password';
+    btn.setAttribute('aria-label', isHidden ? '인증 키 숨기기' : '인증 키 보기');
+    btn.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
+  }
+
+  function onProviderChange(val) {
+    const endpoint = document.getElementById('api-endpoint');
+    const providers = {
+      skt: 'https://api.skt-biz.com/dooh/foottraffic/v2',
+      kt: 'https://openapi.kt.com/analytics/foottraffic/v1',
+      custom: ''
+    };
+    endpoint.value = providers[val] || '';
+    endpoint.readOnly = val !== 'custom';
+    if (val === 'custom') endpoint.focus();
+  }
+
+  function testConnection() {
+    const btn = document.getElementById('test-btn');
+    const result = document.getElementById('conn-result');
+    btn.classList.add('btn-loading');
+    btn.textContent = '테스트 중…';
+    result.style.display = 'none';
+
+    setTimeout(() => {
+      btn.classList.remove('btn-loading');
+      btn.textContent = '연결 테스트';
+      result.className = 'connection-result success';
+      result.textContent = '✓ 연결 성공 — 응답 시간 47ms · 데이터포인트 4개 확인됨';
+      result.style.display = 'block';
+    }, 1600);
+  }
+</script>
+</body>
+</html>

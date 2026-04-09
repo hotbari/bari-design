@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대시보드 — Bari CMS (매체사)</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :focus-visible {
+      outline: 2px solid var(--color-primary-500);
+      outline-offset: 2px;
+    }
+    .sidebar-item:focus-visible, .sidebar-footer:focus-visible {
+      outline: 2px solid var(--color-primary-400);
+      outline-offset: -2px;
+      border-radius: 6px;
+    }
+
+    /* ── App shell ── */
+    .app-shell {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--color-neutral-50);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: oklch(0.16 0.02 155);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid oklch(0.12 0.02 155);
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px;
+      border-bottom: 1px solid oklch(1 0 0 / 0.08);
+      margin-bottom: 6px;
+    }
+    .sidebar-logo-mark {
+      width: 28px; height: 28px;
+      background: var(--color-primary-500);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .sidebar-logo-mark svg { width: 16px; height: 16px; }
+    .sidebar-logo-text {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.01em;
+    }
+    .sidebar-nav { flex: 1; padding: 0 8px; overflow-y: auto; }
+    .sidebar-section-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: oklch(1 0 0 / 0.3);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 12px 8px 4px;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: var(--text-sm);
+      color: oklch(1 0 0 / 0.55);
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s cubic-bezier(0.16,1,0.3,1), color 0.15s cubic-bezier(0.16,1,0.3,1);
+      margin-bottom: 1px;
+      position: relative;
+    }
+    .sidebar-item:hover { background: oklch(1 0 0 / 0.06); color: oklch(1 0 0 / 0.8); transition: background 0.15s cubic-bezier(0.16,1,0.3,1), color 0.15s cubic-bezier(0.16,1,0.3,1); }
+    .sidebar-item.active {
+      background: oklch(1 0 0 / 0.08);
+      color: var(--color-primary-400);
+      font-weight: 600;
+      border-right: 2px solid var(--color-primary-500);
+      margin-right: -8px;
+      padding-right: 8px;
+    }
+    .sidebar-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .sidebar-notif-badge {
+      margin-left: auto;
+      background: var(--color-error-500);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      min-width: 18px; height: 18px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 4px;
+    }
+    .sidebar-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid oklch(1 0 0 / 0.08);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .sidebar-footer:hover { background: oklch(1 0 0 / 0.05); }
+    .sidebar-footer-avatar {
+      width: 28px; height: 28px;
+      background: var(--color-primary-700);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: white;
+      flex-shrink: 0;
+    }
+    .sidebar-footer-info { flex: 1; min-width: 0; }
+    .sidebar-footer-role {
+      font-size: 10px;
+      color: oklch(1 0 0 / 0.35);
+      font-weight: 500;
+    }
+    .sidebar-footer-name {
+      font-size: var(--text-xs);
+      color: oklch(1 0 0 / 0.75);
+      font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* ── Main area ── */
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    /* ── GNB ── */
+    .gnb {
+      height: 52px;
+      flex-shrink: 0;
+      background: white;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      gap: 12px;
+    }
+    .gnb-title {
+      font-size: var(--text-md);
+      font-weight: 700;
+      color: var(--color-neutral-900);
+      letter-spacing: -0.02em;
+    }
+    .gnb-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .gnb-date {
+      font-size: var(--text-xs);
+      color: var(--color-neutral-400);
+    }
+    .gnb-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 11px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.09);
+      border-radius: var(--radius-md);
+      font-size: var(--text-xs);
+      color: var(--color-neutral-600);
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s cubic-bezier(0.16,1,0.3,1);
+    }
+    .gnb-btn:hover { background: var(--color-neutral-50); }
+    .gnb-bell {
+      position: relative;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      color: var(--color-neutral-500);
+      transition: background 0.15s cubic-bezier(0.16,1,0.3,1);
+    }
+    .gnb-bell:hover { background: var(--color-neutral-100); }
+
+    /* ── Body split ── */
+    .body-split {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ── Left scroll panel ── */
+    .left-panel {
+      flex: 65;
+      overflow-y: auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    /* ── 폴링 오류 배너 ── */
+    .poll-error-banner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: oklch(0.97 0.01 55);
+      border: 1px solid oklch(0.70 0.15 55 / 0.3);
+      border-radius: var(--radius-md);
+      padding: 9px 12px;
+      font-size: var(--text-xs);
+      color: oklch(0.45 0.12 55);
+    }
+    .poll-error-banner button {
+      margin-left: auto;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: oklch(0.50 0.15 55);
+      background: none;
+      border: 1px solid oklch(0.70 0.15 55 / 0.4);
+      border-radius: var(--radius-sm);
+      padding: 2px 8px;
+      cursor: pointer;
+      transition: background 0.15s cubic-bezier(0.16,1,0.3,1);
+    }
+    .poll-error-banner button:hover {
+      background: oklch(0.70 0.15 55 / 0.1);
+    }
+
+    /* ── 이상 배너 ── */
+    .anomaly-banner {
+      background: var(--color-error-50);
+      border: 1px solid oklch(0.55 0.24 25 / 0.2);
+      border-radius: var(--radius-lg);
+      padding: 12px 14px;
+    }
+    .anomaly-banner-title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-error-500);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .anomaly-banner-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: var(--text-xs);
+      color: oklch(0.40 0.16 25);
+      padding: 4px 0;
+      border-top: 1px solid oklch(0.55 0.24 25 / 0.1);
+    }
+    .anomaly-banner-link {
+      font-size: var(--text-xs);
+      color: var(--color-error-500);
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .anomaly-banner-link:hover { text-decoration: underline; }
+
+    /* ── 동기화 히어로 ── */
+    .sync-hero {
+      background: oklch(0.16 0.06 155);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .sync-hero::before {
+      content: '';
+      position: absolute;
+      right: -24px; top: -24px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: oklch(0.72 0.19 155 / 0.06);
+      pointer-events: none;
+    }
+    .sync-hero::after {
+      content: '';
+      position: absolute;
+      right: 60px; bottom: -40px;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: oklch(0.72 0.19 155 / 0.04);
+      pointer-events: none;
+    }
+    /* Donut chart */
+    .donut-wrap {
+      position: relative;
+      flex-shrink: 0;
+      width: 80px; height: 80px;
+    }
+    .donut-wrap svg {
+      transform: rotate(-90deg);
+    }
+    .donut-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .donut-center-value {
+      font-size: var(--text-lg);
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .donut-center-label {
+      font-size: 10px;
+      color: oklch(1 0 0 / 0.4);
+      margin-top: 1px;
+    }
+    /* Hero text side */
+    .sync-hero-info { flex: 1; min-width: 0; }
+    .sync-hero-meta {
+      font-size: var(--text-xs);
+      color: oklch(1 0 0 / 0.4);
+      margin-bottom: 6px;
+    }
+    .sync-hero-headline {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--color-primary-300);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .sync-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .sync-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter 0.12s;
+      text-decoration: none;
+    }
+    .sync-chip:hover { filter: brightness(1.15); }
+    .sync-chip-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .sync-chip.online {
+      background: oklch(0.72 0.19 155 / 0.18);
+      color: var(--color-primary-300);
+    }
+    .sync-chip.online .sync-chip-dot { background: var(--color-primary-400); }
+    .sync-chip.delayed {
+      background: oklch(0.70 0.15 55 / 0.18);
+      color: oklch(0.80 0.13 55);
+    }
+    .sync-chip.delayed .sync-chip-dot {
+      background: var(--color-warning-500);
+      /* Stripe pattern for colorblind: small diagonal lines via gradient */
+      background: repeating-linear-gradient(
+        45deg,
+        var(--color-warning-500) 0px,
+        var(--color-warning-500) 2px,
+        oklch(0.80 0.13 55 / 0.5) 2px,
+        oklch(0.80 0.13 55 / 0.5) 4px
+      );
+    }
+    .sync-chip.error {
+      background: oklch(0.55 0.24 25 / 0.18);
+      color: oklch(0.75 0.16 25);
+    }
+    .sync-chip.error .sync-chip-dot {
+      background: var(--color-error-500);
+      /* Dot pattern for colorblind */
+      border-radius: 1px;
+    }
+    .sync-chip.offline {
+      background: oklch(1 0 0 / 0.08);
+      color: oklch(1 0 0 / 0.45);
+    }
+    .sync-chip.offline .sync-chip-dot {
+      background: var(--color-neutral-400);
+      border-radius: 0;
+    }
+    .sync-hero-footer {
+      font-size: 11px;
+      color: oklch(1 0 0 / 0.25);
+      align-self: flex-end;
+      white-space: nowrap;
+      margin-bottom: 2px;
+    }
+
+    /* ── 미동기화 매체 섹션 ── */
+    .unsynced-section {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-left: 3px solid var(--color-error-500);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .unsynced-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .unsynced-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-neutral-900);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .unsynced-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-error-50);
+      color: var(--color-error-500);
+      font-size: 10px;
+      font-weight: 700;
+      min-width: 18px; height: 18px;
+      border-radius: 9px;
+      padding: 0 4px;
+    }
+    .unsynced-list { padding: 6px 10px; display: flex; flex-direction: column; gap: 4px; }
+    .unsynced-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 8px;
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      transition: background 0.15s cubic-bezier(0.16,1,0.3,1);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .unsynced-row:hover { background: var(--color-neutral-50); }
+    .unsynced-row.error-row { background: var(--color-error-50); }
+    .unsynced-row.error-row:hover { background: oklch(0.97 0.02 25); }
+    .unsynced-row.delayed-row { background: var(--color-warning-50); }
+    .unsynced-row.delayed-row:hover { background: oklch(0.97 0.03 55); }
+    .unsynced-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .unsynced-name {
+      flex: 1;
+      color: var(--color-neutral-900);
+      font-weight: 500;
+    }
+    .unsynced-badge {
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      font-size: var(--text-xs);
+      font-weight: 600;
+    }
+    .unsynced-badge.error {
+      background: oklch(0.55 0.24 25 / 0.1);
+      color: var(--color-error-500);
+    }
+    .unsynced-badge.delayed {
+      background: oklch(0.70 0.15 55 / 0.1);
+      color: var(--color-warning-600);
+    }
+    .unsynced-elapsed {
+      font-size: var(--text-xs);
+      color: var(--color-neutral-400);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* ── 소재 검수 현황 ── */
+    .review-section {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .review-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .review-body { padding: 14px 16px; }
+    .review-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .review-card {
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      text-align: center;
+      cursor: pointer;
+      transition: filter 0.12s;
+      text-decoration: none;
+    }
+    .review-card:hover { filter: brightness(0.97); }
+    .review-card.pending { background: var(--color-warning-50); }
+    .review-card.in-review { background: var(--color-primary-50); }
+    .review-card.completed { background: var(--color-neutral-100); }
+    .review-card-value {
+      font-size: var(--text-2xl);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .review-card.pending .review-card-value { color: var(--color-warning-500); }
+    .review-card.in-review .review-card-value { color: var(--color-primary-500); }
+    .review-card.completed .review-card-value { color: var(--color-neutral-400); }
+    .review-card-label {
+      font-size: var(--text-xs);
+      color: var(--color-neutral-500);
+      margin-top: 4px;
+    }
+    /* Progress bar */
+    .review-progress {
+      height: 4px;
+      background: var(--color-neutral-100);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      display: flex;
+    }
+    .review-progress-pending {
+      background: var(--color-warning-500);
+      opacity: 0.7;
+    }
+    .review-progress-inreview {
+      background: var(--color-primary-500);
+    }
+    .review-progress-completed {
+      background: var(--color-neutral-200);
+    }
+    /* Inline message */
+    .review-inline-msg {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      background: var(--color-warning-50);
+      border-radius: var(--radius-md);
+      font-size: var(--text-xs);
+      color: var(--color-warning-600);
+      font-weight: 500;
+    }
+    .review-inline-msg svg { flex-shrink: 0; }
+
+    /* ── 하단 2열: 캠페인/편성 + 알림 ── */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .bottom-panel {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .bottom-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .bottom-panel-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-neutral-900);
+    }
+    .panel-link {
+      font-size: var(--text-xs);
+      color: var(--color-primary-600);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .panel-link:hover { color: var(--color-primary-700); text-decoration: underline; }
+    .campaign-body { padding: 14px 16px; }
+    .campaign-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .campaign-card {
+      background: var(--color-neutral-50);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+    }
+    .campaign-card-label {
+      font-size: var(--text-xs);
+      color: var(--color-neutral-500);
+      margin-bottom: 4px;
+    }
+    .campaign-card-value {
+      font-size: var(--text-xl);
+      font-weight: 800;
+      color: var(--color-neutral-900);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .campaign-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+    .campaign-chip {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+    .campaign-chip.active { background: oklch(0.72 0.19 155 / 0.1); color: var(--color-primary-600); }
+    .campaign-chip.draft { background: rgba(0,0,0,0.04); color: var(--color-neutral-500); }
+    .campaign-chip.reserved { background: oklch(0.70 0.15 55 / 0.08); color: var(--color-warning-600); }
+    .campaign-chip.ended { background: rgba(0,0,0,0.03); color: var(--color-neutral-400); }
+
+    /* Alert list */
+    .alert-body { padding: 4px 0; }
+    .alert-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      cursor: pointer;
+      transition: background 0.15s cubic-bezier(0.16,1,0.3,1);
+    }
+    .alert-item:last-child { border-bottom: none; }
+    .alert-item:hover { background: var(--color-neutral-50); }
+    .alert-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .alert-dot.unread { background: var(--color-primary-500); }
+    .alert-dot.read { background: var(--color-neutral-300); }
+    .alert-text { font-size: var(--text-sm); color: var(--color-neutral-800); flex: 1; line-height: 1.4; }
+    .alert-time { font-size: var(--text-xs); color: var(--color-neutral-400); white-space: nowrap; }
+    .alert-empty {
+      padding: 24px 16px;
+      text-align: center;
+      font-size: var(--text-sm);
+      color: var(--color-neutral-400);
+    }
+
+    /* ── Map panel ── */
+    .map-panel {
+      flex: 35;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid rgba(0,0,0,0.06);
+      background: var(--color-neutral-50);
+      min-width: 0;
+    }
+    .map-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      height: 40px;
+      background: white;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      flex-shrink: 0;
+    }
+    .map-header-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-neutral-900);
+    }
+    .map-fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: var(--text-xs);
+      color: var(--color-neutral-500);
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: var(--radius-sm);
+      transition: background 0.1s;
+      text-decoration: none;
+    }
+    .map-fullscreen-btn:hover { background: var(--color-neutral-100); color: var(--color-neutral-700); }
+    .map-area {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      /* Naver Maps placeholder with natural green tile look */
+      background:
+        /* Grid overlay */
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px),
+        /* Road-like horizontal line */
+        linear-gradient(180deg, transparent 48%, rgba(255,255,255,0.12) 48.5%, rgba(255,255,255,0.12) 51.5%, transparent 52%),
+        /* Road-like vertical line */
+        linear-gradient(90deg, transparent 38%, rgba(255,255,255,0.12) 38.5%, rgba(255,255,255,0.12) 41.5%, transparent 42%),
+        /* Base map color */
+        oklch(0.88 0.04 155);
+      background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%, 100% 100%;
+    }
+    .map-area-label {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: var(--text-xs);
+      color: oklch(0.40 0.06 155);
+      background: rgba(255,255,255,0.7);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      pointer-events: none;
+    }
+    /* Map markers */
+    .map-marker {
+      position: absolute;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .map-marker:hover { transform: translate(-50%, -50%) scale(1.4); }
+    .map-marker.online { background: var(--color-primary-500); }
+    .map-marker.delayed { background: var(--color-warning-500); }
+    .map-marker.error { background: var(--color-error-500); }
+    .map-legend {
+      padding: 8px 14px;
+      background: white;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .map-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: var(--text-xs);
+      color: var(--color-neutral-600);
+    }
+    .map-legend-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* Misc */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .section-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-neutral-900);
+    }
+  </style>
+</head>
+
+<body>
+<div class="app-shell">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar" aria-label="주 메뉴">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="5" height="5" rx="1" fill="white" opacity="0.9"/>
+          <rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity="0.6"/>
+          <rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity="0.6"/>
+          <rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity="0.9"/>
+        </svg>
+      </div>
+      <span class="sidebar-logo-text">Bari CMS</span>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="주 네비게이션">
+      <a href="dashboard-media-company.html" class="sidebar-item active" aria-current="page">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="1.5" y="1.5" width="5" height="5" rx="1"/>
+          <rect x="9.5" y="1.5" width="5" height="5" rx="1"/>
+          <rect x="1.5" y="9.5" width="5" height="5" rx="1"/>
+          <rect x="9.5" y="9.5" width="5" height="5" rx="1"/>
+        </svg>
+        대시보드
+      </a>
+      <a href="#" class="sidebar-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="1.5" y="2.5" width="13" height="11" rx="1.5"/>
+          <path d="M5 2.5V4.5M11 2.5V4.5"/>
+          <path d="M1.5 7h13"/>
+        </svg>
+        매체 관리
+      </a>
+      <a href="#" class="sidebar-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="2" y="2" width="12" height="12" rx="1.5"/>
+          <path d="M5 8.5l2 2 4-4"/>
+        </svg>
+        소재 관리
+      </a>
+      <a href="#" class="sidebar-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="8" cy="8" r="5.5"/>
+          <path d="M8 5v3.5l2.5 1.5"/>
+        </svg>
+        캠페인 관리
+      </a>
+      <a href="#" class="sidebar-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M2 3.5h12M2 8h12M2 12.5h8"/>
+        </svg>
+        편성 관리
+      </a>
+      <a href="#" class="sidebar-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M3 12V7l5-4 5 4v5"/>
+          <rect x="6" y="9" width="4" height="3"/>
+        </svg>
+        리포트
+      </a>
+      <a href="#" class="sidebar-item">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M8 2.5a4.5 4.5 0 0 1 4.5 4.5c0 2.5-.5 3.5-1 4H4.5c-.5-.5-1-1.5-1-4A4.5 4.5 0 0 1 8 2.5z"/>
+          <path d="M6.5 10.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5"/>
+        </svg>
+        알림 센터
+        <span class="sidebar-notif-badge" aria-label="미읽음 알림 2건">2</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer" tabindex="0" role="button" aria-label="개인 설정으로 이동">
+      <div class="sidebar-footer-avatar" aria-hidden="true">서</div>
+      <div class="sidebar-footer-info">
+        <div class="sidebar-footer-role">매체사</div>
+        <div class="sidebar-footer-name">김서영</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main area ── -->
+  <div class="main-area">
+
+    <!-- GNB -->
+    <header class="gnb">
+      <h1 class="gnb-title">대시보드</h1>
+      <div class="gnb-right">
+        <span class="gnb-date">2026-04-08 수</span>
+        <button class="gnb-btn" type="button" aria-label="데이터 새로고침">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M10.5 2.5A5 5 0 0 0 6 1a5 5 0 1 0 4.9 6"/>
+            <path d="M10.5 2.5V5H8"/>
+          </svg>
+          새로고침
+        </button>
+        <div class="gnb-bell" role="button" tabindex="0" aria-label="미읽음 알림 2건">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M9 2.5A4 4 0 0 1 13 6.5c0 2.5-.5 3.5-1 4.5H6c-.5-1-1-2-1-4.5A4 4 0 0 1 9 2.5z"/>
+            <path d="M7.5 11c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5"/>
+          </svg>
+          <span class="notif-dot" aria-hidden="true"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Body split -->
+    <div class="body-split">
+
+      <!-- Left scroll panel -->
+      <main class="left-panel">
+
+        <!-- 이상 감지 배너 (조건부) -->
+        <div class="anomaly-banner" role="alert" aria-live="assertive" aria-label="이상 감지 배너">
+          <div class="anomaly-banner-title">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 1L13 12H1L7 1z"/>
+              <path d="M7 5.5v3M7 10h.01"/>
+            </svg>
+            즉시 확인 필요한 이상이 감지됐습니다
+          </div>
+          <div class="anomaly-banner-item">
+            <span>동기화 미완료 편성표 2건</span>
+            <a href="#" class="anomaly-banner-link">→ 편성 관리</a>
+          </div>
+          <div class="anomaly-banner-item">
+            <span>배치 비정상 캠페인 1건</span>
+            <a href="#" class="anomaly-banner-link">→ 캠페인 관리</a>
+          </div>
+        </div>
+
+        <!-- 데이터 갱신 실패 배너 (폴링 오류 시 노출) — hidden by default -->
+        <div class="poll-error-banner" role="alert" aria-live="polite" style="display:none;" id="poll-error-banner">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="7" cy="7" r="6"/><path d="M7 4v3.5M7 9.5h.01"/>
+          </svg>
+          <span>데이터 갱신 실패 — 마지막 성공: 14분 전</span>
+          <button type="button" aria-label="닫기">다시 시도</button>
+        </div>
+
+        <!-- 동기화 히어로 -->
+        <div class="sync-hero" aria-label="편성 동기화 현황 섹션">
+
+          <!-- Donut chart -->
+          <div class="donut-wrap">
+            <svg viewBox="0 0 80 80" width="80" height="80"
+              role="img"
+              aria-label="편성 동기화 현황: 총 18대 — 정상 15 / 지연 1 / 이상 1 / 오프라인+비활성 1">
+              <!-- Track -->
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="rgba(255,255,255,0.07)" stroke-width="15"/>
+              <!-- Segment 1: online (15/18) — primary-500 -->
+              <!-- C = 2π×29 ≈ 182.21 | arc = 15/18×182.21 = 151.84 -->
+              <!-- offset = 0 -->
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="oklch(0.72 0.19 155)" stroke-width="15"
+                stroke-dasharray="151.84 182.21"
+                stroke-dashoffset="0"/>
+              <!-- Segment 2: delayed (1/18) — warning-500 -->
+              <!-- arc = 10.12 | offset = (10.12+182.21) - 151.84 = 40.49 -->
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="oklch(0.70 0.15 55)" stroke-width="15"
+                stroke-dasharray="10.12 182.21"
+                stroke-dashoffset="40.49"/>
+              <!-- Segment 2 stripe overlay (colorblind) -->
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="rgba(255,255,255,0.22)" stroke-width="15"
+                stroke-dasharray="1.8 2.5 1.8 182.21"
+                stroke-dashoffset="40.49"/>
+              <!-- Segment 3: error (1/18) — error-500 -->
+              <!-- arc = 10.12 | offset = (10.12+182.21) - 161.96 = 30.37 -->
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="oklch(0.55 0.24 25)" stroke-width="15"
+                stroke-dasharray="10.12 182.21"
+                stroke-dashoffset="30.37"/>
+              <!-- Segment 3 dot overlay (colorblind) -->
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="rgba(255,255,255,0.22)" stroke-width="15"
+                stroke-dasharray="1.0 4.5 1.0 182.21"
+                stroke-dashoffset="30.37"/>
+              <!-- Segment 4: offline+inactive (1/18) — neutral-400 -->
+              <!-- arc = 10.12 | offset = (10.12+182.21) - 172.08 = 20.25 -->
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="oklch(0.72 0.01 80)" stroke-width="15"
+                stroke-dasharray="10.12 182.21"
+                stroke-dashoffset="20.25"/>
+              <!-- Gaps between segments (thin white arcs) -->
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="oklch(0.16 0.06 155)" stroke-width="16"
+                stroke-dasharray="1.5 182.21"
+                stroke-dashoffset="31.84"/>
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="oklch(0.16 0.06 155)" stroke-width="16"
+                stroke-dasharray="1.5 182.21"
+                stroke-dashoffset="21.72"/>
+              <circle cx="40" cy="40" r="29" fill="none"
+                stroke="oklch(0.16 0.06 155)" stroke-width="16"
+                stroke-dasharray="1.5 182.21"
+                stroke-dashoffset="11.60"/>
+            </svg>
+            <div class="donut-center" aria-hidden="true">
+              <span class="donut-center-value">15대</span>
+              <span class="donut-center-label">정상</span>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="sync-hero-info">
+            <div class="sync-hero-meta">편성 동기화 현황 — 총 18대</div>
+            <div class="sync-hero-headline">15대 정상 반영 중</div>
+            <div class="sync-chips">
+              <a href="#" class="sync-chip online" aria-label="정상 반영 15대 — 클릭하여 매체 목록으로">
+                <span class="sync-chip-dot" aria-hidden="true"></span>
+                정상 15
+              </a>
+              <a href="#" class="sync-chip delayed" aria-label="반영 지연 1대 — 클릭하여 매체 목록으로">
+                <span class="sync-chip-dot" aria-hidden="true"></span>
+                지연 1
+              </a>
+              <a href="#" class="sync-chip error" aria-label="이상 감지 1대 — 클릭하여 매체 목록으로">
+                <span class="sync-chip-dot" aria-hidden="true"></span>
+                이상 1
+              </a>
+              <a href="#" class="sync-chip offline" aria-label="오프라인+비활성 1대 — 클릭하여 매체 목록으로">
+                <span class="sync-chip-dot" aria-hidden="true"></span>
+                오프라인 1
+              </a>
+            </div>
+          </div>
+
+          <span class="sync-hero-footer" aria-label="마지막 확인 2분 전, 주의 필요 3대">마지막 확인 2분 전 · 주의 필요 3대</span>
+        </div>
+
+        <!-- 미동기화 매체 섹션 (이상+지연+오프라인) -->
+        <div class="unsynced-section">
+          <div class="unsynced-header">
+            <div class="unsynced-title">
+              미동기화 매체
+              <span class="unsynced-count" aria-label="3건">3</span>
+            </div>
+            <a href="#" class="panel-link">전체 보기 →</a>
+          </div>
+          <ul class="unsynced-list" role="list">
+            <li>
+              <a href="#" class="unsynced-row error-row">
+                <span class="unsynced-dot" style="background:var(--color-error-500);" aria-hidden="true"></span>
+                <span class="unsynced-name">강남구 3번</span>
+                <span class="unsynced-badge error">이상 감지</span>
+                <span class="unsynced-elapsed">2h 13m</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="unsynced-row delayed-row">
+                <span class="unsynced-dot" style="background:var(--color-warning-500);" aria-hidden="true"></span>
+                <span class="unsynced-name">홍대입구 1번</span>
+                <span class="unsynced-badge delayed">지연</span>
+                <span class="unsynced-elapsed">14분</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="unsynced-row delayed-row">
+                <span class="unsynced-dot" style="background:var(--color-warning-500);" aria-hidden="true"></span>
+                <span class="unsynced-name">마포대로 2번</span>
+                <span class="unsynced-badge delayed">지연</span>
+                <span class="unsynced-elapsed">3분</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 소재 검수 현황 -->
+        <div class="review-section">
+          <div class="review-header">
+            <span class="section-title">소재 검수 현황</span>
+            <a href="#" class="panel-link">소재 목록 →</a>
+          </div>
+          <div class="review-body">
+            <!-- 3 stat cards -->
+            <div class="review-cards">
+              <a href="#" class="review-card pending" aria-label="검수 대기: 3건">
+                <div class="review-card-value">3</div>
+                <div class="review-card-label">검수 대기</div>
+              </a>
+              <a href="#" class="review-card in-review" aria-label="검수 중: 1건">
+                <div class="review-card-value">1</div>
+                <div class="review-card-label">검수 중</div>
+              </a>
+              <a href="#" class="review-card completed" aria-label="완료: 12건">
+                <div class="review-card-value">12</div>
+                <div class="review-card-label">완료</div>
+              </a>
+            </div>
+            <!-- Progress bar (총 16건 기준) -->
+            <div class="review-progress" role="img" aria-label="검수 현황 비율: 대기 19%, 진행 6%, 완료 75%">
+              <div class="review-progress-pending" style="width:18.75%;" title="대기 3건"></div>
+              <div class="review-progress-inreview" style="width:6.25%;" title="검수중 1건"></div>
+              <div class="review-progress-completed" style="width:75%;" title="완료 12건"></div>
+            </div>
+            <!-- Inline message -->
+            <div class="review-inline-msg" role="status">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="6.5" cy="6.5" r="5"/>
+                <path d="M6.5 4v3M6.5 9h.01"/>
+              </svg>
+              검수중 「봄 프로모션 v2」— 예상 완료 약 20분
+            </div>
+          </div>
+        </div>
+
+        <!-- 하단 2열: 캠페인/편성 + 알림 -->
+        <div class="bottom-grid">
+
+          <!-- 캠페인/편성 현황 -->
+          <div class="bottom-panel">
+            <div class="bottom-panel-header">
+              <span class="bottom-panel-title">캠페인 / 편성</span>
+              <select class="form-input" style="width:auto;font-size:var(--text-xs);padding:3px 24px 3px 8px;height:auto;" aria-label="기간 선택">
+                <option>최근 7일</option>
+                <option>최근 30일</option>
+              </select>
+            </div>
+            <div class="campaign-body">
+              <div class="campaign-pair">
+                <div class="campaign-card">
+                  <div class="campaign-card-label">캠페인</div>
+                  <div class="campaign-card-value">8</div>
+                  <div class="campaign-chips">
+                    <span class="campaign-chip active">집행중 3</span>
+                    <span class="campaign-chip draft">초안 2</span>
+                    <span class="campaign-chip ended">완료 3</span>
+                  </div>
+                </div>
+                <div class="campaign-card">
+                  <div class="campaign-card-label">편성표</div>
+                  <div class="campaign-card-value">12</div>
+                  <div class="campaign-chips">
+                    <span class="campaign-chip active">적용중 5</span>
+                    <span class="campaign-chip reserved">예약 3</span>
+                    <span class="campaign-chip ended">종료 4</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 최근 알림 -->
+          <div class="bottom-panel">
+            <div class="bottom-panel-header">
+              <span class="bottom-panel-title">최근 알림</span>
+              <a href="#" class="panel-link">알림 센터 →</a>
+            </div>
+            <ul class="alert-body" role="list" style="list-style:none;">
+              <li class="alert-item" tabindex="0" role="listitem">
+                <span class="alert-dot unread" aria-hidden="true"></span>
+                <span class="alert-text">강남구 3번 오프라인 감지</span>
+                <span class="alert-time">2분 전</span>
+              </li>
+              <li class="alert-item" tabindex="0" role="listitem">
+                <span class="alert-dot unread" aria-hidden="true"></span>
+                <span class="alert-text">소재 「봄 프로모션 v2」 검수 시작</span>
+                <span class="alert-time">18분 전</span>
+              </li>
+              <li class="alert-item" tabindex="0" role="listitem">
+                <span class="alert-dot read" aria-hidden="true"></span>
+                <span class="alert-text" style="color:var(--color-neutral-500)">편성표 「4월 2주차」 동기화 완료</span>
+                <span class="alert-time">1시간 전</span>
+              </li>
+              <li class="alert-item" tabindex="0" role="listitem">
+                <span class="alert-dot read" aria-hidden="true"></span>
+                <span class="alert-text" style="color:var(--color-neutral-500)">캠페인 「봄 시즌 A」 집행 시작</span>
+                <span class="alert-time">3시간 전</span>
+              </li>
+            </ul>
+          </div>
+
+        </div><!-- end bottom-grid -->
+
+      </main><!-- end left-panel -->
+
+      <!-- ── Map panel (right, fixed) ── -->
+      <aside class="map-panel" role="region" aria-label="매체 위치 지도">
+        <div class="map-header">
+          <span class="map-header-title">매체 위치</span>
+          <a href="#" class="map-fullscreen-btn" aria-label="지도 전체화면">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M8.5 1.5H10.5V3.5M1.5 8.5V10.5H3.5M10.5 8.5V10.5H8.5M3.5 1.5H1.5V3.5"/>
+            </svg>
+            전체화면
+          </a>
+        </div>
+
+        <div class="map-area" role="img" aria-label="자사 매체 18대의 서울 위치. 온라인 15대, 지연 1대, 이상 1대, 오프라인 1대">
+          <div class="map-area-label">Naver Maps</div>
+          <!-- Mock markers (approximate Seoul locations) -->
+          <div class="map-marker online" style="left:45%;top:38%;" title="성수동 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:52%;top:32%;" title="청담동 2번 · 온라인"></div>
+          <div class="map-marker online" style="left:48%;top:52%;" title="서초구 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:35%;top:44%;" title="마포구 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:60%;top:42%;" title="송파구 2번 · 온라인"></div>
+          <div class="map-marker online" style="left:42%;top:28%;" title="종로구 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:55%;top:58%;" title="강남구 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:30%;top:36%;" title="은평구 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:65%;top:35%;" title="광진구 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:38%;top:60%;" title="동작구 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:70%;top:50%;" title="하남시 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:25%;top:50%;" title="부천시 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:58%;top:22%;" title="노원구 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:43%;top:68%;" title="과천시 1번 · 온라인"></div>
+          <div class="map-marker online" style="left:50%;top:45%;" title="강남구 2번 · 온라인"></div>
+          <!-- Delayed -->
+          <div class="map-marker delayed" style="left:38%;top:52%;" title="마포대로 2번 · 지연"></div>
+          <!-- Error -->
+          <div class="map-marker error" style="left:54%;top:48%;" title="강남구 3번 · 이상"></div>
+          <!-- Offline (홍대입구 1번 — spec: offline status) -->
+          <div class="map-marker" style="left:62%;top:28%;background:var(--color-neutral-400);" title="홍대입구 1번 · 오프라인"></div>
+        </div>
+
+        <div class="map-legend">
+          <div class="map-legend-item">
+            <span class="map-legend-dot" style="background:var(--color-primary-500);" aria-hidden="true"></span>
+            온라인
+          </div>
+          <div class="map-legend-item">
+            <span class="map-legend-dot" style="background:var(--color-warning-500);" aria-hidden="true"></span>
+            지연
+          </div>
+          <div class="map-legend-item">
+            <span class="map-legend-dot" style="background:var(--color-error-500);" aria-hidden="true"></span>
+            이상
+          </div>
+          <div class="map-legend-item">
+            <span class="map-legend-dot" style="background:var(--color-neutral-400);" aria-hidden="true"></span>
+            오프라인
+          </div>
+        </div>
+      </aside>
+
+    </div><!-- end body-split -->
+  </div><!-- end main-area -->
+</div><!-- end app-shell -->
+
+<script src="shared/icons.js"></script>
+<script>
+  // ── 새로고침 버튼 ──
+  document.querySelector('.gnb-btn').addEventListener('click', function() {
+    this.disabled = true;
+    this.innerHTML = `
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" style="animation:spin 0.8s linear infinite">
+        <path d="M10.5 2.5A5 5 0 0 0 6 1a5 5 0 1 0 4.9 6"/>
+        <path d="M10.5 2.5V5H8"/>
+      </svg>
+      새로고침
+    `;
+    setTimeout(() => {
+      this.disabled = false;
+      this.innerHTML = `
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M10.5 2.5A5 5 0 0 0 6 1a5 5 0 1 0 4.9 6"/>
+          <path d="M10.5 2.5V5H8"/>
+        </svg>
+        새로고침
+      `;
+    }, 1400);
+  });
+
+  // ── poll-error 배너 닫기 ──
+  document.getElementById('poll-error-banner')
+    ?.querySelector('button')
+    ?.addEventListener('click', function() {
+      document.getElementById('poll-error-banner').style.display = 'none';
+    });
+</script>
+</body>
+</html>

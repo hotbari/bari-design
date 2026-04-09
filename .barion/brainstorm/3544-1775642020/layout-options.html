@@ -1,0 +1,171 @@
+<h2>S-02 매체사 대시보드 — 레이아웃 배치</h2>
+<p class="subtitle">히어로(동기화) + 축소 지도 + 소재 검수 섹션을 어떻게 배치할까요?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;height:200px;gap:5px;padding:8px;background:#f5f5f3;border-radius:6px;">
+        <!-- Sidebar -->
+        <div style="width:40px;background:#1a2e20;border-radius:4px;padding:5px 3px;color:#fff;font-size:7px;display:flex;flex-direction:column;gap:3px;flex-shrink:0;">
+          <div style="background:rgba(255,255,255,0.15);border-radius:2px;padding:2px 3px;">대시보드</div>
+          <div style="color:rgba(255,255,255,0.4);padding:1px 3px;">매체</div>
+          <div style="color:rgba(255,255,255,0.4);padding:1px 3px;">소재</div>
+          <div style="color:rgba(255,255,255,0.4);padding:1px 3px;">캠페인</div>
+        </div>
+        <!-- Content -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <!-- GNB -->
+          <div style="background:#fff;border-radius:3px;padding:3px 6px;border-bottom:1px solid #e5e5e5;font-size:8px;font-weight:700;flex-shrink:0;">대시보드</div>
+          <!-- Hero row: 히어로(좌) + 지도(우) -->
+          <div style="display:flex;gap:4px;height:76px;flex-shrink:0;">
+            <div style="flex:3;background:#0d2b1a;border-radius:4px;padding:8px;display:flex;align-items:center;gap:8px;color:#fff;">
+              <div style="width:44px;height:44px;border-radius:50%;background:conic-gradient(#03C75A 0% 83%,#E62318 83% 94%,#E8A030 94% 100%);flex-shrink:0;position:relative;">
+                <div style="position:absolute;inset:6px;background:#0d2b1a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;">15/18</div>
+              </div>
+              <div>
+                <div style="font-size:7px;color:rgba(255,255,255,0.5);">편성 동기화 현황</div>
+                <div style="font-size:10px;font-weight:700;color:#03C75A;">반영 완료 83%</div>
+                <div style="font-size:7px;color:#E62318;margin-top:2px;">미동기화 2대 · 이상 1대</div>
+              </div>
+            </div>
+            <div style="flex:2;background:#c8ddb8;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7px;color:#3a6a2a;text-align:center;">
+              <div>지도<br/><span style="font-size:6px;opacity:0.7">자사 매체 마커</span></div>
+            </div>
+          </div>
+          <!-- Middle row: 미동기화 목록 -->
+          <div style="background:#fff;border-radius:3px;padding:5px 7px;flex-shrink:0;">
+            <div style="font-size:7px;font-weight:700;margin-bottom:3px;">미동기화 매체</div>
+            <div style="display:flex;gap:8px;font-size:6.5px;">
+              <span style="color:#E62318;">● 강남구 3번 — 이상 감지</span>
+              <span style="color:#E8A030;">● 홍대입구 1번 — 지연 14분</span>
+              <span style="color:#E8A030;">● 마포대로 2번 — 지연 3분</span>
+            </div>
+          </div>
+          <!-- Bottom row: 소재검수 + 캠페인/편성 + 알림 -->
+          <div style="flex:1;display:flex;gap:4px;">
+            <div style="flex:1;background:#fff;border-radius:3px;padding:5px;">
+              <div style="font-size:7px;font-weight:700;margin-bottom:3px;">소재 검수 현황</div>
+              <div style="font-size:6.5px;color:#E8A030;">대기 3건</div>
+              <div style="font-size:6.5px;color:#03C75A;">진행중 1건</div>
+            </div>
+            <div style="flex:1;background:#fff;border-radius:3px;padding:5px;">
+              <div style="font-size:7px;font-weight:700;margin-bottom:3px;">캠페인/편성</div>
+              <div style="font-size:6.5px;color:#666;">집행중 3 · 예약 2</div>
+            </div>
+            <div style="flex:1;background:#fff;border-radius:3px;padding:5px;">
+              <div style="font-size:7px;font-weight:700;margin-bottom:3px;">최근 알림</div>
+              <div style="font-size:6.5px;color:#E62318;">오프라인 감지 2분전</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. 히어로 + 지도 나란히 (상단 2분할)</h3>
+      <p>히어로(좌)와 축소 지도(우)가 상단에 나란히. 미동기화 목록이 히어로 바로 아래. 하단에 소재검수·캠페인·알림 3열.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;height:200px;gap:5px;padding:8px;background:#f5f5f3;border-radius:6px;">
+        <!-- Sidebar -->
+        <div style="width:40px;background:#1a2e20;border-radius:4px;padding:5px 3px;color:#fff;font-size:7px;display:flex;flex-direction:column;gap:3px;flex-shrink:0;">
+          <div style="background:rgba(255,255,255,0.15);border-radius:2px;padding:2px 3px;">대시보드</div>
+          <div style="color:rgba(255,255,255,0.4);padding:1px 3px;">매체</div>
+          <div style="color:rgba(255,255,255,0.4);padding:1px 3px;">소재</div>
+          <div style="color:rgba(255,255,255,0.4);padding:1px 3px;">캠페인</div>
+        </div>
+        <!-- Content: 좌 스크롤 + 우 지도 -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <div style="background:#fff;border-radius:3px;padding:3px 6px;font-size:8px;font-weight:700;flex-shrink:0;">대시보드</div>
+          <div style="flex:1;display:flex;gap:4px;">
+            <!-- Left scroll panel -->
+            <div style="flex:3;display:flex;flex-direction:column;gap:4px;overflow:hidden;">
+              <!-- Hero -->
+              <div style="background:#0d2b1a;border-radius:4px;padding:7px;display:flex;align-items:center;gap:6px;color:#fff;flex-shrink:0;">
+                <div style="width:38px;height:38px;border-radius:50%;background:conic-gradient(#03C75A 0% 83%,#E62318 83% 94%,#E8A030 94% 100%);flex-shrink:0;position:relative;">
+                  <div style="position:absolute;inset:5px;background:#0d2b1a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;">15/18</div>
+                </div>
+                <div>
+                  <div style="font-size:6.5px;color:rgba(255,255,255,0.5);">편성 동기화 현황</div>
+                  <div style="font-size:9px;font-weight:700;color:#03C75A;">반영 완료 83%</div>
+                  <div style="font-size:6.5px;color:#E62318;margin-top:1px;">미동기화 2 · 이상 1</div>
+                </div>
+              </div>
+              <!-- Unsynced list -->
+              <div style="background:#fff;border-radius:3px;padding:4px 6px;flex-shrink:0;">
+                <div style="font-size:7px;font-weight:700;margin-bottom:2px;">미동기화 매체</div>
+                <div style="font-size:6.5px;color:#E62318;margin-bottom:1px;">● 강남구 3번 — 이상 감지</div>
+                <div style="font-size:6.5px;color:#E8A030;">● 홍대입구 1번 — 지연 14분</div>
+              </div>
+              <!-- 소재검수 + 캠페인 -->
+              <div style="flex:1;display:flex;gap:3px;">
+                <div style="flex:1;background:#fff;border-radius:3px;padding:4px;font-size:6.5px;"><div style="font-weight:700;margin-bottom:2px;">소재 검수</div><div style="color:#E8A030;">대기 3건</div><div style="color:#03C75A;">진행 1건</div></div>
+                <div style="flex:1;background:#fff;border-radius:3px;padding:4px;font-size:6.5px;"><div style="font-weight:700;margin-bottom:2px;">캠페인/편성</div><div style="color:#666;">집행중 3건</div></div>
+              </div>
+            </div>
+            <!-- Right: 지도 고정 -->
+            <div style="flex:2;background:#c8ddb8;border-radius:4px;display:flex;flex-direction:column;">
+              <div style="padding:4px 5px;font-size:7px;font-weight:700;color:#3a6a2a;border-bottom:1px solid rgba(0,0,0,0.1);">매체 위치</div>
+              <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:7px;color:#3a6a2a;">지도 (고정)</div>
+              <!-- 하단 알림 -->
+              <div style="background:rgba(255,255,255,0.7);padding:4px 5px;border-radius:0 0 4px 4px;font-size:6.5px;">
+                <div style="font-weight:700;margin-bottom:1px;">최근 알림</div>
+                <div style="color:#E62318;">● 오프라인 2분전</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 좌 스크롤 + 우 지도 고정 ★추천</h3>
+      <p>어드민과 같은 좌/우 분할 구조. 좌 패널 상단에 다크 히어로 배치. 지도는 우측 고정(40%→30%로 축소). 패턴 일관성 + 히어로 차별화 동시 달성.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;height:200px;gap:5px;padding:8px;background:#f5f5f3;border-radius:6px;">
+        <!-- Sidebar -->
+        <div style="width:40px;background:#1a2e20;border-radius:4px;padding:5px 3px;color:#fff;font-size:7px;display:flex;flex-direction:column;gap:3px;flex-shrink:0;">
+          <div style="background:rgba(255,255,255,0.15);border-radius:2px;padding:2px 3px;">대시보드</div>
+          <div style="color:rgba(255,255,255,0.4);padding:1px 3px;">매체</div>
+          <div style="color:rgba(255,255,255,0.4);padding:1px 3px;">소재</div>
+        </div>
+        <!-- Content -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <div style="background:#fff;border-radius:3px;padding:3px 6px;font-size:8px;font-weight:700;flex-shrink:0;">대시보드</div>
+          <!-- Full-width hero -->
+          <div style="background:#0d2b1a;border-radius:4px;padding:8px;display:flex;align-items:center;gap:10px;color:#fff;flex-shrink:0;">
+            <div style="width:48px;height:48px;border-radius:50%;background:conic-gradient(#03C75A 0% 83%,#E62318 83% 94%,#E8A030 94% 100%);flex-shrink:0;position:relative;">
+              <div style="position:absolute;inset:7px;background:#0d2b1a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;">83%</div>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:7px;color:rgba(255,255,255,0.5);">편성 동기화 현황 — 18대 중 15대 반영 완료</div>
+              <div style="display:flex;gap:6px;margin-top:3px;">
+                <span style="font-size:7px;background:rgba(230,35,24,0.2);color:#ff6b6b;padding:1px 4px;border-radius:2px;">이상 1대</span>
+                <span style="font-size:7px;background:rgba(232,160,48,0.2);color:#E8A030;padding:1px 4px;border-radius:2px;">지연 2대</span>
+                <span style="font-size:7px;background:rgba(3,199,90,0.2);color:#03C75A;padding:1px 4px;border-radius:2px;">정상 15대</span>
+              </div>
+            </div>
+          </div>
+          <!-- 4-col grid -->
+          <div style="flex:1;display:flex;gap:4px;">
+            <div style="flex:1;background:#fff;border-radius:3px;padding:5px;font-size:6.5px;"><div style="font-weight:700;margin-bottom:3px;">미동기화 목록</div><div style="color:#E62318;margin-bottom:1px;">● 강남구 3번</div><div style="color:#E8A030;">● 홍대 1번</div></div>
+            <div style="flex:1;background:#fff;border-radius:3px;padding:5px;font-size:6.5px;"><div style="font-weight:700;margin-bottom:3px;">소재 검수</div><div style="color:#E8A030;margin-bottom:1px;">대기 3건</div><div style="color:#03C75A;">진행 1건</div></div>
+            <div style="flex:1;background:#fff;border-radius:3px;padding:5px;font-size:6.5px;"><div style="font-weight:700;margin-bottom:3px;">캠페인/알림</div><div style="color:#666;margin-bottom:1px;">집행중 3건</div><div style="color:#E62318;">알림 2건</div></div>
+            <div style="flex:1;background:#c8ddb8;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:6.5px;color:#3a6a2a;">지도<br/>(소형)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. 히어로 풀위스 + 하단 4열 그리드</h3>
+      <p>히어로가 전체 너비를 차지해 가장 강렬한 인상. 하단에 미동기화 목록·소재검수·캠페인·지도 4열 균등 배치.</p>
+    </div>
+  </div>
+
+</div>

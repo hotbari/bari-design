@@ -1,0 +1,104 @@
+<h2>사용자 관리 — 초대 플로우 접근 방식</h2>
+<p class="subtitle">어떤 방식으로 초대 흐름을 설계할까요?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f9fa;padding:16px;border-bottom:1px solid #eee;">
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <div style="flex:1;background:#e9ecef;border-radius:4px;height:28px;"></div>
+        <div style="width:90px;background:#2d6a4f;border-radius:4px;height:28px;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:600;">+ 초대</div>
+      </div>
+      <div style="background:white;border:1px solid #dee2e6;border-radius:6px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:0;background:#f1f3f5;padding:8px 12px;font-size:10px;color:#868e96;font-weight:600;">
+          <span>이름 / 이메일</span><span>역할</span><span>상태</span><span>액션</span>
+        </div>
+        <div style="padding:8px 12px;font-size:11px;display:grid;grid-template-columns:2fr 1fr 1fr 80px;border-top:1px solid #f1f3f5;align-items:center;">
+          <span style="color:#212529;">김서영<br><span style="color:#868e96;font-size:10px;">seo@podo.com</span></span>
+          <span style="background:#d3f9d8;color:#2f9e44;border-radius:3px;padding:2px 6px;font-size:10px;display:inline-block;">매체사</span>
+          <span style="background:#e7f5ff;color:#1971c2;border-radius:3px;padding:2px 6px;font-size:10px;display:inline-block;">활성</span>
+          <span style="color:#868e96;font-size:10px;">···</span>
+        </div>
+        <div style="padding:8px 12px;font-size:11px;display:grid;grid-template-columns:2fr 1fr 1fr 80px;border-top:1px solid #f1f3f5;align-items:center;">
+          <span style="color:#212529;">이준혁<br><span style="color:#868e96;font-size:10px;">jun@agency.com</span></span>
+          <span style="background:#fff3bf;color:#e67700;border-radius:3px;padding:2px 6px;font-size:10px;display:inline-block;">운영대행사</span>
+          <span style="background:#fff0f6;color:#c2255c;border-radius:3px;padding:2px 6px;font-size:10px;display:inline-block;">초대발송</span>
+          <span style="color:#868e96;font-size:10px;">···</span>
+        </div>
+      </div>
+      <!-- Modal overlay hint -->
+      <div style="margin-top:8px;background:rgba(0,0,0,0.3);border-radius:4px;padding:4px 8px;text-align:center;font-size:10px;color:white;">▶ 초대 클릭 시 모달 오버레이</div>
+    </div>
+    <div class="card-body">
+      <h3>A. 목록 + 모달</h3>
+      <p>사용자 테이블 목록 위에 초대 모달이 떠오르는 방식. 입력 필드가 적을 때(이메일, 역할, 매체사) 적합. 화면 전환 없이 빠르게 처리.</p>
+      <p style="font-size:12px;color:#6c757d;margin-top:6px;">적합한 경우: UC-01 어드민 초대 (단순 3필드)</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f9fa;padding:16px;border-bottom:1px solid #eee;">
+      <div style="display:flex;gap:0;height:160px;">
+        <!-- Main list -->
+        <div style="flex:1;background:white;border:1px solid #dee2e6;border-radius:6px 0 0 6px;overflow:hidden;">
+          <div style="background:#f1f3f5;padding:8px 10px;font-size:10px;color:#868e96;font-weight:600;">사용자 목록</div>
+          <div style="padding:8px 10px;font-size:10px;border-top:1px solid #f1f3f5;">김서영 · 매체사</div>
+          <div style="padding:8px 10px;font-size:10px;border-top:1px solid #f1f3f5;">이준혁 · 운영대행사</div>
+          <div style="padding:8px 10px;font-size:10px;border-top:1px solid #f1f3f5;color:#868e96;">최유진 · 영업대행사</div>
+        </div>
+        <!-- Side panel -->
+        <div style="width:140px;background:#2d3748;border-radius:0 6px 6px 0;padding:10px;border:1px solid #2d3748;">
+          <div style="font-size:10px;color:#a0aec0;margin-bottom:8px;font-weight:600;">새 초대</div>
+          <div style="background:#4a5568;border-radius:3px;height:20px;margin-bottom:6px;"></div>
+          <div style="background:#4a5568;border-radius:3px;height:20px;margin-bottom:6px;"></div>
+          <div style="background:#4a5568;border-radius:3px;height:20px;margin-bottom:6px;"></div>
+          <div style="background:#2d6a4f;border-radius:3px;height:22px;display:flex;align-items:center;justify-content:center;margin-top:8px;">
+            <span style="font-size:10px;color:white;font-weight:600;">초대 발송</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 목록 + 슬라이드 패널</h3>
+      <p>목록 오른쪽에서 패널이 밀려 나오는 방식. 초대 폼과 기존 목록을 동시에 볼 수 있어 중복 확인이 쉬움.</p>
+      <p style="font-size:12px;color:#6c757d;margin-top:6px;">적합한 경우: UC-03 매체사가 권한 범위 설정이 복잡한 경우</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f9fa;padding:16px;border-bottom:1px solid #eee;">
+      <div style="background:white;border:1px solid #dee2e6;border-radius:6px;overflow:hidden;height:160px;">
+        <!-- Step indicator -->
+        <div style="background:#f1f3f5;padding:8px 12px;display:flex;gap:6px;align-items:center;font-size:10px;">
+          <div style="background:#2d6a4f;color:white;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">1</div>
+          <span style="font-weight:600;color:#212529;">이메일 입력</span>
+          <span style="color:#dee2e6;margin:0 2px;">→</span>
+          <div style="background:#dee2e6;color:#868e96;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">2</div>
+          <span style="color:#868e96;">역할 설정</span>
+          <span style="color:#dee2e6;margin:0 2px;">→</span>
+          <div style="background:#dee2e6;color:#868e96;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">3</div>
+          <span style="color:#868e96;">권한 범위</span>
+        </div>
+        <div style="padding:12px;">
+          <div style="font-size:10px;color:#495057;margin-bottom:6px;font-weight:600;">초대할 이메일을 입력하세요</div>
+          <div style="border:1px solid #ced4da;border-radius:4px;height:26px;display:flex;align-items:center;padding:0 8px;font-size:11px;color:#adb5bd;">user@company.com</div>
+          <div style="font-size:10px;color:#868e96;margin-top:6px;">이미 등록된 이메일은 자동으로 감지됩니다</div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;padding:0 12px;gap:6px;">
+          <div style="background:#e9ecef;border-radius:4px;padding:4px 10px;font-size:10px;color:#495057;">취소</div>
+          <div style="background:#2d6a4f;border-radius:4px;padding:4px 10px;font-size:10px;color:white;">다음 →</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. 멀티스텝 위저드 (모달)</h3>
+      <p>이메일 → 역할 → 권한범위 3단계로 분리. 각 단계에서 오류를 즉시 감지. UC-03처럼 권한 범위 설정이 복잡한 경우 입력 부담 분산.</p>
+      <p style="font-size:12px;color:#6c757d;margin-top:6px;">적합한 경우: 운영대행사 초대 (매체 선택 필요)</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:24px;padding:12px 16px;background:#f8f9fa;border-radius:6px;border-left:3px solid #2d6a4f;">
+  <p style="margin:0;font-size:13px;"><strong>참고:</strong> 어드민 초대(UC-01)는 필드가 단순(이메일+역할+매체사)하고, 매체사 초대(UC-03)는 권한 범위 설정(매체 선택)이 추가됩니다. 두 흐름에 같은 UI 패턴을 쓸지, 다른 패턴을 쓸지도 결정 포인트입니다.</p>
+</div>

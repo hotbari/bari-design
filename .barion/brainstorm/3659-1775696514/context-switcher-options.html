@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>S-02 운영대행사 — 기본 보기 방식</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Pretendard', -apple-system, sans-serif; background: #f5f5f3; padding: 24px; color: #1a1a1a; }
+  h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #666; margin-bottom: 24px; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .card { background: white; border-radius: 10px; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color 0.15s; }
+  .card:hover { border-color: #03C75A; }
+  .card.selected { border-color: #03C75A; }
+  .card-image { padding: 12px; background: #f5f5f3; }
+  .card-body { padding: 12px 14px; }
+  .card-body h3 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .card-body p { font-size: 11px; color: #555; line-height: 1.5; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; margin-left: 6px; background: oklch(0.72 0.19 155 / 0.15); color: oklch(0.35 0.12 155); }
+
+  /* Shared mini UI chrome */
+  .shell { display: flex; height: 190px; gap: 5px; padding: 8px; background: #f0efed; border-radius: 6px; font-size: 7px; }
+  .sidebar { width: 38px; background: oklch(0.16 0.02 155); border-radius: 4px; padding: 5px 3px; display: flex; flex-direction: column; gap: 2px; flex-shrink: 0; }
+  .sidebar-item { color: rgba(255,255,255,0.4); padding: 2px 3px; border-radius: 2px; font-size: 6.5px; }
+  .sidebar-item.active { background: rgba(255,255,255,0.1); color: oklch(0.72 0.19 155); font-weight: 600; }
+  .main { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .gnb { background: white; border-radius: 3px; padding: 3px 6px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .gnb-title { font-size: 8px; font-weight: 700; }
+  .body { flex: 1; display: flex; gap: 4px; min-height: 0; }
+  .left { display: flex; flex-direction: column; gap: 3px; }
+  .map { background: oklch(0.88 0.04 155); border-radius: 3px; flex-shrink: 0; position: relative; }
+  .map-dot { position: absolute; width: 5px; height: 5px; border-radius: 50%; border: 1px solid white; }
+
+  /* Option A: 전체 합산 — switcher in GNB */
+  .switcher-gnb { display: flex; gap: 2px; }
+  .switcher-tab { padding: 1px 4px; border-radius: 2px; background: #f0efed; color: #666; font-size: 6px; font-weight: 500; }
+  .switcher-tab.active { background: oklch(0.72 0.19 155); color: white; font-weight: 600; }
+
+  /* Option B: 드롭다운 in content header */
+  .switcher-dropdown { display: flex; align-items: center; gap: 3px; background: white; border: 1px solid #ddd; border-radius: 2px; padding: 1.5px 4px; font-size: 6px; }
+  .switcher-dropdown svg { flex-shrink: 0; }
+
+  /* Stats bar */
+  .stats-row { display: flex; gap: 3px; }
+  .stat { flex: 1; background: white; border-radius: 2px; padding: 3px 4px; }
+  .stat-val { font-size: 9px; font-weight: 800; color: oklch(0.16 0.02 155); letter-spacing: -0.03em; }
+  .stat-lbl { font-size: 5.5px; color: #888; }
+  .stat-val.green { color: oklch(0.45 0.15 155); }
+  .stat-val.red { color: oklch(0.50 0.22 25); }
+  .stat-val.yellow { color: oklch(0.55 0.14 55); }
+
+  /* Hero dark */
+  .hero { background: oklch(0.16 0.06 155); border-radius: 3px; padding: 5px 6px; color: white; display: flex; align-items: center; gap: 5px; }
+  .hero-donut { width: 22px; height: 22px; border-radius: 50%; background: conic-gradient(oklch(0.72 0.19 155) 0% 83%, oklch(0.55 0.24 25) 83% 94%, oklch(0.70 0.15 55) 94% 100%); flex-shrink: 0; }
+  .hero-text { font-size: 6px; }
+  .hero-headline { font-size: 8px; font-weight: 700; color: oklch(0.72 0.19 155); }
+
+  /* Option C: multi-column cards */
+  .company-cards { display: flex; gap: 3px; flex: 1; }
+  .company-card { flex: 1; background: white; border-radius: 3px; padding: 4px 5px; min-width: 0; }
+  .company-name { font-size: 6px; font-weight: 700; color: #333; margin-bottom: 2px; border-bottom: 1px solid #f0efed; padding-bottom: 2px; }
+  .company-stat { font-size: 5.5px; color: #555; margin-bottom: 1px; }
+  .company-badge { display: inline-block; font-size: 5px; padding: 0.5px 3px; border-radius: 2px; }
+  .badge-red { background: oklch(0.55 0.24 25 / 0.12); color: oklch(0.50 0.22 25); }
+  .badge-green { background: oklch(0.72 0.19 155 / 0.12); color: oklch(0.45 0.15 155); }
+  .badge-yellow { background: oklch(0.70 0.15 55 / 0.12); color: oklch(0.55 0.14 55); }
+</style>
+</head>
+<body>
+
+<h2>S-02 운영대행사 — 기본 보기 방식</h2>
+<p class="subtitle">이준혁이 3개 매체사를 관리할 때, 대시보드 진입 시 어떤 구조로 보여줄까요?</p>
+
+<div class="cards">
+
+  <!-- Option A -->
+  <div class="card" onclick="this.classList.toggle('selected')">
+    <div class="card-image">
+      <div class="shell">
+        <div class="sidebar">
+          <div style="color:rgba(255,255,255,0.15);font-size:8px;font-weight:700;padding:3px;margin-bottom:3px;">B</div>
+          <div class="sidebar-item active">대시보드</div>
+          <div class="sidebar-item">매체 관리</div>
+          <div class="sidebar-item">소재 관리</div>
+          <div class="sidebar-item">캠페인</div>
+          <div class="sidebar-item">편성</div>
+          <div class="sidebar-item">리포트</div>
+        </div>
+        <div class="main">
+          <!-- GNB with switcher tabs -->
+          <div class="gnb">
+            <span class="gnb-title">대시보드</span>
+            <div class="switcher-gnb">
+              <span class="switcher-tab active">전체</span>
+              <span class="switcher-tab">A사</span>
+              <span class="switcher-tab">B사</span>
+              <span class="switcher-tab">C사</span>
+            </div>
+          </div>
+          <!-- Body: left + map -->
+          <div class="body">
+            <div class="left" style="flex:3;">
+              <!-- 집계 Stats -->
+              <div class="stats-row">
+                <div class="stat"><div class="stat-val">150</div><div class="stat-lbl">총 매체</div></div>
+                <div class="stat"><div class="stat-val green">132</div><div class="stat-lbl">온라인</div></div>
+                <div class="stat"><div class="stat-val red">4</div><div class="stat-lbl">이상</div></div>
+                <div class="stat"><div class="stat-val yellow">14</div><div class="stat-lbl">기타</div></div>
+              </div>
+              <!-- Company summary rows -->
+              <div style="background:white;border-radius:2px;padding:3px 5px;display:flex;flex-direction:column;gap:2px;">
+                <div style="font-size:6.5px;font-weight:700;color:#333;margin-bottom:1px;">매체사별 현황</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:5.5px;padding:1px 0;border-bottom:1px solid #f5f5f5;">
+                  <span style="font-weight:600;">A사 (50대)</span>
+                  <span style="color:oklch(0.72 0.19 155);">정상 48</span>
+                  <span style="color:oklch(0.50 0.22 25);">이상 2</span>
+                  <a style="color:oklch(0.45 0.15 155);text-decoration:none;">→</a>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:5.5px;padding:1px 0;border-bottom:1px solid #f5f5f5;">
+                  <span style="font-weight:600;">B사 (60대)</span>
+                  <span style="color:oklch(0.72 0.19 155);">정상 58</span>
+                  <span style="color:oklch(0.55 0.14 55);">지연 2</span>
+                  <a style="color:oklch(0.45 0.15 155);text-decoration:none;">→</a>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;font-size:5.5px;padding:1px 0;">
+                  <span style="font-weight:600;">C사 (40대)</span>
+                  <span style="color:oklch(0.72 0.19 155);">정상 26</span>
+                  <span style="color:oklch(0.50 0.22 25);">이상 2</span>
+                  <a style="color:oklch(0.45 0.15 155);text-decoration:none;">→</a>
+                </div>
+              </div>
+              <!-- Tasks summary -->
+              <div style="background:white;border-radius:2px;padding:3px 5px;flex:1;">
+                <div style="font-size:6px;font-weight:700;margin-bottom:2px;">진행 중 작업</div>
+                <div style="font-size:5.5px;color:#555;margin-bottom:1px;">소재 검수 대기 <span style="color:oklch(0.55 0.14 55);font-weight:600;">7건</span></div>
+                <div style="font-size:5.5px;color:#555;">편성 적용 예정 <span style="color:oklch(0.45 0.15 155);font-weight:600;">3건</span></div>
+              </div>
+            </div>
+            <div class="map" style="flex:2;">
+              <div class="map-dot" style="left:40%;top:35%;background:oklch(0.72 0.19 155);"></div>
+              <div class="map-dot" style="left:55%;top:50%;background:oklch(0.50 0.22 25);"></div>
+              <div class="map-dot" style="left:35%;top:60%;background:oklch(0.72 0.19 155);"></div>
+              <div class="map-dot" style="left:60%;top:30%;background:oklch(0.55 0.14 55);"></div>
+              <div class="map-dot" style="left:48%;top:45%;background:oklch(0.72 0.19 155);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. 전체 합산 뷰 <span class="badge">★ 추천</span></h3>
+      <p>GNB에 매체사 탭(전체/A사/B사/C사). 기본은 "전체" 집계 — 150대 통합 현황 + 매체사별 요약 행. 탭 클릭 시 해당 매체사 단독 뷰로 전환. 이준혁이 한눈에 전체를 파악하고 문제 매체사로 드릴다운.</p>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" onclick="this.classList.toggle('selected')">
+    <div class="card-image">
+      <div class="shell">
+        <div class="sidebar">
+          <div style="color:rgba(255,255,255,0.15);font-size:8px;font-weight:700;padding:3px;margin-bottom:3px;">B</div>
+          <div class="sidebar-item active">대시보드</div>
+          <div class="sidebar-item">매체 관리</div>
+          <div class="sidebar-item">소재 관리</div>
+          <div class="sidebar-item">캠페인</div>
+          <div class="sidebar-item">편성</div>
+          <div class="sidebar-item">리포트</div>
+        </div>
+        <div class="main">
+          <!-- GNB simple -->
+          <div class="gnb">
+            <span class="gnb-title">대시보드</span>
+          </div>
+          <!-- Body -->
+          <div class="body">
+            <div class="left" style="flex:3;">
+              <!-- Switcher dropdown at top of content -->
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="font-size:6px;color:#888;">담당 매체사:</span>
+                <div class="switcher-dropdown">
+                  <span>A사 미디어 (50대)</span>
+                  <svg width="6" height="6" viewBox="0 0 6 6" fill="none" stroke="#666" stroke-width="1.5"><path d="M1 2l2 2 2-2"/></svg>
+                </div>
+              </div>
+              <!-- Hero for selected company -->
+              <div class="hero">
+                <div class="hero-donut"></div>
+                <div>
+                  <div class="hero-text" style="color:rgba(255,255,255,0.4);">A사 편성 동기화</div>
+                  <div class="hero-headline">48대 정상</div>
+                  <div class="hero-text" style="color:oklch(0.50 0.22 25);">이상 2대</div>
+                </div>
+              </div>
+              <!-- Unsynced -->
+              <div style="background:white;border-radius:2px;padding:3px 5px;flex:1;">
+                <div style="font-size:6px;font-weight:700;margin-bottom:2px;">미동기화 (2대)</div>
+                <div style="font-size:5.5px;color:oklch(0.50 0.22 25);margin-bottom:1px;">● 강남구 3번 — 이상</div>
+                <div style="font-size:5.5px;color:oklch(0.55 0.14 55);">● 홍대입구 2번 — 지연</div>
+              </div>
+            </div>
+            <div class="map" style="flex:2;">
+              <div class="map-dot" style="left:40%;top:35%;background:oklch(0.72 0.19 155);"></div>
+              <div class="map-dot" style="left:55%;top:50%;background:oklch(0.50 0.22 25);"></div>
+              <div class="map-dot" style="left:35%;top:60%;background:oklch(0.72 0.19 155);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 매체사 선택 후 단독 뷰</h3>
+      <p>컨텐츠 상단 드롭다운으로 매체사를 선택하면, 해당 회사만 대시보드에 표시. 매체사 대시보드와 동일한 구조. 전체 집계 뷰 없음 — 한 번에 하나씩만 볼 수 있어 여러 이상 상황 비교가 어려움.</p>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" onclick="this.classList.toggle('selected')">
+    <div class="card-image">
+      <div class="shell">
+        <div class="sidebar">
+          <div style="color:rgba(255,255,255,0.15);font-size:8px;font-weight:700;padding:3px;margin-bottom:3px;">B</div>
+          <div class="sidebar-item active">대시보드</div>
+          <div class="sidebar-item">매체 관리</div>
+          <div class="sidebar-item">소재 관리</div>
+          <div class="sidebar-item">캠페인</div>
+          <div class="sidebar-item">편성</div>
+          <div class="sidebar-item">리포트</div>
+        </div>
+        <div class="main">
+          <div class="gnb">
+            <span class="gnb-title">대시보드</span>
+            <span style="font-size:5.5px;color:#888;">3개 매체사 · 150대</span>
+          </div>
+          <div class="body" style="flex-direction:column;gap:3px;">
+            <!-- 3-column company cards -->
+            <div class="company-cards">
+              <div class="company-card">
+                <div class="company-name">A사 미디어</div>
+                <div class="company-stat">총 50대</div>
+                <div class="company-stat">정상 <b style="color:oklch(0.45 0.15 155);">48</b></div>
+                <div class="company-badge badge-red">이상 2</div>
+                <div style="font-size:5px;color:#888;margin-top:2px;">소재 대기 2건</div>
+              </div>
+              <div class="company-card" style="border-left:2px solid oklch(0.50 0.22 25);">
+                <div class="company-name" style="color:oklch(0.50 0.22 25);">B사 ⚠️</div>
+                <div class="company-stat">총 60대</div>
+                <div class="company-stat">정상 <b style="color:oklch(0.45 0.15 155);">56</b></div>
+                <div class="company-badge badge-red">이상 2</div>
+                <div class="company-badge badge-yellow" style="margin-left:2px;">지연 2</div>
+                <div style="font-size:5px;color:#888;margin-top:2px;">소재 대기 5건</div>
+              </div>
+              <div class="company-card">
+                <div class="company-name">C사 광고</div>
+                <div class="company-stat">총 40대</div>
+                <div class="company-stat">정상 <b style="color:oklch(0.45 0.15 155);">40</b></div>
+                <div class="company-badge badge-green">정상 100%</div>
+                <div style="font-size:5px;color:#888;margin-top:2px;">소재 대기 0건</div>
+              </div>
+            </div>
+            <!-- Shared bottom: tasks -->
+            <div style="background:white;border-radius:2px;padding:3px 5px;flex:1;display:flex;flex-direction:column;gap:1px;">
+              <div style="font-size:6px;font-weight:700;margin-bottom:1px;">전체 작업 현황</div>
+              <div style="font-size:5.5px;color:#555;">소재 검수 대기 <b style="color:oklch(0.55 0.14 55);">7건</b> · 편성 예정 <b style="color:oklch(0.45 0.15 155);">3건</b> · 알림 <b style="color:oklch(0.50 0.22 25);">4건</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. 멀티 컬럼 카드</h3>
+      <p>3개 매체사를 나란히 카드로 배치. 이상 있는 회사는 테두리 강조. 지도 없음 (공간 부족). 카드 클릭 시 해당 매체사 상세로 드릴다운. 비교는 쉽지만 각 회사의 상세 정보가 적음.</p>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가입 완료 — Bari CMS</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared/style.css">
+<style>
+:root {
+  --auth-primary-glow:   oklch(0.72 0.19 155 / 0.25);
+  --auth-primary-ring:   oklch(0.72 0.19 155 / 0.12);
+  --auth-primary-border: oklch(0.72 0.19 155 / 0.2);
+  --auth-primary-border-sm: oklch(0.72 0.19 155 / 0.15);
+  --auth-error-border:   oklch(0.55 0.24 25 / 0.2);
+  --auth-card-border:    oklch(0.20 0.02 80 / 0.07);
+  --auth-card-shadow-lg: oklch(0.20 0.02 80 / 0.06);
+  --auth-card-shadow-sm: oklch(0.20 0.02 80 / 0.04);
+}
+
+/* ── Skip link ── */
+.skip-link {
+  position: absolute; top: -100%; left: 12px;
+  padding: 8px 16px;
+  background: var(--color-neutral-900); color: white;
+  font-size: 13px; font-weight: 600;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  z-index: 9999; transition: top 0.15s;
+}
+.skip-link:focus { top: 0; }
+
+/* ── Layout ── */
+.auth-wrap {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px;
+  background: var(--color-neutral-50);
+}
+
+.auth-card {
+  width: 100%; max-width: 420px;
+  background: white;
+  border: 1px solid var(--auth-card-border);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: 0 2px 16px var(--auth-card-shadow-lg), 0 1px 3px var(--auth-card-shadow-sm);
+}
+
+/* ── Brand ── */
+.auth-brand { text-align: center; margin-bottom: 32px; }
+.auth-brand-mark {
+  width: 44px; height: 44px;
+  background: linear-gradient(145deg, var(--color-primary-400), var(--color-primary-600));
+  border-radius: var(--radius-lg);
+  margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px var(--auth-primary-glow);
+}
+.auth-brand-mark svg {
+  width: 22px; height: 22px;
+  fill: none; stroke: white; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.auth-brand-name {
+  font-size: 20px; font-weight: 700;
+  color: var(--color-neutral-900); letter-spacing: -0.4px;
+}
+
+/* ── Invite block ── */
+.invite-block {
+  background: var(--color-primary-50);
+  border: 1px solid var(--auth-primary-border-sm);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--color-neutral-700);
+  line-height: 1.6;
+}
+.invite-by { font-weight: 600; color: var(--color-neutral-900); }
+.invite-role {
+  display: inline-flex; align-items: center;
+  background: white;
+  border: 1px solid var(--auth-primary-border);
+  color: var(--color-primary-700);
+  font-size: 11px; font-weight: 700;
+  padding: 2px 8px; border-radius: var(--radius-sm);
+  margin-left: 4px; vertical-align: middle;
+  letter-spacing: 0.01em;
+}
+.invite-email {
+  margin-top: 6px; font-size: 12px;
+  color: var(--color-neutral-500);
+}
+
+/* ── Form ── */
+.auth-form-group { margin-bottom: 16px; }
+.auth-label {
+  display: block; font-size: 13px; font-weight: 500;
+  color: var(--color-neutral-700); margin-bottom: 5px;
+}
+.auth-required { color: var(--color-error-500); margin-left: 2px; }
+
+.auth-input {
+  width: 100%; height: 40px; padding: 0 12px;
+  background: white;
+  border: 1px solid oklch(0.20 0.02 80 / 0.12);
+  border-radius: var(--radius-md);
+  font-size: 14px; font-family: var(--font-sans);
+  color: var(--color-neutral-900);
+  box-sizing: border-box; outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.auth-input:hover:not(:focus):not(:disabled):not(.is-error) {
+  border-color: oklch(0.20 0.02 80 / 0.22);
+}
+.auth-input:focus {
+  border-color: var(--color-primary-400);
+  box-shadow: 0 0 0 3px var(--auth-primary-ring);
+}
+.auth-input.is-error { border-color: var(--color-error-500); }
+.auth-input:disabled {
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-400); cursor: not-allowed;
+}
+
+/* ── Password strength ── */
+.pw-strength {
+  font-size: 12px; margin-top: 5px; min-height: 1.2em;
+  transition: color 0.2s;
+}
+.pw-strength[data-level="weak"]   { color: var(--color-error-500); }
+.pw-strength[data-level="fair"]   { color: var(--color-warning-500); }
+.pw-strength[data-level="strong"] { color: var(--color-primary-600); }
+.pw-strength:empty                { visibility: hidden; }
+
+/* ── Inline error ── */
+.auth-field-error {
+  font-size: 12px; color: var(--color-error-500);
+  margin-top: 5px; min-height: 1.2em;
+  line-height: 1.4;
+}
+
+/* ── Submit ── */
+.auth-submit {
+  width: 100%; height: 40px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 8px;
+  font-size: 14px; font-weight: 600;
+  font-family: var(--font-sans); letter-spacing: -0.01em;
+  color: white;
+  background: linear-gradient(180deg, var(--color-primary-400), var(--color-primary-500));
+  border: none; border-radius: var(--radius-md); cursor: pointer;
+  box-shadow: 0 1px 2px var(--auth-primary-glow), inset 0 1px 0 oklch(1 0 0 / 0.15);
+  transition: filter 0.15s;
+}
+.auth-submit:hover:not(:disabled) { filter: brightness(1.05); }
+.auth-submit:active:not(:disabled) { filter: brightness(0.97); transform: translateY(1px); }
+.auth-submit:focus-visible { outline: 2px solid var(--color-primary-400); outline-offset: 2px; }
+.auth-submit:disabled {
+  background: var(--color-neutral-200); color: var(--color-neutral-400);
+  box-shadow: none; cursor: not-allowed;
+}
+
+/* ── Spinner ── */
+.auth-spinner {
+  width: 14px; height: 14px;
+  border: 2px solid oklch(1 0 0 / 0.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: auth-spin 0.65s linear infinite; flex-shrink: 0;
+}
+@keyframes auth-spin { to { transform: rotate(360deg); } }
+
+/* ── Expired / Success banners ── */
+.auth-state-banner {
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.auth-state-banner--error {
+  background: var(--color-error-50);
+  border: 1px solid oklch(0.55 0.24 25 / 0.2);
+}
+.auth-state-banner--success {
+  background: var(--color-primary-50);
+  border: 1px solid var(--auth-primary-border);
+}
+.auth-state-banner-icon {
+  margin-bottom: 10px; line-height: 1;
+}
+.auth-state-banner-icon svg {
+  width: 28px; height: 28px;
+  fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.auth-state-banner--error .auth-state-banner-icon svg { stroke: var(--color-error-500); }
+.auth-state-banner--success .auth-state-banner-icon svg { stroke: var(--color-primary-600); }
+
+.auth-state-banner-title {
+  font-size: 15px; font-weight: 700;
+  margin-bottom: 8px; line-height: 1.3;
+}
+.auth-state-banner--error .auth-state-banner-title { color: var(--color-error-500); }
+.auth-state-banner--success .auth-state-banner-title { color: var(--color-neutral-900); }
+
+.auth-state-banner-desc {
+  font-size: 13px; color: var(--color-neutral-600);
+  line-height: 1.7;
+}
+
+/* ── Server error banner ── */
+.server-error-banner {
+  display: none;
+  padding: 12px; margin-bottom: 16px;
+  background: var(--color-error-50);
+  border: 1px solid var(--auth-error-border);
+  border-radius: var(--radius-md);
+  font-size: 13px; color: var(--color-error-500);
+}
+.server-error-banner[aria-hidden="false"] { display: block; }
+
+/* ── Success role note ── */
+.success-role-note {
+  font-size: 12px;
+  color: var(--color-neutral-400);
+}
+
+/* ── Screen visibility ── */
+.auth-view { display: none; }
+.auth-view.active { display: block; animation: auth-fade 0.18s ease-out; }
+@keyframes auth-fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .auth-card { padding: 24px; }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .auth-view.active { animation: none; }
+  .auth-spinner { animation: none; opacity: 0.7; }
+  * { transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<a href="#signup-form" class="skip-link">본문으로 건너뛰기</a>
+
+<main class="auth-wrap">
+  <div class="auth-card">
+
+    <!-- ── View: 기본 폼 ── -->
+    <div class="auth-view active" id="view-form">
+
+      <div class="auth-brand" aria-hidden="true">
+        <div class="auth-brand-mark">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <rect x="4" y="3" width="10" height="18" rx="2"/>
+            <path d="M14 7h3a2 2 0 0 1 0 4h-3M14 11h4a2 2 0 0 1 0 4h-4"/>
+          </svg>
+        </div>
+        <div class="auth-brand-name">Bari CMS</div>
+      </div>
+
+      <!-- 초대 정보 블록 -->
+      <div class="invite-block" id="invite-block">
+        <span class="invite-by" id="inviter-name">박진수</span>님이 회원님을 초대했습니다
+        <span class="invite-role" id="invite-role">매체사 담당자</span>
+        <div class="invite-email">초대 이메일: <span id="invite-email">user@company.kr</span></div>
+      </div>
+
+      <!-- 서버 에러 배너 -->
+      <div
+        class="server-error-banner"
+        id="server-error"
+        role="alert" aria-live="assertive" aria-atomic="true"
+        aria-hidden="true"
+      ></div>
+
+      <form id="signup-form" onsubmit="return handleSignup(event)" novalidate>
+
+        <div class="auth-form-group">
+          <label class="auth-label" for="full-name">
+            이름<span class="auth-required" aria-label="필수">*</span>
+          </label>
+          <input
+            type="text" id="full-name"
+            class="auth-input"
+            placeholder="홍길동"
+            autocomplete="name"
+            autofocus required aria-required="true"
+          />
+          <div class="auth-field-error" id="name-error" aria-live="polite"></div>
+        </div>
+
+        <div class="auth-form-group">
+          <label class="auth-label" for="password">
+            비밀번호<span class="auth-required" aria-label="필수">*</span>
+          </label>
+          <input
+            type="password" id="password"
+            class="auth-input"
+            placeholder="8자 이상, 영문·숫자·특수문자"
+            autocomplete="new-password"
+            required aria-required="true"
+          />
+          <div
+            class="pw-strength"
+            id="pw-strength"
+            aria-live="polite" aria-atomic="true"
+          ></div>
+          <div class="auth-field-error" id="pw-error" aria-live="polite"></div>
+        </div>
+
+        <div class="auth-form-group">
+          <label class="auth-label" for="confirm-password">
+            비밀번호 확인<span class="auth-required" aria-label="필수">*</span>
+          </label>
+          <input
+            type="password" id="confirm-password"
+            class="auth-input"
+            placeholder="비밀번호 재입력"
+            autocomplete="new-password"
+            required aria-required="true"
+            aria-describedby="pw-confirm-error"
+          />
+          <div
+            class="auth-field-error"
+            id="pw-confirm-error"
+            aria-live="polite"
+          ></div>
+        </div>
+
+        <button type="submit" class="auth-submit" id="signup-btn">가입 완료</button>
+      </form>
+    </div>
+
+    <!-- ── View: 이미 가입 완료된 토큰 ── -->
+    <div class="auth-view" id="view-already-used">
+      <div class="auth-brand" aria-hidden="true">
+        <div class="auth-brand-mark">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <rect x="4" y="3" width="10" height="18" rx="2"/>
+            <path d="M14 7h3a2 2 0 0 1 0 4h-3M14 11h4a2 2 0 0 1 0 4h-4"/>
+          </svg>
+        </div>
+        <div class="auth-brand-name">Bari CMS</div>
+      </div>
+      <div
+        class="auth-state-banner auth-state-banner--error"
+        role="alert"
+        tabindex="-1"
+        id="already-used-banner"
+      >
+        <div class="auth-state-banner-icon">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <h2 class="auth-state-banner-title">이미 가입이 완료된 링크입니다</h2>
+        <div class="auth-state-banner-desc">
+          아래 버튼으로 로그인하세요.
+        </div>
+      </div>
+      <button
+        class="auth-submit"
+        type="button"
+        onclick="window.location.href='login.html'"
+      >로그인 화면으로</button>
+    </div>
+
+    <!-- ── View: 토큰 만료 ── -->
+    <div class="auth-view" id="view-expired">
+      <div class="auth-brand" aria-hidden="true">
+        <div class="auth-brand-mark">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <rect x="4" y="3" width="10" height="18" rx="2"/>
+            <path d="M14 7h3a2 2 0 0 1 0 4h-3M14 11h4a2 2 0 0 1 0 4h-4"/>
+          </svg>
+        </div>
+        <div class="auth-brand-name">Bari CMS</div>
+      </div>
+      <div
+        class="auth-state-banner auth-state-banner--error"
+        role="alert"
+        tabindex="-1"
+        id="expired-banner"
+      >
+        <div class="auth-state-banner-icon">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h2 class="auth-state-banner-title">초대 링크가 만료됐습니다</h2>
+        <div class="auth-state-banner-desc">
+          초대 링크는 발송 후 7일간 유효합니다.<br>
+          초대를 다시 요청해주세요.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── View: 가입 완료 성공 ── -->
+    <div class="auth-view" id="view-success">
+      <div class="auth-brand" aria-hidden="true">
+        <div class="auth-brand-mark">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <rect x="4" y="3" width="10" height="18" rx="2"/>
+            <path d="M14 7h3a2 2 0 0 1 0 4h-3M14 11h4a2 2 0 0 1 0 4h-4"/>
+          </svg>
+        </div>
+        <div class="auth-brand-name">Bari CMS</div>
+      </div>
+      <div
+        class="auth-state-banner auth-state-banner--success"
+        role="status" aria-live="polite"
+      >
+        <div class="auth-state-banner-icon">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div class="auth-state-banner-title">가입이 완료됐습니다</div>
+        <div class="auth-state-banner-desc">
+          <span id="success-name"></span>님, Bari CMS에 오신 걸 환영합니다.<br>
+          <span id="success-role" class="success-role-note"></span>
+        </div>
+      </div>
+      <button
+        class="auth-submit"
+        id="goto-login-btn"
+        type="button"
+        onclick="window.location.href='login.html'"
+      >로그인 화면으로</button>
+    </div>
+
+  </div><!-- /.auth-card -->
+</main>
+
+<script>
+/* ── Prototype: mock invite data (real app reads from token) ── */
+var INVITE = {
+  inviter: '박진수',
+  role: '매체사 담당자',
+  email: 'kim@naver-dooh.com',
+  expired: false,       /* set true to test expired state */
+  alreadyUsed: false,   /* set true to test already-used state */
+  serverFail: false     /* set true to test server error on submit */
+};
+
+/* ── Init ── */
+(function init() {
+  document.getElementById('inviter-name').textContent = INVITE.inviter;
+  document.getElementById('invite-role').textContent  = INVITE.role;
+  document.getElementById('invite-email').textContent = INVITE.email;
+
+  if (INVITE.expired)     { showView('expired');      return; }
+  if (INVITE.alreadyUsed) { showView('already-used'); return; }
+
+  /* Password strength on input */
+  document.getElementById('password').addEventListener('input', updateStrength);
+  /* Confirm mismatch on blur */
+  document.getElementById('confirm-password').addEventListener('blur', checkConfirm);
+})();
+
+/* ── View switching ── */
+function showView(id) {
+  document.querySelectorAll('.auth-view').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  var target = document.getElementById('view-' + id);
+  if (!target) return;
+  target.classList.add('active');
+
+  /* Focus management */
+  var focusTarget;
+  if (id === 'expired')      focusTarget = document.getElementById('expired-banner');
+  if (id === 'already-used') focusTarget = document.getElementById('already-used-banner');
+  if (id === 'success')      focusTarget = document.getElementById('goto-login-btn');
+  if (focusTarget) setTimeout(function() { focusTarget.focus(); }, 80);
+}
+
+/* ── Password strength ── */
+function getStrength(pw) {
+  var score = 0;
+  if (pw.length >= 8)          score++;
+  if (/[a-zA-Z]/.test(pw))     score++;
+  if (/[0-9]/.test(pw))        score++;
+  if (/[^a-zA-Z0-9]/.test(pw)) score++;
+  if (score <= 2) return { level: 'weak',   label: '약함' };
+  if (score === 3) return { level: 'fair',  label: '보통' };
+  return { level: 'strong', label: '강함' };
+}
+
+function updateStrength() {
+  var pw  = document.getElementById('password').value;
+  var el  = document.getElementById('pw-strength');
+  if (!pw) { el.textContent = ''; el.removeAttribute('data-level'); return; }
+  var s   = getStrength(pw);
+  el.textContent   = '강도: ' + s.label;
+  el.dataset.level = s.level;
+}
+
+/* ── Confirm mismatch check ── */
+function checkConfirm() {
+  var pw      = document.getElementById('password').value;
+  var confirm = document.getElementById('confirm-password').value;
+  var errEl   = document.getElementById('pw-confirm-error');
+  var input   = document.getElementById('confirm-password');
+  if (confirm && pw !== confirm) {
+    errEl.textContent = '비밀번호가 일치하지 않습니다.';
+    input.classList.add('is-error');
+    input.setAttribute('aria-invalid', 'true');
+  } else {
+    errEl.textContent = '';
+    input.classList.remove('is-error');
+    input.removeAttribute('aria-invalid');
+  }
+}
+
+/* ── Signup submit ── */
+function handleSignup(e) {
+  e.preventDefault();
+  var nameEl    = document.getElementById('full-name');
+  var pwEl      = document.getElementById('password');
+  var confirmEl = document.getElementById('confirm-password');
+  var nameErr   = document.getElementById('name-error');
+  var pwErr     = document.getElementById('pw-error');
+  var confirmErr= document.getElementById('pw-confirm-error');
+  var btn       = document.getElementById('signup-btn');
+  var serverErr = document.getElementById('server-error');
+  var valid     = true;
+
+  /* Reset */
+  [nameEl, pwEl, confirmEl].forEach(function(el) {
+    el.classList.remove('is-error');
+    el.removeAttribute('aria-invalid');
+  });
+  nameErr.textContent = pwErr.textContent = confirmErr.textContent = '';
+  serverErr.setAttribute('aria-hidden', 'true');
+
+  /* Validate: name */
+  if (!nameEl.value.trim()) {
+    nameErr.textContent = '이름을 입력해주세요.';
+    nameEl.classList.add('is-error');
+    nameEl.setAttribute('aria-invalid', 'true');
+    valid = false;
+  }
+
+  /* Validate: password policy */
+  var pw = pwEl.value;
+  if (!pw) {
+    pwErr.textContent = '비밀번호를 입력해주세요.';
+    pwEl.classList.add('is-error');
+    pwEl.setAttribute('aria-invalid', 'true');
+    valid = false;
+  } else if (pw.length < 8) {
+    pwErr.textContent = '비밀번호는 8자 이상이어야 합니다.';
+    pwEl.classList.add('is-error');
+    pwEl.setAttribute('aria-invalid', 'true');
+    valid = false;
+  } else if (!/[a-zA-Z]/.test(pw) || !/[0-9]/.test(pw) || !/[^a-zA-Z0-9]/.test(pw)) {
+    pwErr.textContent = '영문·숫자·특수문자를 모두 포함해야 합니다.';
+    pwEl.classList.add('is-error');
+    pwEl.setAttribute('aria-invalid', 'true');
+    valid = false;
+  }
+
+  /* Validate: confirm */
+  if (pw && confirmEl.value !== pw) {
+    confirmErr.textContent = '비밀번호가 일치하지 않습니다.';
+    confirmEl.classList.add('is-error');
+    confirmEl.setAttribute('aria-invalid', 'true');
+    valid = false;
+  }
+
+  if (!valid) {
+    /* Focus first error field */
+    var firstErr = document.querySelector('.auth-input.is-error');
+    if (firstErr) firstErr.focus();
+    return false;
+  }
+
+  /* Loading */
+  btn.disabled = true;
+  [nameEl, pwEl, confirmEl].forEach(function(el) { el.disabled = true; });
+  btn.innerHTML = '<span class="auth-spinner" role="status" aria-label="가입 처리 중"></span><span aria-hidden="true">처리 중…</span>';
+
+  /* Prototype: simulate success or server failure */
+  setTimeout(function() {
+    if (INVITE.serverFail) {
+      [nameEl, pwEl, confirmEl].forEach(function(el) { el.disabled = false; });
+      btn.disabled = false;
+      btn.textContent = '가입 완료';
+      var se = document.getElementById('server-error');
+      se.textContent = '가입 처리에 실패했습니다. 다시 시도해주세요.';
+      se.setAttribute('aria-hidden', 'false');
+      nameEl.focus();
+      return;
+    }
+    document.getElementById('success-name').textContent = nameEl.value.trim();
+    document.getElementById('success-role').textContent = INVITE.role + ' 권한으로 로그인하세요.';
+    showView('success');
+  }, 1000);
+
+  return false;
+}
+</script>
+</body>
+</html>

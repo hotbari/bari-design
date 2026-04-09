@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로그인 — Bari CMS</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="shared/style.css">
+<style>
+/* ── Auth tokens (raw rgba → variables) ── */
+:root {
+  --auth-primary-glow:    oklch(0.72 0.19 155 / 0.25);
+  --auth-primary-ring:    oklch(0.72 0.19 155 / 0.12);
+  --auth-primary-border:  oklch(0.72 0.19 155 / 0.2);
+  --auth-error-border:    oklch(0.55 0.24 25 / 0.2);
+  --auth-card-border:     oklch(0.20 0.02 80 / 0.07);
+  --auth-card-shadow-lg:  oklch(0.20 0.02 80 / 0.06);
+  --auth-card-shadow-sm:  oklch(0.20 0.02 80 / 0.04);
+}
+
+/* ── Skip link ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 12px;
+  padding: 8px 16px;
+  background: var(--color-neutral-900);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  z-index: 9999;
+  transition: top 0.15s;
+}
+.skip-link:focus { top: 0; }
+
+/* ── Auth Layout ── */
+.auth-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--color-neutral-50);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border: 1px solid var(--auth-card-border);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow:
+    0 2px 16px var(--auth-card-shadow-lg),
+    0 1px 3px  var(--auth-card-shadow-sm);
+}
+
+/* ── Brand ── */
+.auth-brand {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-brand-mark {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(145deg, var(--color-primary-400), var(--color-primary-600));
+  border-radius: var(--radius-lg);
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px var(--auth-primary-glow);
+}
+
+.auth-brand-mark svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: white;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.auth-brand-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  letter-spacing: -0.4px;
+  line-height: 1;
+}
+
+.auth-brand-sub {
+  font-size: 12px;
+  color: var(--color-neutral-500);
+  margin-top: 5px;
+}
+
+/* ── Alert Banner (error / success) ── */
+.auth-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+.auth-banner[aria-hidden="true"] { display: none; }
+
+.auth-banner--error {
+  background: var(--color-error-50);
+  border: 1px solid var(--auth-error-border);
+  color: var(--color-error-500);
+}
+.auth-banner--success {
+  background: var(--color-primary-50);
+  border: 1px solid var(--auth-primary-border);
+  color: var(--color-primary-700);
+}
+
+.auth-banner-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke: currentColor;
+}
+
+/* ── Form ── */
+.auth-form-group {
+  margin-bottom: 16px;
+}
+
+.auth-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.auth-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-neutral-700);
+}
+
+/* Forgot link — visually in label row, DOM order after submit for correct tab flow */
+.auth-forgot {
+  font-size: 12px;
+  color: var(--color-primary-500);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: color 0.15s;
+  border-radius: 2px;
+}
+.auth-forgot:hover { color: var(--color-primary-600); text-decoration: underline; }
+.auth-forgot:focus-visible {
+  outline: 2px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+.auth-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  background: white;
+  border: 1px solid oklch(0.20 0.02 80 / 0.12);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  color: var(--color-neutral-900);
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+.auth-input:hover:not(:focus):not(:disabled):not(.is-error) {
+  border-color: oklch(0.20 0.02 80 / 0.22);
+}
+.auth-input:focus {
+  border-color: var(--color-primary-400);
+  box-shadow: 0 0 0 3px var(--auth-primary-ring);
+}
+.auth-input.is-error {
+  border-color: var(--color-error-500);
+}
+.auth-input:disabled {
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-400);
+  cursor: not-allowed;
+}
+
+/* ── Submit Button ── */
+.auth-submit {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+  color: white;
+  background: linear-gradient(180deg, var(--color-primary-400), var(--color-primary-500));
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow: 0 1px 2px var(--auth-primary-glow), inset 0 1px 0 oklch(1 0 0 / 0.15);
+  transition: filter 0.15s;
+}
+.auth-submit:hover:not(:disabled) { filter: brightness(1.05); }
+.auth-submit:active:not(:disabled) { filter: brightness(0.97); transform: translateY(1px); }
+.auth-submit:focus-visible {
+  outline: 2px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+.auth-submit:disabled {
+  background: var(--color-neutral-200);
+  color: var(--color-neutral-400);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.auth-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid oklch(1 0 0 / 0.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: auth-spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes auth-spin { to { transform: rotate(360deg); } }
+
+/* ── Footer ── */
+.auth-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-neutral-400);
+}
+
+/* ── Password Reset Screens ── */
+.auth-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-neutral-500);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-bottom: 24px;
+  font-family: var(--font-sans);
+  transition: color 0.15s;
+  border-radius: 2px;
+}
+.auth-back:hover { color: var(--color-neutral-900); }
+.auth-back:focus-visible {
+  outline: 2px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+.auth-back svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.auth-screen-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+
+.auth-screen-desc {
+  font-size: 13px;
+  color: var(--color-neutral-500);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.auth-success-box {
+  background: var(--color-primary-50);
+  border: 1px solid var(--auth-primary-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  font-size: 13px;
+  color: var(--color-neutral-700);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.auth-success-box strong { color: var(--color-neutral-900); }
+
+.auth-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-neutral-400);
+  margin-bottom: 20px;
+}
+
+/* ── Screen visibility (fade) ── */
+.auth-screen { display: none; }
+.auth-screen.active { display: block; animation: auth-fade-in 0.18s ease-out; }
+@keyframes auth-fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* ── Policy hint ── */
+.auth-policy {
+  font-size: 12px;
+  color: var(--color-neutral-400);
+  margin-top: 6px;
+  line-height: 1.5;
+  min-height: 1em; /* prevent layout shift */
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .auth-screen.active { animation: none; }
+  .auth-spinner { animation: none; border-top-color: white; opacity: 0.7; }
+  * { transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<a href="#login-form" class="skip-link">본문으로 건너뛰기</a>
+
+<main class="auth-wrap">
+
+  <div class="auth-card" id="main-content">
+
+    <!-- ── Screen 0: 로그인 ── -->
+    <div class="auth-screen active" id="screen-login">
+
+      <div class="auth-brand" aria-hidden="true">
+        <div class="auth-brand-mark">
+          <!-- DOOH 화면+신호 모티프 -->
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="4" y="3" width="10" height="18" rx="2"/>
+            <path d="M14 7h3a2 2 0 0 1 0 4h-3M14 11h4a2 2 0 0 1 0 4h-4"/>
+          </svg>
+        </div>
+        <div class="auth-brand-name">Bari CMS</div>
+        <div class="auth-brand-sub">DOOH 광고 관리 플랫폼</div>
+      </div>
+
+      <!-- 에러/성공 배너: aria-hidden 토글 방식. 변형은 class로 처리 -->
+      <div
+        class="auth-banner auth-banner--error"
+        id="login-banner"
+        role="alert"
+        aria-hidden="true"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <svg class="auth-banner-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span id="login-banner-text"></span>
+      </div>
+
+      <form id="login-form" onsubmit="return handleLogin(event)" novalidate>
+        <div class="auth-form-group">
+          <label class="auth-label" for="email">이메일</label>
+          <input
+            type="email"
+            id="email"
+            class="auth-input"
+            placeholder="name@company.kr"
+            autocomplete="email"
+            autofocus
+            required
+            aria-required="true"
+          />
+        </div>
+
+        <div class="auth-form-group">
+          <!-- label-row: 시각적 배치. 탭 순서는 DOM 기준: email → password → submit → forgot -->
+          <div class="auth-label-row">
+            <label class="auth-label" for="password">비밀번호</label>
+            <!-- forgot은 CSS로 절대 위치 아닌 flex 배치지만 DOM은 submit 뒤에 있음 -->
+            <!-- aria-label로 맥락 보완 -->
+          </div>
+          <input
+            type="password"
+            id="password"
+            class="auth-input"
+            placeholder="비밀번호 입력"
+            autocomplete="current-password"
+            required
+            aria-required="true"
+          />
+        </div>
+
+        <button type="submit" class="auth-submit" id="login-btn">로그인</button>
+
+        <!-- DOM 순서: submit 다음 → 탭 순서 email → password → submit → forgot -->
+        <div style="text-align: right; margin-top: 12px;">
+          <button
+            type="button"
+            class="auth-forgot"
+            onclick="showScreen('reset-1')"
+            id="forgot-btn"
+          >비밀번호 찾기</button>
+        </div>
+      </form>
+
+      <div class="auth-footer">계정 문의: 담당 관리자에게 연락하세요</div>
+    </div>
+
+    <!-- ── Screen 1: 비밀번호 찾기 Step 1 — 이메일 입력 ── -->
+    <div class="auth-screen" id="screen-reset-1">
+      <button class="auth-back" onclick="showScreen('login')" type="button">
+        <svg viewBox="0 0 24 24" focusable="false"><polyline points="15 18 9 12 15 6"/></svg>
+        로그인으로 돌아가기
+      </button>
+
+      <div class="auth-screen-title">비밀번호 재설정</div>
+      <div class="auth-screen-desc">가입하신 이메일 주소를 입력하면 재설정 링크를 보내드립니다.</div>
+
+      <form id="reset-form" onsubmit="return handleReset(event)" novalidate>
+        <div class="auth-form-group">
+          <label class="auth-label" for="reset-email">이메일</label>
+          <input
+            type="email"
+            id="reset-email"
+            class="auth-input"
+            placeholder="name@company.kr"
+            autocomplete="email"
+            required
+          />
+        </div>
+        <button type="submit" class="auth-submit" id="reset-btn">재설정 링크 발송</button>
+      </form>
+    </div>
+
+    <!-- ── Screen 2: 비밀번호 찾기 Step 2 — 발송 완료 ── -->
+    <div class="auth-screen" id="screen-reset-2">
+      <div class="auth-screen-title">이메일을 확인하세요</div>
+
+      <div class="auth-success-box">
+        <strong id="reset-sent-email"></strong>으로 재설정 링크를 발송했습니다.<br>
+        이메일이 도착하지 않으면 스팸함을 확인해주세요.
+      </div>
+
+      <div class="auth-hint">링크는 30분간 유효합니다</div>
+
+      <!-- 프로토타입용 Step 3 진입 링크 -->
+      <div style="text-align:center; margin-bottom: 20px;">
+        <button type="button" class="auth-forgot" onclick="showScreen('reset-3')" style="font-size:12px; color: var(--color-neutral-400);">
+          [프로토타입] 새 비밀번호 설정 화면 보기 →
+        </button>
+      </div>
+
+      <button class="auth-back" onclick="showScreen('login')" type="button">
+        <svg viewBox="0 0 24 24" focusable="false"><polyline points="15 18 9 12 15 6"/></svg>
+        로그인으로 돌아가기
+      </button>
+    </div>
+
+    <!-- ── Screen 3: 비밀번호 찾기 Step 3 — 새 비밀번호 설정 ── -->
+    <!-- 실제 프로덕션: 이메일 링크 클릭 시 token 파라미터 포함 URL로 직접 진입 -->
+    <div class="auth-screen" id="screen-reset-3">
+      <div class="auth-screen-title">새 비밀번호 설정</div>
+      <div class="auth-screen-desc">8자 이상, 영문·숫자·특수문자를 포함해야 합니다.</div>
+
+      <form id="newpw-form" onsubmit="return handleNewPw(event)" novalidate>
+        <div class="auth-form-group">
+          <label class="auth-label" for="new-password">새 비밀번호</label>
+          <input
+            type="password"
+            id="new-password"
+            class="auth-input"
+            placeholder="새 비밀번호"
+            autocomplete="new-password"
+            required
+          />
+        </div>
+        <div class="auth-form-group">
+          <label class="auth-label" for="confirm-password">비밀번호 확인</label>
+          <input
+            type="password"
+            id="confirm-password"
+            class="auth-input"
+            placeholder="비밀번호 재입력"
+            autocomplete="new-password"
+            required
+            aria-describedby="pw-match-hint"
+          />
+          <div class="auth-policy" id="pw-match-hint" aria-live="polite"></div>
+        </div>
+        <button type="submit" class="auth-submit" id="newpw-btn">비밀번호 변경</button>
+      </form>
+    </div>
+
+  </div><!-- /.auth-card -->
+</main>
+
+<script>
+/* ── Screen routing ── */
+function showScreen(id) {
+  document.querySelectorAll('.auth-screen').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  var target = document.getElementById('screen-' + id);
+  if (!target) return;
+  target.classList.add('active');
+  // Focus first focusable element
+  var first = target.querySelector('input:not([disabled]), button.auth-back, button.auth-submit');
+  if (first) setTimeout(function() { first.focus(); }, 50);
+}
+
+/* ── Banner helper ── */
+function showBanner(msg, type) {
+  var banner = document.getElementById('login-banner');
+  var textEl = document.getElementById('login-banner-text');
+  banner.className = 'auth-banner auth-banner--' + (type || 'error');
+  textEl.textContent = msg;
+  banner.setAttribute('aria-hidden', 'false');
+}
+function hideBanner() {
+  document.getElementById('login-banner').setAttribute('aria-hidden', 'true');
+}
+
+/* ── Login ── */
+function handleLogin(e) {
+  e.preventDefault();
+  var emailEl = document.getElementById('email');
+  var pwEl    = document.getElementById('password');
+  var btn     = document.getElementById('login-btn');
+
+  // Clear previous state
+  [emailEl, pwEl].forEach(function(el) {
+    el.classList.remove('is-error');
+    el.removeAttribute('aria-invalid');
+    el.removeAttribute('aria-describedby');
+  });
+  hideBanner();
+
+  // Validate: required
+  if (!emailEl.value.trim() || !pwEl.value) {
+    showBanner('이메일과 비밀번호를 입력해주세요.', 'error');
+    emailEl.classList.add('is-error');
+    pwEl.classList.add('is-error');
+    emailEl.setAttribute('aria-invalid', 'true');
+    pwEl.setAttribute('aria-invalid', 'true');
+    emailEl.setAttribute('aria-describedby', 'login-banner');
+    pwEl.setAttribute('aria-describedby', 'login-banner');
+    emailEl.focus();
+    return false;
+  }
+
+  // Validate: email format
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+    showBanner('올바른 이메일 형식을 입력해주세요.', 'error');
+    emailEl.classList.add('is-error');
+    emailEl.setAttribute('aria-invalid', 'true');
+    emailEl.setAttribute('aria-describedby', 'login-banner');
+    emailEl.focus();
+    return false;
+  }
+
+  // Loading state
+  btn.disabled = true;
+  emailEl.disabled = true;
+  pwEl.disabled = true;
+  btn.innerHTML = '<span class="auth-spinner" role="status" aria-label="로그인 중"></span><span aria-hidden="true">로그인 중…</span>';
+
+  // Prototype: navigate to dashboard
+  setTimeout(function() { window.location.href = 'index.html'; }, 900);
+  return false;
+}
+
+/* ── Password Reset Step 1 ── */
+function handleReset(e) {
+  e.preventDefault();
+  var emailEl = document.getElementById('reset-email');
+  var btn     = document.getElementById('reset-btn');
+
+  emailEl.classList.remove('is-error');
+  emailEl.removeAttribute('aria-invalid');
+
+  if (!emailEl.value.trim()) {
+    emailEl.classList.add('is-error');
+    emailEl.setAttribute('aria-invalid', 'true');
+    emailEl.focus();
+    return false;
+  }
+
+  var email = emailEl.value.trim();
+  btn.disabled = true;
+  btn.innerHTML = '<span class="auth-spinner" role="status" aria-label="발송 중"></span><span aria-hidden="true">발송 중…</span>';
+
+  setTimeout(function() {
+    // Step 2: same message regardless of whether email is registered
+    document.getElementById('reset-sent-email').textContent = email;
+    showScreen('reset-2');
+    btn.disabled = false;
+    btn.textContent = '재설정 링크 발송';
+    emailEl.value = '';
+  }, 800);
+
+  return false;
+}
+
+/* ── Password Reset Step 3 ── */
+function handleNewPw(e) {
+  e.preventDefault();
+  var pwEl      = document.getElementById('new-password');
+  var confirmEl = document.getElementById('confirm-password');
+  var hint      = document.getElementById('pw-match-hint');
+  var btn       = document.getElementById('newpw-btn');
+
+  // Clear
+  confirmEl.classList.remove('is-error');
+  confirmEl.removeAttribute('aria-invalid');
+  hint.textContent = '';
+  hint.style.color = '';
+
+  if (pwEl.value !== confirmEl.value) {
+    hint.textContent = '비밀번호가 일치하지 않습니다.';
+    hint.style.color = 'var(--color-error-500)';
+    confirmEl.classList.add('is-error');
+    confirmEl.setAttribute('aria-invalid', 'true');
+    confirmEl.focus();
+    return false;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="auth-spinner" role="status" aria-label="변경 중"></span><span aria-hidden="true">변경 중…</span>';
+
+  setTimeout(function() {
+    // Navigate back to login, show success banner
+    showScreen('login');
+    btn.disabled = false;
+    btn.textContent = '비밀번호 변경';
+    pwEl.value = '';
+    confirmEl.value = '';
+    showBanner('비밀번호가 변경됐습니다. 새 비밀번호로 로그인하세요.', 'success');
+    document.getElementById('email').focus();
+  }, 800);
+
+  return false;
+}
+</script>
+</body>
+</html>

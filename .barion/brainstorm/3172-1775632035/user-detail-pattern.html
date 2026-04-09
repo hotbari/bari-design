@@ -1,0 +1,111 @@
+<h2>사용자 상세 — 표시 패턴</h2>
+<p class="subtitle">목록에서 사용자를 클릭했을 때</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f9fa;padding:12px;border-bottom:1px solid #eee;min-height:160px;">
+      <div style="display:flex;height:140px;gap:0;">
+        <div style="flex:1;background:white;border:1px solid #dee2e6;border-radius:6px 0 0 6px;overflow:hidden;">
+          <div style="background:#f1f3f5;padding:6px 10px;font-size:10px;color:#868e96;font-weight:600;">사용자 목록</div>
+          <div style="padding:7px 10px;font-size:10px;border-top:1px solid #f1f3f5;color:#868e96;">김서영</div>
+          <div style="padding:7px 10px;font-size:10px;border-top:1px solid #f1f3f5;background:#e8f5e9;color:#2d6a4f;font-weight:600;">이준혁 ◀ 선택됨</div>
+          <div style="padding:7px 10px;font-size:10px;border-top:1px solid #f1f3f5;color:#868e96;">최유진</div>
+          <div style="padding:7px 10px;font-size:10px;border-top:1px solid #f1f3f5;color:#868e96;">박진수</div>
+        </div>
+        <div style="width:160px;background:white;border:1px solid #dee2e6;border-left:none;border-radius:0 6px 6px 0;padding:10px;overflow:hidden;">
+          <div style="font-size:11px;font-weight:700;color:#212529;margin-bottom:2px;">이준혁</div>
+          <div style="font-size:10px;color:#868e96;margin-bottom:8px;">jun@agency.com</div>
+          <div style="display:flex;gap:4px;margin-bottom:8px;">
+            <span style="background:#fff3bf;color:#e67700;border-radius:3px;padding:2px 5px;font-size:9px;">운영대행사</span>
+            <span style="background:#d3f9d8;color:#2f9e44;border-radius:3px;padding:2px 5px;font-size:9px;">활성</span>
+          </div>
+          <div style="font-size:9px;color:#868e96;margin-bottom:10px;">소속: 포도미디어<br>가입: 2026-03-15</div>
+          <div style="display:flex;gap:4px;">
+            <div style="flex:1;background:#e9ecef;border-radius:3px;padding:3px;text-align:center;font-size:9px;color:#495057;">권한변경</div>
+            <div style="flex:1;background:#fff5f5;border-radius:3px;padding:3px;text-align:center;font-size:9px;color:#c92a2a;">비활성화</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. 마스터-디테일 (2열 분할)</h3>
+      <p>왼쪽 목록 + 오른쪽 상세가 항상 나란히. 목록을 유지하면서 빠르게 여러 사용자를 확인할 때 효율적.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f9fa;padding:12px;border-bottom:1px solid #eee;min-height:160px;position:relative;">
+      <!-- List behind -->
+      <div style="background:white;border:1px solid #dee2e6;border-radius:6px;overflow:hidden;opacity:0.4;">
+        <div style="background:#f1f3f5;padding:6px 10px;font-size:10px;color:#868e96;">사용자 목록</div>
+        <div style="padding:7px 10px;font-size:10px;border-top:1px solid #f1f3f5;">김서영</div>
+        <div style="padding:7px 10px;font-size:10px;border-top:1px solid #f1f3f5;">이준혁</div>
+      </div>
+      <!-- Drawer -->
+      <div style="position:absolute;top:12px;right:12px;width:170px;bottom:12px;background:white;border:1px solid #dee2e6;border-radius:6px;padding:10px;box-shadow:-4px 0 12px rgba(0,0,0,0.08);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <div style="font-size:11px;font-weight:700;color:#212529;">이준혁</div>
+          <div style="font-size:12px;color:#868e96;cursor:pointer;">✕</div>
+        </div>
+        <div style="font-size:10px;color:#868e96;margin-bottom:6px;">jun@agency.com</div>
+        <div style="display:flex;gap:4px;margin-bottom:8px;">
+          <span style="background:#fff3bf;color:#e67700;border-radius:3px;padding:2px 5px;font-size:9px;">운영대행사</span>
+          <span style="background:#d3f9d8;color:#2f9e44;border-radius:3px;padding:2px 5px;font-size:9px;">활성</span>
+        </div>
+        <div style="font-size:9px;color:#868e96;margin-bottom:6px;">소속: 포도미디어</div>
+        <div style="height:1px;background:#f1f3f5;margin-bottom:8px;"></div>
+        <div style="font-size:9px;font-weight:600;color:#495057;margin-bottom:4px;">접근 가능 매체</div>
+        <div style="font-size:9px;color:#868e96;margin-bottom:10px;">강남역 1번출구<br>종로 전광판</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="background:#e9ecef;border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#495057;">권한 변경</div>
+          <div style="background:#fff5f5;border-radius:3px;padding:4px;text-align:center;font-size:9px;color:#c92a2a;">비활성화</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 드로어 (오른쪽 슬라이드)</h3>
+      <p>클릭 시 오른쪽에서 패널이 밀려옴. 목록 위에 오버레이. 권한 범위(매체 목록 등) 상세 표시에 충분한 공간 확보.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f9fa;padding:12px;border-bottom:1px solid #eee;min-height:160px;">
+      <!-- Full page detail -->
+      <div style="background:white;border:1px solid #dee2e6;border-radius:6px;overflow:hidden;height:140px;">
+        <div style="background:#2d3748;padding:8px 12px;display:flex;align-items:center;gap:6px;">
+          <span style="font-size:10px;color:#a0aec0;">← 사용자 목록</span>
+          <span style="font-size:10px;color:#718096;">/</span>
+          <span style="font-size:10px;color:white;font-weight:600;">이준혁</span>
+        </div>
+        <div style="padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div>
+            <div style="font-size:9px;color:#868e96;margin-bottom:2px;">이름</div>
+            <div style="font-size:11px;font-weight:600;color:#212529;">이준혁</div>
+          </div>
+          <div>
+            <div style="font-size:9px;color:#868e96;margin-bottom:2px;">역할</div>
+            <span style="background:#fff3bf;color:#e67700;border-radius:3px;padding:2px 5px;font-size:10px;">운영대행사</span>
+          </div>
+          <div>
+            <div style="font-size:9px;color:#868e96;margin-bottom:2px;">이메일</div>
+            <div style="font-size:10px;color:#495057;">jun@agency.com</div>
+          </div>
+          <div>
+            <div style="font-size:9px;color:#868e96;margin-bottom:2px;">접근 매체</div>
+            <div style="font-size:10px;color:#495057;">강남역, 종로 외 1</div>
+          </div>
+        </div>
+        <div style="padding:0 10px;display:flex;gap:6px;">
+          <div style="background:#2d6a4f;border-radius:3px;padding:3px 8px;font-size:9px;color:white;">권한 변경</div>
+          <div style="background:#fff5f5;border-radius:3px;padding:3px 8px;font-size:9px;color:#c92a2a;border:1px solid #ffc9c9;">비활성화</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. 전용 상세 페이지</h3>
+      <p>클릭 시 별도 URL로 이동. 변경 이력, 접근 가능 매체 트리 등 많은 정보를 여유 있게 표시. URL 공유·북마크 가능.</p>
+    </div>
+  </div>
+
+</div>

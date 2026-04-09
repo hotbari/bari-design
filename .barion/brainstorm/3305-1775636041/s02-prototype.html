@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대시보드 — Bari CMS</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── App shell ── */
+    .app-shell {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--color-neutral-50);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      background: oklch(0.16 0.02 155);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid oklch(0.12 0.02 155);
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px;
+      border-bottom: 1px solid oklch(1 0 0 / 0.08);
+      margin-bottom: 6px;
+    }
+    .sidebar-logo-mark {
+      width: 28px; height: 28px;
+      background: var(--color-primary-500);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; color: white;
+      flex-shrink: 0;
+    }
+    .sidebar-logo-name {
+      font-size: 15px; font-weight: 700;
+      color: white; letter-spacing: -0.3px;
+    }
+    .sidebar-nav {
+      flex: 1;
+      padding: 4px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: oklch(1 0 0 / 0.55);
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      position: relative;
+    }
+    .sidebar-item:hover { background: oklch(1 0 0 / 0.06); color: oklch(1 0 0 / 0.8); }
+    .sidebar-item.active {
+      background: oklch(1 0 0 / 0.08);
+      color: white;
+      font-weight: 600;
+    }
+    .sidebar-item.active::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 4px; bottom: 4px;
+      width: 2px;
+      background: var(--color-primary-400);
+      border-radius: 2px;
+    }
+    .sidebar-item svg { flex-shrink: 0; }
+    .sidebar-badge {
+      margin-left: auto;
+      background: var(--color-error-500);
+      color: white; font-size: 10px; font-weight: 700;
+      padding: 1px 5px; border-radius: 8px;
+      min-width: 18px; text-align: center;
+    }
+    .sidebar-footer {
+      padding: 12px 14px;
+      border-top: 1px solid oklch(1 0 0 / 0.08);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .sidebar-footer:hover { background: oklch(1 0 0 / 0.06); }
+    .sidebar-footer-role { font-size: 11px; color: oklch(1 0 0 / 0.4); }
+    .sidebar-footer-name { font-size: 12px; color: oklch(1 0 0 / 0.7); font-weight: 500; margin-top: 2px; }
+
+    /* ── Main area ── */
+    .app-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+    /* ── GNB ── */
+    .app-gnb {
+      height: 52px; flex-shrink: 0;
+      background: white;
+      border-bottom: 1px solid var(--color-neutral-200);
+      display: flex; align-items: center;
+      padding: 0 20px; gap: 10px;
+    }
+    .gnb-title { font-size: 15px; font-weight: 700; color: var(--color-neutral-900); flex: 1; letter-spacing: -0.3px; }
+    .gnb-date { font-size: 12px; color: var(--color-neutral-400); white-space: nowrap; }
+    .gnb-refresh {
+      display: flex; align-items: center; gap: 5px;
+      height: 30px; padding: 0 12px;
+      background: white; border: 1px solid var(--color-neutral-200);
+      border-radius: 6px; font-size: 12px; color: var(--color-neutral-700);
+      cursor: pointer; transition: background 0.12s;
+    }
+    .gnb-refresh:hover { background: var(--color-neutral-50); }
+    .gnb-refresh:disabled { cursor: not-allowed; opacity: 0.5; }
+    .gnb-bell-wrap {
+      position: relative;
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      background: var(--color-error-50);
+      border: 1px solid oklch(0.55 0.24 25 / 0.2);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .gnb-bell-wrap .dot {
+      position: absolute; top: 5px; right: 5px;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--color-error-500);
+      border: 1.5px solid white;
+    }
+
+    /* ── Body: 2-col ── */
+    .app-body { flex: 1; display: flex; overflow: hidden; }
+
+    /* ── Left scroll panel ── */
+    .app-left {
+      flex: 0 0 60%;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    /* Custom scrollbar */
+    .app-left::-webkit-scrollbar { width: 4px; }
+    .app-left::-webkit-scrollbar-track { background: transparent; }
+    .app-left::-webkit-scrollbar-thumb { background: var(--color-neutral-200); border-radius: 2px; }
+
+    /* ── Right map panel ── */
+    .app-right {
+      flex: 0 0 40%;
+      border-left: 1px solid var(--color-neutral-200);
+      display: flex; flex-direction: column;
+      background: white;
+      overflow: hidden;
+    }
+    .map-header {
+      height: 44px; flex-shrink: 0;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--color-neutral-200);
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; font-weight: 600; color: var(--color-neutral-600);
+    }
+    .map-header-actions { display: flex; gap: 6px; }
+    .map-btn {
+      height: 24px; padding: 0 8px;
+      border: 1px solid var(--color-neutral-200);
+      border-radius: 4px; font-size: 11px; color: var(--color-neutral-700);
+      cursor: pointer; background: white; transition: background 0.12s;
+    }
+    .map-btn:hover { background: var(--color-neutral-50); }
+    .map-body {
+      flex: 1; position: relative; overflow: hidden;
+      background: oklch(0.92 0.008 155);
+    }
+    /* Fake map tile grid */
+    .map-body::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(0deg, oklch(0.88 0.008 155) 0, oklch(0.88 0.008 155) 1px, transparent 1px, transparent 40px),
+        repeating-linear-gradient(90deg, oklch(0.88 0.008 155) 0, oklch(0.88 0.008 155) 1px, transparent 1px, transparent 40px);
+    }
+    .map-road { position: absolute; background: white; border-radius: 2px; }
+    .map-marker {
+      position: absolute;
+      width: 12px; height: 12px; border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 1px 4px oklch(0.20 0.02 80 / 0.3);
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .map-marker:hover { transform: translate(-50%, -50%) scale(1.4); box-shadow: 0 2px 8px oklch(0.20 0.02 80 / 0.4); }
+    .map-marker.online  { background: var(--color-primary-600); }
+    .map-marker.delayed { background: var(--color-warning-500); }
+    .map-marker.error   { background: var(--color-error-500); }
+    .map-marker.offline { background: var(--color-neutral-400); }
+    .map-marker.inactive { background: var(--color-neutral-300); }
+    .map-marker.dim { opacity: 0.2; }
+    .map-watermark {
+      position: absolute; bottom: 10px; right: 10px;
+      font-size: 10px; color: oklch(0.40 0.01 80 / 0.6);
+      background: white; padding: 2px 6px; border-radius: 3px;
+    }
+    /* Map tooltip */
+    .map-tooltip {
+      position: absolute;
+      background: white;
+      border: 1px solid var(--color-neutral-200);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 11px;
+      box-shadow: 0 4px 12px oklch(0.20 0.02 80 / 0.15);
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 10;
+      display: none;
+    }
+    .map-tooltip .tip-name { font-weight: 600; color: var(--color-neutral-900); margin-bottom: 2px; }
+    .map-tooltip .tip-meta { color: var(--color-neutral-500); }
+    .map-legend {
+      padding: 8px 14px;
+      border-top: 1px solid var(--color-neutral-200);
+      display: flex; gap: 10px; flex-wrap: wrap;
+      font-size: 11px; color: var(--color-neutral-500);
+    }
+    .map-legend-item { display: flex; align-items: center; gap: 4px; }
+    .map-legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* Map filter bar */
+    .map-filter {
+      padding: 6px 14px;
+      border-bottom: 1px solid var(--color-neutral-100);
+      display: flex; gap: 4px; flex-wrap: wrap;
+    }
+    .map-filter-btn {
+      height: 22px; padding: 0 8px;
+      border: 1px solid var(--color-neutral-200);
+      border-radius: 10px; font-size: 11px; color: var(--color-neutral-600);
+      cursor: pointer; background: white;
+      transition: all 0.12s;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .map-filter-btn.active { background: var(--color-neutral-900); color: white; border-color: var(--color-neutral-900); }
+
+    /* ── Section headers ── */
+    .sec-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .sec-title {
+      font-size: 11px; font-weight: 600;
+      color: var(--color-neutral-500);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .sec-realtime {
+      font-size: 10px; color: var(--color-neutral-400); font-weight: 400;
+    }
+    .sec-link {
+      font-size: 11px; color: var(--color-primary-600); font-weight: 500;
+      text-decoration: none; cursor: pointer;
+    }
+    .sec-link:hover { color: var(--color-primary-700); }
+    .sec-role-badge {
+      font-size: 10px; font-weight: 600;
+      background: var(--color-primary-50); color: var(--color-primary-700);
+      padding: 1px 5px; border-radius: 3px;
+    }
+
+    /* ── Alert banner ── */
+    .alert-banner {
+      background: var(--color-error-50);
+      border: 1px solid oklch(0.55 0.24 25 / 0.2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .alert-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .alert-title { font-size: 13px; font-weight: 600; color: var(--color-error-500); margin-bottom: 5px; }
+    .alert-items { display: flex; flex-direction: column; gap: 4px; }
+    .alert-item {
+      font-size: 12px; color: var(--color-neutral-700);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .alert-item::before {
+      content: '';
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--color-error-500); flex-shrink: 0;
+    }
+    .alert-item a { color: var(--color-primary-600); text-decoration: underline; margin-left: 4px; cursor: pointer; }
+
+    /* ── Stat grid (4-col) ── */
+    .stat-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .stat-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .s-card {
+      background: white;
+      border: 1px solid oklch(0.20 0.02 80 / 0.06);
+      border-radius: 8px; padding: 12px;
+      box-shadow: 0 1px 2px oklch(0.20 0.02 80 / 0.03);
+      cursor: pointer;
+      transition: border-color 0.12s, box-shadow 0.12s;
+    }
+    .s-card:hover { border-color: oklch(0.20 0.02 80 / 0.12); box-shadow: 0 2px 6px oklch(0.20 0.02 80 / 0.06); }
+    .s-card-label { font-size: 11px; color: var(--color-neutral-500); font-weight: 500; margin-bottom: 5px; }
+    .s-card-value { font-size: 22px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+    .s-card-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+    .s-chip {
+      font-size: 10px; font-weight: 500;
+      padding: 2px 6px; border-radius: 3px;
+    }
+    .chip-online   { background: var(--color-primary-50); color: var(--color-primary-700); }
+    .chip-delayed  { background: var(--color-warning-50); color: var(--color-warning-600); }
+    .chip-error    { background: var(--color-error-50); color: var(--color-error-500); }
+    .chip-offline  { background: var(--color-neutral-100); color: var(--color-neutral-500); }
+    .chip-inactive { background: var(--color-neutral-100); color: var(--color-neutral-400); }
+    .chip-active   { background: var(--color-primary-50); color: var(--color-primary-700); }
+    .chip-draft    { background: var(--color-neutral-100); color: var(--color-neutral-500); }
+    .chip-ended    { background: var(--color-neutral-100); color: var(--color-neutral-400); }
+
+    /* Period filter */
+    .period-filter {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--color-neutral-500);
+    }
+    .period-select {
+      height: 24px; padding: 0 8px;
+      border: 1px solid var(--color-neutral-200); border-radius: 4px;
+      font-size: 11px; color: var(--color-neutral-700); background: white;
+      cursor: pointer;
+    }
+
+    /* ── Data card (healthcheck / notifications) ── */
+    .d-card {
+      background: white;
+      border: 1px solid oklch(0.20 0.02 80 / 0.06);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px oklch(0.20 0.02 80 / 0.03);
+      overflow: hidden;
+    }
+    .d-row {
+      display: flex; align-items: center;
+      padding: 9px 14px; gap: 10px;
+      border-bottom: 1px solid var(--color-neutral-100);
+      font-size: 12px;
+      transition: background 0.1s;
+    }
+    .d-row:last-child { border-bottom: none; }
+    .d-row:hover { background: var(--color-neutral-50); }
+    .d-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .d-dot.error   { background: var(--color-error-500); }
+    .d-dot.delayed { background: var(--color-warning-500); }
+    .d-dot.offline { background: var(--color-neutral-400); }
+    .d-name { flex: 1; color: var(--color-neutral-900); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .d-meta { color: var(--color-neutral-500); font-size: 11px; white-space: nowrap; }
+    .d-badge {
+      font-size: 10px; font-weight: 600;
+      padding: 2px 6px; border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .d-badge.error   { background: var(--color-error-50); color: var(--color-error-500); }
+    .d-badge.offline { background: var(--color-neutral-100); color: var(--color-neutral-500); }
+    .d-badge.delayed { background: var(--color-warning-50); color: var(--color-warning-600); }
+    .d-empty {
+      padding: 16px 14px;
+      font-size: 12px; color: var(--color-neutral-400);
+      text-align: center;
+    }
+
+    /* ── System status (admin-only) ── */
+    .sys-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .sys-card {
+      background: white;
+      border: 1px solid oklch(0.20 0.02 80 / 0.06);
+      border-radius: 8px; padding: 12px;
+      box-shadow: 0 1px 2px oklch(0.20 0.02 80 / 0.03);
+    }
+    .sys-label { font-size: 11px; color: var(--color-neutral-500); font-weight: 500; margin-bottom: 5px; }
+    .sys-value { font-size: 13px; font-weight: 600; color: var(--color-neutral-900); }
+    .sys-status { display: flex; align-items: center; gap: 5px; margin-top: 4px; font-size: 11px; font-weight: 500; }
+    .sys-ok   { color: var(--color-primary-600); }
+    .sys-warn { color: var(--color-warning-600); }
+    .sys-err  { color: var(--color-error-500); }
+
+    /* ── Notifications ── */
+    .notif-row {
+      display: flex; gap: 10px;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--color-neutral-100);
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .notif-row:last-child { border-bottom: none; }
+    .notif-row:hover { background: var(--color-neutral-50); }
+    .notif-dot-wrap { padding-top: 3px; flex-shrink: 0; }
+    .notif-dot-circle {
+      width: 7px; height: 7px; border-radius: 50%;
+    }
+    .notif-dot-circle.unread { background: var(--color-primary-500); }
+    .notif-dot-circle.read   { background: var(--color-neutral-300); }
+    .notif-text { flex: 1; color: var(--color-neutral-700); line-height: 1.5; }
+    .notif-time { font-size: 11px; color: var(--color-neutral-400); white-space: nowrap; align-self: flex-start; }
+
+    /* ── Stale data indicator ── */
+    .stale-warn {
+      font-size: 11px; color: var(--color-warning-600);
+      padding: 4px 10px;
+      background: var(--color-warning-50);
+      border-top: 1px solid oklch(0.62 0.13 55 / 0.2);
+      display: none;
+    }
+
+    /* Refresh spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 0.8s linear infinite; display: inline-block; }
+
+    @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- ── Sidebar ── -->
+  <nav class="sidebar" aria-label="주 메뉴">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark">B</div>
+      <span class="sidebar-logo-name">Bari CMS</span>
+    </div>
+
+    <div class="sidebar-nav">
+      <a class="sidebar-item active" href="#" aria-current="page">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        대시보드
+      </a>
+      <a class="sidebar-item" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        매체 관리
+      </a>
+      <a class="sidebar-item" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+        소재 관리
+      </a>
+      <a class="sidebar-item" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        캠페인 관리
+      </a>
+      <a class="sidebar-item" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        편성 관리
+      </a>
+      <a class="sidebar-item" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        알림 센터
+        <span class="sidebar-badge" aria-label="미읽음 알림 3건">3</span>
+      </a>
+      <a class="sidebar-item" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+        리포트
+      </a>
+    </div>
+
+    <div class="sidebar-footer" onclick="alert('S-29 개인 설정으로 이동')" title="개인 설정">
+      <div class="sidebar-footer-role">어드민</div>
+      <div class="sidebar-footer-name">박진수</div>
+    </div>
+  </nav>
+
+  <!-- ── Main ── -->
+  <div class="app-main">
+
+    <!-- GNB -->
+    <header class="app-gnb">
+      <h1 class="gnb-title">대시보드</h1>
+      <span class="gnb-date" id="gnb-date"></span>
+      <button class="gnb-refresh" id="refresh-btn" onclick="doRefresh()" aria-label="새로고침">
+        <svg id="refresh-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        새로고침
+      </button>
+      <div class="gnb-bell-wrap" aria-label="미읽음 알림 3건" role="button" tabindex="0">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <div class="dot"></div>
+      </div>
+    </header>
+
+    <!-- Body: 2-col -->
+    <div class="app-body">
+
+      <!-- ── Left scroll panel ── -->
+      <div class="app-left" role="main">
+
+        <!-- 이상 감지 배너 -->
+        <div class="alert-banner" id="alert-banner" role="alert">
+          <div class="alert-icon">⚠</div>
+          <div>
+            <div class="alert-title">즉시 확인 필요한 이상이 감지됐습니다</div>
+            <div class="alert-items">
+              <div class="alert-item">동기화 미완료 편성표 <strong>3건</strong><a onclick="alert('편성 관리로 이동')">→ 확인</a></div>
+              <div class="alert-item">배치 비정상 캠페인 <strong>1건</strong><a onclick="alert('캠페인 관리로 이동')">→ 확인</a></div>
+              <div class="alert-item">Slack 연동 마지막 성공 <strong>47분 전</strong><a onclick="alert('설정으로 이동')">→ 설정</a> <span style="font-size:10px;color:var(--color-neutral-400)">[어드민]</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 매체 상태 섹션 -->
+        <div>
+          <div class="sec-hdr">
+            <div class="sec-title">
+              매체 상태
+              <span class="sec-realtime">실시간</span>
+            </div>
+          </div>
+          <div class="stat-grid-4">
+            <div class="s-card" onclick="alert('매체 목록 — 전체')" aria-label="전체 매체: 148개">
+              <div class="s-card-label">전체</div>
+              <div class="s-card-value" style="color:var(--color-neutral-900)">148</div>
+              <div class="s-card-chips">
+                <span class="s-chip chip-online">온라인 131</span>
+              </div>
+            </div>
+            <div class="s-card" onclick="alert('매체 목록 — 온라인')" aria-label="온라인 매체: 131개 (정상 128 / 지연 3)">
+              <div class="s-card-label">온라인</div>
+              <div class="s-card-value" style="color:var(--color-primary-600)">131</div>
+              <div class="s-card-chips">
+                <span class="s-chip chip-online">정상 128</span>
+                <span class="s-chip chip-delayed">지연 3</span>
+              </div>
+            </div>
+            <div class="s-card" onclick="alert('매체 목록 — 오프라인')" aria-label="오프라인 매체: 12개 (이상 5)">
+              <div class="s-card-label">오프라인</div>
+              <div class="s-card-value" style="color:var(--color-neutral-500)">12</div>
+              <div class="s-card-chips">
+                <span class="s-chip chip-error">이상 5</span>
+                <span class="s-chip chip-offline">연결끊김 7</span>
+              </div>
+            </div>
+            <div class="s-card" onclick="alert('매체 목록 — 비활성')" aria-label="비활성 매체: 5개">
+              <div class="s-card-label">비활성</div>
+              <div class="s-card-value" style="color:var(--color-neutral-400)">5</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 캠페인 / 편성 섹션 -->
+        <div>
+          <div class="sec-hdr">
+            <div class="sec-title">캠페인 / 편성</div>
+            <div class="period-filter">
+              기간
+              <select class="period-select" id="period-select" onchange="updateCampaignStats(this.value)" aria-label="기간 선택">
+                <option value="7">최근 7일</option>
+                <option value="30">최근 30일</option>
+              </select>
+            </div>
+          </div>
+          <div class="stat-grid-2" id="campaign-stats">
+            <div class="s-card" onclick="alert('캠페인 관리로 이동')">
+              <div class="s-card-label">캠페인</div>
+              <div class="s-card-value">24</div>
+              <div class="s-card-chips">
+                <span class="s-chip chip-active">집행중 8</span>
+                <span class="s-chip chip-draft">초안 4</span>
+                <span class="s-chip chip-ended">완료 12</span>
+              </div>
+            </div>
+            <div class="s-card" onclick="alert('편성 관리로 이동')">
+              <div class="s-card-label">편성표</div>
+              <div class="s-card-value">37</div>
+              <div class="s-card-chips">
+                <span class="s-chip chip-active">적용중 15</span>
+                <span class="s-chip chip-draft">예약 9</span>
+                <span class="s-chip chip-ended">종료 13</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 헬스체크 이상 섹션 -->
+        <div>
+          <div class="sec-hdr">
+            <div class="sec-title">헬스체크 이상</div>
+            <a class="sec-link" onclick="alert('매체 목록으로 이동')">전체 보기 →</a>
+          </div>
+          <div class="d-card">
+            <div class="d-row">
+              <div class="d-dot error"></div>
+              <div class="d-name">강남 CGV 1F 광고판</div>
+              <div class="d-meta">오프라인 2h 13m</div>
+              <span class="d-badge error">이상 감지</span>
+            </div>
+            <div class="d-row">
+              <div class="d-dot error"></div>
+              <div class="d-name">신촌 현대백화점 L2</div>
+              <div class="d-meta">오프라인 45m</div>
+              <span class="d-badge error">이상 감지</span>
+            </div>
+            <div class="d-row">
+              <div class="d-dot offline"></div>
+              <div class="d-name">잠실 롯데타워 B1</div>
+              <div class="d-meta">연결 끊김 1h 02m</div>
+              <span class="d-badge offline">오프라인</span>
+            </div>
+            <div class="d-row">
+              <div class="d-dot delayed"></div>
+              <div class="d-name">홍대입구역 B출구</div>
+              <div class="d-meta">동기화 지연 18m</div>
+              <span class="d-badge delayed">지연</span>
+            </div>
+            <div class="d-row">
+              <div class="d-dot delayed"></div>
+              <div class="d-name">강북 이마트 주차장동</div>
+              <div class="d-meta">동기화 지연 9m</div>
+              <span class="d-badge delayed">지연</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 시스템 상태 (어드민 전용) -->
+        <div>
+          <div class="sec-hdr">
+            <div class="sec-title">
+              시스템 상태
+              <span class="sec-role-badge">어드민</span>
+            </div>
+          </div>
+          <div class="sys-grid">
+            <div class="sys-card">
+              <div class="sys-label">편성 동기화</div>
+              <div class="sys-value" style="color:var(--color-error-500)">미완료 3건</div>
+              <div class="sys-status sys-err">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--color-error-500)"><circle cx="12" cy="12" r="10"/></svg>
+                즉시 확인 필요
+              </div>
+            </div>
+            <div class="sys-card">
+              <div class="sys-label">배치 실행</div>
+              <div class="sys-value">3분 전</div>
+              <div class="sys-status sys-warn">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning-500)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                비정상 캠페인 1건
+              </div>
+            </div>
+            <div class="sys-card">
+              <div class="sys-label">Slack 연동</div>
+              <div class="sys-value">47분 전</div>
+              <div class="sys-status sys-warn">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning-500)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                응답 지연 확인
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 최근 알림 섹션 -->
+        <div>
+          <div class="sec-hdr">
+            <div class="sec-title">최근 알림</div>
+            <a class="sec-link" onclick="alert('알림 센터로 이동')">알림 센터 →</a>
+          </div>
+          <div class="d-card">
+            <div class="notif-row" onclick="alert('알림 상세')">
+              <div class="notif-dot-wrap"><div class="notif-dot-circle unread"></div></div>
+              <div class="notif-text">[긴급] 강남 CGV 1F 광고판이 오프라인 상태입니다</div>
+              <div class="notif-time">2분 전</div>
+            </div>
+            <div class="notif-row" onclick="alert('알림 상세')">
+              <div class="notif-dot-wrap"><div class="notif-dot-circle unread"></div></div>
+              <div class="notif-text">편성표 "4월 2주차 A"의 동기화가 완료되지 않았습니다</div>
+              <div class="notif-time">14분 전</div>
+            </div>
+            <div class="notif-row" onclick="alert('알림 상세')">
+              <div class="notif-dot-wrap"><div class="notif-dot-circle unread"></div></div>
+              <div class="notif-text">배치 실행 중 비정상 캠페인 1건이 감지됐습니다</div>
+              <div class="notif-time">38분 전</div>
+            </div>
+            <div class="notif-row" onclick="alert('알림 상세')">
+              <div class="notif-dot-wrap"><div class="notif-dot-circle read"></div></div>
+              <div class="notif-text">소재 "LG전자 여름 캠페인" 검수가 완료됐습니다</div>
+              <div class="notif-time">1시간 전</div>
+            </div>
+            <div class="notif-row" onclick="alert('알림 상세')">
+              <div class="notif-dot-wrap"><div class="notif-dot-circle read"></div></div>
+              <div class="notif-text">홍길동님이 가입을 완료했습니다</div>
+              <div class="notif-time">2시간 전</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.app-left -->
+
+      <!-- ── Right map panel ── -->
+      <div class="app-right" role="region" aria-label="매체 위치 지도">
+        <div class="map-header">
+          매체 위치
+          <div class="map-header-actions">
+            <button class="map-btn" onclick="alert('지도 전체화면')">전체화면</button>
+          </div>
+        </div>
+
+        <!-- Status filter -->
+        <div class="map-filter" id="map-filter" role="group" aria-label="매체 상태 필터">
+          <button class="map-filter-btn active" data-status="all" onclick="setMapFilter('all', this)">전체</button>
+          <button class="map-filter-btn" data-status="online" onclick="setMapFilter('online', this)">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--color-primary-600);display:inline-block"></span>온라인
+          </button>
+          <button class="map-filter-btn" data-status="delayed" onclick="setMapFilter('delayed', this)">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--color-warning-500);display:inline-block"></span>지연
+          </button>
+          <button class="map-filter-btn" data-status="error" onclick="setMapFilter('error', this)">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--color-error-500);display:inline-block"></span>이상
+          </button>
+          <button class="map-filter-btn" data-status="offline" onclick="setMapFilter('offline', this)">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--color-neutral-400);display:inline-block"></span>오프라인
+          </button>
+          <button class="map-filter-btn" data-status="inactive" onclick="setMapFilter('inactive', this)">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--color-neutral-300);display:inline-block"></span>비활성
+          </button>
+        </div>
+
+        <!-- Map body (prototype: fake map) -->
+        <div class="map-body" id="map-body" aria-label="서울 DOOH 매체 위치 지도 (프로토타입)">
+          <!-- Roads -->
+          <div class="map-road" style="top:38%;left:0;right:0;height:4px;opacity:0.6;"></div>
+          <div class="map-road" style="top:0;bottom:0;left:42%;width:3px;opacity:0.6;"></div>
+          <div class="map-road" style="top:60%;left:0;right:0;height:3px;opacity:0.4;"></div>
+          <div class="map-road" style="top:0;bottom:0;left:68%;width:2px;opacity:0.4;"></div>
+          <div class="map-road" style="top:20%;left:30%;right:0;height:2px;transform:rotate(-3deg);opacity:0.3;"></div>
+          <!-- Markers (status data-status attr) -->
+          <div class="map-marker online"  data-status="online"  data-name="강남 코엑스 B2"       data-last="2분 전"    style="top:35%;left:38%;"></div>
+          <div class="map-marker online"  data-status="online"  data-name="서울역 3번출구"         data-last="5분 전"    style="top:42%;left:55%;"></div>
+          <div class="map-marker online"  data-status="online"  data-name="여의도 IFC몰 1F"       data-last="3분 전"    style="top:28%;left:70%;"></div>
+          <div class="map-marker error"   data-status="error"   data-name="강남 CGV 1F 광고판"    data-last="2h 13m 전" style="top:40%;left:30%;"></div>
+          <div class="map-marker offline" data-status="offline" data-name="잠실 롯데타워 B1"      data-last="1h 02m 전" style="top:55%;left:48%;"></div>
+          <div class="map-marker online"  data-status="online"  data-name="종로 광화문광장"        data-last="1분 전"    style="top:62%;left:65%;"></div>
+          <div class="map-marker delayed" data-status="delayed" data-name="홍대입구역 B출구"      data-last="18분 전"   style="top:22%;left:44%;"></div>
+          <div class="map-marker online"  data-status="online"  data-name="이태원 경리단길"        data-last="7분 전"    style="top:70%;left:35%;"></div>
+          <div class="map-marker online"  data-status="online"  data-name="건대입구역 1번출구"     data-last="4분 전"    style="top:48%;left:72%;"></div>
+          <div class="map-marker error"   data-status="error"   data-name="신촌 현대백화점 L2"    data-last="45m 전"    style="top:33%;left:60%;"></div>
+          <div class="map-marker delayed" data-status="delayed" data-name="강북 이마트 주차장동"  data-last="9분 전"    style="top:52%;left:38%;"></div>
+          <div class="map-marker inactive" data-status="inactive" data-name="용산 전자상가 D동"   data-last="—"          style="top:65%;left:55%;"></div>
+          <div class="map-watermark">Naver Maps API</div>
+          <!-- Tooltip -->
+          <div class="map-tooltip" id="map-tooltip">
+            <div class="tip-name" id="tip-name"></div>
+            <div class="tip-meta" id="tip-meta"></div>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="map-legend" role="list" aria-label="지도 범례">
+          <div class="map-legend-item" role="listitem">
+            <div class="map-legend-dot" style="background:var(--color-primary-600)"></div>온라인
+          </div>
+          <div class="map-legend-item" role="listitem">
+            <div class="map-legend-dot" style="background:var(--color-warning-500)"></div>지연
+          </div>
+          <div class="map-legend-item" role="listitem">
+            <div class="map-legend-dot" style="background:var(--color-error-500)"></div>이상
+          </div>
+          <div class="map-legend-item" role="listitem">
+            <div class="map-legend-dot" style="background:var(--color-neutral-400)"></div>오프라인
+          </div>
+          <div class="map-legend-item" role="listitem">
+            <div class="map-legend-dot" style="background:var(--color-neutral-300)"></div>비활성
+          </div>
+        </div>
+      </div><!-- /.app-right -->
+
+    </div><!-- /.app-body -->
+  </div><!-- /.app-main -->
+</div><!-- /.app-shell -->
+
+<script>
+  // ── Date display ──
+  (function() {
+    var d = new Date();
+    var days = ['일','월','화','수','목','금','토'];
+    document.getElementById('gnb-date').textContent =
+      d.getFullYear() + '. ' + (d.getMonth()+1) + '. ' + d.getDate() + '. (' + days[d.getDay()] + ')';
+  })();
+
+  // ── Campaign stats (period filter) ──
+  var CAMPAIGN_DATA = {
+    '7':  { campaigns: [24, 8, 4, 12], schedules: [37, 15, 9, 13] },
+    '30': { campaigns: [68, 12, 7, 49], schedules: [94, 18, 12, 64] }
+  };
+
+  function updateCampaignStats(period) {
+    var d = CAMPAIGN_DATA[period];
+    var c = d.campaigns, s = d.schedules;
+    var el = document.getElementById('campaign-stats');
+    el.innerHTML =
+      '<div class="s-card" onclick="alert(\'캠페인 관리로 이동\')">' +
+        '<div class="s-card-label">캠페인</div>' +
+        '<div class="s-card-value">' + c[0] + '</div>' +
+        '<div class="s-card-chips">' +
+          '<span class="s-chip chip-active">집행중 ' + c[1] + '</span>' +
+          '<span class="s-chip chip-draft">초안 ' + c[2] + '</span>' +
+          '<span class="s-chip chip-ended">완료 ' + c[3] + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="s-card" onclick="alert(\'편성 관리로 이동\')">' +
+        '<div class="s-card-label">편성표</div>' +
+        '<div class="s-card-value">' + s[0] + '</div>' +
+        '<div class="s-card-chips">' +
+          '<span class="s-chip chip-active">적용중 ' + s[1] + '</span>' +
+          '<span class="s-chip chip-draft">예약 ' + s[2] + '</span>' +
+          '<span class="s-chip chip-ended">종료 ' + s[3] + '</span>' +
+        '</div>' +
+      '</div>';
+  }
+
+  // ── Map filter ──
+  function setMapFilter(status, btn) {
+    // Update button states
+    document.querySelectorAll('#map-filter .map-filter-btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+
+    // Update marker visibility
+    document.querySelectorAll('#map-body .map-marker').forEach(function(m) {
+      if (status === 'all' || m.dataset.status === status) {
+        m.classList.remove('dim');
+      } else {
+        m.classList.add('dim');
+      }
+    });
+  }
+
+  // ── Map marker tooltips ──
+  (function() {
+    var tooltip = document.getElementById('map-tooltip');
+    var tipName = document.getElementById('tip-name');
+    var tipMeta = document.getElementById('tip-meta');
+    var STATUS_LABELS = { online: '온라인', delayed: '지연', error: '이상 감지', offline: '오프라인', inactive: '비활성' };
+
+    document.querySelectorAll('#map-body .map-marker').forEach(function(m) {
+      m.addEventListener('mouseenter', function(e) {
+        tipName.textContent = m.dataset.name;
+        tipMeta.textContent = STATUS_LABELS[m.dataset.status] + ' · 마지막 동기화 ' + m.dataset.last;
+        tooltip.style.display = 'block';
+        var rect = m.getBoundingClientRect();
+        var bodyRect = document.getElementById('map-body').getBoundingClientRect();
+        var left = rect.left - bodyRect.left + 14;
+        var top  = rect.top  - bodyRect.top  - 8;
+        // Keep tooltip in bounds
+        if (left + 200 > bodyRect.width) left = left - 200;
+        if (top < 0) top = rect.bottom - bodyRect.top + 4;
+        tooltip.style.left = left + 'px';
+        tooltip.style.top  = top  + 'px';
+      });
+      m.addEventListener('mouseleave', function() {
+        tooltip.style.display = 'none';
+      });
+      m.addEventListener('click', function() {
+        alert('매체 상세: ' + m.dataset.name + '\n상태: ' + STATUS_LABELS[m.dataset.status]);
+      });
+    });
+  })();
+
+  // ── Refresh simulation ──
+  function doRefresh() {
+    var btn = document.getElementById('refresh-btn');
+    var icon = document.getElementById('refresh-icon');
+    btn.disabled = true;
+    icon.classList.add('spin');
+    setTimeout(function() {
+      btn.disabled = false;
+      icon.classList.remove('spin');
+    }, 1200);
+  }
+</script>
+</body>
+</html>

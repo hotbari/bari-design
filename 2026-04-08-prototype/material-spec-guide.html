@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소재 규격 안내 — Bari CMS</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="shared/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :focus-visible { outline: 2px solid var(--color-primary-500); outline-offset: 2px; }
+    .sidebar-item:focus-visible, .sidebar-footer:focus-visible {
+      outline: 2px solid var(--color-primary-400); outline-offset: -2px; border-radius: 6px;
+    }
+
+    /* ── App shell ── */
+    .app-shell { display: flex; height: 100vh; overflow: hidden; background: var(--color-neutral-100); }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 200px; flex-shrink: 0;
+      background: oklch(0.16 0.02 155);
+      display: flex; flex-direction: column;
+      border-right: 1px solid oklch(0.12 0.02 155);
+    }
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 8px;
+      padding: 16px; border-bottom: 1px solid oklch(1 0 0 / 0.08); margin-bottom: 6px;
+    }
+    .sidebar-logo-mark {
+      width: 28px; height: 28px; background: var(--color-primary-500);
+      border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sidebar-logo-mark svg { width: 16px; height: 16px; }
+    .sidebar-logo-name { font-size: 15px; font-weight: 700; color: white; letter-spacing: -0.3px; }
+    .sidebar-nav { flex: 1; padding: 4px 8px; display: flex; flex-direction: column; gap: 1px; overflow-y: auto; }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 10px; border-radius: 6px;
+      font-size: var(--text-sm); color: oklch(1 0 0 / 0.55);
+      text-decoration: none; cursor: pointer;
+      transition: background 0.12s cubic-bezier(0.16,1,0.3,1), color 0.12s;
+      position: relative;
+    }
+    .sidebar-item:hover { background: oklch(1 0 0 / 0.06); color: oklch(1 0 0 / 0.8); }
+    .sidebar-item.active { background: oklch(1 0 0 / 0.1); color: white; font-weight: 600; }
+    .sidebar-item.active::after {
+      content: ''; position: absolute; right: 0; top: 4px; bottom: 4px;
+      width: 2px; background: var(--color-primary-400); border-radius: 2px;
+    }
+    .sidebar-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .sidebar-subnav { padding: 0 8px 4px 28px; display: flex; flex-direction: column; gap: 1px; }
+    .sidebar-subitem {
+      display: block; padding: 5px 10px; border-radius: 5px;
+      font-size: var(--text-xs); color: oklch(1 0 0 / 0.45);
+      text-decoration: none; transition: background 0.1s, color 0.1s;
+    }
+    .sidebar-subitem:hover { background: oklch(1 0 0 / 0.05); color: oklch(1 0 0 / 0.75); }
+    .sidebar-subitem.active { color: var(--color-primary-300); font-weight: 600; }
+    .sidebar-footer {
+      display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+      border-top: 1px solid oklch(1 0 0 / 0.08); cursor: pointer; transition: background 0.12s;
+    }
+    .sidebar-footer:hover { background: oklch(1 0 0 / 0.05); }
+    .sidebar-footer-avatar {
+      width: 28px; height: 28px; background: oklch(0.35 0.12 155); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--text-xs); font-weight: 700; color: white; flex-shrink: 0;
+    }
+    .sidebar-footer-info { flex: 1; min-width: 0; }
+    .sidebar-footer-role { font-size: 10px; color: oklch(1 0 0 / 0.35); font-weight: 500; }
+    .sidebar-footer-name { font-size: var(--text-xs); color: oklch(1 0 0 / 0.75); font-weight: 600; }
+
+    /* ── Main area ── */
+    .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+    /* ── GNB ── */
+    .gnb {
+      height: 52px; flex-shrink: 0;
+      background: white; border-bottom: 1px solid rgba(0,0,0,0.06);
+      display: flex; align-items: center; padding: 0 24px; gap: 12px;
+    }
+    .gnb-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: var(--text-sm); color: var(--color-neutral-400); }
+    .gnb-breadcrumb-sep { font-size: 10px; color: var(--color-neutral-300); }
+    .gnb-breadcrumb-current { color: var(--color-neutral-900); font-weight: 600; }
+    .gnb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .gnb-date { font-size: var(--text-xs); color: var(--color-neutral-400); }
+    .gnb-bell {
+      position: relative; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-md); cursor: pointer; color: var(--color-neutral-500); transition: background 0.12s;
+    }
+    .gnb-bell:hover { background: var(--color-neutral-100); }
+
+    /* ── Content area ── */
+    .content-area { flex: 1; overflow-y: auto; padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; }
+
+    /* ── Page header ── */
+    .page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-shrink: 0; }
+    .page-title-group {}
+    .page-title { font-size: var(--text-xl); font-weight: 800; color: var(--color-neutral-900); letter-spacing: -0.03em; }
+    .page-desc { font-size: var(--text-sm); color: var(--color-neutral-500); margin-top: 3px; }
+    .page-header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    /* ── Toolbar ── */
+    .toolbar { display: flex; align-items: center; gap: 10px; }
+    .search-wrap { position: relative; flex: 1; max-width: 280px; }
+    .search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-neutral-400); pointer-events: none; }
+    .search-input {
+      width: 100%; padding: 7px 12px 7px 34px;
+      border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-md);
+      font-size: var(--text-sm); color: var(--color-neutral-900); background: white;
+      transition: border 0.12s, box-shadow 0.12s;
+    }
+    .search-input::placeholder { color: var(--color-neutral-400); }
+    .search-input:focus { outline: none; border-color: var(--color-primary-500); box-shadow: 0 0 0 3px oklch(0.72 0.19 155 / 0.1); }
+    .filter-select {
+      padding: 7px 28px 7px 10px; border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-md);
+      font-size: var(--text-sm); color: var(--color-neutral-800); background: white;
+      cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 8px center;
+      transition: border 0.12s;
+    }
+    .filter-select:focus { outline: none; border-color: var(--color-primary-500); }
+    .result-count { font-size: var(--text-sm); color: var(--color-neutral-500); white-space: nowrap; }
+
+    /* ── Spec cards grid ── */
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+    }
+    .spec-card {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: box-shadow 0.15s;
+    }
+    .spec-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    .spec-card-header {
+      padding: 16px 20px 14px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    }
+    .spec-card-title-group {}
+    .spec-card-name { font-size: var(--text-md); font-weight: 700; color: var(--color-neutral-900); letter-spacing: -0.02em; }
+    .spec-card-company { font-size: var(--text-xs); color: var(--color-neutral-500); margin-top: 2px; }
+    .spec-card-type {
+      flex-shrink: 0;
+      padding: 4px 10px; border-radius: var(--radius-sm);
+      font-size: var(--text-xs); font-weight: 600;
+      background: var(--color-primary-50); color: var(--color-primary-700);
+      border: 1px solid oklch(0.87 0.10 155);
+    }
+
+    .spec-card-body { padding: 16px 20px; }
+    .spec-dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .spec-dl dt {
+      font-size: var(--text-xs); color: var(--color-neutral-500); font-weight: 500;
+      padding: 7px 0 7px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    .spec-dl dd {
+      font-size: var(--text-sm); color: var(--color-neutral-900); font-weight: 500;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    .spec-dl dt:last-of-type, .spec-dl dd:last-of-type { border-bottom: none; }
+    /* Last two items (one dt + one dd) */
+    .spec-dl > *:nth-last-child(-n+2) { border-bottom: none; }
+
+    .format-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .format-tag {
+      padding: 2px 7px; border-radius: 4px;
+      font-size: 11px; font-weight: 600;
+      background: var(--color-neutral-100); color: var(--color-neutral-700);
+      letter-spacing: 0.02em;
+    }
+
+    .spec-card-guide {
+      margin-top: 12px; padding: 10px 14px;
+      background: var(--color-neutral-50); border-radius: var(--radius-md);
+      font-size: var(--text-xs); color: var(--color-neutral-600); line-height: 1.6;
+    }
+    .spec-card-guide-label {
+      font-size: 10px; font-weight: 700; color: var(--color-primary-600);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+      grid-column: 1 / -1; text-align: center; padding: 60px 20px;
+      color: var(--color-neutral-400);
+    }
+    .empty-state-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.5; }
+    .empty-state-msg { font-size: var(--text-sm); }
+
+    /* ── Copy toast ── */
+    .copy-toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(16px);
+      background: oklch(0.18 0.015 80); color: white;
+      padding: 10px 20px; border-radius: var(--radius-md);
+      font-size: var(--text-sm); font-weight: 500;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s cubic-bezier(0.16,1,0.3,1);
+      white-space: nowrap; z-index: 999;
+    }
+    .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar" aria-label="주 내비게이션">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg>
+      </div>
+      <span class="sidebar-logo-name">Bari CMS</span>
+    </div>
+    <nav class="sidebar-nav" aria-label="사이드바 내비게이션">
+      <a href="dashboard-admin.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        대시보드
+      </a>
+
+      <a href="#" class="sidebar-item active" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 5V3M16 5V3M3 9h18"/></svg>
+        캠페인 관리
+      </a>
+      <div class="sidebar-subnav">
+        <a href="#" class="sidebar-subitem">캠페인 목록</a>
+        <a href="#" class="sidebar-subitem">소재 관리</a>
+        <a href="material-spec-guide.html" class="sidebar-subitem active">소재 규격 안내</a>
+      </div>
+
+      <a href="media-company-mgmt.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        매체 관리
+      </a>
+      <div class="sidebar-subnav">
+        <a href="media-company-mgmt.html" class="sidebar-subitem">매체사 관리</a>
+        <a href="media-group.html" class="sidebar-subitem">매체 그룹</a>
+        <a href="ssp-integration.html" class="sidebar-subitem">SSP 연동</a>
+        <a href="foot-traffic.html" class="sidebar-subitem">유동인구 연동</a>
+      </div>
+
+      <a href="report-list.html" class="sidebar-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        리포트
+      </a>
+    </nav>
+    <div class="sidebar-footer" tabindex="0" role="button" aria-label="개인 설정으로 이동"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">
+      <div class="sidebar-footer-avatar">김</div>
+      <div class="sidebar-footer-info">
+        <div class="sidebar-footer-role">어드민</div>
+        <div class="sidebar-footer-name">김관리</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-area">
+    <!-- GNB -->
+    <header class="gnb">
+      <nav class="gnb-breadcrumb" aria-label="브레드크럼">
+        <span>캠페인 관리</span>
+        <span class="gnb-breadcrumb-sep">›</span>
+        <span class="gnb-breadcrumb-current">소재 규격 안내</span>
+      </nav>
+      <div class="gnb-right">
+        <span class="gnb-date">2026.04.09</span>
+        <button class="gnb-bell" aria-label="알림">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="content-area">
+      <!-- Page header -->
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1 class="page-title">소재 규격 안내</h1>
+          <p class="page-desc">매체별 허용 소재 형식 및 기술 규격. 검수 통과율을 높이기 위해 규격을 확인하세요.</p>
+        </div>
+        <div class="page-header-actions">
+          <button class="btn btn-secondary" onclick="copyPageLink()" aria-label="이 페이지 링크를 클립보드에 복사">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            링크 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" class="search-input" id="search-input" placeholder="매체명으로 검색" aria-label="매체명으로 검색" oninput="filterCards(this.value)">
+        </div>
+        <select class="filter-select" id="type-filter" aria-label="디스플레이 유형 필터" onchange="filterCards(document.getElementById('search-input').value)">
+          <option value="">전체 유형</option>
+          <option value="디지털 사이니지">디지털 사이니지</option>
+          <option value="대형 LED">대형 LED</option>
+          <option value="인터랙티브">인터랙티브</option>
+          <option value="옥외 LED">옥외 LED</option>
+        </select>
+        <span class="result-count" id="result-count" aria-live="polite" aria-atomic="true">총 6개 매체</span>
+      </div>
+
+      <!-- Spec cards -->
+      <div class="spec-grid" id="spec-grid" role="list">
+        <!-- Card 1 -->
+        <article class="spec-card" role="listitem" data-name="롯데월드 타워 외부 LED" data-type="대형 LED">
+          <div class="spec-card-header">
+            <div class="spec-card-title-group">
+              <div class="spec-card-name">롯데월드 타워 외부 LED</div>
+              <div class="spec-card-company">롯데 광고</div>
+            </div>
+            <span class="spec-card-type">대형 LED</span>
+          </div>
+          <div class="spec-card-body">
+            <dl class="spec-dl">
+              <dt>해상도</dt><dd>1920 × 1080 px</dd>
+              <dt>허용 포맷</dt><dd><div class="format-tags"><span class="format-tag">MP4</span><span class="format-tag">JPG</span></div></dd>
+              <dt>파일 크기</dt><dd>최대 200 MB</dd>
+              <dt>권장 비트레이트</dt><dd>8,000 kbps</dd>
+              <dt>재생 시간</dt><dd>15초 / 30초</dd>
+              <dt>색 공간</dt><dd>sRGB</dd>
+            </dl>
+            <div class="spec-card-guide">
+              <div class="spec-card-guide-label">업로드 가이드</div>
+              H.264 코덱, AAC 오디오. 야간 밝기 조정을 위해 HDR 콘텐츠는 지원하지 않습니다. 소재 업로드 후 최대 24시간 이내 검수가 완료됩니다.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="spec-card" role="listitem" data-name="코엑스 SM타운 아트리움" data-type="인터랙티브">
+          <div class="spec-card-header">
+            <div class="spec-card-title-group">
+              <div class="spec-card-name">코엑스 SM타운 아트리움</div>
+              <div class="spec-card-company">서울디지털미디어</div>
+            </div>
+            <span class="spec-card-type">인터랙티브</span>
+          </div>
+          <div class="spec-card-body">
+            <dl class="spec-dl">
+              <dt>해상도</dt><dd>2560 × 1440 px</dd>
+              <dt>허용 포맷</dt><dd><div class="format-tags"><span class="format-tag">MP4</span><span class="format-tag">PNG</span></div></dd>
+              <dt>파일 크기</dt><dd>최대 500 MB</dd>
+              <dt>권장 비트레이트</dt><dd>15,000 kbps</dd>
+              <dt>재생 시간</dt><dd>15초 / 30초 / 60초</dd>
+              <dt>색 공간</dt><dd>DCI-P3</dd>
+            </dl>
+            <div class="spec-card-guide">
+              <div class="spec-card-guide-label">업로드 가이드</div>
+              3면 아트리움 특성상 좌/중/우 패널이 분리됩니다. 개별 소재 또는 통합 파노라마 소재 모두 허용. 오디오는 선택 사항입니다.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="spec-card" role="listitem" data-name="강남역 출구 빌보드" data-type="옥외 LED">
+          <div class="spec-card-header">
+            <div class="spec-card-title-group">
+              <div class="spec-card-name">강남역 출구 빌보드</div>
+              <div class="spec-card-company">네이버 OOH 미디어</div>
+            </div>
+            <span class="spec-card-type">옥외 LED</span>
+          </div>
+          <div class="spec-card-body">
+            <dl class="spec-dl">
+              <dt>해상도</dt><dd>3840 × 2160 px</dd>
+              <dt>허용 포맷</dt><dd><div class="format-tags"><span class="format-tag">MP4</span><span class="format-tag">JPG</span></div></dd>
+              <dt>파일 크기</dt><dd>최대 1 GB</dd>
+              <dt>권장 비트레이트</dt><dd>20,000 kbps</dd>
+              <dt>재생 시간</dt><dd>15초 / 30초</dd>
+              <dt>색 공간</dt><dd>sRGB</dd>
+            </dl>
+            <div class="spec-card-guide">
+              <div class="spec-card-guide-label">업로드 가이드</div>
+              4K 해상도 소재 권장. 옥외 환경 특성상 고대비 색상 사용 권장. 오디오 미지원. 소재 제출 마감 48시간 전까지 업로드 필요.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="spec-card" role="listitem" data-name="홍대 거리 미디어폴" data-type="디지털 사이니지">
+          <div class="spec-card-header">
+            <div class="spec-card-title-group">
+              <div class="spec-card-name">홍대 거리 미디어폴</div>
+              <div class="spec-card-company">카카오 스크린</div>
+            </div>
+            <span class="spec-card-type">디지털 사이니지</span>
+          </div>
+          <div class="spec-card-body">
+            <dl class="spec-dl">
+              <dt>해상도</dt><dd>1080 × 1920 px</dd>
+              <dt>허용 포맷</dt><dd><div class="format-tags"><span class="format-tag">MP4</span><span class="format-tag">JPG</span><span class="format-tag">PNG</span></div></dd>
+              <dt>파일 크기</dt><dd>최대 100 MB</dd>
+              <dt>권장 비트레이트</dt><dd>6,000 kbps</dd>
+              <dt>재생 시간</dt><dd>15초</dd>
+              <dt>색 공간</dt><dd>sRGB</dd>
+            </dl>
+            <div class="spec-card-guide">
+              <div class="spec-card-guide-label">업로드 가이드</div>
+              세로형(9:16) 소재 전용. H.265(HEVC) 코덱 지원. 여러 폴에 동일 소재 적용 시 일괄 업로드 기능을 사용하세요.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="spec-card" role="listitem" data-name="잠실 롯데타운 전광판" data-type="옥외 LED">
+          <div class="spec-card-header">
+            <div class="spec-card-title-group">
+              <div class="spec-card-name">잠실 롯데타운 전광판</div>
+              <div class="spec-card-company">롯데 광고</div>
+            </div>
+            <span class="spec-card-type">옥외 LED</span>
+          </div>
+          <div class="spec-card-body">
+            <dl class="spec-dl">
+              <dt>해상도</dt><dd>2880 × 1620 px</dd>
+              <dt>허용 포맷</dt><dd><div class="format-tags"><span class="format-tag">MP4</span></div></dd>
+              <dt>파일 크기</dt><dd>최대 800 MB</dd>
+              <dt>권장 비트레이트</dt><dd>16,000 kbps</dd>
+              <dt>재생 시간</dt><dd>15초 / 30초</dd>
+              <dt>색 공간</dt><dd>sRGB</dd>
+            </dl>
+            <div class="spec-card-guide">
+              <div class="spec-card-guide-label">업로드 가이드</div>
+              특수 조형물 외벽 LED. 소재 내 텍스트는 전체 화면의 10% 미만으로 제한. 야간 광량 자동 조절. 검수 완료까지 최대 3영업일 소요.
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="spec-card" role="listitem" data-name="신촌 이마트 DID" data-type="디지털 사이니지">
+          <div class="spec-card-header">
+            <div class="spec-card-title-group">
+              <div class="spec-card-name">신촌 이마트 DID</div>
+              <div class="spec-card-company">KIA 미디어</div>
+            </div>
+            <span class="spec-card-type">디지털 사이니지</span>
+          </div>
+          <div class="spec-card-body">
+            <dl class="spec-dl">
+              <dt>해상도</dt><dd>1920 × 1080 px</dd>
+              <dt>허용 포맷</dt><dd><div class="format-tags"><span class="format-tag">MP4</span><span class="format-tag">JPG</span><span class="format-tag">PNG</span></div></dd>
+              <dt>파일 크기</dt><dd>최대 150 MB</dd>
+              <dt>권장 비트레이트</dt><dd>8,000 kbps</dd>
+              <dt>재생 시간</dt><dd>15초 / 30초</dd>
+              <dt>색 공간</dt><dd>sRGB</dd>
+            </dl>
+            <div class="spec-card-guide">
+              <div class="spec-card-guide-label">업로드 가이드</div>
+              실내 매장 환경. 음소거 기본값이므로 오디오 없이도 효과적인 소재 제작 권장. 가격 정보 포함 소재는 별도 약관 적용.
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Empty state (hidden by default) -->
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="empty-state-icon" aria-hidden="true">🔍</div>
+        <div class="empty-state-msg">검색 결과가 없습니다. 다른 검색어를 입력해 보세요.</div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Copy toast -->
+<div class="copy-toast" id="copy-toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<script src="shared/icons.js"></script>
+<script>
+  function filterCards(query) {
+    const q = query.trim().toLowerCase();
+    const typeFilter = document.getElementById('type-filter').value;
+    const cards = document.querySelectorAll('.spec-card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const name = card.dataset.name.toLowerCase();
+      const type = card.dataset.type;
+      const matchName = !q || name.includes(q);
+      const matchType = !typeFilter || type === typeFilter;
+      const show = matchName && matchType;
+      card.hidden = !show;
+      if (show) visible++;
+    });
+
+    document.getElementById('result-count').textContent = `총 ${visible}개 매체`;
+    document.getElementById('empty-state').hidden = visible > 0;
+  }
+
+  function copyPageLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('링크가 클립보드에 복사되었습니다');
+    }).catch(() => {
+      showToast('링크 복사에 실패했습니다');
+    });
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('copy-toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+</script>
+</body>
+</html>
