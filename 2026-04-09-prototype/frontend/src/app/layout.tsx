@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { ReactQueryProvider } from '@/components/ReactQueryProvider'
 import { MSWProvider } from '@/components/MSWProvider'
+import { ToastContainer } from '@/components/ui/ToastContainer'
 
 export const metadata: Metadata = {
   title: 'Bari CMS',
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ReactQueryProvider>
           <MSWProvider>
             {children}
+            <ToastContainer />
           </MSWProvider>
         </ReactQueryProvider>
       </body>
