@@ -1,0 +1,5 @@
+[
+  { "id": "camp-001", "name": "삼성 갤럭시 S26", "status": "active", "advertiser": "삼성전자" },
+  { "id": "camp-002", "name": "LG 오휘 봄 신제품", "status": "active", "advertiser": "LG생활건강" },
+  { "id": "camp-003", "name": "배달의민족 봄맞이", "status": "done", "advertiser": "우아한형제들" }
+]
