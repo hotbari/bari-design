@@ -38,7 +38,7 @@ export function Table<T>({ columns, rows, keyExtractor, onRowClick, emptyMessage
                 onClick={onRowClick ? () => onRowClick(row) : undefined}
                 className={onRowClick ? styles.clickable : ''}
                 tabIndex={onRowClick ? 0 : undefined}
-                role={onRowClick ? 'link' : undefined}
+                role={onRowClick ? 'button' : undefined}
                 onKeyDown={onRowClick ? (e) => { if (e.key === 'Enter') onRowClick(row) } : undefined}
               >
                 {columns.map((col) => (

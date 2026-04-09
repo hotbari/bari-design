@@ -1,12 +1,14 @@
 'use client'
 import { createPortal } from 'react-dom'
+import { useEffect, useState } from 'react'
 import { useToast } from '@/stores/toast'
 import { Toast } from './Toast'
 
 export function ToastContainer() {
   const { toasts, remove } = useToast()
-
-  if (toasts.length === 0) return null
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+  if (!mounted) return null
 
   return createPortal(
     <div

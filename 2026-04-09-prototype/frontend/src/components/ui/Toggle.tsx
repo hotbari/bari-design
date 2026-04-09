@@ -19,7 +19,6 @@ export function Toggle({ checked, onChange, label, disabled = false, id }: Toggl
         disabled={disabled}
         id={id}
         className={styles.input}
-        aria-checked={checked}
       />
       <span className={`${styles.track} ${checked ? styles.on : ''}`} aria-hidden>
         <span className={styles.thumb} />

@@ -5,7 +5,7 @@ import styles from './Sidebar.module.css'
 
 const NAV_ITEMS = [
   {
-    href: '/dashboard',
+    href: '/',
     label: '대시보드',
     icon: (
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
@@ -124,7 +124,7 @@ export function Sidebar() {
         ))}
       </div>
 
-      <div className={styles.footer} role="button" tabIndex={0} aria-label="내 프로필">
+      <div className={styles.footer}>
         <div className={styles.footerAvatar}>김</div>
         <div className={styles.footerInfo}>
           <div className={styles.footerRole}>어드민</div>
