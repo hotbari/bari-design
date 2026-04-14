@@ -17,7 +17,7 @@ export const scheduleSchema = z.object({
 
 export const scheduleInputSchema = z.object({
   name: z.string().min(1, '편성명을 입력하세요'),
-  priority: z.number().min(1).max(5),
+  priority: z.number({ error: '우선순위를 입력하세요' }).min(1, '우선순위는 1~5 사이입니다').max(5, '우선순위는 1~5 사이입니다'),
   mediaIds: z.array(z.string()).min(1, '매체를 선택하세요'),
   startAt: z.string().min(1, '시작일을 입력하세요'),
   endAt: z.string().min(1, '종료일을 입력하세요'),

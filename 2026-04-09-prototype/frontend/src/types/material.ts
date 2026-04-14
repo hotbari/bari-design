@@ -19,7 +19,7 @@ export const materialInputSchema = z.object({
   advertiser: z.string().min(1, '광고주를 입력하세요'),
   mediaId: z.string().min(1, '매체를 선택하세요'),
   resolution: z.string().min(1, '해상도를 입력하세요'),
-  duration: z.number().min(1, '재생시간을 입력하세요'),
+  duration: z.number({ error: '재생시간을 입력하세요' }).min(1, '재생시간은 1초 이상이어야 합니다'),
 })
 
 export type Material = z.infer<typeof materialSchema>
