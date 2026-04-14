@@ -11,9 +11,11 @@ interface DashboardCardProps {
 export function DashboardCard({ label, value, sub, accent }: DashboardCardProps) {
   return (
     <Card className={accent ? styles.accentCard : ''}>
-      <p className={styles.cardLabel}>{label}</p>
-      <p className={styles.cardValue}>{value}</p>
-      {sub && <p className={styles.cardSub}>{sub}</p>}
+      <div className={styles.cardInner}>
+        <p className={styles.cardLabel}>{label}</p>
+        <p className={styles.cardValue}>{value}</p>
+        {sub && <p className={styles.cardSub}>{sub}</p>}
+      </div>
     </Card>
   )
 }
