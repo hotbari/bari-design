@@ -12,17 +12,18 @@ export default function CampaignEditPage() {
   const mutation = useUpdateCampaign(id)
   const { add } = useToast()
 
-  if (isLoading) return <p style={{ padding: '24px' }}>불러오는 중...</p>
+  if (isLoading || !campaign) return <p style={{ padding: '24px' }}>불러오는 중...</p>
 
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>캠페인 수정</h1>
       <CampaignForm
-        defaultValues={campaign ? {
+        key={campaign.id}
+        defaultValues={{
           name: campaign.name,
           advertiser: campaign.advertiser,
           status: campaign.status === 'done' ? 'pending' : campaign.status,
-        } : undefined}
+        }}
         isPending={mutation.isPending}
         onSubmit={(data) =>
           mutation.mutate(data, {

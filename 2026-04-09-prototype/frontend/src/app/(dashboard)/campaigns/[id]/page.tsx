@@ -9,12 +9,12 @@ import styles from '../campaigns.module.css'
 export default function CampaignDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
-  const { data: campaign, isLoading } = useCampaignDetail(id)
+  const { data: campaign, isLoading, isError } = useCampaignDetail(id)
   const deleteMutation = useDeleteCampaign()
   const { add } = useToast()
 
   if (isLoading) return <p style={{ padding: '24px' }}>불러오는 중...</p>
-  if (!campaign) return <p style={{ padding: '24px' }}>캠페인을 찾을 수 없습니다</p>
+  if (isError || !campaign) return <p style={{ padding: '24px' }}>캠페인을 찾을 수 없습니다</p>
 
   return (
     <div className={styles.page}>
