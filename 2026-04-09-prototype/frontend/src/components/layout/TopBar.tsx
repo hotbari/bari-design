@@ -20,7 +20,7 @@ export function TopBar({ breadcrumb = [] }: TopBarProps) {
         ))}
       </nav>
       <div className={styles.actions}>
-        <Suspense>
+        <Suspense fallback={null}>
           <RoleSelector />
         </Suspense>
         <button className={styles.iconBtn} aria-label="알림">
