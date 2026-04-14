@@ -28,7 +28,7 @@ export function FilterBar({
   return (
     <div className={styles.bar}>
       {filters.map((filter) => (
-        <RadixSelect.Root key={filter.key} value={filter.value} onValueChange={filter.onChange}>
+        <RadixSelect.Root key={filter.key} value={filter.value || '__all__'} onValueChange={(v) => filter.onChange(v === '__all__' ? '' : v)}>
           <RadixSelect.Trigger className={styles.select} aria-label={filter.label}>
             <RadixSelect.Value placeholder={filter.label} />
             <RadixSelect.Icon>
@@ -40,7 +40,7 @@ export function FilterBar({
           <RadixSelect.Portal>
             <RadixSelect.Content className={styles.dropdown} position="popper" sideOffset={4}>
               <RadixSelect.Viewport>
-                <RadixSelect.Item value="" className={styles.item}>
+                <RadixSelect.Item value="__all__" className={styles.item}>
                   <RadixSelect.ItemText>{filter.label} (전체)</RadixSelect.ItemText>
                 </RadixSelect.Item>
                 {filter.options.map((opt) => (
