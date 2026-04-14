@@ -14,7 +14,7 @@ export default function ProfilePage() {
         </div>
         <div className={styles.field}>
           <label htmlFor="profile-email" className={styles.label}>이메일</label>
-          <input id="profile-email" className={styles.input} type="email" defaultValue="kim@bari.io" disabled style={{ background: 'var(--color-neutral-50)', color: 'var(--color-neutral-500)' }} />
+          <input id="profile-email" className={styles.input} type="email" defaultValue="kim@bari.io" disabled />
         </div>
         <div className={styles.actions}>
           <Button>저장</Button>

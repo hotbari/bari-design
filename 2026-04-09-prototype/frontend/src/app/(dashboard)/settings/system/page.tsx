@@ -29,10 +29,10 @@ export default function SystemSettingsPage() {
         <h2 className={styles.sectionTitle}>동기화</h2>
         <div className={styles.row}>
           <div>
-            <p className={styles.rowLabel}>자동 동기화 간격</p>
+            <label htmlFor="sys-sync" className={styles.rowLabel}>자동 동기화 간격</label>
             <p className={styles.rowSub}>편성 데이터를 매체에 자동 전송하는 주기</p>
           </div>
-          <select id="sys-sync" className={styles.input} style={{ width: '120px' }}>
+          <select id="sys-sync" className={`${styles.input} ${styles.inputNarrow}`}>
             <option value="5">5분</option>
             <option value="10">10분</option>
             <option value="30">30분</option>
