@@ -14,22 +14,22 @@ export default function SyncSchedulePage() {
     <div className={styles.page}>
       <h1 className={styles.title}>동기화 관리</h1>
       {isLoading ? <p>불러오는 중...</p> : (
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-sm)' }}>
-          <thead>
-            <tr style={{ borderBottom: '1px solid var(--color-neutral-200)' }}>
-              {['편성명', '동기화 상태', ''].map((h) => (
-                <th key={h} style={{ padding: '10px 12px', textAlign: 'left', color: 'var(--color-neutral-500)', fontWeight: 500 }}>{h}</th>
+        <table className={styles.syncTable}>
+          <thead className={styles.syncThead}>
+            <tr>
+              {['편성명', '동기화 상태', ''].map((h, i) => (
+                <th key={i} className={styles.syncTh}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {schedules?.map((s) => (
-              <tr key={s.id} style={{ borderBottom: '1px solid var(--color-neutral-100)' }}>
-                <td style={{ padding: '10px 12px' }}>{s.name}</td>
-                <td style={{ padding: '10px 12px' }}>
+              <tr key={s.id} className={styles.syncTr}>
+                <td className={styles.syncTd}>{s.name}</td>
+                <td className={styles.syncTd}>
                   <SyncStatusBadge syncStatus={s.syncStatus} syncLagMinutes={s.syncLagMinutes} />
                 </td>
-                <td style={{ padding: '10px 12px', textAlign: 'right' }}>
+                <td className={styles.syncTdRight}>
                   <Button
                     size="sm"
                     variant="secondary"

@@ -15,7 +15,7 @@ export default function EmergencySchedulePage() {
       <div className={styles.header}>
         <h1 className={styles.title}>긴급 편성</h1>
       </div>
-      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-neutral-600)', margin: 0 }}>
+      <p className={styles.desc}>
         기존 편성을 즉시 교체합니다. 우선순위 1로 자동 설정됩니다.
       </p>
       <ScheduleForm

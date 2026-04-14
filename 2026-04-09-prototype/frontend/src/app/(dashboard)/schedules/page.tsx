@@ -12,7 +12,7 @@ export default function SchedulesPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1 className={styles.title}>편성 관리</h1>
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div className={styles.actions}>
           <Button variant="secondary" onClick={() => router.push('/schedules/sync')}>동기화 관리</Button>
           <Button variant="secondary" onClick={() => router.push('/schedules/emergency')}>긴급 편성</Button>
           <Button onClick={() => router.push('/schedules/new')}>+ 편성 등록</Button>
