@@ -26,6 +26,21 @@ async function createSchedule(input: ScheduleInput): Promise<Schedule> {
   return res.json()
 }
 
+async function updateSchedule({ id, input }: { id: string; input: ScheduleInput }): Promise<Schedule> {
+  const res = await fetch(`/api/schedules/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input),
+  })
+  if (!res.ok) throw new Error('편성 수정 실패')
+  return res.json()
+}
+
+async function deleteSchedule(id: string): Promise<void> {
+  const res = await fetch(`/api/schedules/${id}`, { method: 'DELETE' })
+  if (!res.ok) throw new Error('편성 삭제 실패')
+}
+
 async function syncSchedule(id: string): Promise<void> {
   const res = await fetch(`/api/schedules/${id}/sync`, { method: 'POST' })
   if (!res.ok) throw new Error('동기화 실패')
@@ -43,6 +58,25 @@ export function useCreateSchedule() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: createSchedule,
+    onSuccess: () => qc.invalidateQueries({ queryKey: QUERY_KEY }),
+  })
+}
+
+export function useUpdateSchedule() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: updateSchedule,
+    onSuccess: (_, { id }) => {
+      qc.invalidateQueries({ queryKey: QUERY_KEY })
+      qc.invalidateQueries({ queryKey: detailKey(id) })
+    },
+  })
+}
+
+export function useDeleteSchedule() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: deleteSchedule,
     onSuccess: () => qc.invalidateQueries({ queryKey: QUERY_KEY }),
   })
 }
