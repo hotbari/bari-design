@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+import { RoleSelector } from './RoleSelector'
 import styles from './TopBar.module.css'
 
 interface TopBarProps {
@@ -18,6 +20,9 @@ export function TopBar({ breadcrumb = [] }: TopBarProps) {
         ))}
       </nav>
       <div className={styles.actions}>
+        <Suspense>
+          <RoleSelector />
+        </Suspense>
         <button className={styles.iconBtn} aria-label="알림">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
             <path d="M8 1a5 5 0 0 1 5 5v3l1.5 2H1.5L3 9V6a5 5 0 0 1 5-5z"/>

@@ -1,0 +1,9 @@
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.section { display: flex; flex-direction: column; gap: 12px; }
+.sectionTitle { font-size: var(--text-sm); font-weight: 600; color: var(--color-neutral-600); margin: 0; }
+.cardLabel { font-size: var(--text-xs); color: var(--color-neutral-500); margin: 0 0 6px; }
+.cardValue { font-size: 28px; font-weight: 700; color: var(--color-neutral-900); margin: 0; line-height: 1; }
+.cardSub { font-size: var(--text-xs); color: var(--color-neutral-500); margin: 6px 0 0; }
+.accentCard { border-left: 3px solid var(--color-primary-500); }
+.page { padding: 24px; display: flex; flex-direction: column; gap: 24px; }
+.pageTitle { font-size: 20px; font-weight: 600; color: var(--color-neutral-900); margin: 0; }
