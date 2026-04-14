@@ -18,8 +18,8 @@ export default function FootTrafficPage() {
         <table className={styles.ftTable}>
           <thead className={styles.ftThead}>
             <tr>
-              {['매체명', '데이터포인트 ID', '최근 수신', '상태', ''].map((h, i) => (
-                <th key={i} className={styles.ftTh}>{h}</th>
+              {['매체명', '데이터포인트 ID', '최근 수신', '상태', '액션'].map((h) => (
+                <th key={h} scope="col" className={styles.ftTh}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -32,8 +32,8 @@ export default function FootTrafficPage() {
                   {item.lastReceived ? new Date(item.lastReceived).toLocaleString('ko-KR') : '-'}
                 </td>
                 <td className={styles.ftTd}>
-                  <Badge variant={item.status === 'connected' ? 'active' : 'error'}>
-                    {item.status === 'connected' ? '연결됨' : '오류'}
+                  <Badge variant={item.status === 'connected' ? 'active' : item.status === 'error' ? 'error' : 'neutral'}>
+                    {item.status === 'connected' ? '연결됨' : item.status === 'error' ? '오류' : '미연결'}
                   </Badge>
                 </td>
                 <td className={styles.ftTdRight}>

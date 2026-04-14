@@ -27,8 +27,8 @@ export default function SspIntegrationPage() {
                 )}
               </div>
               <div className={styles.cardActions}>
-                <Badge variant={ssp.status === 'connected' ? 'active' : 'neutral'}>
-                  {ssp.status === 'connected' ? '연결됨' : '미연결'}
+                <Badge variant={ssp.status === 'connected' ? 'active' : ssp.status === 'error' ? 'error' : 'neutral'}>
+                  {ssp.status === 'connected' ? '연결됨' : ssp.status === 'error' ? '오류' : '미연결'}
                 </Badge>
                 <Button size="sm" variant="secondary">설정</Button>
               </div>
