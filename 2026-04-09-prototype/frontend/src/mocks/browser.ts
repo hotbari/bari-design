@@ -4,6 +4,8 @@ import { playlistHandlers } from './handlers/playlists'
 import { mediaHandlers } from './handlers/media'
 import { campaignHandlers } from './handlers/campaigns'
 import { userHandlers } from './handlers/users'
+import { materialHandlers } from './handlers/materials'
+import { reportHandlers } from './handlers/reports'
 
 export const browser = setupWorker(
   ...scheduleHandlers,
@@ -11,4 +13,6 @@ export const browser = setupWorker(
   ...mediaHandlers,
   ...campaignHandlers,
   ...userHandlers,
+  ...materialHandlers,
+  ...reportHandlers,
 )

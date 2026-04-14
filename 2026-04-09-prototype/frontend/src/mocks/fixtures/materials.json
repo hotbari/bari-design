@@ -1,0 +1,41 @@
+[
+  {
+    "id": "mat-001",
+    "name": "갤럭시 S26 15초",
+    "advertiser": "삼성전자",
+    "mediaId": "med-001",
+    "mediaName": "강남대로 전광판",
+    "resolution": "1920x1080",
+    "duration": 15,
+    "reviewStatus": "approved",
+    "scheduleLinked": true,
+    "status": "active",
+    "createdAt": "2026-03-20T10:00:00"
+  },
+  {
+    "id": "mat-002",
+    "name": "오휘 봄 30초",
+    "advertiser": "LG생활건강",
+    "mediaId": "med-003",
+    "mediaName": "신촌역 디스플레이",
+    "resolution": "1080x1920",
+    "duration": 30,
+    "reviewStatus": "pending",
+    "scheduleLinked": false,
+    "status": "inactive",
+    "createdAt": "2026-03-25T14:00:00"
+  },
+  {
+    "id": "mat-003",
+    "name": "배민 봄맞이 20초",
+    "advertiser": "우아한형제들",
+    "mediaId": "med-002",
+    "mediaName": "홍대입구 사이니지",
+    "resolution": "1920x1080",
+    "duration": 20,
+    "reviewStatus": "rejected",
+    "scheduleLinked": false,
+    "status": "inactive",
+    "createdAt": "2026-03-28T09:00:00"
+  }
+]
