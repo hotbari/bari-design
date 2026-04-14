@@ -18,6 +18,7 @@ export default function PlaylistEditPage() {
     <div className={styles.page}>
       <h1 className={styles.title}>{playlist.name}</h1>
       <PlaylistEditor
+        key={id}
         initialSlots={playlist.slots ?? []}
         isPending={mutation.isPending}
         onSave={(slots) => mutation.mutate(slots, {
