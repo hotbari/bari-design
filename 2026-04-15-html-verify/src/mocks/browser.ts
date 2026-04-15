@@ -8,6 +8,8 @@ import { mediaSubHandlers } from './handlers/media-sub'
 import { campaignHandlers } from './handlers/campaigns'
 import { playlistHandlers } from './handlers/playlists'
 import { scheduleHandlers } from './handlers/schedules'
+import { reportHandlers } from './handlers/reports'
+import { notificationHandlers } from './handlers/notifications'
 
 export const worker = setupWorker(
   ...materialHandlers,
@@ -19,4 +21,6 @@ export const worker = setupWorker(
   ...campaignHandlers,
   ...playlistHandlers,
   ...scheduleHandlers,
+  ...reportHandlers,
+  ...notificationHandlers,
 )

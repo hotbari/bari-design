@@ -1,0 +1,53 @@
+[
+  {
+    "id": "r1",
+    "name": "월간 캠페인 성과 — 2026년 3월",
+    "type": "campaign",
+    "status": "done",
+    "period": "2026.03.01 – 2026.03.31",
+    "createdBy": "김관리",
+    "createdAt": "2026.04.01",
+    "fileSize": "2.4MB",
+    "downloadUrl": "/files/report-r1.xlsx"
+  },
+  {
+    "id": "r2",
+    "name": "매체 상태 리포트 — 강남역",
+    "type": "media",
+    "status": "generating",
+    "period": "2026.03.15 – 2026.04.09",
+    "createdBy": "김관리",
+    "createdAt": "2026.04.09"
+  },
+  {
+    "id": "r3",
+    "name": "편성 현황 — 코엑스 아트리움",
+    "type": "schedule",
+    "status": "done",
+    "period": "2026.03.01 – 2026.03.31",
+    "createdBy": "박운영",
+    "createdAt": "2026.04.01",
+    "fileSize": "1.1MB",
+    "downloadUrl": "/files/report-r3.xlsx"
+  },
+  {
+    "id": "r4",
+    "name": "캠페인 성과 — 롯데타운 Q1",
+    "type": "campaign",
+    "status": "fail",
+    "period": "2026.01.01 – 2026.03.31",
+    "createdBy": "김관리",
+    "createdAt": "2026.03.31"
+  },
+  {
+    "id": "r5",
+    "name": "매체 상태 리포트 — 홍대 미디어폴",
+    "type": "media",
+    "status": "done",
+    "period": "2026.02.01 – 2026.02.28",
+    "createdBy": "이에이전시",
+    "createdAt": "2026.03.01",
+    "fileSize": "870KB",
+    "downloadUrl": "/files/report-r5.xlsx"
+  }
+]

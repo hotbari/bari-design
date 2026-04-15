@@ -1,0 +1,82 @@
+[
+  {
+    "id": "n1",
+    "type": "critical",
+    "priority": "critical",
+    "title": "신촌역 디스플레이 — 연결 끊김",
+    "desc": "신촌역 디스플레이가 15분째 응답하지 않습니다. 현재 편성 재생이 중단된 상태일 수 있습니다.",
+    "time": "방금 전",
+    "read": false,
+    "link": "/media"
+  },
+  {
+    "id": "n2",
+    "type": "critical",
+    "priority": "warning",
+    "title": "편성 충돌 감지 — 강남대로 5월 편성",
+    "desc": "「봄 시즌 브랜딩」과 「공익광고 모음 A」가 2026-05-15 ~ 2026-05-20 기간에 충돌합니다.",
+    "time": "23분 전",
+    "read": false,
+    "link": "/schedules"
+  },
+  {
+    "id": "n3",
+    "type": "campaign",
+    "priority": "info",
+    "title": "캠페인 승인 요청 — 삼성전자 갤럭시 S25",
+    "desc": "박운영님이 「삼성전자 갤럭시 S25 런치」 캠페인의 소재 4건을 검수 요청했습니다.",
+    "time": "1시간 전",
+    "read": false,
+    "link": "/campaigns"
+  },
+  {
+    "id": "n4",
+    "type": "system",
+    "priority": "info",
+    "title": "신규 사용자 — 이준혁님이 초대를 수락했습니다",
+    "desc": "운영대행사(이준혁)님이 팀에 합류했습니다. 역할: 운영대행사",
+    "time": "3시간 전",
+    "read": false,
+    "link": "/users"
+  },
+  {
+    "id": "n5",
+    "type": "schedule",
+    "priority": "success",
+    "title": "편성표 즉시 반영 완료",
+    "desc": "「2026 봄 시즌 브랜딩」 편성표가 강남대로 전광판에 정상 반영되었습니다.",
+    "time": "5시간 전",
+    "read": false,
+    "link": "/schedules"
+  },
+  {
+    "id": "n6",
+    "type": "system",
+    "priority": "info",
+    "title": "월간 리포트 생성 완료 — 2026년 3월",
+    "desc": "3월 운영 리포트가 생성되었습니다. 리포트 메뉴에서 확인하세요.",
+    "time": "어제",
+    "read": true,
+    "link": "/reports"
+  },
+  {
+    "id": "n7",
+    "type": "campaign",
+    "priority": "success",
+    "title": "캠페인 집행 시작 — 현대차 아이오닉 6",
+    "desc": "2026-04-01 09:00 기준 집행이 시작되었습니다. 연결 편성표 2건이 활성화되었습니다.",
+    "time": "2026-04-01",
+    "read": true,
+    "link": "/campaigns"
+  },
+  {
+    "id": "n8",
+    "type": "schedule",
+    "priority": "info",
+    "title": "편성 예약 확인 — 잠실 롯데타운 5월",
+    "desc": "잠실 롯데타운 전광판의 5월 편성 예약이 완료되었습니다.",
+    "time": "2026-03-30",
+    "read": true,
+    "link": "/schedules"
+  }
+]
