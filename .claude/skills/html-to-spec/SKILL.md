@@ -1,6 +1,6 @@
 ---
 name: html-to-spec
-description: Use when an HTML prototype has been approved and code implementation is about to begin, or when implemented code is suspected to have drifted from the HTML prototype. Extracts full screen specs from HTML — list screens (columns, filters, enums) and form/detail screens (layout, sections, component types, behaviors). Stack-agnostic.
+description: Use when an HTML prototype has been approved and code implementation is about to begin. Extracts full screen specs from HTML by pattern — tables, filters, form sections, info grids, nested tables, modals, and behaviors. No screen type classification. Stack-agnostic.
 argument-hint: "[html-dir] [file1.html file2.html ...]  — omit to auto-detect prototype directory"
 user-invocable: true
 ---
