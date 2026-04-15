@@ -22,8 +22,8 @@ export function ScheduleTable({ schedules }: Props) {
           </tr>
         </thead>
         <tbody>
-          {schedules.map((s, i) => (
-            <tr key={i}>
+          {schedules.map((s) => (
+            <tr key={`${s.mediaName}-${s.scheduleName}`}>
               <td>{s.mediaName}</td>
               <td>
                 <a href="#" className={styles.link}>{s.scheduleName}</a>

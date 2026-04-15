@@ -82,7 +82,7 @@ export function VersionHistory({ versions }: Props) {
                     {v.isCurrent ? (
                       <span>—</span>
                     ) : (
-                      <button className="btn btn-secondary" style={{ fontSize: '11px', padding: '3px 10px' }}>
+                      <button className={`btn btn-secondary ${styles.revertBtn}`}>
                         되돌리기
                       </button>
                     )}

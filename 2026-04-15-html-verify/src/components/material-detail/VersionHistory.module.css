@@ -76,3 +76,4 @@
 .badgeManual    { background: var(--color-warning-50); color: var(--color-warning-600); border: 1px solid oklch(0.88 0.08 55); }
 .badgeOnAir     { background: var(--color-primary-50); color: var(--color-primary-600); border: 1px solid oklch(0.87 0.10 155); font-weight: 700; }
 .badgeWaiting   { background: var(--color-neutral-100); color: var(--color-neutral-600); border: 1px solid rgba(0,0,0,0.08); }
+.revertBtn { font-size: 11px; padding: 3px 10px; }
