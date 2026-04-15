@@ -1,0 +1,19 @@
+{
+  "integrationStatus": "success",
+  "webhookUrl": "https://bari-cms.example.com/api/webhooks/ssp/naver",
+  "apiKey": "nv_ssp_key_abc123xyz",
+  "lastEventAt": "2026-04-15 14:28:05",
+  "mappings": [
+    { "id": "mp1", "sspMediaId": "NV_OOH_001", "cmsMediaName": "강남역 1번 출구 A", "location": "서울시 강남구 강남대로 396", "status": "success" },
+    { "id": "mp2", "sspMediaId": "NV_OOH_002", "cmsMediaName": "홍대입구역 B출구", "location": "서울시 마포구 양화로 188", "status": "success" },
+    { "id": "mp3", "sspMediaId": "NV_OOH_003", "cmsMediaName": "롯데월드몰 1F 메인", "location": "서울시 송파구 올림픽로 300", "status": "error" },
+    { "id": "mp4", "sspMediaId": "NV_OOH_004", "cmsMediaName": "인천공항 T1 출국장", "location": "인천시 중구 공항로 272", "status": "success" }
+  ],
+  "eventLogs": [
+    { "id": "ev1", "status": "success", "eventName": "impression_report", "detail": "매체ID: NV_OOH_001, 응답코드: 200, 응답시간: 142ms", "time": "14:28:05" },
+    { "id": "ev2", "status": "success", "eventName": "slot_request", "detail": "매체ID: NV_OOH_002, 응답코드: 200, 응답시간: 98ms", "time": "14:27:30" },
+    { "id": "ev3", "status": "error", "eventName": "impression_report", "detail": "매체ID: NV_OOH_003, 응답코드: 503, 응답시간: 0ms", "time": "14:25:12" },
+    { "id": "ev4", "status": "success", "eventName": "slot_request", "detail": "매체ID: NV_OOH_001, 응답코드: 200, 응답시간: 112ms", "time": "14:22:45" },
+    { "id": "ev5", "status": "success", "eventName": "impression_report", "detail": "매체ID: NV_OOH_004, 응답코드: 200, 응답시간: 155ms", "time": "14:20:00" }
+  ]
+}

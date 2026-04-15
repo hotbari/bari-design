@@ -1,0 +1,12 @@
+{
+  "connection": "success",
+  "provider": "skt",
+  "apiEndpoint": "https://api.skt-data.com/v2/foot-traffic",
+  "lastSyncAt": "2026-04-15 14:00:00",
+  "mappings": [
+    { "id": "ft1", "mediaName": "강남역 1번 출구 A", "datapointId": "SKT_GANG_001", "lastReceived": "5분 전", "status": "success" },
+    { "id": "ft2", "mediaName": "홍대입구역 B출구", "datapointId": "SKT_HONG_002", "lastReceived": "12분 전", "status": "pending" },
+    { "id": "ft3", "mediaName": "롯데월드몰 1F 메인", "datapointId": "SKT_LOTT_003", "lastReceived": "3시간 전", "status": "disconnected" },
+    { "id": "ft4", "mediaName": "인천공항 T1 출국장", "datapointId": "SKT_ICN_004", "lastReceived": "2분 전", "status": "success" }
+  ]
+}

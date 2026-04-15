@@ -1,0 +1,28 @@
+.form { display: flex; flex-direction: column; gap: 20px; max-width: 800px; }
+
+.card { background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 16px; }
+.cardTitle { font-size: var(--text-base); font-weight: 700; color: var(--color-neutral-900); margin-bottom: 4px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+
+.fieldRow { display: flex; flex-direction: column; gap: 6px; }
+.label { font-size: var(--text-sm); font-weight: 600; color: var(--color-neutral-700); }
+.input { padding: 8px 12px; border: 1px solid rgba(0,0,0,0.12); border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--color-neutral-900); background: white; }
+.input:focus { outline: none; border-color: var(--color-primary-500); }
+.select { padding: 8px 12px; border: 1px solid rgba(0,0,0,0.12); border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--color-neutral-900); background: white; }
+.select:focus { outline: none; border-color: var(--color-primary-500); }
+.textarea { padding: 8px 12px; border: 1px solid rgba(0,0,0,0.12); border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--color-neutral-900); resize: vertical; font-family: inherit; }
+.textarea:focus { outline: none; border-color: var(--color-primary-500); }
+
+.radioGroup { display: flex; flex-wrap: wrap; gap: 12px; }
+.radioLabel { display: flex; align-items: center; gap: 6px; font-size: var(--text-sm); color: var(--color-neutral-700); cursor: pointer; }
+
+.timeInputs { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.timeInput { padding: 6px 10px; border: 1px solid rgba(0,0,0,0.12); border-radius: var(--radius-md); font-size: var(--text-sm); }
+.timeSep { color: var(--color-neutral-500); font-size: var(--text-sm); }
+
+.actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding-bottom: 24px; }
+.btnPrimary { padding: 8px 20px; background: var(--color-primary-500); color: white; border: none; border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 600; cursor: pointer; }
+.btnPrimary:hover { background: var(--color-primary-600); }
+.btnSecondary { padding: 8px 20px; background: white; color: var(--color-neutral-700); border: 1px solid rgba(0,0,0,0.12); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 500; cursor: pointer; }
+.btnSecondary:hover { background: var(--color-neutral-50); }
+.btnCancel { padding: 8px 20px; background: none; color: var(--color-neutral-500); border: none; border-radius: var(--radius-md); font-size: var(--text-sm); cursor: pointer; }
+.btnCancel:hover { color: var(--color-neutral-700); background: var(--color-neutral-100); }
