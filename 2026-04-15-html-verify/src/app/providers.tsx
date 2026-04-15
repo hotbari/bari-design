@@ -11,7 +11,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
     import('../mocks/browser').then(({ worker }) =>
       worker.start({ onUnhandledRequest: 'bypass' })
     ).finally(() => setReady(true))
