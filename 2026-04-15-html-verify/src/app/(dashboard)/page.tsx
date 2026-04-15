@@ -377,7 +377,7 @@ function OpsView({ data }: { data: OpsDashboard }) {
               <div className={styles.progressBar}>
                 <div
                   className={styles.progressFill}
-                  style={{ width: `${Math.round((data.weeklyScheduleProgress.done / data.weeklyScheduleProgress.total) * 100)}%` }}
+                  style={{ width: `${data.weeklyScheduleProgress.total === 0 ? 0 : Math.round((data.weeklyScheduleProgress.done / data.weeklyScheduleProgress.total) * 100)}%` }}
                 />
               </div>
             </div>
