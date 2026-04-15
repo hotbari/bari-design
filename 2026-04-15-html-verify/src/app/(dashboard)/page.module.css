@@ -233,3 +233,235 @@
 
 /* ── Loading/error states ── */
 .loading { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--color-neutral-400); font-size: var(--text-sm); }
+
+/* ── 2×2 그리드 레이아웃 (media/ops/sales 공통) ── */
+.bodyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* stats 4-col */
+.statsGrid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+
+/* stat card 상태 색상 변형 */
+.statCard.warn {
+  border-color: var(--color-warning-500);
+  background: var(--color-warning-50);
+}
+.statCard.error {
+  border-color: var(--color-error-500);
+  background: var(--color-error-50);
+}
+
+/* ── 섹션 헤더 (제목 + 링크) ── */
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.sectionLink {
+  font-size: var(--text-xs);
+  color: var(--color-primary-500);
+  font-weight: 600;
+}
+
+/* ── 동기화 상태 행 ── */
+.syncList { display: flex; flex-direction: column; gap: 0; }
+.syncItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border-default);
+  font-size: var(--text-sm);
+}
+.syncItem:last-child { border-bottom: none; }
+.syncItem.syncDelayed {
+  background: var(--color-warning-50);
+  margin: 0 -20px;
+  padding: 8px 20px;
+}
+.syncItem.syncFailed {
+  background: var(--color-error-50);
+  margin: 0 -20px;
+  padding: 8px 20px;
+}
+.syncName { flex: 1; }
+.syncDetail { font-size: var(--text-xs); color: var(--color-neutral-500); }
+
+/* 상태 점 */
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dotSynced  { background: var(--color-primary-500); }
+.dotDelayed { background: var(--color-warning-500); }
+.dotFailed  { background: var(--color-error-500); }
+.dotOk      { background: var(--color-primary-500); }
+.dotWarn    { background: var(--color-warning-500); }
+.dotDone    { background: var(--color-primary-500); }
+.dotPending { background: var(--color-neutral-300); }
+
+/* ── 범례 ── */
+.syncLegend {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.legendEntry {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--text-xs);
+  color: var(--color-neutral-500);
+}
+
+/* ── 타임라인 (이번주 편성 일정) ── */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tlItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border-default);
+  font-size: var(--text-sm);
+}
+.tlItem:last-child { border-bottom: none; }
+.tlDate {
+  min-width: 52px;
+  font-size: var(--text-xs);
+  color: var(--color-neutral-500);
+  padding-top: 2px;
+}
+.tlTitle { flex: 1; }
+
+/* ── 진행률 바 (소재 검수) ── */
+.matProgress { display: flex; flex-direction: column; gap: 8px; }
+.matProgressItem { display: flex; flex-direction: column; gap: 6px; }
+.matProgressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+}
+.matEta { font-size: var(--text-xs); color: var(--color-neutral-500); }
+.progressBarWrap { position: relative; }
+.progressBar {
+  height: 6px;
+  background: var(--color-neutral-200);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--color-primary-500);
+  transition: width 0.3s ease;
+}
+.progressFill.reviewing { background: var(--color-warning-500); }
+
+/* ── 담당 매체사 목록 (ops) ── */
+.companyList { display: flex; flex-direction: column; gap: 0; }
+.companyItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--color-border-default);
+  font-size: var(--text-sm);
+}
+.companyItem:last-child { border-bottom: none; }
+.companyItem.companyWarn {
+  background: var(--color-warning-50);
+  margin: 0 -20px;
+  padding: 9px 20px;
+}
+.companyItem.companyError {
+  background: var(--color-error-50);
+  margin: 0 -20px;
+  padding: 9px 20px;
+}
+.companyName { flex: 1; font-weight: 600; }
+.companyMediaCount { font-size: var(--text-xs); color: var(--color-neutral-500); margin-right: 8px; }
+
+/* ── 진행률 + 최근 편성 (ops) ── */
+.scheduleProgress { display: flex; flex-direction: column; gap: 12px; }
+.scheduleProgressLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--color-neutral-500);
+  margin-bottom: 4px;
+}
+
+/* ── 오늘 할 일 (ops) ── */
+.taskList { display: flex; flex-direction: column; gap: 0; }
+.taskItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border-default);
+  font-size: var(--text-sm);
+}
+.taskItem:last-child { border-bottom: none; }
+.taskItem input[type="checkbox"] {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--color-primary-500);
+  cursor: default;
+}
+.taskTitle { flex: 1; }
+.taskTitle.done { text-decoration: line-through; color: var(--color-neutral-400); }
+
+/* ── 캠페인 목록 (sales) ── */
+.campaignList { display: flex; flex-direction: column; gap: 0; }
+.campaignItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border-default);
+  font-size: var(--text-sm);
+}
+.campaignItem:last-child { border-bottom: none; }
+.campaignName { flex: 1; }
+
+/* ── 상태 배지 (소형) ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+.badgeOk      { background: oklch(0.93 0.06 155); color: oklch(0.42 0.14 155); }
+.badgeWarn    { background: var(--color-warning-50); color: var(--color-warning-600); }
+.badgeError   { background: var(--color-error-50); color: var(--color-error-500); }
+.badgeGray    { background: var(--color-neutral-100); color: var(--color-neutral-500); }
+.badgeActive  { background: oklch(0.93 0.06 155); color: oklch(0.42 0.14 155); }
+.badgeReviewing { background: var(--color-warning-50); color: var(--color-warning-600); }
+.badgeDraft   { background: var(--color-neutral-100); color: var(--color-neutral-500); }
+.badgeEnded   { background: oklch(0.95 0.015 240); color: oklch(0.50 0.02 240); }
+.badgeSynced  { background: oklch(0.93 0.06 155); color: oklch(0.42 0.14 155); }
+.badgeDelayed { background: var(--color-warning-50); color: var(--color-warning-600); }
+.badgeFailed  { background: var(--color-error-50); color: var(--color-error-500); }
+.badgeUrgent  { background: var(--color-error-50); color: var(--color-error-500); }
+.badgeToday   { background: var(--color-warning-50); color: var(--color-warning-600); }
+.badgeDone    { background: var(--color-neutral-100); color: var(--color-neutral-500); }
+
+/* ── 빈 상태 ── */
+.emptyState {
+  font-size: var(--text-sm);
+  color: var(--color-neutral-400);
+  text-align: center;
+  padding: 20px 0;
+}
