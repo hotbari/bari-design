@@ -1,10 +1,9 @@
-import { TimelineStep, ReviewStatus } from '@/types/material'
+import { TimelineStep } from '@/types/material'
 import { FailPanel } from './FailPanel'
 import styles from './ReviewTimeline.module.css'
 
 interface Props {
   timeline: TimelineStep[]
-  reviewStatus: ReviewStatus
   failReason?: string
   fixGuide?: string
 }
@@ -35,7 +34,7 @@ function TimelineNode({ status }: { status: TimelineStep['status'] }) {
   )
 }
 
-export function ReviewTimeline({ timeline, reviewStatus, failReason, fixGuide }: Props) {
+export function ReviewTimeline({ timeline, failReason, fixGuide }: Props) {
   return (
     <div>
       <div className={styles.sectionTitle}>검수 타임라인</div>

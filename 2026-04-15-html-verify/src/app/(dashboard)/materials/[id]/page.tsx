@@ -52,7 +52,6 @@ export default function MaterialDetailPage({ params }: { params: Promise<{ id: s
             <MaterialInfoGrid material={data}/>
             <ReviewTimeline
               timeline={data.timeline}
-              reviewStatus={data.reviewStatus}
               failReason={data.failReason}
               fixGuide={data.fixGuide}
             />
@@ -69,7 +68,7 @@ export default function MaterialDetailPage({ params }: { params: Promise<{ id: s
         isOpen={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
         onConfirm={() => setIsDeleteOpen(false)}
-        playlistCount={data.schedules.length}
+        playlistCount={data.playlistCount}
       />
     </div>
   )

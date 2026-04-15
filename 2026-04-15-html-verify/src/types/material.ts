@@ -41,6 +41,7 @@ export interface MaterialDetail {
   timeline: TimelineStep[]
   schedules: ScheduleEntry[]
   versions: VersionEntry[]
+  playlistCount: number
   failReason?: string
   fixGuide?: string
 }
