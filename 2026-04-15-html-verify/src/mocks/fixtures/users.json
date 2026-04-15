@@ -1,0 +1,7 @@
+[
+  { "id": "u1", "name": "김관리", "email": "admin@dooh.com", "role": "admin", "status": "active", "scope": "전체", "lastLogin": "2026.04.15" },
+  { "id": "u2", "name": "이매체", "email": "media@naver-ooh.com", "role": "media", "status": "active", "scope": "네이버 OOH 미디어", "lastLogin": "2026.04.14" },
+  { "id": "u3", "name": "박운영", "email": "ops@agency.com", "role": "ops", "status": "active", "scope": "삼성전자 캠페인", "lastLogin": "2026.04.13" },
+  { "id": "u4", "name": "최영업", "email": "sales@partner.com", "role": "sales", "status": "invited", "scope": "롯데 광고", "invitedAt": "2026.04.10" },
+  { "id": "u5", "name": "정테스트", "email": "old@test.com", "role": "ops", "status": "expired", "scope": "전체", "invitedAt": "2026.03.01" }
+]
