@@ -4,9 +4,10 @@ import styles from './PreviewCard.module.css'
 interface Props {
   material: Pick<MaterialDetail, 'name' | 'filename' | 'codec' | 'framerate' | 'fileSize' | 'duration'>
   onDelete: () => void
+  onReplace: () => void
 }
 
-export function PreviewCard({ material, onDelete }: Props) {
+export function PreviewCard({ material, onDelete, onReplace }: Props) {
   return (
     <div className={styles.card}>
       <div
@@ -14,7 +15,7 @@ export function PreviewCard({ material, onDelete }: Props) {
         role="img"
         aria-label={`${material.name} 소재 미리보기 (16:9)`}
       >
-        <button className={styles.playBtn} aria-hidden="true">
+        <button className={styles.playBtn} aria-hidden="true" tabIndex={-1}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
@@ -42,7 +43,7 @@ export function PreviewCard({ material, onDelete }: Props) {
       </div>
 
       <div className={styles.actions}>
-        <button className="btn btn-secondary" style={{ fontSize: 'var(--text-xs)', padding: '6px 12px' }}>
+        <button className="btn btn-secondary" style={{ fontSize: 'var(--text-xs)', padding: '6px 12px' }} onClick={onReplace}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0115-6.7L21 8"/>
             <path d="M3 22v-6h6"/><path d="M21 12a9 9 0 01-15 6.7L3 16"/>

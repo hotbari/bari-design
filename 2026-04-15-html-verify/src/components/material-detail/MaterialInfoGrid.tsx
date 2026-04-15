@@ -60,7 +60,7 @@ export function MaterialInfoGrid({ material }: Props) {
         <div className={styles.item}>
           <div className={styles.label}>검수 상태</div>
           <div className={styles.value}>
-            <span className={`${styles.badge} ${REVIEW_BADGE_CLASS[material.reviewStatus]}`} role="status">
+            <span className={`${styles.badge} ${REVIEW_BADGE_CLASS[material.reviewStatus]}`} aria-label={REVIEW_LABEL[material.reviewStatus]}>
               {material.reviewStatus === 'done' && (
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <polyline points="20 6 9 17 4 12"/>
@@ -73,7 +73,7 @@ export function MaterialInfoGrid({ material }: Props) {
         <div className={styles.item}>
           <div className={styles.label}>편성 연결</div>
           <div className={styles.value}>
-            <span className={`${styles.badge} ${SCHEDULE_BADGE_CLASS[scheduleStatus]}`} role="status">
+            <span className={`${styles.badge} ${SCHEDULE_BADGE_CLASS[scheduleStatus]}`} aria-label={SCHEDULE_LABEL[scheduleStatus]}>
               {SCHEDULE_LABEL[scheduleStatus]}
             </span>
           </div>
