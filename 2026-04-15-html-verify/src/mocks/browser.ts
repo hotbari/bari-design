@@ -5,6 +5,7 @@ import { userHandlers } from './handlers/users'
 import { mediaCompanyHandlers } from './handlers/media-companies'
 import { mediaHandlers } from './handlers/media'
 import { mediaSubHandlers } from './handlers/media-sub'
+import { campaignHandlers } from './handlers/campaigns'
 
 export const worker = setupWorker(
   ...materialHandlers,
@@ -13,4 +14,5 @@ export const worker = setupWorker(
   ...mediaCompanyHandlers,
   ...mediaHandlers,
   ...mediaSubHandlers,
+  ...campaignHandlers,
 )

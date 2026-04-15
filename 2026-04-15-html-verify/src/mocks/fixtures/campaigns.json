@@ -1,0 +1,109 @@
+[
+  {
+    "id": "c-001",
+    "name": "삼성 갤럭시 S26 론칭",
+    "advertiser": "삼성전자",
+    "agency": "제일기획",
+    "type": "direct",
+    "status": "running",
+    "startDate": "2026-04-01",
+    "endDate": "2026-04-30",
+    "targetMedia": "강남역 디지털 보드 외 3개",
+    "budget": 15000000,
+    "priceModel": "CPM",
+    "registeredAt": "2026-03-20",
+    "description": "갤럭시 S26 신제품 출시 캠페인. 주요 상권 집중 노출.",
+    "mediaList": ["강남역 디지털 보드", "홍대 스크린 A", "코엑스 몰 대형 LED", "명동 광장 보드"],
+    "schedules": [
+      { "id": "sch-001", "scheduleName": "주간 메인 편성", "period": "2026-04-01 ~ 2026-04-30", "status": "active" },
+      { "id": "sch-002", "scheduleName": "피크타임 편성", "period": "2026-04-01 ~ 2026-04-15", "status": "done" }
+    ],
+    "materials": [
+      { "id": "mat-001", "materialName": "갤럭시S26_15초_v2.mp4", "reviewStatus": "approved" },
+      { "id": "mat-002", "materialName": "갤럭시S26_정지이미지.jpg", "reviewStatus": "approved" }
+    ]
+  },
+  {
+    "id": "c-002",
+    "name": "현대 아이오닉9 브랜딩",
+    "advertiser": "현대자동차",
+    "agency": "이노션",
+    "type": "direct",
+    "status": "draft",
+    "startDate": "2026-05-01",
+    "endDate": "2026-05-31",
+    "targetMedia": "코엑스 몰 대형 LED 외 1개",
+    "budget": 22000000,
+    "priceModel": "fixed",
+    "registeredAt": "2026-04-10",
+    "description": "아이오닉9 사전 예약 캠페인.",
+    "mediaList": ["코엑스 몰 대형 LED", "여의도 IFC 보드"],
+    "schedules": [],
+    "materials": [
+      { "id": "mat-003", "materialName": "아이오닉9_30초.mp4", "reviewStatus": "pending" }
+    ]
+  },
+  {
+    "id": "c-003",
+    "name": "배달의민족 봄 프로모션",
+    "advertiser": "배달의민족",
+    "agency": "",
+    "type": "naver",
+    "status": "running",
+    "startDate": "2026-03-20",
+    "endDate": "2026-04-20",
+    "targetMedia": "홍대 스크린 A 외 2개",
+    "budget": 8500000,
+    "priceModel": "CPM",
+    "registeredAt": "2026-03-10",
+    "description": "봄 시즌 할인 이벤트 프로모션 캠페인.",
+    "mediaList": ["홍대 스크린 A", "신촌 광장 보드", "이태원 LED 타워"],
+    "schedules": [
+      { "id": "sch-003", "scheduleName": "봄 프로모션 편성", "period": "2026-03-20 ~ 2026-04-20", "status": "active" }
+    ],
+    "materials": [
+      { "id": "mat-004", "materialName": "배민_봄_이벤트_15초.mp4", "reviewStatus": "approved" }
+    ]
+  },
+  {
+    "id": "c-004",
+    "name": "LG 올레드 자사 브랜딩",
+    "advertiser": "LG생활건강",
+    "agency": "HS애드",
+    "type": "own",
+    "status": "done",
+    "startDate": "2026-02-01",
+    "endDate": "2026-03-31",
+    "targetMedia": "명동 광장 보드 외 2개",
+    "budget": 5000000,
+    "priceModel": "CPD",
+    "registeredAt": "2026-01-25",
+    "description": "자사 브랜드 인지도 제고 캠페인.",
+    "mediaList": ["명동 광장 보드", "부산 서면 보드", "대구 동성로 스크린"],
+    "schedules": [
+      { "id": "sch-004", "scheduleName": "2월 브랜딩 편성", "period": "2026-02-01 ~ 2026-02-28", "status": "done" },
+      { "id": "sch-005", "scheduleName": "3월 브랜딩 편성", "period": "2026-03-01 ~ 2026-03-31", "status": "done" }
+    ],
+    "materials": [
+      { "id": "mat-005", "materialName": "LG_올레드_브랜딩_20초.mp4", "reviewStatus": "approved" }
+    ]
+  },
+  {
+    "id": "c-005",
+    "name": "네이버 쇼핑 필러 캠페인",
+    "advertiser": "삼성전자",
+    "agency": "",
+    "type": "filler",
+    "status": "canceled",
+    "startDate": "2026-04-05",
+    "endDate": "2026-04-25",
+    "targetMedia": "강남역 디지털 보드",
+    "budget": 0,
+    "priceModel": "fixed",
+    "registeredAt": "2026-04-01",
+    "description": "공백 슬롯 채우기용 필러 캠페인. 예산 절감 목적.",
+    "mediaList": ["강남역 디지털 보드"],
+    "schedules": [],
+    "materials": []
+  }
+]
