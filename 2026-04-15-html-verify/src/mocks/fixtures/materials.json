@@ -1,0 +1,72 @@
+[
+  {
+    "id": "mat-001",
+    "name": "삼성 갤럭시 S25 런칭 캠페인",
+    "advertiser": "삼성전자",
+    "media": "강남역 출구 빌보드",
+    "resolution": "1920 × 1080 px",
+    "duration": "30초",
+    "period": "04.01 – 04.30",
+    "reviewStatus": "done",
+    "scheduleStatus": "on-air",
+    "opsStatus": "active",
+    "scheduleConnected": true,
+    "uploadedAt": "2026.04.01"
+  },
+  {
+    "id": "mat-002",
+    "name": "현대 아이오닉 6 봄 프로모션",
+    "advertiser": "현대자동차",
+    "media": "코엑스 아트리움",
+    "resolution": "2560 × 1440 px",
+    "duration": "15초",
+    "period": "04.05 – 04.25",
+    "reviewStatus": "reviewing",
+    "scheduleStatus": "waiting",
+    "opsStatus": "scheduled",
+    "scheduleConnected": false,
+    "uploadedAt": "2026.04.05"
+  },
+  {
+    "id": "mat-003",
+    "name": "LG 올레드 TV 신제품 광고",
+    "advertiser": "LG화학",
+    "media": "홍대 미디어폴",
+    "resolution": "1080 × 1920 px",
+    "duration": "15초",
+    "period": "04.10 – 04.20",
+    "reviewStatus": "failed",
+    "scheduleStatus": "none",
+    "opsStatus": "expired",
+    "scheduleConnected": false,
+    "uploadedAt": "2026.04.10"
+  },
+  {
+    "id": "mat-004",
+    "name": "카카오페이 봄 이벤트",
+    "advertiser": "카카오",
+    "media": "잠실 롯데타운",
+    "resolution": "1920 × 1080 px",
+    "duration": "30초",
+    "period": "04.08 – 05.08",
+    "reviewStatus": "manual",
+    "scheduleStatus": "waiting",
+    "opsStatus": "scheduled",
+    "scheduleConnected": true,
+    "uploadedAt": "2026.04.08"
+  },
+  {
+    "id": "mat-005",
+    "name": "삼성 비스포크 냉장고 캠페인",
+    "advertiser": "삼성전자",
+    "media": "강남역 출구 빌보드",
+    "resolution": "1920 × 1080 px",
+    "duration": "30초",
+    "period": "03.01 – 03.31",
+    "reviewStatus": "done",
+    "scheduleStatus": "ended",
+    "opsStatus": "expired",
+    "scheduleConnected": true,
+    "uploadedAt": "2026.03.01"
+  }
+]
