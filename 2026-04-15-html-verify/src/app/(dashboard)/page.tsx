@@ -343,6 +343,7 @@ function OpsView({ data }: { data: OpsDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>담당 매체사 현황</div>
+            <a href="/media" className={styles.sectionLink}>매체 →</a>
           </div>
           <div className={styles.companyList}>
             {data.managedCompanies.map(c => (
@@ -420,7 +421,10 @@ function OpsView({ data }: { data: OpsDashboard }) {
 
         {/* 알림 */}
         <div className={styles.section}>
-          <div className={styles.sectionTitle}>알림</div>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>알림</div>
+            <a href="/notifications" className={styles.sectionLink}>전체 →</a>
+          </div>
           {data.notifications.length === 0 ? (
             <div className={styles.emptyState}>새 알림이 없습니다</div>
           ) : (
