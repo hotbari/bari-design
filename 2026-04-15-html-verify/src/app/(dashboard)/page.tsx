@@ -444,6 +444,105 @@ function OpsView({ data }: { data: OpsDashboard }) {
   )
 }
 
+function SalesView({ data }: { data: SalesDashboard }) {
+  return (
+    <>
+      <div className={styles.statsGrid3}>
+        {data.stats.map(s => (
+          <div key={s.label} className={styles.statCard}>
+            <div className={styles.statLabel}>{s.label}</div>
+            <div className={styles.statValue}>
+              {s.value}
+              {s.unit && <span className={styles.statUnit}>{s.unit}</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className={styles.bodyGrid}>
+        {/* 담당 캠페인 현황 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>담당 캠페인 현황</div>
+            <a href="/campaigns" className={styles.sectionLink}>캠페인 →</a>
+          </div>
+          {data.campaigns.length === 0 ? (
+            <div className={styles.emptyState}>담당 캠페인이 없습니다</div>
+          ) : (
+            <div className={styles.campaignList}>
+              {data.campaigns.map(c => (
+                <div key={c.id} className={styles.campaignItem}>
+                  <span className={`${styles.statusDot} ${c.status === 'active' ? styles.dotSynced : c.status === 'reviewing' ? styles.dotDelayed : styles.dotPending}`} />
+                  <span className={styles.campaignName}>{c.name}</span>
+                  <span className={`${styles.badge} ${styles[CAMPAIGN_BADGE[c.status]]}`}>
+                    {CAMPAIGN_LABEL[c.status]}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* 소재 검수 현황 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>소재 검수 현황</div>
+            <a href="/materials" className={styles.sectionLink}>소재 →</a>
+          </div>
+          {data.pendingMaterials.length === 0 ? (
+            <div className={styles.emptyState}>검수 중인 소재가 없습니다</div>
+          ) : (
+            <div className={styles.matProgress}>
+              {data.pendingMaterials.map(m => (
+                <div key={m.id} className={styles.matProgressItem}>
+                  <div className={styles.matProgressHeader}>
+                    <span>{m.name}</span>
+                    <span className={`${styles.badge} ${m.status === 'reviewing' ? styles.badgeReviewing : styles.badgeGray}`}>
+                      {m.status === 'reviewing' ? '검수중' : '대기중'}
+                    </span>
+                  </div>
+                  {m.status === 'reviewing' && (
+                    <>
+                      <div className={styles.progressBar}>
+                        <div
+                          className={`${styles.progressFill} ${styles.reviewing}`}
+                          style={{ width: `${m.progress}%` }}
+                        />
+                      </div>
+                      {m.eta && <div className={styles.matEta}>예상 완료: {m.eta}</div>}
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* 알림 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>알림</div>
+            <a href="/notifications" className={styles.sectionLink}>전체 →</a>
+          </div>
+          {data.notifications.length === 0 ? (
+            <div className={styles.emptyState}>새 알림이 없습니다</div>
+          ) : (
+            <div className={styles.notifList}>
+              {data.notifications.map(n => (
+                <div key={n.id} className={styles.notifItem}>
+                  <span className={`${styles.notifDot} ${n.read ? styles.read : styles.unread}`} />
+                  <span className={styles.notifText}>{n.text}</span>
+                  <span className={styles.notifTime}>{n.time}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  )
+}
+
 // ── Main page ──────────────────────────────────────────────────────────────
 export default function DashboardPage() {
   const [role] = useRole()
@@ -481,7 +580,7 @@ export default function DashboardPage() {
       {data && role === 'admin' && <AdminView data={data as AdminDashboard} />}
       {data && role === 'media' && <MediaView data={data as MediaDashboard} />}
       {data && role === 'ops' && <OpsView data={data as OpsDashboard} />}
-      {data && role === 'sales' && <OpsView data={data as OpsDashboard} />}
+      {data && role === 'sales' && <SalesView data={data as SalesDashboard} />}
     </div>
   )
 }
