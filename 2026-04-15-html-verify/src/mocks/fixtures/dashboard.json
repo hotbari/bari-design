@@ -46,15 +46,27 @@
     "stats": [
       { "label": "보유 매체", "value": 8 },
       { "label": "진행 캠페인", "value": 5 },
-      { "label": "검수 대기", "value": 2 }
+      { "label": "동기화 미완료", "value": 1 },
+      { "label": "검수 대기", "value": 1 }
     ],
     "campaignChips": [
       { "status": "active", "count": 5 },
       { "status": "draft", "count": 2 },
       { "status": "ended", "count": 1 }
     ],
+    "syncStatus": [
+      { "id": "m1", "name": "강남역 출구 빌보드", "status": "synced" },
+      { "id": "m2", "name": "코엑스 외벽 광고", "status": "synced" },
+      { "id": "m3", "name": "홍대입구 디지털 보드", "status": "delayed", "detail": "지연 3분" },
+      { "id": "m4", "name": "신촌역 스크린", "status": "failed" }
+    ],
+    "weeklySchedule": [
+      { "id": "s1", "date": "오늘", "title": "삼성 갤럭시 S25 소재 교체", "status": "reviewing" },
+      { "id": "s2", "date": "목요일", "title": "현대카드 캠페인 시작", "status": "confirmed" },
+      { "id": "s3", "date": "금요일", "title": "SK텔레콤 신규 편성", "status": "pending" }
+    ],
     "pendingMaterials": [
-      { "id": "mat1", "name": "삼성 갤럭시 S25 소재", "status": "reviewing" }
+      { "id": "mat1", "name": "삼성 갤럭시 S25 소재", "status": "reviewing", "progress": 60, "eta": "약 2시간 후" }
     ],
     "notifications": [
       { "id": "n1", "text": "소재 검수 완료", "time": "30분 전", "read": false }
@@ -62,24 +74,46 @@
   },
   "ops": {
     "stats": [
-      { "label": "관리 캠페인", "value": 12 },
+      { "label": "관리 매체사", "value": 3 },
+      { "label": "진행 캠페인", "value": 12 },
       { "label": "이번주 편성", "value": 7 },
-      { "label": "알림", "value": 3 }
+      { "label": "미처리 알림", "value": 3 }
     ],
-    "scheduleAlerts": [
-      { "id": "s1", "message": "4월 2주차 편성 동기화 지연", "severity": "warn" }
+    "managedCompanies": [
+      { "id": "c1", "name": "시티미디어", "mediaCount": 8, "status": "ok" },
+      { "id": "c2", "name": "스크린에이드", "mediaCount": 5, "status": "warn", "detail": "편성 지연" },
+      { "id": "c3", "name": "아웃도어플러스", "mediaCount": 12, "status": "ok" }
+    ],
+    "weeklyScheduleProgress": { "done": 5, "total": 7 },
+    "recentSchedules": [
+      { "id": "sch1", "title": "현대카드 4월 편성", "status": "done" },
+      { "id": "sch2", "title": "4월 2주차 동기화", "status": "delayed" }
+    ],
+    "todayTasks": [
+      { "id": "t1", "title": "스크린에이드 편성 동기화 확인", "priority": "urgent", "done": false },
+      { "id": "t2", "title": "삼성전자 캠페인 편성표 제출", "priority": "today", "done": false },
+      { "id": "t3", "title": "SK 5월 캠페인 초안 작성", "priority": "normal", "done": true }
     ],
     "notifications": [
-      { "id": "n1", "text": "편성표 승인 요청", "time": "1시간 전", "read": false }
+      { "id": "n1", "text": "편성표 승인 요청", "time": "1시간 전", "read": false },
+      { "id": "n2", "text": "4월 2주차 편성 동기화 지연 — 스크린에이드", "time": "2시간 전", "read": false }
     ]
   },
   "sales": {
     "stats": [
-      { "label": "관리 캠페인", "value": 9 },
-      { "label": "이번주 편성", "value": 5 },
-      { "label": "알림", "value": 1 }
+      { "label": "담당 캠페인", "value": 9 },
+      { "label": "검수 대기 소재", "value": 2 },
+      { "label": "이번달 집행", "value": 5 }
     ],
-    "scheduleAlerts": [],
+    "campaigns": [
+      { "id": "cp1", "name": "삼성전자 갤럭시 S25", "status": "active" },
+      { "id": "cp2", "name": "현대카드 ZERO", "status": "reviewing" },
+      { "id": "cp3", "name": "LG전자 올레드 TV", "status": "draft" }
+    ],
+    "pendingMaterials": [
+      { "id": "mat1", "name": "현대카드 ZERO 15초", "status": "reviewing", "progress": 60, "eta": "오후 3시경" },
+      { "id": "mat2", "name": "LG 올레드 30초", "status": "pending", "progress": 0, "eta": null }
+    ],
     "notifications": [
       { "id": "n1", "text": "캠페인 승인 요청", "time": "2시간 전", "read": false }
     ]
