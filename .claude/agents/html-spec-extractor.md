@@ -210,12 +210,12 @@ LIST·FORM 외에 상세/설정 화면에 등장하는 패턴.
 
 ```markdown
 ---
-source: {처리 중인 HTML 파일의 경로 — 호출 시 전달된 경로 그대로}
-generated: {오늘 날짜 YYYY-MM-DD}
+source: {현재 처리 중인 HTML 파일의 경로 — 파일별로 다름. 여러 파일 처리 시 각 spec마다 해당 HTML 경로를 기록}
+generated: {오늘 날짜 YYYY-MM-DD — 시스템 날짜 또는 컨텍스트의 currentDate 사용}
 ---
 ```
 
-이미 frontmatter가 있는 spec.md를 재실행하는 경우 기존 frontmatter를 덮어쓴다.
+이미 frontmatter가 있는 spec.md를 재실행하는 경우 frontmatter 블록만 교체하고 이하 본문은 그대로 유지한다.
 frontmatter는 `# {페이지 제목}` 헤더보다 앞에 위치한다.
 
 ---
