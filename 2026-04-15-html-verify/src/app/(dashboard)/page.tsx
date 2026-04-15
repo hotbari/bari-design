@@ -207,7 +207,7 @@ function MediaView({ data }: { data: MediaDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>편성 동기화 현황</div>
-            <a href="/schedules" className={styles.sectionLink}>편성관리 →</a>
+            <Link href="/schedules" className={styles.sectionLink}>편성관리 →</Link>
           </div>
           <div className={styles.syncList}>
             {data.syncStatus.map(item => (
@@ -241,7 +241,7 @@ function MediaView({ data }: { data: MediaDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>이번주 편성 일정</div>
-            <a href="/schedules" className={styles.sectionLink}>전체 보기 →</a>
+            <Link href="/schedules" className={styles.sectionLink}>전체 보기 →</Link>
           </div>
           {data.weeklySchedule.length === 0 ? (
             <div className={styles.emptyState}>예정된 편성 일정이 없습니다</div>
@@ -265,7 +265,7 @@ function MediaView({ data }: { data: MediaDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>캠페인 현황</div>
-            <a href="/campaigns" className={styles.sectionLink}>캠페인 →</a>
+            <Link href="/campaigns" className={styles.sectionLink}>캠페인 →</Link>
           </div>
           <div className={styles.chipRow}>
             {data.campaignChips.map(c => (
@@ -281,7 +281,7 @@ function MediaView({ data }: { data: MediaDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>소재 검수 현황</div>
-            <a href="/materials" className={styles.sectionLink}>소재 →</a>
+            <Link href="/materials" className={styles.sectionLink}>소재 →</Link>
           </div>
           {data.pendingMaterials.length === 0 ? (
             <div className={styles.emptyState}>검수 중인 소재가 없습니다</div>
@@ -343,7 +343,7 @@ function OpsView({ data }: { data: OpsDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>담당 매체사 현황</div>
-            <a href="/media" className={styles.sectionLink}>매체 →</a>
+            <Link href="/media" className={styles.sectionLink}>매체 →</Link>
           </div>
           <div className={styles.companyList}>
             {data.managedCompanies.map(c => (
@@ -366,7 +366,7 @@ function OpsView({ data }: { data: OpsDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>이번주 편성 처리 현황</div>
-            <a href="/schedules" className={styles.sectionLink}>편성관리 →</a>
+            <Link href="/schedules" className={styles.sectionLink}>편성관리 →</Link>
           </div>
           <div className={styles.scheduleProgress}>
             <div>
@@ -423,7 +423,7 @@ function OpsView({ data }: { data: OpsDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>알림</div>
-            <a href="/notifications" className={styles.sectionLink}>전체 →</a>
+            <Link href="/notifications" className={styles.sectionLink}>전체 →</Link>
           </div>
           {data.notifications.length === 0 ? (
             <div className={styles.emptyState}>새 알림이 없습니다</div>
@@ -464,7 +464,7 @@ function SalesView({ data }: { data: SalesDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>담당 캠페인 현황</div>
-            <a href="/campaigns" className={styles.sectionLink}>캠페인 →</a>
+            <Link href="/campaigns" className={styles.sectionLink}>캠페인 →</Link>
           </div>
           {data.campaigns.length === 0 ? (
             <div className={styles.emptyState}>담당 캠페인이 없습니다</div>
@@ -487,7 +487,7 @@ function SalesView({ data }: { data: SalesDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>소재 검수 현황</div>
-            <a href="/materials" className={styles.sectionLink}>소재 →</a>
+            <Link href="/materials" className={styles.sectionLink}>소재 →</Link>
           </div>
           {data.pendingMaterials.length === 0 ? (
             <div className={styles.emptyState}>검수 중인 소재가 없습니다</div>
@@ -522,7 +522,7 @@ function SalesView({ data }: { data: SalesDashboard }) {
         <div className={styles.section}>
           <div className={styles.sectionHead}>
             <div className={styles.sectionTitle}>알림</div>
-            <a href="/notifications" className={styles.sectionLink}>전체 →</a>
+            <Link href="/notifications" className={styles.sectionLink}>전체 →</Link>
           </div>
           {data.notifications.length === 0 ? (
             <div className={styles.emptyState}>새 알림이 없습니다</div>
