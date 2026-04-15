@@ -1,0 +1,278 @@
+/* ── Auth CSS variables ── */
+.card {
+  --auth-primary-glow:   oklch(0.72 0.19 155 / 0.25);
+  --auth-primary-ring:   oklch(0.72 0.19 155 / 0.12);
+  --auth-primary-border: oklch(0.72 0.19 155 / 0.2);
+  --auth-error-border:   oklch(0.55 0.24 25 / 0.2);
+  --auth-card-border:    oklch(0.20 0.02 80 / 0.07);
+  --auth-card-shadow-lg: oklch(0.20 0.02 80 / 0.06);
+  --auth-card-shadow-sm: oklch(0.20 0.02 80 / 0.04);
+
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border: 1px solid var(--auth-card-border);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow:
+    0 2px 16px var(--auth-card-shadow-lg),
+    0 1px 3px  var(--auth-card-shadow-sm);
+}
+
+/* ── Skip link ── */
+.skipLink {
+  position: absolute;
+  top: -100%;
+  left: 12px;
+  padding: 8px 16px;
+  background: var(--color-neutral-900);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  z-index: 9999;
+  transition: top 0.15s;
+}
+.skipLink:focus { top: 0; }
+
+/* ── Brand ── */
+.brand {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.brandMark {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(145deg, var(--color-primary-400), var(--color-primary-600));
+  border-radius: var(--radius-lg);
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px oklch(0.72 0.19 155 / 0.25);
+}
+
+.brandMark svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: white;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.brandName {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  letter-spacing: -0.4px;
+  line-height: 1;
+}
+
+.brandSub {
+  font-size: 12px;
+  color: var(--color-neutral-500);
+  margin-top: 5px;
+}
+
+/* ── Invite block ── */
+.inviteBlock {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+  background: var(--color-primary-50);
+  border: 1px solid oklch(0.72 0.19 155 / 0.2);
+  color: var(--color-primary-700);
+}
+
+.inviteBlock svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke: currentColor;
+}
+
+/* ── Error banner ── */
+.errorBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+  background: var(--color-error-50);
+  border: 1px solid oklch(0.55 0.24 25 / 0.2);
+  color: var(--color-error-500);
+}
+
+.errorBanner svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke: currentColor;
+}
+
+/* ── Form ── */
+.formGroup {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-neutral-700);
+  margin-bottom: 5px;
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  background: white;
+  border: 1px solid oklch(0.20 0.02 80 / 0.12);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-neutral-900);
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+
+.input:hover:not(:focus):not(:disabled) {
+  border-color: oklch(0.20 0.02 80 / 0.22);
+}
+
+.input:focus {
+  border-color: var(--color-primary-400);
+  box-shadow: 0 0 0 3px oklch(0.72 0.19 155 / 0.12);
+}
+
+.input.isError {
+  border-color: var(--color-error-500);
+}
+
+/* password input with eye toggle */
+.inputWithToggle {
+  padding-right: 40px;
+}
+
+.eyeToggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  color: var(--color-neutral-400);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s;
+}
+
+.eyeToggle:hover { color: var(--color-neutral-700); }
+
+.eyeToggle:focus-visible {
+  outline: 2px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+.eyeToggle svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── Checkbox row ── */
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--color-neutral-700);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkRow input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--color-primary-500);
+  cursor: pointer;
+}
+
+/* ── Submit ── */
+.submitBtn {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+  color: white;
+  background: linear-gradient(180deg, var(--color-primary-400), var(--color-primary-500));
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow: 0 1px 2px oklch(0.72 0.19 155 / 0.25), inset 0 1px 0 oklch(1 0 0 / 0.15);
+  transition: filter 0.15s;
+}
+
+.submitBtn:hover { filter: brightness(1.05); }
+.submitBtn:active { filter: brightness(0.97); transform: translateY(1px); }
+
+.submitBtn:focus-visible {
+  outline: 2px solid var(--color-primary-400);
+  outline-offset: 2px;
+}
+
+/* ── Footer ── */
+.footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--color-neutral-400);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .skipLink { transition: none; }
+  .input, .submitBtn { transition: none; }
+  .submitBtn:active { transform: none; }
+}
