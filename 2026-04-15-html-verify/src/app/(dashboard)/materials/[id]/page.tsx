@@ -69,7 +69,7 @@ export default function MaterialDetailPage({ params }: { params: Promise<{ id: s
         isOpen={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
         onConfirm={() => setIsDeleteOpen(false)}
-        playlistCount={2}
+        playlistCount={data.schedules.length}
       />
     </div>
   )
