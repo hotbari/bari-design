@@ -43,7 +43,13 @@
   --text-md:   16px;
 
   /* Spacing */
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
   --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
@@ -90,4 +96,4 @@ button { cursor: pointer; font-family: inherit; font-size: inherit; }
   color: var(--color-error-500);
   border: 1px solid rgba(230,35,24,0.25);
 }
-.btn-danger:hover { background: oklch(0.97 0.02 25); }
+.btn-danger:hover { background: var(--color-error-50); }
