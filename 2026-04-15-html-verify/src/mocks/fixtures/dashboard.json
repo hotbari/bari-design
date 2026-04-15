@@ -46,7 +46,7 @@
     "stats": [
       { "label": "보유 매체", "value": 8 },
       { "label": "진행 캠페인", "value": 5 },
-      { "label": "동기화 미완료", "value": 1 },
+      { "label": "동기화 미완료", "value": 2 },
       { "label": "검수 대기", "value": 1 }
     ],
     "campaignChips": [
