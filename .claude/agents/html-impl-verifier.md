@@ -11,8 +11,11 @@ model: inherit
 
 ## 입력
 
-- `$SPEC_PATH`: spec.md 파일 경로 (필수)
-- `$IMPL_PATH`: tsx 파일 경로 (없으면 아래 규칙으로 추론)
+디스패치 호출 시 다음 형식으로 전달받는다:
+```
+spec: docs/design/screen-specs/campaign-list.md
+impl: src/app/(dashboard)/campaigns/page.tsx  (생략 가능 — 생략 시 아래 규칙으로 추론)
+```
 
 ## tsx 경로 추론 규칙
 
@@ -24,6 +27,10 @@ model: inherit
 | `{domain}-detail.md` | `src/app/(dashboard)/{domain}s/[id]/page.tsx` |
 | `{domain}-form.md` | `src/app/(dashboard)/{domain}s/new/page.tsx` |
 | `{domain}-edit.md` | `src/app/(dashboard)/{domain}s/[id]/edit/page.tsx` |
+
+**주의:** `{domain}s` 규칙은 단순 `s` 추가다. 다음 예외는 그대로 사용한다:
+- `media` → `media` (medias 아님)
+추론 결과 파일이 존재하지 않으면 사용자에게 경로를 묻는다.
 
 패턴 불일치 시 사용자에게 tsx 경로를 직접 묻는다. 자동 추론 시도 금지.
 
@@ -42,7 +49,7 @@ spec.md의 헤더를 기준으로 다음을 추출한다:
 | 테이블 컬럼 | `## 테이블 컬럼` | 행 수 + 헤더 텍스트 목록 |
 | 필터 | `## 필터` | 이름 목록 + 각 옵션 value 목록 |
 | 섹션 목록 | `## 섹션 목록` | 섹션 수 + 섹션명 목록 |
-| 섹션별 필드 | `## 섹션 N: {섹션명}` | 각 섹션의 필드명 목록 |
+| 섹션별 필드 | `## 섹션 N:` 또는 `### 섹션 N:` | 각 섹션의 필드명 목록 (H2·H3 모두 허용) |
 | 정보 그리드 | `## 정보 그리드` | 행 수 + 키 목록 |
 | 열거값 | `## 열거값` | value 목록 |
 | 모달 | `## 모달: {모달명}` | 존재 여부 |
@@ -54,6 +61,7 @@ spec.md의 헤더를 기준으로 다음을 추출한다:
 tsx 파일을 AI 독해로 읽어 각 항목의 실제 구현 내용을 파악한다:
 - 정규식·AST 파싱이 아니라 코드의 의미를 읽고 판단한다
 - 컴포넌트 구조, 변수명, 렌더링 로직을 통해 항목별 실제값을 추론한다
+- 페이지 tsx가 도메인 컴포넌트(예: `CampaignTable.tsx`, `ScheduleForm.tsx`)에 렌더링을 위임하는 경우, 해당 컴포넌트 파일도 읽어 실제값을 확인한다. 페이지 파일만 읽고 "없음"으로 판단하지 않는다.
 
 ### Step 4 — 비교 및 리포트 작성
 
