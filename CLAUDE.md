@@ -49,6 +49,17 @@
 - State what you found, where, and the fix. One pass.
 - If cause is unclear: say so. Do not guess.
 
+## HTML → 코드 구현 변환 규칙
+- HTML 프로토타입 승인 후 구현 전에 반드시 `/html-to-spec` 을 실행한다
+- 코드는 HTML이 아니라 `/html-to-spec` 이 생성한 스펙 문서(`docs/design/screen-specs/`)를 기준으로 작성한다
+- 스펙 문서 없이 구현을 시작하지 않는다. 스펙 → 사용자 승인 → 구현 순서를 지킨다
+- 값 rename 금지: 스펙의 상태값을 그대로 쓴다 (예: `running` → `active` 금지)
+- 테이블 컬럼 수는 스펙의 컬럼 수와 일치해야 한다
+- 필터는 스펙의 필터 종류·옵션을 그대로 구현한다. 제네릭 컴포넌트로 축소 금지
+- 구현 전 spec.md의 `source` HTML을 함께 읽는다. spec과 HTML이 충돌하면 HTML이 우선이다.
+- 의도적으로 HTML과 다르게 구현할 경우 해당 코드에 `// intentional: {이유}` 주석을 단다.
+- 구현 완료 후 `/html-verify`로 검증한다. 미해결 이슈 0건 확인 전까지 완료 선언 금지.
+
 ## Prototype Rules
 - 프로토타입 복수 파일 생성 시 공통 CSS/JS는 반드시 shared 파일로 분리. 복붙 금지
 - 화면 명세(GATE D1)를 거치지 않은 프로토타입은 만들지 않는다. 시나리오 → 프로토타입 직행 금지
