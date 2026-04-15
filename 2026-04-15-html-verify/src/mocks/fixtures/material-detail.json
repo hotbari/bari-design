@@ -1,0 +1,28 @@
+{
+  "id": "mat-001",
+  "name": "삼성 갤럭시 S25 런칭 캠페인",
+  "advertiser": "삼성전자",
+  "media": "강남역 출구 빌보드",
+  "resolution": "1920 × 1080 px",
+  "duration": "30초",
+  "period": "04.01 – 04.30",
+  "reviewStatus": "done",
+  "scheduleConnected": true,
+  "filename": "ad_samsung_s25_v2.mp4",
+  "codec": "H.264 / AAC",
+  "framerate": "30fps",
+  "fileSize": "12.4 MB",
+  "timeline": [
+    { "label": "업로드 완료", "status": "done", "time": "2026.04.01 14:32" },
+    { "label": "자동 검수", "status": "done", "time": "2026.04.01 14:32 → 14:35", "elapsed": "3분 소요" },
+    { "label": "검수 완료", "status": "done", "time": "2026.04.01 14:35" }
+  ],
+  "schedules": [
+    { "mediaName": "강남역 출구 빌보드", "scheduleName": "4월 1주차 편성표", "status": "on", "period": "04.01 – 04.07" },
+    { "mediaName": "강남역 출구 빌보드", "scheduleName": "4월 광고 편성", "status": "wait", "period": "04.08 – 04.30" }
+  ],
+  "versions": [
+    { "version": 2, "isCurrent": true, "filename": "ad_samsung_s25_v2.mp4", "replacedAt": "04.03", "reviewResult": "done" },
+    { "version": 1, "isCurrent": false, "filename": "ad_samsung_s25_v1.mp4", "replacedAt": "04.01", "reviewResult": "done" }
+  ]
+}
