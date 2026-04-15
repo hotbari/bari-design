@@ -7,6 +7,7 @@ import { mediaHandlers } from './handlers/media'
 import { mediaSubHandlers } from './handlers/media-sub'
 import { campaignHandlers } from './handlers/campaigns'
 import { playlistHandlers } from './handlers/playlists'
+import { scheduleHandlers } from './handlers/schedules'
 
 export const worker = setupWorker(
   ...materialHandlers,
@@ -17,4 +18,5 @@ export const worker = setupWorker(
   ...mediaSubHandlers,
   ...campaignHandlers,
   ...playlistHandlers,
+  ...scheduleHandlers,
 )

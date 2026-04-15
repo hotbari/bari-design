@@ -1,0 +1,75 @@
+.formLayout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; align-items: start; padding: 24px; flex: 1; overflow-y: auto; }
+
+/* Section cards */
+.section { background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 16px; }
+.section:last-child { margin-bottom: 0; }
+.sectionHeader { padding: 14px 20px; border-bottom: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; gap: 8px; }
+.sectionNum { width: 20px; height: 20px; border-radius: 50%; background: var(--color-primary-600); color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sectionTitle { font-size: var(--text-sm); font-weight: 600; color: var(--color-neutral-900); }
+.sectionBody { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+
+/* Fields */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.fieldRow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fieldLabel { font-size: var(--text-sm); font-weight: 500; color: var(--color-neutral-700); }
+.req { color: var(--color-error-500); margin-left: 2px; }
+.formInput { width: 100%; height: 38px; padding: 0 12px; border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-md); font-size: var(--text-sm); font-family: inherit; background: white; }
+.formInput:focus { border-color: var(--color-primary-400); outline: none; box-shadow: 0 0 0 3px oklch(0.62 0.14 155 / 0.12); }
+.datetimeRow { display: flex; gap: 8px; }
+
+/* Priority radio cards */
+.prioCards { display: flex; gap: 8px; }
+.prioCard { flex: 1; }
+.prioCard input[type="radio"] { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.prioCardLabel { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 10px; border: 2px solid rgba(0,0,0,0.1); border-radius: var(--radius-md); cursor: pointer; text-align: center; transition: all 0.12s; }
+.prioCardLabel:hover { border-color: var(--color-primary-300); background: var(--color-primary-50); }
+.prioCard input:checked + .prioCardLabel { border-color: var(--color-primary-500); background: var(--color-primary-50); }
+.prioBadgeInline { font-size: var(--text-xs); font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+.prio-1-badge { background: oklch(0.95 0.04 25); color: oklch(0.42 0.14 25); }
+.prio-2-badge { background: oklch(0.94 0.03 55); color: oklch(0.42 0.10 55); }
+.prio-3-badge { background: var(--color-neutral-100); color: var(--color-neutral-500); }
+.prioDesc { font-size: 10px; color: var(--color-neutral-500); line-height: 1.3; }
+
+/* Playlist selector */
+.playlistSelector { border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-md); overflow: hidden; }
+.playlistSearchRow { display: flex; align-items: center; gap: 0; border-bottom: 1px solid rgba(0,0,0,0.06); padding-left: 10px; }
+.playlistSearchRow svg { flex-shrink: 0; color: var(--color-neutral-400); }
+.playlistSearchInput { flex: 1; height: 36px; padding: 0 10px; border: none; font-size: var(--text-sm); background: white; font-family: inherit; }
+.playlistSearchInput:focus { outline: none; }
+.playlistList { max-height: 180px; overflow-y: auto; }
+.playlistItem { display: flex; align-items: center; gap: 10px; padding: 8px 12px; cursor: pointer; transition: background 0.1s; border-top: 1px solid rgba(0,0,0,0.05); }
+.playlistItem:first-child { border-top: none; }
+.playlistItem:hover { background: var(--color-neutral-50); }
+.playlistItem.selected { background: var(--color-primary-50); }
+.playlistInfo { flex: 1; min-width: 0; }
+.playlistName { font-size: var(--text-sm); font-weight: 500; color: var(--color-neutral-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.playlistMeta { font-size: var(--text-xs); color: var(--color-neutral-500); }
+.playlistCheck { width: 16px; height: 16px; border-radius: 50%; background: var(--color-primary-500); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.playlistCheck svg { width: 10px; height: 10px; stroke: white; }
+
+/* Media checkboxes */
+.mediaSearchRow { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-md) var(--radius-md) 0 0; border-bottom: none; background: white; }
+.mediaSearchRow svg { color: var(--color-neutral-400); flex-shrink: 0; }
+.mediaSearchInput { flex: 1; border: none; font-size: var(--text-sm); background: transparent; font-family: inherit; }
+.mediaSearchInput:focus { outline: none; }
+.mediaCheckList { display: flex; flex-direction: column; gap: 2px; border: 1px solid rgba(0,0,0,0.1); border-radius: 0 0 var(--radius-md) var(--radius-md); padding: 4px; max-height: 180px; overflow-y: auto; }
+.mediaCheckItem { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 5px; cursor: pointer; transition: background 0.1s; }
+.mediaCheckItem:hover { background: var(--color-neutral-50); }
+.mediaCheckItem input { width: 15px; height: 15px; accent-color: var(--color-primary-500); flex-shrink: 0; }
+.mediaCheckName { font-size: var(--text-sm); color: var(--color-neutral-900); }
+
+/* Preview panel */
+.previewPanel { background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); overflow: hidden; position: sticky; top: 0; }
+.previewHeader { padding: 14px 16px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.previewTitle { font-size: var(--text-sm); font-weight: 700; color: var(--color-neutral-900); }
+.previewBody { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.previewRow {}
+.previewLabel { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-neutral-400); margin-bottom: 3px; }
+.previewVal { font-size: var(--text-sm); color: var(--color-neutral-900); font-weight: 500; }
+.previewEmpty { color: var(--color-neutral-300); font-style: italic; font-weight: 400; }
+.formActions { display: flex; gap: 8px; padding: 14px 16px; border-top: 1px solid rgba(0,0,0,0.06); }
+.btnPrimary { flex: 1; padding: 8px 14px; background: var(--color-primary-500); color: white; border: none; border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 600; cursor: pointer; }
+.btnPrimary:hover:not(:disabled) { background: var(--color-primary-600); }
+.btnPrimary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btnSecondary { padding: 8px 14px; background: white; color: var(--color-neutral-700); border: 1px solid rgba(0,0,0,0.12); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 500; cursor: pointer; }
+.btnSecondary:hover { background: var(--color-neutral-50); }

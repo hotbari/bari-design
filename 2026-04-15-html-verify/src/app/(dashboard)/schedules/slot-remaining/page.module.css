@@ -1,0 +1,86 @@
+.page { display: flex; flex-direction: column; height: 100%; overflow: hidden; background: var(--color-neutral-100); }
+.gnb { height: 52px; flex-shrink: 0; background: white; border-bottom: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; padding: 0 24px; gap: 12px; }
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-size: var(--text-sm); color: var(--color-neutral-400); flex: 1; }
+.breadcrumbParent { color: var(--color-neutral-400); }
+.sep { font-size: 10px; color: var(--color-neutral-300); }
+.current { color: var(--color-neutral-900); font-weight: 600; }
+.gnbBell { width: 34px; height: 34px; border: none; background: none; cursor: pointer; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--color-neutral-500); }
+.gnbBell:hover { background: var(--color-neutral-100); }
+.content { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.pageHeader { display: flex; align-items: center; justify-content: space-between; }
+.pageTitle { font-size: var(--text-xl); font-weight: 700; color: var(--color-neutral-900); letter-spacing: -0.03em; }
+
+/* Summary stats */
+.statRow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.statCard { background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); padding: 16px; }
+.statLabel { font-size: var(--text-xs); color: var(--color-neutral-500); font-weight: 500; margin-bottom: 8px; }
+.statValue { font-size: 24px; font-weight: 700; color: var(--color-neutral-900); letter-spacing: -0.5px; }
+.statSub { font-size: var(--text-xs); color: var(--color-neutral-400); margin-top: 4px; }
+.statAccent { color: var(--color-primary-600); }
+.statPub { color: oklch(0.42 0.12 280); }
+
+/* Filter bar */
+.filterBar { display: flex; align-items: center; gap: 8px; background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); padding: 12px 16px; flex-wrap: wrap; }
+.filterSelect { height: 32px; padding: 0 10px; border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-md); font-size: var(--text-sm); background: white; cursor: pointer; }
+.filterSelect:focus { border-color: var(--color-primary-400); outline: none; }
+.searchWrap { flex: 1; min-width: 160px; position: relative; display: flex; align-items: center; }
+.searchWrap svg { position: absolute; left: 10px; color: var(--color-neutral-400); pointer-events: none; }
+.searchInput { width: 100%; height: 32px; padding: 0 10px 0 32px; border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-md); font-size: var(--text-sm); }
+.searchInput:focus { border-color: var(--color-primary-400); outline: none; }
+.filterReset { height: 32px; padding: 0 12px; font-size: var(--text-sm); color: var(--color-neutral-500); background: none; border: none; cursor: pointer; border-radius: var(--radius-md); }
+.filterReset:hover { background: var(--color-neutral-100); }
+
+/* Legend */
+.legend { display: flex; align-items: center; gap: 14px; font-size: var(--text-xs); color: var(--color-neutral-500); }
+.legendItem { display: flex; align-items: center; gap: 5px; }
+.legendSwatch { width: 10px; height: 10px; border-radius: 2px; }
+.swUsed { background: var(--color-primary-500); }
+.swPublic { background: oklch(0.62 0.12 280); }
+.swFree { background: var(--color-neutral-200); border: 1px solid var(--color-neutral-300); }
+
+/* Table */
+.tableCard { background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); overflow: hidden; }
+.toolbar { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.count { font-size: var(--text-sm); color: var(--color-neutral-500); }
+.count strong { color: var(--color-neutral-900); font-weight: 600; }
+.table { width: 100%; border-collapse: collapse; }
+.table thead th { padding: 10px 14px; text-align: left; font-size: var(--text-xs); font-weight: 600; color: var(--color-neutral-500); background: var(--color-neutral-50); border-bottom: 1px solid rgba(0,0,0,0.06); text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap; }
+.table thead th.right { text-align: right; }
+.table tbody tr:hover { background: var(--color-neutral-50); }
+.table tbody tr + tr td { border-top: 1px solid rgba(0,0,0,0.05); }
+.table tbody td { padding: 12px 14px; font-size: var(--text-sm); color: var(--color-neutral-800); vertical-align: middle; }
+.right { text-align: right; }
+.empty { text-align: center; padding: 40px; color: var(--color-neutral-400); font-size: var(--text-sm); }
+
+.mediaName { font-weight: 600; color: var(--color-neutral-900); }
+.mediaSub { font-size: var(--text-xs); color: var(--color-neutral-500); margin-top: 2px; }
+
+/* Slot bar */
+.slotBarWrap { display: flex; flex-direction: column; gap: 4px; }
+.slotBar { height: 12px; border-radius: 3px; overflow: hidden; display: flex; background: var(--color-neutral-100); }
+.slotSeg { height: 100%; transition: width 0.3s; }
+.segUsed { background: var(--color-primary-500); }
+.segPublic { background: oklch(0.62 0.12 280); }
+.segFree { background: var(--color-neutral-200); }
+.slotBarLabels { display: flex; gap: 10px; }
+.slotBarLabel { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--color-neutral-500); }
+.slotDot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dotUsed { background: var(--color-primary-500); }
+.dotPublic { background: oklch(0.62 0.12 280); }
+.dotFree { background: var(--color-neutral-300); }
+
+/* Status badge */
+.statusBadge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 100px; font-size: var(--text-xs); font-weight: 600; }
+.status-ok { background: var(--color-primary-50); color: var(--color-primary-700); }
+.status-limited { background: oklch(0.94 0.03 55); color: oklch(0.38 0.10 55); }
+.status-full { background: oklch(0.95 0.04 25); color: oklch(0.38 0.14 25); }
+.statusDot { width: 5px; height: 5px; border-radius: 50%; }
+.status-ok .statusDot { background: var(--color-primary-500); }
+.status-limited .statusDot { background: oklch(0.65 0.14 55); }
+.status-full .statusDot { background: oklch(0.55 0.16 25); }
+
+/* Occupancy pct */
+.pctValue { font-size: var(--text-sm); font-weight: 600; }
+.pctOk { color: var(--color-primary-700); }
+.pctWarn { color: oklch(0.42 0.12 55); }
+.pctDanger { color: oklch(0.42 0.14 25); }
