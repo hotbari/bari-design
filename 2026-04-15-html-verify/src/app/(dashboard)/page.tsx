@@ -2,7 +2,7 @@
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useRole } from '@/hooks/useRole'
-import type { AdminDashboard, MediaDashboard, OpsDashboard } from '@/types/dashboard'
+import type { AdminDashboard, MediaDashboard, OpsDashboard, SalesDashboard } from '@/types/dashboard'
 import styles from './page.module.css'
 
 const CHIP_LABEL: Record<string, string> = {
@@ -15,6 +15,20 @@ const LEGEND = [
   { status: 'error',   label: '이상',      color: 'var(--color-error-500)' },
   { status: 'offline', label: '오프라인',  color: 'var(--color-neutral-400)' },
 ]
+
+const SYNC_STATUS_BADGE: Record<string, string> = { synced: 'badgeSynced', delayed: 'badgeDelayed', failed: 'badgeFailed' }
+const SYNC_STATUS_LABEL: Record<string, string> = { synced: '동기화 완료', delayed: '지연', failed: '미완료' }
+const SYNC_DOT: Record<string, string> = { synced: 'dotSynced', delayed: 'dotDelayed', failed: 'dotFailed' }
+const SCHEDULE_BADGE: Record<string, string> = { confirmed: 'badgeOk', reviewing: 'badgeReviewing', pending: 'badgeGray' }
+const SCHEDULE_LABEL: Record<string, string> = { confirmed: '확정', reviewing: '검수중', pending: '미확정' }
+const SCHEDULE_DOT: Record<string, string> = { confirmed: 'dotSynced', reviewing: 'dotDelayed', pending: 'dotPending' }
+const CAMPAIGN_BADGE: Record<string, string> = { active: 'badgeActive', reviewing: 'badgeReviewing', draft: 'badgeDraft', ended: 'badgeEnded' }
+const CAMPAIGN_LABEL: Record<string, string> = { active: '진행중', reviewing: '검수중', draft: '초안', ended: '종료' }
+const COMPANY_STATUS_BADGE: Record<string, string> = { ok: 'badgeOk', warn: 'badgeWarn', error: 'badgeError' }
+const COMPANY_STATUS_LABEL: Record<string, string> = { ok: '정상', warn: '주의', error: '오류' }
+const TASK_BADGE: Record<string, string> = { urgent: 'badgeUrgent', today: 'badgeWarn', normal: 'badgeGray' }
+const TASK_BADGE_LABEL: Record<string, string> = { urgent: '긴급', today: '오늘', normal: '일반' }
+const RECENT_SCH_DOT: Record<string, string> = { done: 'dotDone', delayed: 'dotDelayed', pending: 'dotPending' }
 
 function nowLabel() {
   return new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' })
@@ -168,59 +182,133 @@ function AdminView({ data }: { data: AdminDashboard }) {
 
 // ── Media company dashboard ────────────────────────────────────────────────
 function MediaView({ data }: { data: MediaDashboard }) {
+  const syncFailCount = data.syncStatus.filter(s => s.status !== 'synced').length
+
   return (
     <>
-      <div className={styles.statsGrid3}>
-        {data.stats.map(s => (
-          <div key={s.label} className={styles.statCard}>
+      <div className={styles.statsGrid4}>
+        {data.stats.map((s, i) => (
+          <div
+            key={s.label}
+            className={`${styles.statCard} ${i === 2 && syncFailCount > 0 ? styles.warn : ''}`}
+          >
             <div className={styles.statLabel}>{s.label}</div>
-            <div className={styles.statValue}>{s.value}{s.unit && <span className={styles.statUnit}>{s.unit}</span>}</div>
+            <div className={styles.statValue}>
+              {s.value}
+              {s.unit && <span className={styles.statUnit}>{s.unit}</span>}
+            </div>
           </div>
         ))}
       </div>
 
-      <div className={styles.bodySimple}>
-        <div className={styles.leftPanel}>
-          <div className={styles.section}>
-            <div className={styles.sectionTitle}>캠페인 현황</div>
-            <div className={styles.chipRow}>
-              {data.campaignChips.map(c => (
-                <span key={c.status} className={`${styles.chip} ${styles[`chip-${c.status}`]}`}>
-                  <span className={styles.chipDot} />
-                  {CHIP_LABEL[c.status]} {c.count}
+      <div className={styles.bodyGrid}>
+        {/* 편성 동기화 현황 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>편성 동기화 현황</div>
+            <a href="/schedules" className={styles.sectionLink}>편성관리 →</a>
+          </div>
+          <div className={styles.syncList}>
+            {data.syncStatus.map(item => (
+              <div
+                key={item.id}
+                className={`${styles.syncItem}${item.status === 'delayed' ? ` ${styles.syncDelayed}` : item.status === 'failed' ? ` ${styles.syncFailed}` : ''}`}
+              >
+                <span className={`${styles.statusDot} ${styles[SYNC_DOT[item.status]]}`} />
+                <span className={styles.syncName}>{item.name}</span>
+                {item.detail && <span className={styles.syncDetail}>{item.detail}</span>}
+                <span className={`${styles.badge} ${styles[SYNC_STATUS_BADGE[item.status]]}`}>
+                  {SYNC_STATUS_LABEL[item.status]}
                 </span>
-              ))}
+              </div>
+            ))}
+          </div>
+          <div className={styles.syncLegend}>
+            <div className={styles.legendEntry}>
+              <span className={`${styles.statusDot} ${styles.dotSynced}`} />완료
+            </div>
+            <div className={styles.legendEntry}>
+              <span className={`${styles.statusDot} ${styles.dotDelayed}`} />지연
+            </div>
+            <div className={styles.legendEntry}>
+              <span className={`${styles.statusDot} ${styles.dotFailed}`} />미완료
             </div>
           </div>
+        </div>
 
-          {data.pendingMaterials.length > 0 && (
-            <div className={styles.section}>
-              <div className={styles.sectionTitle}>검수 대기 소재</div>
-              <div className={styles.matList}>
-                {data.pendingMaterials.map(m => (
-                  <div key={m.id} className={styles.matItem}>
-                    <span className={styles.matName}>{m.name}</span>
-                    <span className={styles.matStatus}>검수 중</span>
-                  </div>
-                ))}
-              </div>
+        {/* 이번주 편성 일정 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>이번주 편성 일정</div>
+            <a href="/schedules" className={styles.sectionLink}>전체 보기 →</a>
+          </div>
+          {data.weeklySchedule.length === 0 ? (
+            <div className={styles.emptyState}>예정된 편성 일정이 없습니다</div>
+          ) : (
+            <div className={styles.timeline}>
+              {data.weeklySchedule.map(item => (
+                <div key={item.id} className={styles.tlItem}>
+                  <span className={styles.tlDate}>{item.date}</span>
+                  <span className={`${styles.statusDot} ${styles[SCHEDULE_DOT[item.status]]}`} />
+                  <span className={styles.tlTitle}>{item.title}</span>
+                  <span className={`${styles.badge} ${styles[SCHEDULE_BADGE[item.status]]}`}>
+                    {SCHEDULE_LABEL[item.status]}
+                  </span>
+                </div>
+              ))}
             </div>
           )}
         </div>
 
-        <div className={styles.rightPanel}>
-          <div className={styles.section}>
-            <div className={styles.sectionTitle}>알림</div>
-            <div className={styles.notifList}>
-              {data.notifications.map(n => (
-                <div key={n.id} className={styles.notifItem}>
-                  <span className={`${styles.notifDot} ${n.read ? styles.read : styles.unread}`} />
-                  <span className={styles.notifText}>{n.text}</span>
-                  <span className={styles.notifTime}>{n.time}</span>
+        {/* 캠페인 현황 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>캠페인 현황</div>
+            <a href="/campaigns" className={styles.sectionLink}>캠페인 →</a>
+          </div>
+          <div className={styles.chipRow}>
+            {data.campaignChips.map(c => (
+              <span key={c.status} className={`${styles.chip} ${styles[`chip-${c.status}`]}`}>
+                <span className={styles.chipDot} />
+                {CHIP_LABEL[c.status]} {c.count}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* 소재 검수 현황 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>소재 검수 현황</div>
+            <a href="/materials" className={styles.sectionLink}>소재 →</a>
+          </div>
+          {data.pendingMaterials.length === 0 ? (
+            <div className={styles.emptyState}>검수 중인 소재가 없습니다</div>
+          ) : (
+            <div className={styles.matProgress}>
+              {data.pendingMaterials.map(m => (
+                <div key={m.id} className={styles.matProgressItem}>
+                  <div className={styles.matProgressHeader}>
+                    <span>{m.name}</span>
+                    <span className={`${styles.badge} ${styles[m.status === 'reviewing' ? 'badgeReviewing' : 'badgeGray']}`}>
+                      {m.status === 'reviewing' ? '검수중' : '대기중'}
+                    </span>
+                  </div>
+                  {m.status === 'reviewing' && (
+                    <>
+                      <div className={styles.progressBar}>
+                        <div
+                          className={`${styles.progressFill} ${styles.reviewing}`}
+                          style={{ width: `${m.progress}%` }}
+                        />
+                      </div>
+                      {m.eta && <div className={styles.matEta}>예상 완료: {m.eta}</div>}
+                    </>
+                  )}
                 </div>
               ))}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
