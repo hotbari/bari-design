@@ -1,0 +1,52 @@
+[
+  {
+    "id": "pl-001",
+    "name": "강남권 4월 운영 재생목록",
+    "slotCount": 4,
+    "materialCount": 3,
+    "dummyCount": 1,
+    "deletedCount": 0,
+    "scheduleCount": 2,
+    "updatedAt": "2026-04-08",
+    "hasDeletedMaterial": false,
+    "slots": [
+      { "id": "sl-001-1", "materialId": "mat-001", "materialName": "삼성 갤럭시 S26 런칭 영상 30s", "duration": 30, "order": 1, "type": "normal" },
+      { "id": "sl-001-2", "materialId": "mat-002", "materialName": "LG 오휘 봄 신제품 15s", "duration": 15, "order": 2, "type": "normal" },
+      { "id": "sl-001-3", "materialId": "mat-003", "materialName": "현대 아이오닉 9 사전계약 20s", "duration": 20, "order": 3, "type": "normal" },
+      { "id": "sl-001-4", "materialId": null, "materialName": "더미 (스킵)", "duration": 0, "order": 4, "type": "dummy" }
+    ]
+  },
+  {
+    "id": "pl-002",
+    "name": "여의도 봄 시즌 재생목록",
+    "slotCount": 3,
+    "materialCount": 2,
+    "dummyCount": 0,
+    "deletedCount": 1,
+    "scheduleCount": 1,
+    "updatedAt": "2026-04-06",
+    "hasDeletedMaterial": true,
+    "slots": [
+      { "id": "sl-002-1", "materialId": "mat-004", "materialName": "공익광고 환경 캠페인 30s", "duration": 30, "order": 1, "type": "normal" },
+      { "id": "sl-002-2", "materialId": null, "materialName": "배달의민족 이벤트 영상 (삭제됨)", "duration": 15, "order": 2, "type": "deleted" },
+      { "id": "sl-002-3", "materialId": "mat-005", "materialName": "배달의민족 2월 이벤트 15s", "duration": 15, "order": 3, "type": "normal" }
+    ]
+  },
+  {
+    "id": "pl-003",
+    "name": "공익광고 필러 재생목록",
+    "slotCount": 4,
+    "materialCount": 2,
+    "dummyCount": 2,
+    "deletedCount": 0,
+    "scheduleCount": 0,
+    "updatedAt": "2026-04-05",
+    "hasDeletedMaterial": false,
+    "slots": [
+      { "id": "sl-003-1", "materialId": "mat-004", "materialName": "공익광고 환경 캠페인 30s", "duration": 30, "order": 1, "type": "normal" },
+      { "id": "sl-003-2", "materialId": null, "materialName": "더미 (스킵)", "duration": 0, "order": 2, "type": "dummy" },
+      { "id": "sl-003-3", "materialId": "mat-004", "materialName": "공익광고 환경 캠페인 30s", "duration": 30, "order": 3, "type": "normal" },
+      { "id": "sl-003-4", "materialId": null, "materialName": "더미 (스킵)", "duration": 0, "order": 4, "type": "dummy" }
+    ]
+  }
+]
