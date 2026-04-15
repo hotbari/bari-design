@@ -72,5 +72,16 @@
     "notifications": [
       { "id": "n1", "text": "편성표 승인 요청", "time": "1시간 전", "read": false }
     ]
+  },
+  "sales": {
+    "stats": [
+      { "label": "관리 캠페인", "value": 9 },
+      { "label": "이번주 편성", "value": 5 },
+      { "label": "알림", "value": 1 }
+    ],
+    "scheduleAlerts": [],
+    "notifications": [
+      { "id": "n1", "text": "캠페인 승인 요청", "time": "2시간 전", "read": false }
+    ]
   }
 }
