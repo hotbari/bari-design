@@ -190,6 +190,7 @@ function MediaView({ data }: { data: MediaDashboard }) {
         {data.stats.map((s, i) => (
           <div
             key={s.label}
+            // intentional: index 2 is "동기화 미완료" — tied to fixture stats order
             className={`${styles.statCard} ${i === 2 && syncFailCount > 0 ? styles.warn : ''}`}
           >
             <div className={styles.statLabel}>{s.label}</div>
@@ -317,39 +318,112 @@ function MediaView({ data }: { data: MediaDashboard }) {
 
 // ── Ops agency dashboard ───────────────────────────────────────────────────
 function OpsView({ data }: { data: OpsDashboard }) {
+  const unreadCount = data.notifications.filter(n => !n.read).length
+
   return (
     <>
-      <div className={styles.statsGrid3}>
-        {data.stats.map(s => (
-          <div key={s.label} className={styles.statCard}>
+      <div className={styles.statsGrid4}>
+        {data.stats.map((s, i) => (
+          <div
+            key={s.label}
+            // intentional: index 3 is "미처리 알림" — tied to fixture stats order
+            className={`${styles.statCard} ${i === 3 && unreadCount > 0 ? styles.error : ''}`}
+          >
             <div className={styles.statLabel}>{s.label}</div>
-            <div className={styles.statValue}>{s.value}{s.unit && <span className={styles.statUnit}>{s.unit}</span>}</div>
+            <div className={styles.statValue}>
+              {s.value}
+              {s.unit && <span className={styles.statUnit}>{s.unit}</span>}
+            </div>
           </div>
         ))}
       </div>
 
-      <div className={styles.bodySimple}>
-        <div className={styles.leftPanel}>
-          {data.scheduleAlerts.length > 0 && (
-            <div className={styles.section}>
-              <div className={styles.sectionTitle}>편성 알림</div>
-              <div className={styles.alertList}>
-                {data.scheduleAlerts.map(a => (
-                  <div key={a.id} className={`${styles.alertItem} ${styles[a.severity]}`}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                    </svg>
-                    {a.message}
-                  </div>
-                ))}
+      <div className={styles.bodyGrid}>
+        {/* 담당 매체사 현황 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>담당 매체사 현황</div>
+          </div>
+          <div className={styles.companyList}>
+            {data.managedCompanies.map(c => (
+              <div
+                key={c.id}
+                className={`${styles.companyItem}${c.status === 'warn' ? ` ${styles.companyWarn}` : c.status === 'error' ? ` ${styles.companyError}` : ''}`}
+              >
+                <span className={`${styles.statusDot} ${styles[c.status === 'ok' ? 'dotOk' : c.status === 'warn' ? 'dotWarn' : 'dotFailed']}`} />
+                <span className={styles.companyName}>{c.name}</span>
+                <span className={styles.companyMediaCount}>매체 {c.mediaCount}대</span>
+                <span className={`${styles.badge} ${styles[COMPANY_STATUS_BADGE[c.status]]}`}>
+                  {COMPANY_STATUS_LABEL[c.status]}
+                </span>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 이번주 편성 처리 현황 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>이번주 편성 처리 현황</div>
+            <a href="/schedules" className={styles.sectionLink}>편성관리 →</a>
+          </div>
+          <div className={styles.scheduleProgress}>
+            <div>
+              <div className={styles.scheduleProgressLabel}>
+                <span>완료 / 전체</span>
+                <span>{data.weeklyScheduleProgress.done} / {data.weeklyScheduleProgress.total}</span>
+              </div>
+              <div className={styles.progressBar}>
+                <div
+                  className={styles.progressFill}
+                  style={{ width: `${Math.round((data.weeklyScheduleProgress.done / data.weeklyScheduleProgress.total) * 100)}%` }}
+                />
+              </div>
+            </div>
+            <div className={styles.syncList}>
+              {data.recentSchedules.map(s => (
+                <div key={s.id} className={styles.syncItem}>
+                  <span className={`${styles.statusDot} ${styles[RECENT_SCH_DOT[s.status]]}`} />
+                  <span className={styles.syncName}>{s.title}</span>
+                  <span className={`${styles.badge} ${s.status === 'done' ? styles.badgeOk : s.status === 'delayed' ? styles.badgeDelayed : styles.badgeGray}`}>
+                    {s.status === 'done' ? '완료' : s.status === 'delayed' ? '지연' : '대기'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* 오늘 할 일 */}
+        <div className={styles.section}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionTitle}>오늘 처리할 항목</div>
+          </div>
+          {data.todayTasks.length === 0 ? (
+            <div className={styles.emptyState}>처리할 항목이 없습니다</div>
+          ) : (
+            <div className={styles.taskList}>
+              {data.todayTasks.map(t => (
+                <div key={t.id} className={styles.taskItem}>
+                  <input type="checkbox" defaultChecked={t.done} readOnly />
+                  <span className={`${styles.taskTitle} ${t.done ? styles.done : ''}`}>{t.title}</span>
+                  {!t.done && (
+                    <span className={`${styles.badge} ${styles[TASK_BADGE[t.priority]]}`}>
+                      {TASK_BADGE_LABEL[t.priority]}
+                    </span>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>
 
-        <div className={styles.rightPanel}>
-          <div className={styles.section}>
-            <div className={styles.sectionTitle}>알림</div>
+        {/* 알림 */}
+        <div className={styles.section}>
+          <div className={styles.sectionTitle}>알림</div>
+          {data.notifications.length === 0 ? (
+            <div className={styles.emptyState}>새 알림이 없습니다</div>
+          ) : (
             <div className={styles.notifList}>
               {data.notifications.map(n => (
                 <div key={n.id} className={styles.notifItem}>
@@ -359,7 +433,7 @@ function OpsView({ data }: { data: OpsDashboard }) {
                 </div>
               ))}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
