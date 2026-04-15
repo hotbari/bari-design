@@ -1,0 +1,81 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* GNB */
+.gnb {
+  height: 52px;
+  flex-shrink: 0;
+  background: white;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 12px;
+}
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-sm);
+  color: var(--color-neutral-400);
+}
+.breadcrumb a { color: inherit; text-decoration: none; }
+.breadcrumb a:hover { color: var(--color-neutral-700); }
+.breadcrumbSep { font-size: 10px; color: var(--color-neutral-300); }
+.breadcrumbCurrent {
+  color: var(--color-neutral-900);
+  font-weight: 600;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gnbRight {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.gnbDate { font-size: var(--text-xs); color: var(--color-neutral-400); }
+
+/* Content */
+.content {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 2-column top section */
+.detailTop {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* Right meta card */
+.metaCard {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Bottom section card */
+.sectionCard {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
