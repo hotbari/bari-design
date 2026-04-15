@@ -1,0 +1,8 @@
+[
+  { "id": "u-001", "name": "김관리", "email": "admin@bari.com", "role": "admin", "status": "active", "registeredAt": "2026-01-01T00:00:00", "lastLoginAt": "2026-04-14T09:00:00" },
+  { "id": "u-002", "name": "이매체", "email": "media@bari.com", "role": "media", "status": "active", "company": "바리미디어", "registeredAt": "2026-01-15T00:00:00", "lastLoginAt": "2026-04-13T18:00:00" },
+  { "id": "u-003", "name": "박운영", "email": "ops@bari.com", "role": "ops", "status": "active", "company": "운영대행", "registeredAt": "2026-02-01T00:00:00", "lastLoginAt": "2026-04-14T08:30:00" },
+  { "id": "u-004", "name": "최영업", "email": "sales@bari.com", "role": "sales", "status": "inactive", "company": "광고대행", "registeredAt": "2026-02-10T00:00:00" },
+  { "id": "u-005", "name": "정초대", "email": "invite@bari.com", "role": "ops", "status": "invited", "registeredAt": "2026-04-10T00:00:00" },
+  { "id": "u-006", "name": "한만료", "email": "expired@bari.com", "role": "sales", "status": "expired", "registeredAt": "2025-10-01T00:00:00" }
+]

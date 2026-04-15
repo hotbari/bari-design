@@ -1,0 +1,26 @@
+{
+  "admin": {
+    "stats": { "totalMedia": 111, "online": 89, "error": 4, "campaigns": 23 },
+    "systemStatus": { "server": "sys-ok", "db": "sys-ok", "batch": "sys-warn" },
+    "healthAlerts": [
+      { "mediaId": "m-003", "mediaName": "여의도 버스 광고", "message": "연결 오류 감지", "timestamp": "2026-04-14T10:15:00" }
+    ],
+    "recentNotifications": [
+      { "id": "n-1", "message": "소재 검수 완료: 봄 시즌 광고", "timestamp": "2026-04-14T09:30:00" }
+    ]
+  },
+  "media-company": {
+    "stats": { "totalMedia": 60, "online": 52, "activeCampaigns": 8, "monthlyImpressions": 1240000 },
+    "recentMedia": [
+      { "id": "m-001", "name": "강남역 1번 출구", "status": "online" },
+      { "id": "m-002", "name": "홍대입구역 2번 출구", "status": "delayed" }
+    ]
+  },
+  "ops-agency": {
+    "stats": { "assignedMedia": 12, "activeCampaigns": 3, "pendingMaterials": 2 },
+    "assignedMedia": [
+      { "id": "m-001", "name": "강남역 1번 출구", "status": "online" },
+      { "id": "m-004", "name": "신촌 스크린", "status": "error" }
+    ]
+  }
+}

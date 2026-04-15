@@ -1,0 +1,19 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.fixed {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.mobile {
+  background: #f0fdf4;
+  color: #16a34a;
+}

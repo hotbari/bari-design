@@ -1,0 +1,13 @@
+{
+  "schedules": [
+    { "id": "sch-001", "name": "강남역 평일 오전 편성", "mediaId": "m-001", "mediaName": "강남역 1번 출구", "playlistId": "pl-001", "playlistName": "강남역 1번 출구 재생목록", "campaignId": "c-001", "campaignName": "봄 시즌 캠페인", "startDate": "2026-04-01", "endDate": "2026-04-30", "startTime": "07:00", "endTime": "10:00", "priority": "prio-1", "status": "active", "syncStatus": "sync-ok", "daysOfWeek": [1,2,3,4,5], "createdAt": "2026-03-25T10:00:00" },
+    { "id": "sch-002", "name": "홍대 주말 저녁 편성", "mediaId": "m-002", "mediaName": "홍대입구역 2번 출구", "playlistId": "pl-002", "playlistName": "홍대입구역 재생목록", "campaignId": "c-005", "campaignName": "신제품 런칭", "startDate": "2026-04-01", "endDate": "2026-04-30", "startTime": "18:00", "endTime": "22:00", "priority": "prio-2", "status": "active", "syncStatus": "sync-lag", "daysOfWeek": [0,6], "createdAt": "2026-03-26T11:00:00" },
+    { "id": "sch-003", "name": "신촌 전일 편성", "mediaId": "m-004", "mediaName": "신촌 스크린", "playlistId": "pl-003", "playlistName": "신촌 스크린 재생목록", "startDate": "2026-03-01", "endDate": "2026-03-31", "startTime": "00:00", "endTime": "23:59", "priority": "prio-3", "status": "done", "syncStatus": "sync-ok", "daysOfWeek": [0,1,2,3,4,5,6], "createdAt": "2026-02-20T09:00:00" },
+    { "id": "sch-004", "name": "5월 캠페인 편성", "mediaId": "m-001", "mediaName": "강남역 1번 출구", "playlistId": "pl-001", "playlistName": "강남역 1번 출구 재생목록", "campaignId": "c-002", "campaignName": "여름 프로모션", "startDate": "2026-05-01", "endDate": "2026-05-31", "startTime": "10:00", "endTime": "20:00", "priority": "prio-1", "status": "pending", "syncStatus": "sync-none", "daysOfWeek": [1,2,3,4,5], "createdAt": "2026-04-14T10:00:00" }
+  ],
+  "slotRemaining": [
+    { "mediaId": "m-001", "mediaName": "강남역 1번 출구", "date": "2026-04-15", "totalSlots": 96, "usedSlots": 72, "remainingSlots": 24, "remainingPct": 25 },
+    { "mediaId": "m-002", "mediaName": "홍대입구역 2번 출구", "date": "2026-04-15", "totalSlots": 96, "usedSlots": 30, "remainingSlots": 66, "remainingPct": 69 },
+    { "mediaId": "m-004", "mediaName": "신촌 스크린", "date": "2026-04-15", "totalSlots": 96, "usedSlots": 96, "remainingSlots": 0, "remainingPct": 0 }
+  ]
+}

@@ -1,0 +1,2 @@
+.wrap { display: flex; align-items: center; justify-content: center; padding: 56px 0; }
+.msg { font-size: var(--font-size-base); color: var(--color-neutral-400); }

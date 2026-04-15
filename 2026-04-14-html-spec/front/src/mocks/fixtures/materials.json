@@ -1,0 +1,7 @@
+[
+  { "id": "mat-001", "name": "봄 시즌 광고 15초", "fileType": "video", "resolution": "1920x1080", "fileSize": "45MB", "duration": 15, "reviewStatus": "done", "opsStatus": "active", "campaignId": "c-001", "campaignName": "봄 시즌 캠페인", "uploadedBy": "박운영", "uploadedAt": "2026-04-01T10:00:00" },
+  { "id": "mat-002", "name": "여름 프로모션 배너", "fileType": "image", "resolution": "1080x1920", "fileSize": "2.3MB", "reviewStatus": "reviewing", "opsStatus": "scheduled", "campaignId": "c-002", "campaignName": "여름 프로모션", "uploadedBy": "이매체", "uploadedAt": "2026-04-10T14:00:00" },
+  { "id": "mat-003", "name": "기업 브랜딩 영상", "fileType": "video", "resolution": "1920x1080", "fileSize": "120MB", "duration": 30, "reviewStatus": "failed", "opsStatus": "expired", "uploadedBy": "최영업", "uploadedAt": "2026-03-15T09:00:00", "note": "해상도 미달" },
+  { "id": "mat-004", "name": "이벤트 안내 이미지", "fileType": "image", "resolution": "1920x1080", "fileSize": "1.8MB", "reviewStatus": "manual", "opsStatus": "active", "campaignId": "c-003", "campaignName": "이벤트 캠페인", "uploadedBy": "박운영", "uploadedAt": "2026-04-12T11:00:00" },
+  { "id": "mat-005", "name": "신제품 출시 영상", "fileType": "video", "resolution": "3840x2160", "fileSize": "250MB", "duration": 20, "reviewStatus": "done", "opsStatus": "scheduled", "uploadedBy": "이매체", "uploadedAt": "2026-04-13T16:00:00" }
+]

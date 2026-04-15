@@ -1,0 +1,9 @@
+.card { background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; max-width: 480px; }
+.field { margin-bottom: 16px; }
+.label { display: block; font-size: var(--font-size-sm); font-weight: 500; color: var(--color-neutral-700); margin-bottom: 6px; }
+.required::after { content: ' *'; color: var(--color-error-500); }
+.input { width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: var(--font-size-base); outline: none; box-sizing: border-box; }
+.input:focus { border-color: var(--color-primary-500); }
+.err { border-color: var(--color-error-500); }
+.errMsg { font-size: var(--font-size-xs); color: var(--color-error-500); margin-top: 4px; }
+.footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); }

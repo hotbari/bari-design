@@ -1,0 +1,30 @@
+{
+  "connection": "success",
+  "provider": "skt",
+  "apiEndpoint": "https://api.skt.com/foottraffic/v1",
+  "lastSyncAt": "2026-04-15T06:00:00",
+  "series": [
+    {
+      "mediaId": "m-001", "mediaName": "강남역 1번 출구",
+      "data": [
+        { "hour": "07:00", "count": 1250, "baseline": 1100 },
+        { "hour": "08:00", "count": 3200, "baseline": 2800 },
+        { "hour": "09:00", "count": 2800, "baseline": 2500 },
+        { "hour": "10:00", "count": 1800, "baseline": 1600 },
+        { "hour": "11:00", "count": 1600, "baseline": 1500 },
+        { "hour": "12:00", "count": 2200, "baseline": 2000 },
+        { "hour": "13:00", "count": 2100, "baseline": 1900 },
+        { "hour": "14:00", "count": 1700, "baseline": 1600 },
+        { "hour": "15:00", "count": 1600, "baseline": 1500 },
+        { "hour": "16:00", "count": 1900, "baseline": 1800 },
+        { "hour": "17:00", "count": 2800, "baseline": 2600 },
+        { "hour": "18:00", "count": 3500, "baseline": 3200 }
+      ]
+    }
+  ],
+  "mappings": [
+    { "mediaId": "m-001", "mediaName": "강남역 1번 출구", "datapointId": "SKT_GN_001", "lastReceived": "2026-04-15T06:00:00", "status": "success" },
+    { "mediaId": "m-002", "mediaName": "홍대입구역 2번 출구", "datapointId": "SKT_HD_002", "lastReceived": "2026-04-15T05:58:00", "status": "success" },
+    { "mediaId": "m-004", "mediaName": "신촌 스크린", "datapointId": "", "lastReceived": null, "status": "pending" }
+  ]
+}

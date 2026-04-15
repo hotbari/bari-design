@@ -1,0 +1,13 @@
+.wrap { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { padding: 10px 12px; text-align: left; font-size: var(--font-size-xs); font-weight: 600; color: var(--color-neutral-500); border-bottom: 2px solid var(--border-color); }
+.table td { padding: 12px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+.name { font-weight: 600; color: var(--color-neutral-900); }
+.meta { font-size: var(--font-size-sm); color: var(--color-neutral-600); }
+.pctCell { display: flex; align-items: center; gap: 8px; }
+.pct { font-size: var(--font-size-sm); font-weight: 600; min-width: 40px; }
+.bar { flex: 1; height: 8px; background: var(--color-neutral-100); border-radius: 4px; overflow: hidden; min-width: 80px; }
+.barFill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+.high { color: #16a34a; background: #16a34a; }
+.mid { color: #d97706; background: #d97706; }
+.low { color: #dc2626; background: #dc2626; }

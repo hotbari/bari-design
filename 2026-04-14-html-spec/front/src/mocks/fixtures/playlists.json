@@ -1,0 +1,29 @@
+[
+  {
+    "id": "pl-001", "name": "강남역 1번 출구 재생목록", "mediaId": "m-001", "mediaName": "강남역 1번 출구",
+    "totalDuration": 45, "itemCount": 3,
+    "items": [
+      { "materialId": "mat-001", "materialName": "봄 시즌 광고 15초", "duration": 15, "order": 1 },
+      { "materialId": "mat-004", "materialName": "이벤트 안내 이미지", "duration": 10, "order": 2 },
+      { "materialId": "mat-005", "materialName": "신제품 런칭", "duration": 20, "order": 3 }
+    ],
+    "updatedAt": "2026-04-13T10:00:00"
+  },
+  {
+    "id": "pl-002", "name": "홍대입구역 재생목록", "mediaId": "m-002", "mediaName": "홍대입구역 2번 출구",
+    "totalDuration": 30, "itemCount": 2,
+    "items": [
+      { "materialId": "mat-002", "materialName": "여름 프로모션 배너", "duration": 10, "order": 1 },
+      { "materialId": "mat-005", "materialName": "신제품 런칭", "duration": 20, "order": 2 }
+    ],
+    "updatedAt": "2026-04-12T14:00:00"
+  },
+  {
+    "id": "pl-003", "name": "신촌 스크린 재생목록", "mediaId": "m-004", "mediaName": "신촌 스크린",
+    "totalDuration": 30, "itemCount": 1,
+    "items": [
+      { "materialId": "mat-003", "materialName": "기업 브랜딩 영상", "duration": 30, "order": 1 }
+    ],
+    "updatedAt": "2026-04-10T09:00:00"
+  }
+]

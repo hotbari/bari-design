@@ -1,0 +1,10 @@
+.card { background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; }
+.table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+.table th { padding: 10px 12px; text-align: left; font-size: var(--font-size-xs); font-weight: 600; color: var(--color-neutral-500); border-bottom: 2px solid var(--border-color); }
+.table td { padding: 12px; border-bottom: 1px solid var(--border-color); font-size: var(--font-size-sm); color: var(--color-neutral-700); }
+.type { font-weight: 600; color: var(--color-neutral-900); }
+.mono { font-family: monospace; font-size: var(--font-size-sm); }
+.notes { background: var(--color-neutral-50); border-radius: var(--radius-md); padding: 16px 20px; }
+.notesTitle { font-size: var(--font-size-sm); font-weight: 700; color: var(--color-neutral-800); margin-bottom: 8px; }
+.notesList { margin: 0; padding-left: 18px; }
+.notesList li { font-size: var(--font-size-sm); color: var(--color-neutral-600); margin-bottom: 6px; }

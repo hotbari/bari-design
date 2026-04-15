@@ -1,0 +1,31 @@
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.pageTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  line-height: 1.2;
+}
+
+.pageDesc {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  margin-top: 4px;
+}
+
+.filterRow {
+  margin-bottom: 16px;
+}
+
+.loading {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--color-neutral-400);
+  font-size: var(--font-size-base);
+}

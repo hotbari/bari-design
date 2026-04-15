@@ -1,0 +1,6 @@
+[
+  { "id": "r-001", "name": "4월 봄 시즌 성과 리포트", "type": "campaign", "status": "done", "startDate": "2026-04-01", "endDate": "2026-04-30", "mediaIds": ["m-001", "m-002"], "createdAt": "2026-04-14T09:00:00", "downloadUrl": "#" },
+  { "id": "r-002", "name": "강남 매체 상태 리포트", "type": "media", "status": "done", "startDate": "2026-04-01", "endDate": "2026-04-14", "mediaIds": ["m-001"], "createdAt": "2026-04-14T10:00:00", "downloadUrl": "#" },
+  { "id": "r-003", "name": "4월 편성 현황 리포트", "type": "schedule", "status": "generating", "startDate": "2026-04-01", "endDate": "2026-04-30", "mediaIds": [], "createdAt": "2026-04-14T11:00:00" },
+  { "id": "r-004", "name": "3월 전체 매체 리포트", "type": "media", "status": "fail", "startDate": "2026-03-01", "endDate": "2026-03-31", "mediaIds": [], "createdAt": "2026-04-01T08:00:00" }
+]

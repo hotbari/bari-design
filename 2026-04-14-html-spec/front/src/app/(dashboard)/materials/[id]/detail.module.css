@@ -1,0 +1,13 @@
+.header { margin-bottom: 20px; }
+.title { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-neutral-900); margin-bottom: 8px; }
+.badges { display: flex; gap: 6px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+.card { background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; }
+.cardTitle { font-size: var(--font-size-base); font-weight: 700; color: var(--color-neutral-900); margin-bottom: 16px; }
+.dl { display: grid; grid-template-columns: 100px 1fr; gap: 8px 12px; font-size: var(--font-size-sm); }
+.dl dt { color: var(--color-neutral-500); }
+.dl dd { color: var(--color-neutral-900); font-weight: 500; margin: 0; }
+.currentStatus { font-size: var(--font-size-sm); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--color-neutral-600); }
+.reviewBtns { display: flex; gap: 8px; flex-wrap: wrap; }
+.note { font-size: var(--font-size-sm); color: var(--color-neutral-500); margin-top: 12px; padding: 10px; background: var(--color-neutral-50); border-radius: var(--radius-md); }

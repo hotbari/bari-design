@@ -1,0 +1,17 @@
+[
+  {
+    "id": "g-001",
+    "name": "강남권",
+    "assignedMediaIds": ["m-001", "m-002"]
+  },
+  {
+    "id": "g-002",
+    "name": "홍대·마포",
+    "assignedMediaIds": ["m-003"]
+  },
+  {
+    "id": "g-003",
+    "name": "여의도",
+    "assignedMediaIds": []
+  }
+]

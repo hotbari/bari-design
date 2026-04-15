@@ -1,0 +1,27 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.select, .search {
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-700);
+  background: var(--color-neutral-0);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.select:focus, .search:focus {
+  border-color: var(--color-primary-500);
+}
+
+.select { min-width: 120px; }
+.search { min-width: 200px; }
+
+.search::placeholder { color: var(--color-neutral-400); }

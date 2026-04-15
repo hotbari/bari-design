@@ -1,0 +1,7 @@
+.card { background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; max-width: 560px; margin-bottom: 16px; }
+.sectionTitle { font-size: var(--font-size-base); font-weight: 700; color: var(--color-neutral-800); margin-bottom: 16px; }
+.field { margin-bottom: 16px; }
+.label { display: block; font-size: var(--font-size-sm); font-weight: 500; color: var(--color-neutral-700); margin-bottom: 6px; }
+.input { width: 100%; height: 40px; padding: 0 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: var(--font-size-base); outline: none; box-sizing: border-box; }
+.input:focus { border-color: var(--color-primary-500); }
+.footer { display: flex; max-width: 560px; justify-content: flex-end; }

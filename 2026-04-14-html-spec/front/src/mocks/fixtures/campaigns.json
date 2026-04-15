@@ -1,0 +1,7 @@
+[
+  { "id": "c-001", "name": "봄 시즌 캠페인", "type": "direct", "status": "running", "advertiser": "삼성전자", "agency": "제일기획", "startDate": "2026-04-01", "endDate": "2026-04-30", "billingModel": "fixed", "budget": 5000000, "mediaIds": ["m-001", "m-002"], "createdAt": "2026-03-20T10:00:00" },
+  { "id": "c-002", "name": "여름 프로모션", "type": "own", "status": "draft", "advertiser": "바리미디어", "startDate": "2026-06-01", "endDate": "2026-08-31", "billingModel": "daily", "budget": 2000000, "mediaIds": ["m-001"], "createdAt": "2026-04-10T09:00:00" },
+  { "id": "c-003", "name": "이벤트 캠페인", "type": "filler", "status": "done", "advertiser": "현대자동차", "agency": "이노션", "startDate": "2026-02-01", "endDate": "2026-03-31", "billingModel": "none", "mediaIds": ["m-003", "m-004"], "createdAt": "2026-01-15T10:00:00" },
+  { "id": "c-004", "name": "네이버 광고 연동", "type": "naver", "status": "canceled", "advertiser": "네이버", "startDate": "2026-03-01", "endDate": "2026-03-15", "billingModel": "none", "mediaIds": [], "createdAt": "2026-02-20T11:00:00", "note": "계약 해지" },
+  { "id": "c-005", "name": "신제품 런칭", "type": "direct", "status": "running", "advertiser": "LG생활건강", "agency": "HS애드", "startDate": "2026-04-10", "endDate": "2026-05-10", "billingModel": "fixed", "budget": 8000000, "mediaIds": ["m-001", "m-002", "m-005"], "createdAt": "2026-04-05T14:00:00" }
+]

@@ -1,0 +1,16 @@
+{
+  "integrationStatus": "success",
+  "webhookUrl": "https://cms.bari.com/api/webhook/naver-ssp",
+  "lastEventAt": "2026-04-15T09:30:00",
+  "mappings": [
+    { "sspMediaId": "NV_OOH_001", "cmsMediaName": "강남역 1번 출구", "location": "서울 강남구 강남대로 396", "status": "success" },
+    { "sspMediaId": "NV_OOH_002", "cmsMediaName": "홍대입구역 2번 출구", "location": "서울 마포구 양화로 160", "status": "success" },
+    { "sspMediaId": "NV_OOH_003", "cmsMediaName": "신촌 스크린", "location": "서울 서대문구 신촌로 83", "status": "error" }
+  ],
+  "eventLogs": [
+    { "id": "log-001", "status": "success", "event": "AD_REQUEST", "mediaId": "NV_OOH_001", "responseCode": 200, "responseTime": 45, "timestamp": "2026-04-15T09:30:00" },
+    { "id": "log-002", "status": "success", "event": "AD_REQUEST", "mediaId": "NV_OOH_002", "responseCode": 200, "responseTime": 52, "timestamp": "2026-04-15T09:29:55" },
+    { "id": "log-003", "status": "error", "event": "AD_REQUEST", "mediaId": "NV_OOH_003", "responseCode": 503, "responseTime": 0, "timestamp": "2026-04-15T09:29:50" },
+    { "id": "log-004", "status": "success", "event": "IMPRESSION", "mediaId": "NV_OOH_001", "responseCode": 200, "responseTime": 38, "timestamp": "2026-04-15T09:15:00" }
+  ]
+}

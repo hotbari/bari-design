@@ -1,0 +1,218 @@
+.panels {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+  height: calc(100vh - 180px);
+  min-height: 500px;
+}
+
+.leftPanel, .rightPanel {
+  background: var(--color-neutral-0);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panelHeader {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.panelTitle {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  margin-bottom: 10px;
+}
+
+.addGroupBtn {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  background: none;
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+}
+
+.addGroupBtn:hover {
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-600);
+  background: var(--color-primary-50);
+}
+
+.inlineForm {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.inlineInput {
+  flex: 1;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--color-primary-500);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  outline: none;
+}
+
+.inlineSubmitBtn {
+  height: 32px;
+  padding: 0 10px;
+  border: none;
+  background: var(--color-primary-600);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.groupList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.groupItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 10px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.groupItem:hover { background: var(--color-neutral-50); }
+
+.groupItem.selected {
+  background: var(--color-primary-50);
+}
+
+.groupName {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-neutral-800);
+}
+
+.groupItem.selected .groupName {
+  color: var(--color-primary-700);
+}
+
+.groupDots {
+  display: flex;
+  gap: 3px;
+}
+
+/* Right panel */
+.rightPanelBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.rightPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.groupNameInput {
+  flex: 1;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  background: none;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.groupNameInput:hover {
+  border-color: var(--border-color);
+  background: var(--color-neutral-50);
+}
+
+.groupNameInput:focus {
+  border-color: var(--color-primary-500);
+  background: var(--color-neutral-0);
+}
+
+.rightHeaderActions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Media sections */
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-neutral-600);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-size: var(--font-size-xs);
+}
+
+.mediaSection {
+  margin-bottom: 24px;
+}
+
+.mediaItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.mediaItem:hover { background: var(--color-neutral-50); }
+
+.mediaItem label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  cursor: pointer;
+}
+
+.mediaItemName {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-neutral-800);
+}
+
+.mediaItemAddr {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+.emptyPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-neutral-400);
+  gap: 8px;
+  font-size: var(--font-size-sm);
+}

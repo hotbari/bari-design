@@ -1,0 +1,44 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  white-space: nowrap;
+}
+/* 캠페인 상태 */
+.draft    { background: #f3f4f6; color: #6b7280; }
+.running  { background: #dcfce7; color: #16a34a; }
+.done     { background: #e0e7ff; color: #4338ca; }
+.canceled { background: #fee2e2; color: #dc2626; }
+/* 캠페인 유형 */
+.direct { background: #eff6ff; color: #2563eb; }
+.own    { background: #f0fdf4; color: #16a34a; }
+.filler { background: #fefce8; color: #ca8a04; }
+.naver  { background: #f0fdf4; color: #15803d; }
+/* 소재 검수 */
+.reviewing { background: #fffbeb; color: #d97706; }
+.failed    { background: #fef2f2; color: #dc2626; }
+.manual    { background: #faf5ff; color: #9333ea; }
+/* 소재 운영 */
+.active    { background: #dcfce7; color: #16a34a; }
+.scheduled { background: #eff6ff; color: #2563eb; }
+.expired   { background: #f3f4f6; color: #6b7280; }
+/* 편성 상태 */
+.pending { background: #fffbeb; color: #d97706; }
+/* 리포트 상태 */
+.generating { background: #eff6ff; color: #2563eb; }
+.fail       { background: #fef2f2; color: #dc2626; }
+/* 사용자 역할 */
+.admin { background: #fef3c7; color: #92400e; }
+.media { background: #eff6ff; color: #1d4ed8; }
+.ops   { background: #f0fdf4; color: #15803d; }
+.sales { background: #faf5ff; color: #7c3aed; }
+/* 사용자 상태 */
+.inactive { background: #f3f4f6; color: #6b7280; }
+.invited  { background: #fffbeb; color: #d97706; }
+/* 편성 우선순위 */
+.prio-1 { background: #fef2f2; color: #dc2626; }
+.prio-2 { background: #fffbeb; color: #d97706; }
+.prio-3 { background: #f3f4f6; color: #6b7280; }

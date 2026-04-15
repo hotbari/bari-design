@@ -1,0 +1,182 @@
+.container {
+  max-width: 800px;
+}
+
+.card {
+  background: var(--color-neutral-0);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-neutral-700);
+  margin-bottom: 6px;
+}
+
+.required::after {
+  content: ' *';
+  color: var(--color-error-500);
+}
+
+.input, .select, .textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  color: var(--color-neutral-800);
+  background: var(--color-neutral-0);
+  transition: border-color 0.15s;
+  outline: none;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  border-color: var(--color-primary-500);
+}
+
+.input.error, .select.error, .textarea.error {
+  border-color: var(--color-error-500);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.errorMsg {
+  font-size: var(--font-size-xs);
+  color: var(--color-error-600);
+  margin-top: 4px;
+}
+
+/* Radio group */
+.radioGroup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.radioBtn {
+  padding: 7px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  background: var(--color-neutral-0);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.radioBtn:hover {
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-600);
+}
+
+.radioBtn.selected {
+  background: var(--color-primary-50);
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-700);
+  font-weight: 500;
+}
+
+/* Day buttons */
+.dayBtns {
+  display: flex;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.dayBtn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  background: var(--color-neutral-0);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.dayBtn.daySelected {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: #fff;
+}
+
+/* Time inputs */
+.timeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.timeInput {
+  width: 90px;
+  padding: 9px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  background: var(--color-neutral-0);
+  outline: none;
+}
+
+.timeInput:focus { border-color: var(--color-primary-500); }
+
+.timeSep {
+  color: var(--color-neutral-400);
+}
+
+/* Conditional fields - grid animation */
+.collapsible {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+  overflow: hidden;
+}
+
+.collapsible.expanded {
+  grid-template-rows: 1fr;
+}
+
+.collapsibleInner {
+  min-height: 0;
+}
+
+/* 2-col grid for some fields */
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 20px 0;
+}

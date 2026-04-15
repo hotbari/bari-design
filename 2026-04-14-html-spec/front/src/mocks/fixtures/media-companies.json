@@ -1,0 +1,42 @@
+[
+  {
+    "id": "c-001",
+    "name": "네이버 OOH 미디어",
+    "regNumber": "209-81-57890",
+    "representative": "김네이버",
+    "phone": "02-1234-5678",
+    "address": "경기도 성남시 분당구 불정로 6",
+    "mediaCount": 60,
+    "registeredAt": "2024-03-15"
+  },
+  {
+    "id": "c-002",
+    "name": "카카오 스크린",
+    "regNumber": "120-81-47832",
+    "representative": "이카카오",
+    "phone": "02-2345-6789",
+    "address": "제주특별자치도 제주시 첨단로 242",
+    "mediaCount": 24,
+    "registeredAt": "2024-05-20"
+  },
+  {
+    "id": "c-003",
+    "name": "롯데 광고",
+    "regNumber": "114-81-23456",
+    "representative": "박롯데",
+    "phone": "02-3456-7890",
+    "address": "서울시 송파구 올림픽로 300",
+    "mediaCount": 18,
+    "registeredAt": "2024-07-10"
+  },
+  {
+    "id": "c-004",
+    "name": "서울디지털미디어",
+    "regNumber": "220-87-00123",
+    "representative": "최서울",
+    "phone": "02-4567-8901",
+    "address": "서울시 중구 세종대로 110",
+    "mediaCount": 9,
+    "registeredAt": "2024-09-01"
+  }
+]

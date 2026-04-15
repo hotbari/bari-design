@@ -1,0 +1,13 @@
+.wrap { overflow-x: auto; }
+.toolbar { display: flex; margin-bottom: 12px; }
+.count { font-size: var(--font-size-sm); color: var(--color-neutral-600); }
+.count strong { color: var(--color-neutral-900); }
+.table { width: 100%; border-collapse: collapse; }
+.table th { padding: 10px 12px; text-align: left; font-size: var(--font-size-xs); font-weight: 600; color: var(--color-neutral-500); border-bottom: 2px solid var(--border-color); }
+.table td { padding: 12px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+.row:hover td { background: var(--color-neutral-50); }
+.name { font-weight: 600; color: var(--color-neutral-900); }
+.meta { font-size: var(--font-size-sm); color: var(--color-neutral-600); }
+.editBtn { padding: 4px 12px; font-size: var(--font-size-xs); background: var(--color-neutral-100); border: 1px solid var(--border-color); border-radius: var(--radius-md); cursor: pointer; }
+.editBtn:hover { background: var(--color-neutral-200); }
+.empty { text-align: center; padding: 40px; color: var(--color-neutral-400); font-size: var(--font-size-sm); }

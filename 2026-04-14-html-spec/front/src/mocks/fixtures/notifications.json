@@ -1,0 +1,10 @@
+[
+  { "id": "n-001", "message": "소재 '봄 시즌 광고'가 검수 완료되었습니다.", "type": "info", "read": false, "timestamp": "2026-04-14T09:30:00" },
+  { "id": "n-002", "message": "매체 '여의도 버스 광고'에서 연결 오류가 감지되었습니다.", "type": "error", "read": false, "timestamp": "2026-04-14T10:15:00" },
+  { "id": "n-003", "message": "캠페인 '여름 프로모션'이 시작되었습니다.", "type": "info", "read": true, "timestamp": "2026-04-13T09:00:00" },
+  { "id": "n-004", "message": "잔여 구좌가 20% 미만입니다.", "type": "warning", "read": false, "timestamp": "2026-04-13T14:00:00" },
+  { "id": "n-005", "message": "사용자 '정초대'의 초대가 만료 예정입니다.", "type": "warning", "read": true, "timestamp": "2026-04-12T12:00:00" },
+  { "id": "n-006", "message": "편성표 동기화가 완료되었습니다.", "type": "info", "read": true, "timestamp": "2026-04-12T06:00:00" },
+  { "id": "n-007", "message": "배치 작업이 지연되고 있습니다.", "type": "warning", "read": false, "timestamp": "2026-04-11T22:00:00" },
+  { "id": "n-008", "message": "시스템 점검이 완료되었습니다.", "type": "info", "read": true, "timestamp": "2026-04-10T03:00:00" }
+]

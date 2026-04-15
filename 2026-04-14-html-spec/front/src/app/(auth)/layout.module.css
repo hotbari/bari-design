@@ -1,0 +1,17 @@
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-neutral-50);
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-neutral-0, #fff);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+}

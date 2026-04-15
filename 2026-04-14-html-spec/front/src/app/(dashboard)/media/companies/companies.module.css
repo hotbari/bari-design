@@ -1,0 +1,95 @@
+.search {
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-700);
+  background: var(--color-neutral-0);
+  outline: none;
+  width: 280px;
+}
+
+.search:focus { border-color: var(--color-primary-500); }
+
+.tableWrap {
+  background: var(--color-neutral-0);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.count {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+}
+
+.count strong { color: var(--color-neutral-800); font-weight: 600; }
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-neutral-500);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: var(--color-neutral-50);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table td {
+  padding: 14px 14px;
+  border-bottom: 1px solid var(--color-neutral-100);
+  vertical-align: middle;
+}
+
+.table tr:last-child td { border-bottom: none; }
+
+.row { transition: background 0.1s; }
+.row:hover { background: var(--color-neutral-50); }
+
+.companyName {
+  font-weight: 600;
+  color: var(--color-neutral-900);
+}
+
+.text {
+  color: var(--color-neutral-600);
+}
+
+.date {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-500);
+}
+
+.countBadge {
+  display: inline-flex;
+  padding: 2px 8px;
+  background: var(--color-neutral-100);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--color-neutral-700);
+}
+
+.actions { text-align: right; }
+
+.empty {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--color-neutral-400);
+}
