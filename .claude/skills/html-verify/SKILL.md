@@ -44,13 +44,16 @@ user-invocable: true
 | `{domain}-edit.md` | `src/app/(dashboard)/{domain}s/[id]/edit/page.tsx` |
 
 **주의:** `{domain}s` 규칙은 단순 `s` 추가다. 예외: `media` → `media` (medias 아님).
-추론 결과 파일이 존재하지 않으면 사용자에게 경로를 직접 묻는다.
+
+추론 결과 파일이 존재하지 않거나 패턴 불일치인 경우:
+- **단일 spec 모드**: 사용자에게 tsx 경로를 직접 묻는다.
+- **전체 scan 모드**: 해당 spec을 "경로 미확인" 목록에 추가하고 나머지를 먼저 처리한다. 모든 추론 완료 후 미확인 목록을 한 번에 사용자에게 제시한다.
 
 ### 3. html-impl-verifier 디스패치
 
 각 (spec, tsx) 쌍에 대해 `html-impl-verifier` 에이전트를 디스패치한다.
 
-디스패치 시 다음 형식으로 입력 전달:
+디스패치 시 다음 형식으로 입력 전달 (impl은 Step 2에서 결정된 경로를 항상 포함한다):
 ```
 spec: {spec 경로}
 impl: {tsx 경로}
