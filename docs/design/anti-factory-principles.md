@@ -109,6 +109,20 @@
 5. **숫자만 있는 카드가 3개 이상인가?** 그렇다면 시각화(도넛, 바, 프로그레스)로 대체 검토
 6. **화면에서 텍스트를 지우면 시각적으로 흥미로운가?** 아니라면 컬러 블록이나 시각 요소 추가
 
-### 자동 검증 — 다음 프로토타입 라운드 후 결정
+### 5 활력 증후군 체크 (구현 완료 후)
+
+구현 완료 시 `design-evaluator`가 자동으로 검사한다. 수동 검토 시 아래 기준을 사용:
+ 
+- [ ] **S1 균일 여백**: 주인공 요소의 padding이 일반 요소보다 50% 이상 넓은가?
+- [ ] **S2 카드 공장**: 통계/목록/알림 등 독립 객체가 아닌 것에 카드를 씌우지 않았는가?
+- [ ] **S3 인터랙션**: hover + active + focus-visible 3가지 상태가 모두 구현되고, 물리적 이동(translateY)이 있는가?
+- [ ] **S4 타이포**: font-weight 3단계 이상, 큰 숫자에 letter-spacing ≤ -0.02em이 적용되었는가?
+- [ ] **S5 경계선**: 활성/선택 상태를 border-color 변경이 아닌 background tint로 표현했는가?
+ 
+처방 CSS 패턴은 `.claude/skills/frontend-design-impeccable/reference/visual-vitality.md` 참조.
+ 
+### 자동 검증
+ 
+5 활력 증후군 체크는 `design-evaluator` 에이전트의 Step 4 (AI Slop Checklist)에 내재화되어 있다. `/design-review` 실행 시 자동으로 S1–S5 항목이 검사되어 리포트에 포함된다.
 
 원칙의 자동 검증(critique 축 추가, 전용 에이전트 등)은 다음 프로토타입을 만들면서 "어디서 걸렸으면 좋았겠다"를 체감한 뒤 방식을 결정한다.

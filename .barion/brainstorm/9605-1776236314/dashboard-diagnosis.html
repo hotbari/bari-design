@@ -1,0 +1,102 @@
+<h2>대시보드 현황 진단</h2>
+<p class="subtitle">역할별 정보 밀도 비교 — 어드민 vs 나머지</p>
+
+<style>
+.diag-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin: 1.5rem 0; }
+.diag-role { border: 1.5px solid #DEDBD6; border-radius: 10px; padding: 14px; background: #FAF9F7; }
+.diag-role.rich { border-color: #03C75A; background: #f0fdf6; }
+.diag-role.poor { border-color: #E8A030; background: #fffbf0; }
+.role-title { font-weight: 700; font-size: 13px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.role-badge { font-size: 10px; padding: 2px 7px; border-radius: 99px; font-weight: 600; }
+.badge-rich { background: #03C75A; color: white; }
+.badge-poor { background: #E8A030; color: white; }
+.diag-item { display: flex; align-items: center; gap: 6px; font-size: 12px; margin: 4px 0; color: #2D2A26; }
+.diag-item .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dot-ok { background: #03C75A; }
+.dot-miss { background: #DEDBD6; }
+.dot-pain { background: #E62318; }
+.miss { color: #8A8580; }
+.pain { color: #E62318; font-weight: 600; }
+
+.section-label { font-size: 11px; font-weight: 700; color: #8A8580; text-transform: uppercase; letter-spacing: .05em; margin: 1.5rem 0 .75rem; }
+
+.insight-box { background: #fffbf0; border: 1.5px solid #E8A030; border-radius: 10px; padding: 14px 18px; margin: 1rem 0; font-size: 13px; }
+.insight-box strong { color: #c47a00; }
+</style>
+
+<div class="section-label">역할별 현재 정보 구성</div>
+<div class="diag-grid">
+  <div class="diag-role rich">
+    <div class="role-title">🔧 어드민 <span class="role-badge badge-rich">풍부</span></div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 통계 카드 4개</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 매체 상태 chips</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 캠페인 현황 chips</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 헬스체크 이상 목록</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 시스템 현황</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 알림</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 매체 위치 지도</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 긴급 알림 배너</div>
+  </div>
+
+  <div class="diag-role poor">
+    <div class="role-title">🏢 매체사 <span class="role-badge badge-poor">빈약</span></div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 통계 카드 3개</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 캠페인 현황 chips</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 검수 대기 소재</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 알림 (1건)</div>
+    <div class="diag-item miss"><span class="dot dot-miss"></span> 편성 반영 상태 없음</div>
+    <div class="diag-item miss"><span class="dot dot-miss"></span> 동기화 미완료 매체 없음</div>
+    <div class="diag-item miss"><span class="dot dot-miss"></span> 이번주 편성 일정 없음</div>
+    <div class="diag-item pain"><span class="dot dot-pain"></span> 역할 핵심 니즈 미반영</div>
+  </div>
+
+  <div class="diag-role poor">
+    <div class="role-title">🔄 운영대행사 <span class="role-badge badge-poor">빈약</span></div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 통계 카드 3개</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 편성 알림 (1건)</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 알림 (1건)</div>
+    <div class="diag-item miss"><span class="dot dot-miss"></span> 관리 매체사 목록 없음</div>
+    <div class="diag-item miss"><span class="dot dot-miss"></span> 매체별 동기화 상태 없음</div>
+    <div class="diag-item miss"><span class="dot dot-miss"></span> 이번주 편성 일정 없음</div>
+    <div class="diag-item pain"><span class="dot dot-pain"></span> 빈 화면처럼 느껴짐</div>
+  </div>
+
+  <div class="diag-role poor">
+    <div class="role-title">📊 영업대행사 <span class="role-badge badge-poor">가장 빈약</span></div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 통계 카드 3개</div>
+    <div class="diag-item"><span class="dot dot-ok"></span> 알림 (1건)</div>
+    <div class="diag-item miss"><span class="dot dot-miss"></span> 운영대행사 뷰 그대로 복사</div>
+    <div class="diag-item miss"><span class="dot dot-miss"></span> 담당 캠페인 상세 없음</div>
+    <div class="diag-item miss"><span class="dot dot-miss"></span> 소재 검수 진행상황 없음</div>
+    <div class="diag-item pain"><span class="dot dot-pain"></span> 역할 특화 없음</div>
+  </div>
+</div>
+
+<div class="insight-box">
+  <strong>핵심 문제:</strong> 어드민은 "시스템 관제" 관점으로 잘 설계됐지만, 나머지 역할은 페르소나의 실제 업무 흐름을 반영하지 않음. 매체사는 <strong>편성·동기화 확인</strong>이 하루 핵심 업무인데 대시보드에서 확인 불가. 영업대행사는 운영대행사와 동일한 뷰 사용 중.
+</div>
+
+<div class="section-label">개선 접근 방향</div>
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>페르소나 기반 정보 추가 + 시각 개선 (추천)</h3>
+      <p>각 역할이 매일 확인해야 하는 핵심 정보를 추가하고, 동시에 시각 품질을 높인다. 매체사엔 "편성 동기화 현황" 위젯, 운영대행사엔 "담당 매체사별 상태" 위젯 신설.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>시각 품질만 먼저</h3>
+      <p>정보는 그대로 두고 카드 디자인, 색상 위계, 타이포그래피, 간격만 개선한다. 빠르고 안전하지만, 빈약함의 근본 원인인 "내용 부족"은 해결되지 않는다.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>정보만 추가, 시각은 현재 유지</h3>
+      <p>데이터와 섹션을 먼저 채우고 시각 개선은 나중에. 개발 비용이 적지만, 디자인 문제와 내용 문제가 혼재된 채로 남는다.</p>
+    </div>
+  </div>
+</div>

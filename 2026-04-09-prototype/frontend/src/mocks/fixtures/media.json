@@ -1,7 +1,0 @@
-[
-  { "id": "med-001", "name": "강남대로 전광판", "status": "active", "type": "billboard", "location": "강남구 강남대로" },
-  { "id": "med-002", "name": "홍대입구 사이니지", "status": "active", "type": "signage", "location": "마포구 홍대입구역" },
-  { "id": "med-003", "name": "신촌역 디스플레이", "status": "active", "type": "display", "location": "서대문구 신촌역" },
-  { "id": "med-004", "name": "여의도 IFC 전광판", "status": "active", "type": "billboard", "location": "영등포구 여의도" },
-  { "id": "med-005", "name": "강남역 스크린", "status": "maintenance", "type": "screen", "location": "강남구 강남역" }
-]

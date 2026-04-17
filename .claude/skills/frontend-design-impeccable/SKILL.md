@@ -51,9 +51,13 @@ Choose fonts that are beautiful, unique, and interesting. Pair a distinctive dis
 
 **DO**: Use a modular type scale with fluid sizing (clamp)
 **DO**: Vary font weights and sizes to create clear visual hierarchy
+**DO**: Apply 3-axis variation: size + weight + letter-spacing (not just size alone)
+**DO**: Large numbers → weight 800, letter-spacing -0.04em; labels → weight 700, letter-spacing +0.08em, uppercase
+**DO**: Inverse relationship: larger text → more negative letter-spacing; smaller text → more positive letter-spacing
 **DON'T**: Use overused fonts—Inter, Roboto, Arial, Open Sans, system defaults
 **DON'T**: Use monospace typography as lazy shorthand for "technical/developer" vibes
 **DON'T**: Put large icons with rounded corners above every heading—they rarely add value and make sites look templated
+**DON'T**: Use font-size alone for hierarchy—without weight and spacing variation, all text reads at the same temperature
 
 ### Color & Theme
 → *Consult [color reference](reference/color-and-contrast.md) for OKLCH, palettes, and dark mode.*
@@ -70,6 +74,7 @@ Commit to a cohesive palette. Dominant colors with sharp accents outperform timi
 
 ### Layout & Space
 → *Consult [spatial reference](reference/spatial-design.md) for grids, rhythm, and container queries.*
+→ *Consult [visual vitality reference](reference/visual-vitality.md) for the 5 vitality syndromes — uniform spacing, card factory, interaction void, typography flattening, border overuse.*
 
 Create visual rhythm through varied spacing—not the same padding everywhere. Embrace asymmetry and unexpected compositions. Break the grid intentionally for emphasis.
 
@@ -82,6 +87,8 @@ Create visual rhythm through varied spacing—not the same padding everywhere. E
 **DON'T**: Use the hero metric layout template—big number, small label, supporting stats, gradient accent
 **DON'T**: Center everything—left-aligned text with asymmetric layouts feels more designed
 **DON'T**: Use the same spacing everywhere—without rhythm, layouts feel monotonous
+**DON'T**: Apply the same padding to every element—featured elements need 50%+ more space than background elements
+**DON'T**: Use border-color changes for active states—use background tint instead
 
 ### Visual Details
 **DO**: Use intentional, purposeful decorative elements that reinforce brand
@@ -110,8 +117,12 @@ Make interactions feel fast. Use optimistic UI—update immediately, sync later.
 **DO**: Use progressive disclosure—start simple, reveal sophistication through interaction (basic options first, advanced behind expandable sections; hover states that reveal secondary actions)
 **DO**: Design empty states that teach the interface, not just say "nothing here"
 **DO**: Make every interactive surface feel intentional and responsive
+**DO**: Implement physical feedback — hover=translateY(-1px)+shadow expand, active=translateY(+1px)+inset shadow
+**DO**: Give list rows a left accent bar on hover (::before + padding-left shift)
+**DO**: Use glow ring (box-shadow: 0 0 0 3px rgba(primary, 0.35)) for focus, not default outline
 **DON'T**: Repeat the same information—redundant headers, intros that restate the heading
 **DON'T**: Make every button primary—use ghost buttons, text links, secondary styles; hierarchy matters
+**DON'T**: Change only color on hover—no physical movement means no tactile feel
 
 ### Responsive
 → *Consult [responsive reference](reference/responsive-design.md) for mobile-first, fluid design, and container queries.*

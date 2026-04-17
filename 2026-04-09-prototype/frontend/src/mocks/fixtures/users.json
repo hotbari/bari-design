@@ -1,5 +1,0 @@
-[
-  { "id": "usr-001", "name": "김관리", "role": "admin", "email": "kim@bari.io" },
-  { "id": "usr-002", "name": "박운영", "role": "operator", "email": "park@bari.io" },
-  { "id": "usr-003", "name": "이대행", "role": "agency", "email": "lee@agency.kr" }
-]

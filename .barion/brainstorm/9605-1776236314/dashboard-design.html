@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>대시보드 개선 설계안</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, 'Pretendard', 'Noto Sans KR', sans-serif; background: #FAF9F7; color: #2D2A26; padding: 24px; }
+h1 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.subtitle { font-size: 13px; color: #8A8580; margin-bottom: 24px; }
+
+.tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 2px solid #DEDBD6; }
+.tab { padding: 8px 18px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: none; color: #8A8580; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all .15s; }
+.tab.active { color: #03C75A; border-bottom-color: #03C75A; }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* Dashboard shell */
+.dash { background: white; border: 1.5px solid #DEDBD6; border-radius: 12px; overflow: hidden; }
+.dash-header { background: #FAF9F7; border-bottom: 1px solid #DEDBD6; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; }
+.dash-title { font-size: 15px; font-weight: 700; }
+.dash-meta { font-size: 12px; color: #8A8580; }
+.dash-body { padding: 18px; }
+
+/* Stats row */
+.stats-row { display: grid; gap: 10px; margin-bottom: 16px; }
+.stats-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.stats-row.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.stat { background: #FAF9F7; border: 1px solid #DEDBD6; border-radius: 8px; padding: 12px 14px; }
+.stat-label { font-size: 11px; color: #8A8580; margin-bottom: 4px; }
+.stat-value { font-size: 22px; font-weight: 700; color: #2D2A26; line-height: 1; }
+.stat-unit { font-size: 13px; font-weight: 400; color: #8A8580; }
+.stat.accent { border-color: #03C75A; background: #f0fdf6; }
+.stat.warn { border-color: #E8A030; background: #fffbf0; }
+.stat.error { border-color: #E62318; background: #fff5f5; }
+
+/* Sections */
+.sections { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sections.single { grid-template-columns: 1fr; }
+.section { background: #FAF9F7; border: 1px solid #DEDBD6; border-radius: 8px; padding: 12px 14px; }
+.section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.section-title { font-size: 12px; font-weight: 700; color: #2D2A26; }
+.section-link { font-size: 11px; color: #03C75A; text-decoration: none; }
+
+/* Items */
+.item { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid #DEDBD6; font-size: 12px; }
+.item:last-child { border-bottom: none; padding-bottom: 0; }
+.item-name { flex: 1; }
+.item-sub { color: #8A8580; font-size: 11px; }
+.badge { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; }
+.badge-ok { background: #e6faf2; color: #018a40; }
+.badge-warn { background: #fff3e0; color: #c47a00; }
+.badge-error { background: #fff0f0; color: #c41010; }
+.badge-info { background: #e8f0fe; color: #1a56db; }
+.badge-gray { background: #f2f0ed; color: #8A8580; }
+
+/* Sync bar */
+.sync-bar-wrap { margin: 4px 0; }
+.sync-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: #8A8580; margin-bottom: 3px; }
+.sync-bar { height: 6px; background: #DEDBD6; border-radius: 3px; overflow: hidden; }
+.sync-bar-fill { height: 100%; border-radius: 3px; background: #03C75A; }
+.sync-bar-fill.warn { background: #E8A030; }
+
+/* Timeline */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px solid #DEDBD6; font-size: 12px; }
+.tl-item:last-child { border-bottom: none; }
+.tl-time { color: #8A8580; min-width: 48px; font-size: 11px; }
+.tl-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+.tl-dot.ok { background: #03C75A; }
+.tl-dot.pending { background: #E8A030; }
+.tl-dot.gray { background: #DEDBD6; }
+.tl-content { flex: 1; }
+
+/* NEW badge */
+.new-badge { display: inline-block; font-size: 9px; background: #03C75A; color: white; border-radius: 3px; padding: 1px 4px; font-weight: 700; margin-left: 4px; vertical-align: middle; }
+
+.legend { display: flex; gap: 12px; font-size: 11px; color: #8A8580; margin-top: 8px; flex-wrap: wrap; }
+.legend-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 3px; }
+
+.tag { font-size: 10px; color: #8A8580; }
+</style>
+</head>
+<body>
+<h1>대시보드 개선 설계안</h1>
+<p class="subtitle">역할별 페르소나 기반 정보 추가 + 시각 품질 개선 — 클릭해서 각 역할 확인</p>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('media')">🏢 매체사</button>
+  <button class="tab" onclick="showTab('ops')">🔄 운영대행사</button>
+  <button class="tab" onclick="showTab('sales')">📊 영업대행사</button>
+</div>
+
+<!-- 매체사 -->
+<div class="panel active" id="panel-media">
+  <div style="font-size:12px;color:#8A8580;margin-bottom:12px;">
+    김서영 (매체사 운영팀장) — "CMS에서 보이는 상태가 현장과 같다"는 확신이 필요
+  </div>
+  <div class="dash">
+    <div class="dash-header">
+      <div class="dash-title">대시보드</div>
+      <div class="dash-meta">2026년 4월 15일 (화)</div>
+    </div>
+    <div class="dash-body">
+      <div class="stats-row cols-4">
+        <div class="stat"><div class="stat-label">보유 매체</div><div class="stat-value">8<span class="stat-unit">개</span></div></div>
+        <div class="stat accent"><div class="stat-label">진행 캠페인</div><div class="stat-value">5<span class="stat-unit">건</span></div></div>
+        <div class="stat warn"><div class="stat-label">동기화 미완료</div><div class="stat-value">2<span class="stat-unit">대</span></div></div>
+        <div class="stat"><div class="stat-label">검수 대기</div><div class="stat-value">1<span class="stat-unit">건</span></div></div>
+      </div>
+
+      <div class="sections">
+        <!-- 편성 동기화 현황 — NEW -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">편성 동기화 현황 <span class="new-badge">NEW</span></span>
+            <a class="section-link" href="#">편성관리 →</a>
+          </div>
+          <div class="item">
+            <span class="tl-dot ok"></span>
+            <span class="item-name">강남역 출구 빌보드</span>
+            <span class="badge badge-ok">동기화 완료</span>
+          </div>
+          <div class="item">
+            <span class="tl-dot ok"></span>
+            <span class="item-name">코엑스 외벽 광고</span>
+            <span class="badge badge-ok">동기화 완료</span>
+          </div>
+          <div class="item" style="background:#fffbf0;margin: 0 -14px;padding: 7px 14px;border-radius:4px;">
+            <span class="tl-dot pending"></span>
+            <span class="item-name">홍대입구 디지털 보드</span>
+            <span class="badge badge-warn">지연 3분</span>
+          </div>
+          <div class="item" style="background:#fff5f5;margin: 0 -14px;padding: 7px 14px;border-radius:4px;">
+            <span class="tl-dot" style="background:#E62318;"></span>
+            <span class="item-name">신촌역 스크린</span>
+            <span class="badge badge-error">미완료</span>
+          </div>
+          <div class="legend">
+            <span><span class="legend-dot" style="background:#03C75A"></span>완료</span>
+            <span><span class="legend-dot" style="background:#E8A030"></span>지연</span>
+            <span><span class="legend-dot" style="background:#E62318"></span>미완료</span>
+          </div>
+        </div>
+
+        <!-- 이번주 편성 일정 — NEW -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">이번주 편성 일정 <span class="new-badge">NEW</span></span>
+            <a class="section-link" href="#">전체 보기 →</a>
+          </div>
+          <div class="timeline">
+            <div class="tl-item">
+              <span class="tl-time">오늘</span>
+              <span class="tl-dot pending"></span>
+              <span class="tl-content">삼성 갤럭시 S25 소재 교체 <span class="badge badge-warn">검수중</span></span>
+            </div>
+            <div class="tl-item">
+              <span class="tl-time">목요일</span>
+              <span class="tl-dot ok"></span>
+              <span class="tl-content">현대카드 캠페인 시작 <span class="badge badge-ok">확정</span></span>
+            </div>
+            <div class="tl-item">
+              <span class="tl-time">금요일</span>
+              <span class="tl-dot gray"></span>
+              <span class="tl-content">SK텔레콤 신규 편성 <span class="badge badge-gray">미확정</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 캠페인 현황 (기존 → 시각 개선) -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">캠페인 현황</span>
+            <a class="section-link" href="#">캠페인 →</a>
+          </div>
+          <div class="item">
+            <span class="badge badge-ok">진행중</span>
+            <span class="item-name" style="font-weight:600;font-size:13px;">5</span>
+            <span class="item-sub">건</span>
+          </div>
+          <div class="item">
+            <span class="badge badge-gray">초안</span>
+            <span class="item-name" style="font-weight:600;font-size:13px;">2</span>
+            <span class="item-sub">건</span>
+          </div>
+          <div class="item">
+            <span class="badge badge-info">종료</span>
+            <span class="item-name" style="font-weight:600;font-size:13px;">1</span>
+            <span class="item-sub">건</span>
+          </div>
+        </div>
+
+        <!-- 소재 검수 대기 (기존 → 시각 개선 + 진행률) -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">소재 검수 현황 <span class="new-badge">NEW</span></span>
+            <a class="section-link" href="#">소재 →</a>
+          </div>
+          <div class="item" style="flex-direction:column;align-items:flex-start;gap:6px;">
+            <div style="display:flex;align-items:center;gap:8px;width:100%;">
+              <span class="item-name">삼성 갤럭시 S25 소재</span>
+              <span class="badge badge-warn">검수중</span>
+            </div>
+            <div class="sync-bar-wrap" style="width:100%;">
+              <div class="sync-bar-label"><span>검수 진행률</span><span>60%</span></div>
+              <div class="sync-bar"><div class="sync-bar-fill warn" style="width:60%"></div></div>
+            </div>
+            <div style="font-size:11px;color:#8A8580;">예상 완료: 약 2시간 후</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 운영대행사 -->
+<div class="panel" id="panel-ops">
+  <div style="font-size:12px;color:#8A8580;margin-bottom:12px;">
+    이준혁 (운영대행사 주니어 매니저) — 3개 매체사 150대 매체 동시 관리, 실수 공포가 큼
+  </div>
+  <div class="dash">
+    <div class="dash-header">
+      <div class="dash-title">대시보드</div>
+      <div class="dash-meta">2026년 4월 15일 (화)</div>
+    </div>
+    <div class="dash-body">
+      <div class="stats-row cols-4">
+        <div class="stat"><div class="stat-label">관리 매체사</div><div class="stat-value">3<span class="stat-unit">곳</span></div></div>
+        <div class="stat accent"><div class="stat-label">진행 캠페인</div><div class="stat-value">12<span class="stat-unit">건</span></div></div>
+        <div class="stat warn"><div class="stat-label">이번주 편성</div><div class="stat-value">7<span class="stat-unit">건</span></div></div>
+        <div class="stat error"><div class="stat-label">미처리 알림</div><div class="stat-value">3<span class="stat-unit">건</span></div></div>
+      </div>
+
+      <div class="sections">
+        <!-- 매체사별 현황 — NEW -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">담당 매체사 현황 <span class="new-badge">NEW</span></span>
+          </div>
+          <div class="item">
+            <span class="item-name" style="font-weight:600;">시티미디어</span>
+            <span class="item-sub">매체 8대</span>
+            <span class="badge badge-ok">정상</span>
+          </div>
+          <div class="item" style="background:#fffbf0;margin:0 -14px;padding:7px 14px;border-radius:4px;">
+            <span class="item-name" style="font-weight:600;">스크린에이드</span>
+            <span class="item-sub">매체 5대</span>
+            <span class="badge badge-warn">편성 지연</span>
+          </div>
+          <div class="item">
+            <span class="item-name" style="font-weight:600;">아웃도어플러스</span>
+            <span class="item-sub">매체 12대</span>
+            <span class="badge badge-ok">정상</span>
+          </div>
+        </div>
+
+        <!-- 이번주 편성 처리 현황 — NEW -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">이번주 편성 처리 현황 <span class="new-badge">NEW</span></span>
+            <a class="section-link" href="#">편성관리 →</a>
+          </div>
+          <div class="sync-bar-wrap">
+            <div class="sync-bar-label"><span>완료 / 전체</span><span>5 / 7</span></div>
+            <div class="sync-bar"><div class="sync-bar-fill" style="width:71%"></div></div>
+          </div>
+          <div style="margin-top:10px;">
+            <div class="item">
+              <span class="tl-dot ok"></span>
+              <span class="item-name">현대카드 4월 편성</span>
+              <span class="badge badge-ok">완료</span>
+            </div>
+            <div class="item" style="background:#fffbf0;margin:0 -14px;padding:7px 14px;border-radius:4px;">
+              <span class="tl-dot pending"></span>
+              <span class="item-name">4월 2주차 동기화</span>
+              <span class="badge badge-warn">지연</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 오늘 할 일 — NEW -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">오늘 처리할 항목 <span class="new-badge">NEW</span></span>
+          </div>
+          <div class="item">
+            <input type="checkbox" style="flex-shrink:0;">
+            <span class="item-name">스크린에이드 편성 동기화 확인</span>
+            <span class="badge badge-error">긴급</span>
+          </div>
+          <div class="item">
+            <input type="checkbox" style="flex-shrink:0;">
+            <span class="item-name">삼성전자 캠페인 편성표 제출</span>
+            <span class="badge badge-warn">오늘</span>
+          </div>
+          <div class="item">
+            <input type="checkbox" checked style="flex-shrink:0;">
+            <span class="item-name" style="text-decoration:line-through;color:#8A8580;">SK 5월 캠페인 초안 작성</span>
+            <span class="badge badge-gray">완료</span>
+          </div>
+        </div>
+
+        <!-- 알림 (기존 → 시각 개선) -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">알림</span>
+          </div>
+          <div class="item">
+            <span class="tl-dot" style="background:#E8A030;"></span>
+            <div>
+              <div class="item-name">편성표 승인 요청</div>
+              <div class="item-sub">시티미디어 · 1시간 전</div>
+            </div>
+          </div>
+          <div class="item">
+            <span class="tl-dot" style="background:#E8A030;"></span>
+            <div>
+              <div class="item-name">4월 2주차 편성 동기화 지연</div>
+              <div class="item-sub">스크린에이드 · 2시간 전</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 영업대행사 -->
+<div class="panel" id="panel-sales">
+  <div style="font-size:12px;color:#8A8580;margin-bottom:12px;">
+    최유진 (영업대행사 AE) — 소재 도메인만 접근, CMS에 상주하지 않음, 광고주 커뮤니케이션 브릿지
+  </div>
+  <div class="dash">
+    <div class="dash-header">
+      <div class="dash-title">대시보드</div>
+      <div class="dash-meta">2026년 4월 15일 (화)</div>
+    </div>
+    <div class="dash-body">
+      <div class="stats-row cols-3">
+        <div class="stat"><div class="stat-label">담당 캠페인</div><div class="stat-value">9<span class="stat-unit">건</span></div></div>
+        <div class="stat warn"><div class="stat-label">검수 대기 소재</div><div class="stat-value">2<span class="stat-unit">건</span></div></div>
+        <div class="stat"><div class="stat-label">이번달 집행</div><div class="stat-value">5<span class="stat-unit">건</span></div></div>
+      </div>
+
+      <div class="sections">
+        <!-- 담당 캠페인 현황 — 역할 특화 -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">담당 캠페인 현황 <span class="new-badge">NEW</span></span>
+            <a class="section-link" href="#">캠페인 →</a>
+          </div>
+          <div class="item">
+            <span class="tl-dot ok"></span>
+            <span class="item-name">삼성전자 갤럭시 S25</span>
+            <span class="badge badge-ok">진행중</span>
+          </div>
+          <div class="item">
+            <span class="tl-dot pending"></span>
+            <span class="item-name">현대카드 ZERO</span>
+            <span class="badge badge-warn">소재검수중</span>
+          </div>
+          <div class="item">
+            <span class="tl-dot gray"></span>
+            <span class="item-name">LG전자 올레드 TV</span>
+            <span class="badge badge-gray">초안</span>
+          </div>
+        </div>
+
+        <!-- 소재 검수 진행상황 — NEW -->
+        <div class="section">
+          <div class="section-head">
+            <span class="section-title">소재 검수 현황 <span class="new-badge">NEW</span></span>
+            <a class="section-link" href="#">소재 →</a>
+          </div>
+          <div class="item" style="flex-direction:column;align-items:flex-start;gap:6px;">
+            <div style="display:flex;align-items:center;gap:8px;width:100%;">
+              <span class="item-name">현대카드 ZERO 15초</span>
+              <span class="badge badge-warn">검수중</span>
+            </div>
+            <div class="sync-bar-wrap" style="width:100%;">
+              <div class="sync-bar-label"><span>진행률</span><span>60%</span></div>
+              <div class="sync-bar"><div class="sync-bar-fill warn" style="width:60%"></div></div>
+            </div>
+            <div style="font-size:11px;color:#8A8580;">예상 완료: 오후 3시경</div>
+          </div>
+          <div class="item" style="flex-direction:column;align-items:flex-start;gap:6px;margin-top:6px;">
+            <div style="display:flex;align-items:center;gap:8px;width:100%;">
+              <span class="item-name">LG 올레드 30초</span>
+              <span class="badge badge-gray">대기중</span>
+            </div>
+            <div style="font-size:11px;color:#8A8580;">업로드 후 검수 시작 예정</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(role) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-' + role).classList.add('active');
+}
+</script>
+</body>
+</html>
