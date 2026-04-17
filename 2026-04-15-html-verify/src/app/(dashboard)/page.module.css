@@ -18,6 +18,11 @@
 }
 .refreshBtn:hover { background: var(--color-neutral-50); }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 /* ── Alert banner ── */
 .alertBanner {
   background: var(--color-error-50);
